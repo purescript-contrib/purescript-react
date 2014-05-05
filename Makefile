@@ -4,10 +4,14 @@ PSC_OPTS =
 all: lib example
 
 lib:: lib/React.js
-example:: example/app.js
+example:: example/app.js example/bower_components
+
+example/bower_components:
+	(cd example && bower install react)
 
 clean:
 	rm -f lib/React.js example/app.js
+	rm -rf example/bower_components/
 
 lib/React.js: src/React.purs
 	mkdir -p $(@D)

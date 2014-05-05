@@ -11,7 +11,7 @@ incrementCounter = do
 
 counter = mkStatefulUI 0 \props -> do
   val <- readState
-  return (div {className: "Counter", onClick: handle incrementCounter} [text (show val)])
+  return (div {className: "Counter", onClick: handle incrementCounter} [text (show val), text " Click me to increment!"])
 
 main = do
   let component = div {} [counter {}, hello {name: "World"}, counter {}]
