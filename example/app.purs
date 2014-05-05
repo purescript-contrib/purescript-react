@@ -1,12 +1,18 @@
 module Main where
 
+import Debug.Trace
 import React
 import qualified React.DOM as DOM
+
+helloInConsole = do
+  props <- getProps
+  trace ("Hello, " ++ props.name ++ "!")
 
 hello = mkUI do
   props <- getProps
   return $ DOM.h1 {
-      className: "Hello"
+      className: "Hello",
+      onClick: handle helloInConsole
     } [
       DOM.text "Hello, ",
       DOM.text props.name
