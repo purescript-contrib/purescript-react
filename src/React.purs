@@ -3,6 +3,7 @@ module React where
 import Control.Monad.Eff
 
 foreign import data DOM :: !
+foreign import data ReactProps :: * -> !
 foreign import data ReadReactState :: * -> !
 foreign import data WriteReactState :: * -> !
 foreign import data UI :: *
@@ -12,13 +13,26 @@ foreign import mkUI
   " function mkUI(render) {          \
   \   return React.createClass({     \
   \     render: function() {         \
-  \       return render(this.props); \
+  \      __current = this;           \
+  \      try {                       \
+  \        var ui = render(); \
+  \      } finally {                 \
+  \        __current = null;         \
+  \      }                           \
+  \      return ui;                  \
   \     }                            \
   \   });                            \
   \ }"
   :: forall props.
-  (props -> UI)
+  Eff (p :: ReactProps props) UI
   -> (props -> UI)
+
+foreign import getProps
+  " function getProps() {     \
+  \   return __current.props; \
+  \ }"
+  :: forall props eff.
+  Eff (p :: ReactProps props | eff) props
 
 foreign import mkStatefulUI
   " var __current;                           \
@@ -33,7 +47,7 @@ foreign import mkStatefulUI
   \       render: function() {               \
   \         __current = this;                \
   \         try {                            \
-  \           var ui = render(this.props)(); \
+  \           var ui = render();             \
   \         } finally {                      \
   \           __current = null;              \
   \         }                                \
@@ -44,7 +58,7 @@ foreign import mkStatefulUI
   \ }"
   :: forall props state.
   state
-  -> (props -> Eff (r :: ReadReactState state) UI)
+  -> Eff (p :: ReactProps props, r :: ReadReactState state) UI
   -> (props -> UI)
 
 foreign import writeState
@@ -65,6 +79,12 @@ foreign import readState
 type Event = { }
 type MouseEvent = { pageX :: Number, pageY :: Number }
 
+type EventHandlerContext props state result = Eff (
+  p :: ReactProps props,
+  r :: ReadReactState state,
+  w :: WriteReactState state
+  ) result
+
 foreign import handle
   " function handle(f) {              \
   \   var component = __current;      \
@@ -77,20 +97,19 @@ foreign import handle
   \     }                             \
   \   }                               \
   \ }"
-  :: forall state result event.
-  (Eff (r :: ReadReactState state, w :: WriteReactState state) result)
-  -> EventHandler event
+  :: forall props state result event.
+  EventHandlerContext props state result -> EventHandler event
 
 foreign import handleEvent
   "var handleEvent = handle"
-  :: forall state result.
-  (Event -> Eff (r :: ReadReactState state, w :: WriteReactState state) result)
+  :: forall props state result.
+  (Event -> EventHandlerContext props state result)
   -> EventHandler Event
 
 foreign import handleMouseEvent
   "var handleMouseEvent = handle"
-  :: forall state result.
-  (MouseEvent -> Eff (r :: ReadReactState state, w :: WriteReactState state) result)
+  :: forall props state result.
+  (MouseEvent -> EventHandlerContext props state result)
   -> EventHandler MouseEvent
 
 foreign import renderToString
