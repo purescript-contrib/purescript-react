@@ -79,10 +79,11 @@ foreign import readState
 type Event = { }
 type MouseEvent = { pageX :: Number, pageY :: Number }
 
-type EventHandlerContext props state result = Eff (
+type EventHandlerContext eff props state result = Eff (
   p :: ReactProps props,
   r :: ReadReactState state,
   w :: WriteReactState state
+  | eff
   ) result
 
 foreign import handle
@@ -97,19 +98,19 @@ foreign import handle
   \     }                             \
   \   }                               \
   \ }"
-  :: forall props state result event.
-  EventHandlerContext props state result -> EventHandler event
+  :: forall eff props state result event.
+  EventHandlerContext props state result eff -> EventHandler event
 
 foreign import handleEvent
   "var handleEvent = handle"
-  :: forall props state result.
-  (Event -> EventHandlerContext props state result)
+  :: forall eff props state result.
+  (Event -> EventHandlerContext eff props state result)
   -> EventHandler Event
 
 foreign import handleMouseEvent
   "var handleMouseEvent = handle"
-  :: forall props state result.
-  (MouseEvent -> EventHandlerContext props state result)
+  :: forall eff props state result.
+  (MouseEvent -> EventHandlerContext eff props state result)
   -> EventHandler MouseEvent
 
 foreign import renderToString
