@@ -4,10 +4,10 @@ import React
 import qualified React.DOM as DOM
 
 hello = mkUI \props ->
-  DOM.div {className: "Hello"} [
+  DOM.h1 {className: "Hello"} [
     DOM.text "Hello, ",
     DOM.text props.name
-    ]
+  ]
 
 incrementCounter = do
   val <- readState
@@ -15,11 +15,14 @@ incrementCounter = do
 
 counter = mkStatefulUI 0 \props -> do
   val <- readState
-  return $ DOM.div {className: "Counter", onClick: handle incrementCounter} [
-    DOM.text (show val),
-    DOM.text " Click me to increment!"
+  return $ DOM.p {
+      className: "Counter",
+      onClick: handle incrementCounter
+    } [
+      DOM.text (show val),
+      DOM.text " Click me to increment!"
     ]
 
 main = do
-  let component = DOM.div {} [counter {}, hello {name: "World"}, counter {}]
+  let component = DOM.div {} [hello {name: "World"}, counter {}]
   renderToBody component
