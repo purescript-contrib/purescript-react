@@ -8,23 +8,6 @@ foreign import data WriteReactState :: * -> !
 foreign import data UI :: *
 foreign import data EventHandler :: * -> *
 
-foreign import mkDOM
-  " function mkDOM(tagName) {                                \
-  \   var ctor = React.DOM[tagName];                         \
-  \   return function(props) {                               \
-  \     return function(children) {                          \
-  \       return ctor.apply(ctor, [props].concat(children)); \
-  \     }                                                    \
-  \   }                                                      \
-  \ }"
-  :: forall props. String -> props -> [UI] -> UI
-
-foreign import text
-  "function text(text) { \
-  \  return text;        \
-  \}"
-  :: String -> UI
-
 foreign import mkUI
   " function mkUI(render) {          \
   \   return React.createClass({     \
@@ -131,14 +114,3 @@ foreign import renderToElementById
   \   }                                                                         \
   \ }"
   :: forall eff. String -> UI -> Eff (dom :: DOM | eff) UI
-
-div     = mkDOM "div"
-span    = mkDOM "span"
-html    = mkDOM "html"
-body    = mkDOM "body"
-a       = mkDOM "a"
-section = mkDOM "section"
-ul      = mkDOM "ul"
-li      = mkDOM "li"
-ol      = mkDOM "ol"
-footer  = mkDOM "footer"

@@ -13,13 +13,13 @@ clean:
 	rm -f lib/React.js example/app.js
 	rm -rf example/bower_components/
 
-lib/React.js: src/React.purs
+lib/React.js: src/React.purs src/React/DOM.purs
 	mkdir -p $(@D)
-	psc $(PSC_OPTS) $< \
+	psc $(PSC_OPTS) $^ \
 		--output $@ \
-		--module React
+		--module React --module React.DOM
 
-example/app.js: src/React.purs example/app.purs
+example/app.js: src/React.purs src/React/DOM.purs example/app.purs
 	psc $(PSC_OPTS) $^ \
 		--output $@ \
 		--main --module Main

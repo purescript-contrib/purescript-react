@@ -1,9 +1,13 @@
 module Main where
 
 import React
+import qualified React.DOM as DOM
 
 hello = mkUI \props ->
-  div {className: "Hello"} [text "Hello, ", text props.name]
+  DOM.div {className: "Hello"} [
+    DOM.text "Hello, ",
+    DOM.text props.name
+    ]
 
 incrementCounter = do
   val <- readState
@@ -11,8 +15,11 @@ incrementCounter = do
 
 counter = mkStatefulUI 0 \props -> do
   val <- readState
-  return (div {className: "Counter", onClick: handle incrementCounter} [text (show val), text " Click me to increment!"])
+  return $ DOM.div {className: "Counter", onClick: handle incrementCounter} [
+    DOM.text (show val),
+    DOM.text " Click me to increment!"
+    ]
 
 main = do
-  let component = div {} [counter {}, hello {name: "World"}, counter {}]
+  let component = DOM.div {} [counter {}, hello {name: "World"}, counter {}]
   renderToBody component
