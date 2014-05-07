@@ -1,0 +1,23 @@
+{
+  "name": "purescript-react",
+  "version": "0.0.1",
+  "description": "Purescript bindings for React.js ",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/purescript-contrib/purescript-react.git"
+  },
+  "keywords": [
+    "purescript",
+    "react"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/purescript-contrib/purescript-react/issues"
+  },
+  "homepage": "https://github.com/purescript-contrib/purescript-react",
+  "devDependencies": {
+    "gulp": "^3.6.2",
+    "gulp-purescript": "0.0.4"
+  }
+}

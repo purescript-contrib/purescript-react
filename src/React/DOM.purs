@@ -6,6 +6,8 @@ foreign import mkDOM
   " function mkDOM(tagName) {                                \
   \   var ctor = React.DOM[tagName];                         \
   \   return function(props) {                               \
+  \     props.type = props.attrType;                         \
+  \     delete props.attrType;                               \
   \     return function(children) {                          \
   \       return ctor.apply(ctor, [props].concat(children)); \
   \     }                                                    \

@@ -1,0 +1,26 @@
+{
+  "name": "purescript-react-tutorial",
+  "version": "0.0.1",
+  "homepage": "https://github.com/purescript-contrib/purescript-react",
+  "description": "Purescript implementation of React.js tutorial",
+  "keywords": [
+    "purescript",
+    "react"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "private": true,
+  "devDependencies": {
+    "react": "~0.10.0",
+    "showdown": "~0.3.1",
+    "purescript-showdown": "https://github.com/joneshf/purescript-showdown.git",
+    "purescript-arrays": "~0.1.3",
+    "jquery": "~2.1.1"
+  }
+}
