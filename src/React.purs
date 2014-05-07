@@ -9,6 +9,41 @@ foreign import data WriteReactState :: * -> !
 foreign import data UI :: *
 foreign import data EventHandler :: * -> *
 
+type Render props = Eff (p :: ReactProps props) UI
+type UISpec props = forall r.
+  { render :: Render props }
+
+type StatefulRender props state = Eff (p :: ReactProps props, r :: ReadReactState state) UI
+type StatefulUISpec props state = forall a r.
+  { render :: StatefulRender props state
+  , getInitialState :: {} -> state
+  , componentWillMount :: {} -> {}
+  , componentDidMount :: {} -> {}
+  , componentWillReceiveProps :: props -> {}
+  , shouldComponentUpdate :: props -> state -> Boolean
+  , componentWillUpdate :: props -> state -> {}
+  , componentDidUpdate :: props -> state -> {}
+  , componentWillUnmount :: {} -> {}
+  }
+
+defaultStatefulSpec =
+  { render: defaultRender
+  , getInitialState: \_ -> {}
+  , componentWillMount: \_ -> {}
+  , componentDidMount: \_ -> {}
+  , componentWillReceiveProps: \_ -> {}
+  , shouldComponentUpdate: \_ _ -> true
+  , componentWillUpdate: \_ _ -> {}
+  , componentDidUpdate: \_ _ -> {}
+  , componentWillUnmount: \_ -> {}
+  }
+
+foreign import defaultRender
+  " function defaultRender() { \
+  \   return React.DOM.p({});  \
+  \ }"
+  :: forall props state. StatefulRender props state
+
 foreign import mkUI
   " function mkUI(render) {          \
   \   return React.createClass({     \
@@ -24,7 +59,30 @@ foreign import mkUI
   \   });                            \
   \ }"
   :: forall props.
-  Eff (p :: ReactProps props) UI
+  Render props
+  -> (props -> UI)
+
+foreign import mkUIFromSpec
+  " function mkUIFromSpec(ps) {         \
+  \   var props = {};                   \
+  \   for (var p in ps) {               \
+  \     if (ps.hasOwnProperty(p)) {     \
+  \       props[p] = ps[p];             \
+  \     }                               \
+  \   }                                 \
+  \   props.render = function() {       \
+  \     __current = this;               \
+  \     try {                           \
+  \       var ui = ps.render();         \
+  \     } finally {                     \
+  \       __current = null;             \
+  \     }                               \
+  \     return ui;                      \
+  \   };                                \
+  \   return React.createClass(props);  \
+  \ }"
+  :: forall props.
+  UISpec props
   -> (props -> UI)
 
 foreign import getProps
@@ -58,7 +116,31 @@ foreign import mkStatefulUI
   \ }"
   :: forall props state.
   state
-  -> Eff (p :: ReactProps props, r :: ReadReactState state) UI
+  -> StatefulRender props state
+  -> (props -> UI)
+
+foreign import mkStatefulUIFromSpec
+  " var __current;                      \
+  \ function mkStatefulUIFromSpec(ss) { \
+  \   var specs = {};                   \
+  \   for (var s in ss) {               \
+  \     if (ss.hasOwnProperty(s)) {     \
+  \       specs[s] = ss[s];             \
+  \     }                               \
+  \   }                                 \
+  \   specs.render = function() {       \
+  \     __current = this;               \
+  \     try {                           \
+  \       var ui = ss.render();         \
+  \     } finally {                     \
+  \       __current = null;             \
+  \     }                               \
+  \     return ui;                      \
+  \   };                                \
+  \   return React.createClass(specs);  \
+  \ }"
+  :: forall props state.
+  StatefulUISpec props state
   -> (props -> UI)
 
 foreign import writeState
@@ -71,7 +153,7 @@ foreign import writeState
   -> Eff (r :: ReadReactState state, w :: WriteReactState state | eff) state
 
 foreign import readState
-  " function readState() {          \
+  " function readState() {    \
   \   return __current.state.state; \
   \ }"
   :: forall state eff. Eff (r :: ReadReactState state | eff) state
@@ -87,16 +169,17 @@ type EventHandlerContext eff props state result = Eff (
   ) result
 
 foreign import handle
-  " function handle(f) {              \
-  \   var component = __current;      \
-  \   return function(e) {            \
-  \     __current = component;        \
-  \     try {                         \
-  \       f(e);                       \
-  \     } finally {                   \
-  \       __current = null;           \
-  \     }                             \
-  \   }                               \
+  " function handle(f) {                  \
+  \   var component = __current;          \
+  \   return function(e) {                \
+  \     __current = component;            \
+  \     try {                             \
+  \       var res = f.call(__current, e); \
+  \     } finally {                       \
+  \       __current = null;               \
+  \     }                                 \
+  \     return res;                       \
+  \   }                                   \
   \ }"
   :: forall eff props state result event.
   EventHandlerContext props state result eff -> EventHandler event
