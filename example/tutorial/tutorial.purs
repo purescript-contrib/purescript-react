@@ -17,14 +17,9 @@ module Tutorial where
                    , commentList { data': state }
                    , commentForm { onCommentSubmit: handle commentSubmit }
                    ]
-  foreign import initialState
-    "function initialState() { return {state: []}; }" :: forall a b. a -> b
 
-  commentBox = mkStatefulUIFromSpec $
-    defaultStatefulSpec { getInitialState = initialState
-                        , componentWillMount = componentWillMount
-                        , render = cBoxRender
-                        }
+  commentBox = mkStatefulUIFromSpec [] cBoxRender $
+    defaultStatefulSpec { componentWillMount = componentWillMount }
 
   commentList = mkUI do
     props <- getProps
