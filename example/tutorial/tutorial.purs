@@ -7,6 +7,7 @@ module Tutorial where
   import Data.Array
   import React
   import Showdown
+  import Debug.Trace
 
   import qualified React.DOM as DOM
 
@@ -19,7 +20,17 @@ module Tutorial where
                    ]
 
   commentBox = mkStatefulUIFromSpec [] cBoxRender $
-    defaultStatefulSpec { componentWillMount = componentWillMount }
+    defaultStatefulSpec {
+      componentWillMount = componentWillMount
+    }
+
+  foreign import componentWillMount
+    "function componentWillMount() {\
+    \  var load = loadCommentsFromServer.bind(this);\
+    \  load();\
+    \  setInterval(function() { load(); }, this.props.pollInterval);\
+    \}" :: forall eff props state. ReadState eff props state {}
+
 
   commentList = mkUI do
     props <- getProps
@@ -94,13 +105,6 @@ module Tutorial where
     \    }.bind(this)\
     \  });\
     \}" :: forall a r. {props :: {url :: String}, replaceState :: {state :: a} -> {} | r} -> {}
-
-  foreign import componentWillMount
-    "function componentWillMount() {\
-    \  var load = loadCommentsFromServer.bind(this);\
-    \  load();\
-    \  setInterval(function() { load(); }, this.props.pollInterval);\
-    \}" :: forall r. {} -> {}
 
   main = renderToElementById "content" $ commentBox { url: "comments.json"
                                                     , pollInterval: 2000
