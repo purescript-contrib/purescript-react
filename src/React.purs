@@ -10,7 +10,7 @@ module React where
   foreign import data EventHandler :: * -> *
 
   foreign import noop0
-    "function noop0() {}"
+    "function noop0() { return null; }"
     :: forall eff result. Eff ( eff ) result
 
   foreign import noop1
@@ -21,25 +21,10 @@ module React where
     "var noop2 = noop0"
     :: forall a b eff result. a -> b -> Eff ( eff ) result
 
-  type Render props = Eff (p :: ReadPropsEff props) UI
-
   type ReadProps eff props result = Eff (
     p :: ReadPropsEff props
     | eff
     ) result
-
-  type ShouldComponentUpdate props =
-    props -> Eff ( p :: ReadPropsEff props ) Boolean
-
-  type UISpec eff props =
-    { componentWillMount :: ReadProps eff props {}
-    , componentDidMount ::  ReadProps eff props {}
-    , componentWillReceiveProps :: props -> ReadProps eff props {}
-    , shouldComponentUpdate :: ShouldComponentUpdate props
-    , componentWillUpdate :: props -> ReadProps eff props {}
-    , componentDidUpdate :: props -> ReadProps eff props {}
-    , componentWillUnmount :: ReadProps eff props {}
-    }
 
   type ReadState eff props state result = Eff (
     p :: ReadPropsEff props,
@@ -54,30 +39,33 @@ module React where
     | eff
     ) result
 
-  type StatefulRender props state = Eff (
+  type Render props state = Eff (
     p :: ReadPropsEff props,
     r :: ReadStateEff state
     ) UI
 
-  type StatefulShouldComponentUpdate props state =
+  type ShouldComponentUpdate props state =
     props -> state -> Eff (
       p :: ReadPropsEff props,
       r :: ReadStateEff state,
       w :: WriteStateEff state
       ) Boolean
 
-  type StatefulUISpec eff props state =
-    { componentWillMount :: ReadState eff props state {}
+  type UISpec eff props state =
+    { getInitialState :: ReadProps eff props state
+    , componentWillMount :: ReadState eff props state {}
     , componentDidMount ::  ReadWriteState eff props state {}
     , componentWillReceiveProps :: props -> ReadWriteState eff props state {}
-    , shouldComponentUpdate :: StatefulShouldComponentUpdate props state
+    , shouldComponentUpdate :: ShouldComponentUpdate props state
     , componentWillUpdate :: props -> state -> ReadWriteState eff props state {}
     , componentDidUpdate :: props -> state -> ReadState eff props state {}
     , componentWillUnmount :: ReadState eff props state {}
     }
 
-  defaultSpec =
-    { componentWillMount: noop0
+  spec :: forall eff props state. UISpec eff props state
+  spec =
+    { getInitialState: noop0
+    , componentWillMount: noop0
     , componentDidMount: noop0
     , componentWillReceiveProps: noop1
     , shouldComponentUpdate: updateAlways
@@ -86,46 +74,38 @@ module React where
     , componentWillUnmount: noop0
     }
       where
-    updateAlways :: forall props. ShouldComponentUpdate props
-    updateAlways props = return true
-
-  defaultStatefulSpec =
-    { componentWillMount: noop0
-    , componentDidMount: noop0
-    , componentWillReceiveProps: noop1
-    , shouldComponentUpdate: updateAlways
-    , componentWillUpdate: noop2
-    , componentDidUpdate: noop2
-    , componentWillUnmount: noop0
-    }
-      where
-    updateAlways :: forall props state. StatefulShouldComponentUpdate props state
+    updateAlways :: forall props state. ShouldComponentUpdate props state
     updateAlways props state = return true
 
-  foreign import mkUI
-    " function mkUI(render) {            \
-    \   return React.createClass({       \
-    \     render: function() {           \
-    \      __current = this;             \
-    \      try {                         \
-    \        var ui = render.call(this); \
-    \      } finally {                   \
-    \        __current = null;           \
-    \      }                             \
-    \      return ui;                    \
-    \     }                              \
-    \   });                              \
+  foreign import getProps
+    " function getProps() {     \
+    \   return __current.props; \
     \ }"
-    :: forall props.
-    Render props
-    -> (props -> UI)
+    :: forall props eff.
+    Eff (p :: ReadPropsEff props | eff) props
 
-  foreign import mkUIFromSpec
-    " function mkUIFromSpec(render) {                   \
-    \   return function(ss) {                           \
+  foreign import writeState
+    " function writeState(state) {                   \
+    \   __current.replaceState({state: state});      \
+    \   return function() { return state; }          \
+    \ }"
+    :: forall state eff.
+    state
+    -> Eff (r :: ReadStateEff state, w :: WriteStateEff state | eff) state
+
+  foreign import readState
+    " function readState() {          \
+    \   return __current.state.state; \
+    \ }"
+    :: forall state eff. Eff (r :: ReadStateEff state | eff) state
+
+  foreign import mkUI
+    " var __current;                                    \
+    \ function mkUI(ss) {                               \
+    \   return function(render) {                       \
     \     var specs = {};                               \
     \     for (var s in ss) {                           \
-    \       if (ps.hasOwnProperty(s)) {                 \
+    \       if (ss.hasOwnProperty(s)) {                 \
     \         specs[s] = (function(impl) {              \
     \           return function() {                     \
     \             __current = this;                     \
@@ -138,113 +118,30 @@ module React where
     \         })(ss[s]);                                \
     \       }                                           \
     \     }                                             \
+    \     specs.getInitialState= function() {           \
+    \       __current = this;                           \
+    \       try {                                       \
+    \         return {state: ss.getInitialState()};     \
+    \       } finally {                                 \
+    \         __current = null;                         \
+    \       }                                           \
+    \     };                                            \
     \     specs.render = function() {                   \
     \       __current = this;                           \
     \       try {                                       \
-    \         var ui = render();                        \
+    \         var ui = render.call(this);               \
     \       } finally {                                 \
     \         __current = null;                         \
     \       }                                           \
     \       return ui;                                  \
     \     };                                            \
     \     return React.createClass(specs);              \
-    \   };                                              \
-    \ }"
-    :: forall eff props.
-    Render props
-    -> UISpec eff props
-    -> (props -> UI)
-
-  foreign import getProps
-    " function getProps() {     \
-    \   return __current.props; \
-    \ }"
-    :: forall props eff.
-    Eff (p :: ReadPropsEff props | eff) props
-
-  foreign import mkStatefulUI
-    " var __current;                           \
-    \ function mkStatefulUI(state) {           \
-    \   return function(render) {              \
-    \     return React.createClass({           \
-    \                                          \
-    \       getInitialState: function() {      \
-    \         return {state: state};           \
-    \       },                                 \
-    \                                          \
-    \       render: function() {               \
-    \         __current = this;                \
-    \         try {                            \
-    \           var ui = render.call(this);    \
-    \         } finally {                      \
-    \           __current = null;              \
-    \         }                                \
-    \         return ui;                       \
-    \       }                                  \
-    \     });                                  \
-    \   };                                     \
-    \ }"
-    :: forall props state.
-    state
-    -> StatefulRender props state
-    -> (props -> UI)
-
-  foreign import mkStatefulUIFromSpec
-    " var __current;                                      \
-    \ function mkStatefulUIFromSpec(state) {              \
-    \   return function(render) {                         \
-    \     return function (ss) {                          \
-    \       var specs = {};                               \
-    \       for (var s in ss) {                           \
-    \         if (ss.hasOwnProperty(s)) {                 \
-    \           specs[s] = (function(impl) {              \
-    \             return function() {                     \
-    \               __current = this;                     \
-    \               try {                                 \
-    \                 return impl.apply(this, arguments); \
-    \               } finally {                           \
-    \                 __current = null;                   \
-    \               }                                     \
-    \             }                                       \
-    \           })(ss[s]);                                \
-    \         }                                           \
-    \       }                                             \
-    \       specs.getInitialState = function() {          \
-    \         return {state: state};                      \
-    \       };                                            \
-    \       specs.render = function() {                   \
-    \         __current = this;                           \
-    \         try {                                       \
-    \           var ui = render.call(this);               \
-    \         } finally {                                 \
-    \           __current = null;                         \
-    \         }                                           \
-    \         return ui;                                  \
-    \       };                                            \
-    \       return React.createClass(specs);              \
-    \     }                                               \
-    \   }                                                 \
+    \   }                                               \
     \ }"
     :: forall eff props state.
-    state
-    -> StatefulRender props state
-    -> StatefulUISpec eff props state
+    UISpec eff props state
+    -> Render props state
     -> (props -> UI)
-
-  foreign import writeState
-    " function writeState(state) {                   \
-    \   __current.replaceState({state: state});      \
-    \   return function() { return state; }          \
-    \ }"
-    :: forall state eff.
-    state
-    -> Eff (r :: ReadStateEff state, w :: WriteStateEff state | eff) state
-
-  foreign import readState
-    " function readState() {    \
-    \   return __current.state.state; \
-    \ }"
-    :: forall state eff. Eff (r :: ReadStateEff state | eff) state
 
   type Event = { }
   type MouseEvent = { pageX :: Number, pageY :: Number }

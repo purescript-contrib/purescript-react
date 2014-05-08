@@ -19,10 +19,10 @@ module Tutorial where
                    , commentForm { onCommentSubmit: handle commentSubmit }
                    ]
 
-  commentBox = mkStatefulUIFromSpec [] cBoxRender $
-    defaultStatefulSpec {
+  commentBox = mkUI spec {
+      getInitialState = return [],
       componentWillMount = componentWillMount
-    }
+    } cBoxRender
 
   foreign import componentWillMount
     "function componentWillMount() {\
@@ -32,12 +32,12 @@ module Tutorial where
     \}" :: forall eff props state. ReadState eff props state {}
 
 
-  commentList = mkUI do
+  commentList = mkUI spec do
     props <- getProps
     pure $ DOM.div { className: "commentList" }
                    (commentNodes <$> props.data')
 
-  commentForm = mkUI do
+  commentForm = mkUI spec do
     props <- getProps
     pure $ DOM.form { className: "commentForm"
                     , onSubmit: handle submit
@@ -58,7 +58,7 @@ module Tutorial where
                                 []
                     ]
 
-  comment = mkUI do
+  comment = mkUI spec do
     props <- getProps
     pure $ DOM.div { className: "comment" }
                    [ DOM.h2 { className: "commentAuthor" }
