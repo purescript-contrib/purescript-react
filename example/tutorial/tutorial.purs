@@ -7,6 +7,7 @@ module Tutorial where
   import Data.Array
   import React
   import Showdown
+  import Debug.Trace
 
   import qualified React.DOM as DOM
 
@@ -18,15 +19,25 @@ module Tutorial where
                    , commentForm { onCommentSubmit: handle commentSubmit }
                    ]
 
-  commentBox = mkStatefulUIFromSpec [] cBoxRender $
-    defaultStatefulSpec { componentWillMount = componentWillMount }
+  commentBox = mkUI spec {
+      getInitialState = return [],
+      componentWillMount = componentWillMount
+    } cBoxRender
 
-  commentList = mkUI do
+  foreign import componentWillMount
+    "function componentWillMount() {\
+    \  var load = loadCommentsFromServer.bind(this);\
+    \  load();\
+    \  setInterval(function() { load(); }, this.props.pollInterval);\
+    \}" :: forall eff props state. ReadState eff props state {}
+
+
+  commentList = mkUI spec do
     props <- getProps
     pure $ DOM.div { className: "commentList" }
                    (commentNodes <$> props.data')
 
-  commentForm = mkUI do
+  commentForm = mkUI spec do
     props <- getProps
     pure $ DOM.form { className: "commentForm"
                     , onSubmit: handle submit
@@ -47,7 +58,7 @@ module Tutorial where
                                 []
                     ]
 
-  comment = mkUI do
+  comment = mkUI spec do
     props <- getProps
     pure $ DOM.div { className: "comment" }
                    [ DOM.h2 { className: "commentAuthor" }
@@ -94,13 +105,6 @@ module Tutorial where
     \    }.bind(this)\
     \  });\
     \}" :: forall a r. {props :: {url :: String}, replaceState :: {state :: a} -> {} | r} -> {}
-
-  foreign import componentWillMount
-    "function componentWillMount() {\
-    \  var load = loadCommentsFromServer.bind(this);\
-    \  load();\
-    \  setInterval(function() { load(); }, this.props.pollInterval);\
-    \}" :: forall r. {} -> {}
 
   main = renderToElementById "content" $ commentBox { url: "comments.json"
                                                     , pollInterval: 2000
