@@ -4,6 +4,7 @@ import Control.Monad.Eff
 
 foreign import data DOM :: !
 foreign import data ReactProps :: * -> !
+foreign import data ReactRefs :: * -> !
 foreign import data ReadReactState :: * -> !
 foreign import data WriteReactState :: * -> !
 foreign import data UI :: *
@@ -92,6 +93,13 @@ foreign import getProps
   :: forall props eff.
   Eff (p :: ReactProps props | eff) props
 
+foreign import getRefs
+  " function getRefs() {     \
+  \   return __current.refs; \
+  \ }"
+  :: forall refs eff.
+  Eff (f :: ReactRefs refs | eff) refs
+
 foreign import mkStatefulUI
   " var __current;                           \
   \ function mkStatefulUI(state) {           \
@@ -145,7 +153,7 @@ foreign import mkStatefulUIFromSpec
 
 foreign import writeState
   " function writeState(state) {                   \
-  \   __current.replaceState({state: state});      \
+  \   __current.replaceState(state);      \
   \   return function() { return state; }          \
   \ }"
   :: forall state eff.
@@ -154,7 +162,7 @@ foreign import writeState
 
 foreign import readState
   " function readState() {    \
-  \   return __current.state.state; \
+  \   return __current.state; \
   \ }"
   :: forall state eff. Eff (r :: ReadReactState state | eff) state
 
@@ -182,7 +190,7 @@ foreign import handle
   \   }                                   \
   \ }"
   :: forall eff props state result event.
-  EventHandlerContext props state result eff -> EventHandler event
+  EventHandlerContext eff props state result -> EventHandler event
 
 foreign import handleEvent
   "var handleEvent = handle"

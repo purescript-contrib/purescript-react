@@ -21,6 +21,14 @@ var paths = {
                 'bower_components/purescript-*/src/**/*.purs',
                 'example/tutorial/bower_components/purescript-*/src/**/*.purs'
             ]
+        },
+        productTable: {
+            src: [
+                // 'src/**/*.purs',
+                'example/thinking-in-react/producttable.purs',
+                'bower_components/purescript-*/src/**/*.purs',
+                'example/thinking-in-react/bower_components/purescript-*/src/**/*.purs'
+            ]
         }
     }
 };
@@ -34,6 +42,10 @@ var options = {
         tutorial: {
             output: 'example/tutorial/tutorial.js',
             main: 'Tutorial'
+        },
+        productTable: {
+            output: 'example/thinking-in-react/producttable.js',
+            main: 'ProductTable'
         }
     }
 };
@@ -60,10 +72,18 @@ gulp.task('example-app', compile(paths.example.app, options.example.app));
 gulp.task('example-tutorial',
     compile(paths.example.tutorial, options.example.tutorial));
 
+gulp.task('example-productTable',
+    compile(paths.example.productTable, options.example.productTable));
+
 gulp.task('watch', function() {
     gulp.watch(paths.src, ['src']);
 });
 
+gulp.task('watch-examples', function() {
+    var ps = paths.example.app.src.concat(paths.example.tutorial.src).concat(paths.example.productTable.src);
+    gulp.watch(ps, ['example-app', 'example-tutorial', 'example-productTable']);
+});
+
 gulp.task('default', ['src', 'watch']);
 
-gulp.task('examples', ['example-app', 'example-tutorial']);
+gulp.task('examples', ['example-app', 'example-tutorial', 'example-productTable', 'watch-examples']);
