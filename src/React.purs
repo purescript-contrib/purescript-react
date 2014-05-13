@@ -22,21 +22,21 @@ module React where
     :: forall a b eff result. a -> b -> Eff ( eff ) result
 
   type ReadProps eff props result = Eff (
-    p :: ReadPropsEff props
-    | eff
+    p :: ReadPropsEff props,
+    dom :: DOM
     ) result
 
   type ReadState eff props state result = Eff (
     p :: ReadPropsEff props,
-    r :: ReadStateEff state
-    | eff
+    r :: ReadStateEff state,
+    dom :: DOM
     ) result
 
   type ReadWriteState eff props state result = Eff (
     p :: ReadPropsEff props,
     r :: ReadStateEff state,
-    w :: WriteStateEff state
-    | eff
+    w :: WriteStateEff state,
+    dom :: DOM
     ) result
 
   type Render props state = Eff (
