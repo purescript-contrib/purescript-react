@@ -1,8 +1,17 @@
 module Main where
 
+import Control.Monad.Eff
 import Debug.Trace
 import React
 import qualified React.DOM as DOM
+
+foreign import interval
+  "function interval(ms) { \
+  \  return function(action) { \
+  \    return function() { return setInterval(action, ms); } \
+  \  } \
+  \}"
+  :: forall eff r. Number -> Eff (trace :: Trace) r -> Eff (eff) {}
 
 helloInConsole = do
   props <- getProps
@@ -22,7 +31,14 @@ incrementCounter = do
   val <- readState
   writeState (val + 1)
 
-counter = mkUI spec { getInitialState = return 0 } do
+counter = mkUI spec {
+    getInitialState = return 0,
+    componentDidMount = do
+      self <- getSelf
+      interval 1000 $ runUI self do
+        val <- readState
+        print val
+  } do
   val <- readState
   return $ DOM.p {
       className: "Counter",
