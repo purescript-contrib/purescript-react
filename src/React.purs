@@ -7,6 +7,7 @@ module React where
   foreign import data ReadStateEff :: * -> !
   foreign import data WriteStateEff :: * -> !
   foreign import data UI :: *
+  foreign import data UIRef :: * -> * -> *
   foreign import data EventHandler :: * -> *
 
   foreign import noop0
@@ -98,6 +99,33 @@ module React where
     \   return __current.state.state; \
     \ }"
     :: forall state eff. Eff (r :: ReadStateEff state | eff) state
+
+  foreign import getSelf
+    " function getSelf() { \
+    \   return __current;  \
+    \ }"
+    :: forall eff props state.
+    Eff (p :: ReadPropsEff props, r :: ReadStateEff state | eff) (UIRef props state)
+
+  foreign import runUI
+    " function runUI(ref) {         \
+    \   return function(action) {   \
+    \     return function() {       \
+    \       if (ref.isMounted()) {  \
+    \         __current = ref;      \
+    \         try {                 \
+    \           return action();    \
+    \         } finally {           \
+    \           __current = null;   \
+    \         }                     \
+    \       }                       \
+    \     }                         \
+    \   }                           \
+    \ }"
+    :: forall eff props state result.
+    UIRef props state
+    -> Eff (p :: ReadPropsEff props, r :: ReadStateEff state, w :: WriteStateEff state | eff) result
+    -> Eff (eff) result
 
   foreign import mkUI
     " var __current;                                    \
