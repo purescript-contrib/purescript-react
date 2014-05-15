@@ -2,8 +2,8 @@ module React.DOM where
 
   import React
 
-  data DOMProps eff props state
-    = Accept String
+  data DOMProps s eff props state =
+    Accept String
     | AccessKey String
     | Action String
     | AllowFullScreen String
@@ -83,7 +83,7 @@ module React.DOM where
     | SrcSet String
     | Start String
     | Step String
-    | Style String
+    | Style { | s }
     | TabIndex String
     | Target String
     | Title String
@@ -290,7 +290,7 @@ module React.DOM where
     \     }                                                    \
     \   }                                                      \
     \ }"
-    :: forall eff props state. String -> [DOMProps eff props state] -> [UI] -> UI
+    :: forall s eff props state. String -> [DOMProps s eff props state] -> [UI] -> UI
 
   foreign import text
     "function text(text) { \

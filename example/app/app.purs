@@ -19,7 +19,11 @@ helloInConsole e = do
 
 hello = mkUI spec do
   props <- getProps
-  return $ h1 [className "Hello", onClick helloInConsole] [
+  return $ h1 [
+      className "Hello",
+      onClick helloInConsole,
+      style {background: "gray"}
+    ] [
       text "Hello, ",
       text props.name
     ]
