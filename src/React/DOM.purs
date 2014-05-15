@@ -95,6 +95,7 @@ module React.DOM where
     | AutoCorrect String
     | Property String
     | Ref String
+    | Key String
     | DangerouslySetInnerHTML {__html :: String}
 
     -- events
@@ -229,6 +230,7 @@ module React.DOM where
   autoCorrect = AutoCorrect
   property = Property
   ref = Ref
+  key = Key
   dangerouslySetInnerHTML v = DangerouslySetInnerHTML {__html: v}
   value = Value
 
