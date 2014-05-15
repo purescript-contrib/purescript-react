@@ -6,10 +6,14 @@ module React.DOM where
     " function mkDOM(tagName) {                                \
     \   var ctor = React.DOM[tagName];                         \
     \   return function(props) {                               \
-    \     props.type = props.attrType;                         \
-    \     delete props.attrType;                               \
     \     return function(children) {                          \
-    \       return ctor.apply(ctor, [props].concat(children)); \
+    \       var p = {};                                        \
+    \       for (var k in props) {                             \
+    \         p[k] = props[k];                                 \
+    \       }                                                  \
+    \       p.type = p.attrType;                               \
+    \       delete p.attrType;                                 \
+    \       return ctor.apply(ctor, [p].concat(children));     \
     \     }                                                    \
     \   }                                                      \
     \ }"
