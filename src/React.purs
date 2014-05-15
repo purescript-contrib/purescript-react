@@ -1,5 +1,6 @@
 module React where
 
+  import Debug.Trace
   import Control.Monad.Eff
 
   foreign import data DOM :: !
@@ -24,13 +25,15 @@ module React where
 
   type ReadProps eff props result = Eff (
     p :: ReadPropsEff props,
-    dom :: DOM
+    dom :: DOM,
+    trace :: Trace
     ) result
 
   type ReadState eff props state result = Eff (
     p :: ReadPropsEff props,
     r :: ReadStateEff state,
-    dom :: DOM
+    dom :: DOM,
+    trace :: Trace
     ) result
 
   type ReadWriteState eff props state result = Eff (
@@ -42,14 +45,16 @@ module React where
 
   type Render props state = Eff (
     p :: ReadPropsEff props,
-    r :: ReadStateEff state
+    r :: ReadStateEff state,
+    trace :: Trace
     ) UI
 
   type ShouldComponentUpdate props state =
     props -> state -> Eff (
       p :: ReadPropsEff props,
       r :: ReadStateEff state,
-      w :: WriteStateEff state
+      w :: WriteStateEff state,
+      trace :: Trace
       ) Boolean
 
   type UISpec eff props state =
