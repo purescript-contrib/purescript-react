@@ -2,22 +2,297 @@ module React.DOM where
 
   import React
 
+  data DOMProps s eff props state =
+    Accept String
+    | AccessKey String
+    | Action String
+    | AllowFullScreen String
+    | AllowTransparency String
+    | Alt String
+    | Async String
+    | AutoComplete String
+    | AutoFocus String
+    | AutoPlay String
+    | CellPadding String
+    | CellSpacing String
+    | CharSet String
+    | Checked String
+    | ClassName String
+    | Cols String
+    | ColSpan String
+    | Content String
+    | ContentEditable String
+    | ContextMenu String
+    | Controls String
+    | CrossOrigin String
+    | Data String
+    | DateTime String
+    | Defer String
+    | Dir String
+    | Disabled String
+    | Download String
+    | Draggable String
+    | EncType String
+    | Form String
+    | FormNoValidate String
+    | FrameBorder String
+    | Height String
+    | Hidden String
+    | Href String
+    | HrefLang String
+    | HtmlFor String
+    | HttpEquiv String
+    | Icon String
+    | Id String
+    | Label String
+    | Lang String
+    | List String
+    | Loop String
+    | Max String
+    | MaxLength String
+    | MediaGroup String
+    | Method String
+    | Min String
+    | Multiple String
+    | Muted String
+    | Name String
+    | NoValidate String
+    | Pattern String
+    | Placeholder String
+    | Poster String
+    | Preload String
+    | RadioGroup String
+    | ReadOnly String
+    | Rel String
+    | Required String
+    | Role String
+    | Rows String
+    | RowSpan String
+    | Sandbox String
+    | Scope String
+    | ScrollLeft String
+    | Scrolling String
+    | ScrollTop String
+    | Seamless String
+    | Selected String
+    | Size String
+    | Span String
+    | SpellCheck String
+    | Src String
+    | SrcDoc String
+    | SrcSet String
+    | Start String
+    | Step String
+    | Style { | s }
+    | TabIndex String
+    | Target String
+    | Title String
+    | Type String
+    | Value String
+    | Width String
+    | Wmode String
+    | AutoCapitalize String
+    | AutoCorrect String
+    | Property String
+    | Ref String
+    | Key String
+    | DangerouslySetInnerHTML {__html :: String}
+
+    -- events
+    | OnBlur (EventHandler Event)
+    | OnContextMenu (EventHandler Event)
+    | OnCopy (EventHandler Event)
+    | OnCut (EventHandler Event)
+    | OnClick (EventHandler MouseEvent)
+    | OnDoubleClick (EventHandler MouseEvent)
+    | OnDrag (EventHandler MouseEvent)
+    | OnDragEnd (EventHandler MouseEvent)
+    | OnDragEnter (EventHandler MouseEvent)
+    | OnDragExit (EventHandler MouseEvent)
+    | OnDragLeave (EventHandler MouseEvent)
+    | OnDragOver (EventHandler MouseEvent)
+    | OnDragStart (EventHandler MouseEvent)
+    | OnDrop (EventHandler Event)
+    | OnError (EventHandler Event)
+    | OnFocus (EventHandler Event)
+    | OnInput (EventHandler Event)
+    | OnKeyDown (EventHandler KeyboardEvent)
+    | OnKeyPress (EventHandler KeyboardEvent)
+    | OnKeyUp (EventHandler KeyboardEvent)
+    | OnLoad (EventHandler Event)
+    | OnMouseEnter (EventHandler MouseEvent)
+    | OnMouseLeave (EventHandler MouseEvent)
+    | OnMouseDown (EventHandler MouseEvent)
+    | OnMouseMove (EventHandler MouseEvent)
+    | OnMouseOut (EventHandler MouseEvent)
+    | OnMouseOver (EventHandler MouseEvent)
+    | OnMouseUp (EventHandler MouseEvent)
+    | OnPaste (EventHandler Event)
+    | OnReset (EventHandler Event)
+    | OnScroll (EventHandler Event)
+    | OnSubmit (EventHandler Event)
+    | OnTouchCancel (EventHandler Event)
+    | OnTouchEnd (EventHandler Event)
+    | OnTouchMove (EventHandler Event)
+    | OnTouchStart (EventHandler Event)
+    | OnWheel (EventHandler Event)
+
+
+  accept = Accept
+  accessKey = AccessKey
+  action = Action
+  allowFullScreen = AllowFullScreen
+  allowTransparency = AllowTransparency
+  alt = Alt
+  async = Async
+  autoComplete = AutoComplete
+  autoFocus = AutoFocus
+  autoPlay = AutoPlay
+  cellPadding = CellPadding
+  cellSpacing = CellSpacing
+  charSet = CharSet
+  checked = Checked
+  className = ClassName
+  cols = Cols
+  colSpan = ColSpan
+  content = Content
+  contentEditable = ContentEditable
+  contextMenu = ContextMenu
+  controls = Controls
+  crossOrigin = CrossOrigin
+  dataProp = Data
+  dateTime = DateTime
+  defer = Defer
+  dir = Dir
+  disabled = Disabled
+  download = Download
+  draggable = Draggable
+  encType = EncType
+  formProp = Form
+  formNoValidate = FormNoValidate
+  frameBorder = FrameBorder
+  height = Height
+  hidden = Hidden
+  href = Href
+  hrefLang = HrefLang
+  htmlFor = HtmlFor
+  httpEquiv = HttpEquiv
+  icon = Icon
+  idProp = Id
+  labelProp = Label
+  lang = Lang
+  list = List
+  loop = Loop
+  max = Max
+  maxLength = MaxLength
+  mediaGroup = MediaGroup
+  method = Method
+  min = Min
+  multiple = Multiple
+  muted = Muted
+  name = Name
+  noValidate = NoValidate
+  pattern = Pattern
+  placeholder = Placeholder
+  poster = Poster
+  preload = Preload
+  radioGroup = RadioGroup
+  readOnly = ReadOnly
+  rel = Rel
+  required = Required
+  role = Role
+  rows = Rows
+  rowSpan = RowSpan
+  sandbox = Sandbox
+  scope = Scope
+  scrollLeft = ScrollLeft
+  scrolling = Scrolling
+  scrollTop = ScrollTop
+  seamless = Seamless
+  selected = Selected
+  size = Size
+  spanProp = Span
+  spellCheck = SpellCheck
+  src = Src
+  srcDoc = SrcDoc
+  srcSet = SrcSet
+  start = Start
+  step = Step
+  style = Style
+  tabIndex = TabIndex
+  target = Target
+  titleProp = Title
+  typeProp = Type
+  alue = Value
+  width = Width
+  wmode = Wmode
+  autoCapitalize = AutoCapitalize
+  autoCorrect = AutoCorrect
+  property = Property
+  ref = Ref
+  key = Key
+  dangerouslySetInnerHTML v = DangerouslySetInnerHTML {__html: v}
+  value = Value
+
+  onClick f = OnClick $ handle f
+  onBlur f = OnBlur $ handle f
+  onContextMenu f = OnContextMenu $ handle f
+  onCopy f = OnCopy $ handle f
+  onCut f = OnCut $ handle f
+  onDoubleClick f = OnDoubleClick $ handle f
+  onDrag f = OnDrag $ handle f
+  onDragEnd f = OnDragEnd $ handle f
+  onDragEnter f = OnDragEnter $ handle f
+  onDragExit f = OnDragExit $ handle f
+  onDragLeave f = OnDragLeave $ handle f
+  onDragOver f = OnDragOver $ handle f
+  onDragStart f = OnDragStart $ handle f
+  onDrop f = OnDrop $ handle f
+  onError f = OnError $ handle f
+  onFocus f = OnFocus $ handle f
+  onInput f = OnInput $ handle f
+  onKeyDown f = OnKeyDown $ handle f
+  onKeyPress f = OnKeyPress $ handle f
+  onKeyUp f = OnKeyUp $ handle f
+  onLoad f = OnLoad $ handle f
+  onMouseEnter f = OnMouseEnter $ handle f
+  onMouseLeave f = OnMouseLeave $ handle f
+  onMouseDown f = OnMouseDown $ handle f
+  onMouseMove f = OnMouseMove $ handle f
+  onMouseOut f = OnMouseOut $ handle f
+  onMouseOver f = OnMouseOver $ handle f
+  onMouseUp f = OnMouseUp $ handle f
+  onPaste f = OnPaste $ handle f
+  onReset f = OnReset $ handle f
+  onScroll f = OnScroll $ handle f
+  onSubmit f = OnSubmit $ handle f
+  onTouchCancel f = OnTouchCancel $ handle f
+  onTouchEnd f = OnTouchEnd $ handle f
+  onTouchMove f = OnTouchMove $ handle f
+  onTouchStart f = OnTouchStart $ handle f
+  onWheel f = OnWheel $ handle f
+
   foreign import mkDOM
-    " function mkDOM(tagName) {                                \
-    \   var ctor = React.DOM[tagName];                         \
+    " function mkProps(props) {                                \
+    \   var result = {};                                       \
+    \   for (var i = 0, len = props.length; i < len; i++) {    \
+    \     var prop = props[i];                                 \
+    \     var name = prop.ctor.substring(10);                  \
+    \     name = name[0].toLowerCase() + name.substring(1);    \
+    \     result[name] = prop.values[0];                       \
+    \   }                                                      \
+    \   return result;                                         \
+    \ }                                                        \
+    \ function mkDOM(tagName) {                                \
+    \   var ctor = window.React.DOM[tagName];                  \
     \   return function(props) {                               \
     \     return function(children) {                          \
-    \       var p = {};                                        \
-    \       for (var k in props) {                             \
-    \         p[k] = props[k];                                 \
-    \       }                                                  \
-    \       p.type = p.attrType;                               \
-    \       delete p.attrType;                                 \
+    \       var p = props.length > 0 ? mkProps(props) : null;  \
     \       return ctor.apply(ctor, [p].concat(children));     \
     \     }                                                    \
     \   }                                                      \
     \ }"
-    :: forall props b. String -> props -> [UI] -> UI
+    :: forall s eff props state. String -> [DOMProps s eff props state] -> [UI] -> UI
 
   foreign import text
     "function text(text) { \
@@ -68,7 +343,7 @@ module React.DOM where
   h4 = mkDOM "h4"
   h5 = mkDOM "h5"
   h6 = mkDOM "h6"
-  head = mkDOM "head"
+  headDOM = mkDOM "head"
   header = mkDOM "header"
   hr = mkDOM "hr"
   html = mkDOM "html"
@@ -84,8 +359,8 @@ module React.DOM where
   legend = mkDOM "legend"
   li = mkDOM "li"
   link = mkDOM "link"
-  main = mkDOM "main"
-  map = mkDOM "map"
+  mainDOM = mkDOM "main"
+  mapDOM = mkDOM "map"
   mark = mkDOM "mark"
   menu = mkDOM "menu"
   menuitem = mkDOM "menuitem"
@@ -118,7 +393,7 @@ module React.DOM where
   source = mkDOM "source"
   span = mkDOM "span"
   strong = mkDOM "strong"
-  style = mkDOM "style"
+  styleDOM = mkDOM "style"
   sub = mkDOM "sub"
   summary = mkDOM "summary"
   sup = mkDOM "sup"
@@ -154,130 +429,130 @@ module React.DOM where
   svg = mkDOM "svg"
 
   -- | Props-less versions
-  a' = a {}
-  abbr' = abbr {}
-  address' = address {}
-  area' = area {}
-  article' = article {}
-  aside' = aside {}
-  audio' = audio {}
-  b' = b {}
-  base' = base {}
-  base' = base {}
-  bdi' = bdi {}
-  bdo' = bdo {}
-  big' = big {}
-  blockquote' = blockquote {}
-  body' = body {}
-  br' = br {}
-  button' = button {}
-  canvas' = canvas {}
-  caption' = caption {}
-  cite' = cite {}
-  code' = code {}
-  col' = col {}
-  colgroup' = colgroup {}
-  dd' = dd {}
-  del' = del {}
-  details' = details {}
-  dfn' = dfn {}
-  div' = div {}
-  dl' = dl {}
-  dt' = dt {}
-  em' = em {}
-  embed' = embed {}
-  fieldset' = fieldset {}
-  figcaption' = figcaption {}
-  figure' = figure {}
-  footer' = footer {}
-  form' = form {}
-  h1' = h1 {}
-  h2' = h2 {}
-  h3' = h3 {}
-  h4' = h4 {}
-  h5' = h5 {}
-  h6' = h6 {}
-  head' = head {}
-  header' = header {}
-  hr' = hr {}
-  html' = html {}
-  i' = i {}
-  iframe' = iframe {}
-  iframe' = iframe {}
-  img' = img {}
-  input' = input {}
-  ins' = ins {}
-  kbd' = kbd {}
-  keygen' = keygen {}
-  label' = label {}
-  legend' = legend {}
-  li' = li {}
-  link' = link {}
-  main' = main {}
-  map' = map {}
-  mark' = mark {}
-  menu' = menu {}
-  menuitem' = menuitem {}
-  meta' = meta {}
-  meter' = meter {}
-  nav' = nav {}
-  noscript' = noscript {}
-  object' = object {}
-  ol' = ol {}
-  optgroup' = optgroup {}
-  option' = option {}
-  output' = output {}
-  p' = p {}
-  param' = param {}
-  param' = param {}
-  pre' = pre {}
-  progress' = progress {}
-  q' = q {}
-  rp' = rp {}
-  rp' = rp {}
-  rt' = rt {}
-  ruby' = ruby {}
-  s' = s {}
-  samp' = samp {}
-  samp' = samp {}
-  script' = script {}
-  section' = section {}
-  select' = select {}
-  small' = small {}
-  source' = source {}
-  span' = span {}
-  strong' = strong {}
-  style' = style {}
-  sub' = sub {}
-  summary' = summary {}
-  sup' = sup {}
-  table' = table {}
-  tbody' = tbody {}
-  td' = td {}
-  textarea' = textarea {}
-  tfoot' = tfoot {}
-  th' = th {}
-  thead' = thead {}
-  time' = time {}
-  title' = title {}
-  tr' = tr {}
-  track' = track {}
-  u' = u {}
-  ul' = ul {}
-  ul' = ul {}
-  var' = var {}
-  video' = video {}
-  wbr' = wbr {}
-  circle' = circle {}
-  defs' = defs {}
-  g' = g {}
-  line' = line {}
-  line' = line {}
-  linearGradient' = linearGradient {}
-  path' = path {}
-  polygon' = polygon {}
-  polyline' = polyline {}
-  radialGradient' = radialGradient {}
-  rect' = rect {}
-  stop' = stop {}
-  svg' = svg {}
+  a' = a []
+  abbr' = abbr []
+  address' = address []
+  area' = area []
+  article' = article []
+  aside' = aside []
+  audio' = audio []
+  b' = b []
+  base' = base []
+  base' = base []
+  bdi' = bdi []
+  bdo' = bdo []
+  big' = big []
+  blockquote' = blockquote []
+  body' = body []
+  br' = br []
+  button' = button []
+  canvas' = canvas []
+  caption' = caption []
+  cite' = cite []
+  code' = code []
+  col' = col []
+  colgroup' = colgroup []
+  dd' = dd []
+  del' = del []
+  details' = details []
+  dfn' = dfn []
+  div' = div []
+  dl' = dl []
+  dt' = dt []
+  em' = em []
+  embed' = embed []
+  fieldset' = fieldset []
+  figcaption' = figcaption []
+  figure' = figure []
+  footer' = footer []
+  form' = form []
+  h1' = h1 []
+  h2' = h2 []
+  h3' = h3 []
+  h4' = h4 []
+  h5' = h5 []
+  h6' = h6 []
+  headDOM' = headDOM []
+  header' = header []
+  hr' = hr []
+  html' = html []
+  i' = i []
+  iframe' = iframe []
+  iframe' = iframe []
+  img' = img []
+  input' = input []
+  ins' = ins []
+  kbd' = kbd []
+  keygen' = keygen []
+  label' = label []
+  legend' = legend []
+  li' = li []
+  link' = link []
+  mainDOM' = mainDOM []
+  mapDOM' = mapDOM []
+  mark' = mark []
+  menu' = menu []
+  menuitem' = menuitem []
+  meta' = meta []
+  meter' = meter []
+  nav' = nav []
+  noscript' = noscript []
+  object' = object []
+  ol' = ol []
+  optgroup' = optgroup []
+  option' = option []
+  output' = output []
+  p' = p []
+  param' = param []
+  param' = param []
+  pre' = pre []
+  progress' = progress []
+  q' = q []
+  rp' = rp []
+  rp' = rp []
+  rt' = rt []
+  ruby' = ruby []
+  s' = s []
+  samp' = samp []
+  samp' = samp []
+  script' = script []
+  section' = section []
+  select' = select []
+  small' = small []
+  source' = source []
+  span' = span []
+  strong' = strong []
+  styleDOM' = styleDOM []
+  sub' = sub []
+  summary' = summary []
+  sup' = sup []
+  table' = table []
+  tbody' = tbody []
+  td' = td []
+  textarea' = textarea []
+  tfoot' = tfoot []
+  th' = th []
+  thead' = thead []
+  time' = time []
+  title' = title []
+  tr' = tr []
+  track' = track []
+  u' = u []
+  ul' = ul []
+  ul' = ul []
+  var' = var []
+  video' = video []
+  wbr' = wbr []
+  circle' = circle []
+  defs' = defs []
+  g' = g []
+  line' = line []
+  line' = line []
+  linearGradient' = linearGradient []
+  path' = path []
+  polygon' = polygon []
+  polyline' = polyline []
+  radialGradient' = radialGradient []
+  rect' = rect []
+  stop' = stop []
+  svg' = svg []

@@ -6,17 +6,16 @@ module Tutorial where
   import Control.Monad.Eff
   import Data.Array
   import React
+  import React.DOM
   import Showdown
   import Debug.Trace
 
-  import qualified React.DOM as DOM
-
   cBoxRender = do
     state <- readState
-    pure $ DOM.div { className: "commentBox" }
-                   [ DOM.h1 {} [ DOM.text "Comments" ]
+    pure $ div [ className "commentBox" ]
+                   [ h1' [ text "Comments" ]
                    , commentList { data': state }
-                   , commentForm { onCommentSubmit: handle commentSubmit }
+                   , commentForm { onCommentSubmit: commentSubmit }
                    ]
 
   commentBox = mkUI spec {
@@ -34,37 +33,33 @@ module Tutorial where
 
   commentList = mkUI spec do
     props <- getProps
-    pure $ DOM.div { className: "commentList" }
+    pure $ div [ className "commentList" ]
                    (commentNodes <$> props.data')
 
   commentForm = mkUI spec do
     props <- getProps
-    pure $ DOM.form { className: "commentForm"
-                    , onSubmit: handle submit
-                    }
-                    [ DOM.input { attrType: "text"
-                                , placeholder: "Your name"
-                                , ref: "author"
-                                }
-                                []
-                    , DOM.input { attrType: "text"
-                                , placeholder: "Say something..."
-                                , ref: "text"
-                                }
-                                []
-                    , DOM.input { attrType: "submit"
-                                , value: "Post"
-                                }
-                                []
+    pure $ form [ className "commentForm"
+                    , onSubmit submit
+                    ]
+                    [ input [ typeProp "text"
+                            , placeholder "Your name"
+                            , ref "author"
+                            ] []
+                    , input [ typeProp "text"
+                            , placeholder "Say something..."
+                            , ref "text"
+                            ] []
+                    , input [ typeProp "submit"
+                            , value "Post"
+                            ] []
                     ]
 
   comment = mkUI spec do
     props <- getProps
-    pure $ DOM.div { className: "comment" }
-                   [ DOM.h2 { className: "commentAuthor" }
-                            [ DOM.text props.author ]
-                   , DOM.span { dangerouslySetInnerHTML: { __html: makeHtml props.children } }
-                              []
+    pure $ div [ className "comment" ]
+                   [ h2 [ className "commentAuthor" ]
+                            [ text props.author ]
+                   , span [ dangerouslySetInnerHTML $ makeHtml props.children ] []
                    ]
 
   commentNodes c = comment { author: c.author, children: c.text }
@@ -86,14 +81,17 @@ module Tutorial where
     \}" :: forall eff. Eff eff {}
 
   foreign import submit
-    "function submit() {\
-    \  var author = this.refs.author.getDOMNode().value.trim();\
-    \  var text = this.refs.text.getDOMNode().value.trim();\
-    \  this.props.onCommentSubmit.call(this, {author: author, text: text});\
-    \  this.refs.author.getDOMNode().value = '';\
-    \  this.refs.text.getDOMNode().value = '';\
-    \  return false;\
-    \}" :: forall eff. Eff eff Boolean
+    "function submit(e) {\
+    \  e.preventDefault();\
+    \  return function() { \
+    \    var author = this.refs.author.getDOMNode().value.trim();\
+    \    var text = this.refs.text.getDOMNode().value.trim();\
+    \    this.props.onCommentSubmit.call(this, {author: author, text: text});\
+    \    this.refs.author.getDOMNode().value = '';\
+    \    this.refs.text.getDOMNode().value = '';\
+    \    return false;\
+    \  } \
+    \}" :: Event -> forall eff. Eff eff Boolean
 
   foreign import loadCommentsFromServer
     "function loadCommentsFromServer() {\
