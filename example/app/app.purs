@@ -3,7 +3,7 @@ module Main where
 import Control.Monad.Eff
 import Debug.Trace
 import React
-import qualified React.DOM as DOM
+import React.DOM
 
 foreign import interval
   "function interval(ms) { \
@@ -13,21 +13,18 @@ foreign import interval
   \}"
   :: forall eff r. Number -> Eff (trace :: Trace) r -> Eff (eff) {}
 
-helloInConsole = do
+helloInConsole e = do
   props <- getProps
   trace ("Hello, " ++ props.name ++ "!")
 
 hello = mkUI spec do
   props <- getProps
-  return $ DOM.h1 {
-      className: "Hello",
-      onClick: handle helloInConsole
-    } [
-      DOM.text "Hello, ",
-      DOM.text props.name
+  return $ h1 [className "Hello", onClick helloInConsole] [
+      text "Hello, ",
+      text props.name
     ]
 
-incrementCounter = do
+incrementCounter e = do
   val <- readState
   writeState (val + 1)
 
@@ -40,14 +37,11 @@ counter = mkUI spec {
         print val
   } do
   val <- readState
-  return $ DOM.p {
-      className: "Counter",
-      onClick: handle incrementCounter
-    } [
-      DOM.text (show val),
-      DOM.text " Click me to increment!"
+  return $ p [className "Counter", onClick incrementCounter] [
+      text (show val),
+      text " Click me to increment!"
     ]
 
 main = do
-  let component = DOM.div {} [hello {name: "World"}, counter {}]
+  let component = div' [hello {name: "World"}, counter {}]
   renderToBody component

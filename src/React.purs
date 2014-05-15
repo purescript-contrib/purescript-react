@@ -178,6 +178,7 @@ module React where
 
   type Event = { }
   type MouseEvent = { pageX :: Number, pageY :: Number }
+  type KeyboardEvent = { key :: String }
 
   type EventHandlerContext eff props state result = Eff (
     p :: ReadPropsEff props,
@@ -187,32 +188,21 @@ module React where
     ) result
 
   foreign import handle
-    " function handle(f) {                  \
-    \   var component = __current;          \
-    \   return function(e) {                \
-    \     __current = component;            \
-    \     try {                             \
-    \       var res = f.call(__current, e); \
-    \     } finally {                       \
-    \       __current = null;               \
-    \     }                                 \
-    \     return res;                       \
-    \   }                                   \
+    " function handle(f) {                    \
+    \   var component = __current;            \
+    \   return function(e) {                  \
+    \     __current = component;              \
+    \     try {                               \
+    \       var res = f.call(__current, e)(); \
+    \     } finally {                         \
+    \       __current = null;                 \
+    \     }                                   \
+    \     return res;                         \
+    \   }                                     \
     \ }"
-    :: forall eff props state result event.
-    EventHandlerContext props state result eff -> EventHandler event
-
-  foreign import handleEvent
-    "var handleEvent = handle"
-    :: forall eff props state result.
-    (Event -> EventHandlerContext eff props state result)
-    -> EventHandler Event
-
-  foreign import handleMouseEvent
-    "var handleMouseEvent = handle"
-    :: forall eff props state result.
-    (MouseEvent -> EventHandlerContext eff props state result)
-    -> EventHandler MouseEvent
+    :: forall eff ev props state result.
+    (ev -> EventHandlerContext eff props state result)
+    -> EventHandler ev
 
   foreign import renderToString
     "var renderToString = React.renderComponentToString"
