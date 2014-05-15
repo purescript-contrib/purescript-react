@@ -9,7 +9,7 @@ module Main where
 import React
 import qualified React.DOM as DOM
 
-hello = mkUI do
+hello = mkUI spec do
   props <- getProps
   return $ DOM.h1 {
       className: "Hello"
@@ -22,7 +22,7 @@ incrementCounter = do
   val <- readState
   writeState (val + 1)
 
-counter = mkStatefulUI 0 do
+counter = mkUI spec { getInitialState = return 0 } do
   val <- readState
   return $ DOM.p {
       className: "Counter",
