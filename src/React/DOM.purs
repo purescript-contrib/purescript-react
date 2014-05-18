@@ -147,6 +147,7 @@ module React.DOM where
   alt = Alt
   async = Async
   autoComplete = AutoComplete
+  ariaSet = Aria
   autoFocus = AutoFocus
   autoPlay = AutoPlay
   cellPadding = CellPadding
@@ -161,7 +162,7 @@ module React.DOM where
   contextMenu = ContextMenu
   controls = Controls
   crossOrigin = CrossOrigin
-  dataProp = Data
+  dataSet = Data
   dateTime = DateTime
   defer = Defer
   dir = Dir
