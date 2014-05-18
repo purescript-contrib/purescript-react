@@ -2,13 +2,14 @@ module React.DOM where
 
   import React
 
-  data DOMProps s eff props state =
+  data DOMProps s dataAttrs ariaAttrs eff props state =
     Accept String
     | AccessKey String
     | Action String
     | AllowFullScreen String
     | AllowTransparency String
     | Alt String
+    | Aria { | ariaAttrs }
     | Async String
     | AutoComplete String
     | AutoFocus String
@@ -25,7 +26,7 @@ module React.DOM where
     | ContextMenu String
     | Controls String
     | CrossOrigin String
-    | Data String
+    | Data { | dataAttrs }
     | DateTime String
     | Defer String
     | Dir String
@@ -279,7 +280,18 @@ module React.DOM where
     \     var prop = props[i];                                 \
     \     var name = prop.ctor.substring(10);                  \
     \     name = name[0].toLowerCase() + name.substring(1);    \
-    \     result[name] = prop.values[0];                       \
+    \     var val = prop.values[0];                            \
+    \     /* Until React.js handles data and aria like style*/ \
+    \     /* we have to unload the properties.*/               \
+    \     if (name === 'data' || name === 'aria') {            \
+    \       for (var subprop in val) {                         \
+    \         if (val.hasOwnProperty(subprop)) {               \
+    \           result[name + '-' + subprop] = val[subprop];   \
+    \         }                                                \
+    \       }                                                  \
+    \     } else {                                             \
+    \       result[name] = val;                                \
+    \     }                                                    \
     \   }                                                      \
     \   return result;                                         \
     \ }                                                        \
@@ -292,7 +304,7 @@ module React.DOM where
     \     }                                                    \
     \   }                                                      \
     \ }"
-    :: forall s eff props state. String -> [DOMProps s eff props state] -> [UI] -> UI
+    :: forall s dataAttrs ariaAttrs eff props state. String -> [DOMProps s dataAttrs ariaAttrs eff props state] -> [UI] -> UI
 
   foreign import text
     "function text(text) { \
