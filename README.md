@@ -1,21 +1,24 @@
 purescript-react
 ================
 
-React Bindings for PureScript
+React Bindings for PureScript.
+
+**WARNING:** This is alpha quaility software and you need to use [nightly build
+of React][nightly].
 
 ```haskell
 module Main where
 
 import React
-import qualified React.DOM as DOM
+import React.DOM
 
 hello = mkUI spec do
   props <- getProps
-  return $ DOM.h1 {
-      className: "Hello"
-    } [
-      DOM.text "Hello, ",
-      DOM.text props.name
+  return $ h1 [
+      className "Hello"
+    ] [
+      text "Hello, ",
+      text props.name
     ]
 
 incrementCounter = do
@@ -24,15 +27,17 @@ incrementCounter = do
 
 counter = mkUI spec { getInitialState = return 0 } do
   val <- readState
-  return $ DOM.p {
-      className: "Counter",
-      onClick: handle incrementCounter
-    } [
-      DOM.text (show val),
-      DOM.text " Click me to increment!"
+  return $ p [
+      className "Counter",
+      onClick incrementCounter
+    ] [
+      text (show val),
+      text " Click me to increment!"
     ]
 
 main = do
-  let component = DOM.div {} [hello {name: "World"}, counter {}]
+  let component = div {} [hello {name: "World"}, counter {}]
   renderToBody component
 ```
+
+[nightly]: http://react.zpao.com/builds/master/latest/react.js
