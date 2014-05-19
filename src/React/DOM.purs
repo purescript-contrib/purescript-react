@@ -101,6 +101,7 @@ module React.DOM where
 
     -- events
     | OnBlur (EventHandler Event)
+    | OnChange (EventHandler Event)
     | OnContextMenu (EventHandler Event)
     | OnCopy (EventHandler Event)
     | OnCut (EventHandler Event)
@@ -236,8 +237,9 @@ module React.DOM where
   dangerouslySetInnerHTML v = DangerouslySetInnerHTML {__html: v}
   value = Value
 
-  onClick f = OnClick $ handle f
   onBlur f = OnBlur $ handle f
+  onChange f = OnChange $ handle f
+  onClick f = OnClick $ handle f
   onContextMenu f = OnContextMenu $ handle f
   onCopy f = OnCopy $ handle f
   onCut f = OnCut $ handle f
