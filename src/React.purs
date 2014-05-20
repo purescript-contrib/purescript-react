@@ -24,52 +24,57 @@ module React where
     "var noop2 = noop0"
     :: forall a b eff result. a -> b -> Eff ( eff ) result
 
-  type ReadProps eff props result = Eff (
+  type ReadProps props refs result = Eff (
     p :: ReadPropsEff props,
+    f :: ReadRefsEff refs,
     dom :: DOM,
     trace :: Trace
     ) result
 
-  type ReadState eff props state result = Eff (
+  type ReadState props refs state result = Eff (
     p :: ReadPropsEff props,
+    f :: ReadRefsEff refs,
     r :: ReadStateEff state,
     dom :: DOM,
     trace :: Trace
     ) result
 
-  type ReadWriteState eff props state result = Eff (
+  type ReadWriteState props refs state result = Eff (
     p :: ReadPropsEff props,
+    f :: ReadRefsEff refs,
     r :: ReadStateEff state,
     w :: WriteStateEff state,
     dom :: DOM
     ) result
 
-  type Render props state = Eff (
+  type Render props refs state = Eff (
     p :: ReadPropsEff props,
+    f :: ReadRefsEff refs,
     r :: ReadStateEff state,
     trace :: Trace
     ) UI
 
-  type ShouldComponentUpdate props state =
+  type ShouldComponentUpdate props refs state =
     props -> state -> Eff (
       p :: ReadPropsEff props,
+      f :: ReadRefsEff refs,
       r :: ReadStateEff state,
       w :: WriteStateEff state,
       trace :: Trace
       ) Boolean
 
-  type UISpec eff props state =
-    { getInitialState :: ReadProps eff props state
-    , componentWillMount :: ReadState eff props state {}
-    , componentDidMount ::  ReadWriteState eff props state {}
-    , componentWillReceiveProps :: props -> ReadWriteState eff props state {}
-    , shouldComponentUpdate :: ShouldComponentUpdate props state
-    , componentWillUpdate :: props -> state -> ReadWriteState eff props state {}
-    , componentDidUpdate :: props -> state -> ReadState eff props state {}
-    , componentWillUnmount :: ReadState eff props state {}
+  type UISpec props refs state =
+    { getInitialState :: ReadProps props refs state
+    , componentWillMount :: ReadState props refs state {}
+    , componentDidMount ::  ReadWriteState props refs state {}
+    , componentWillReceiveProps :: props -> ReadWriteState props refs state {}
+    , shouldComponentUpdate :: ShouldComponentUpdate refs props state
+    , componentWillUpdate :: props -> state -> ReadWriteState props refs state {}
+    , componentDidUpdate :: props -> state -> ReadState props refs state {}
+    , componentWillUnmount :: ReadState props refs state {}
     }
 
-  spec :: forall eff props state. UISpec eff props state
+  spec :: forall props refs state. UISpec props refs state
   spec =
     { getInitialState: noop0
     , componentWillMount: noop0
@@ -81,7 +86,7 @@ module React where
     , componentWillUnmount: noop0
     }
       where
-    updateAlways :: forall props state. ShouldComponentUpdate props state
+    updateAlways :: forall props refs state. ShouldComponentUpdate props refs state
     updateAlways props state = return true
 
   foreign import getProps
@@ -179,9 +184,9 @@ module React where
     \     return React.createClass(specs);              \
     \   }                                               \
     \ }"
-    :: forall eff props state.
-    UISpec eff props state
-    -> Render props state
+    :: forall props refs state.
+    UISpec props refs state
+    -> Render props refs state
     -> (props -> UI)
 
   type DOMEvent = forall attrs. { | attrs}
