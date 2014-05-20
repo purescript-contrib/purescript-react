@@ -5,6 +5,7 @@ module React where
 
   foreign import data DOM :: !
   foreign import data ReadPropsEff :: * -> !
+  foreign import data ReadRefsEff :: * -> !
   foreign import data ReadStateEff :: * -> !
   foreign import data WriteStateEff :: * -> !
   foreign import data UI :: *
@@ -89,6 +90,13 @@ module React where
     \ }"
     :: forall props eff.
     Eff (p :: ReadPropsEff props | eff) props
+
+  foreign import getRefs
+    " function getRefs() {     \
+    \   return __current.refs; \
+    \ }"
+    :: forall refs eff.
+    Eff (f :: ReadRefsEff refs | eff) refs
 
   foreign import writeState
     " function writeState(state) {                   \
@@ -176,9 +184,34 @@ module React where
     -> Render props state
     -> (props -> UI)
 
-  type Event = { }
+  type DOMEvent = forall attrs. { | attrs}
+  type DOMEventTarget = forall attrs. { | attrs }
+  type Event = { bubbles           :: Boolean
+               , cancelable        :: Boolean
+               , currentTarget     :: DOMEventTarget
+               , defaultPrevented  :: Boolean
+               , eventPhase        :: Number
+               , isTrusted         :: Boolean
+               , nativeEvent       :: DOMEvent
+               , preventDefault    :: {} -> {}
+               , stopPropagation   :: {} -> {}
+               , target            :: DOMEventTarget
+               , timeStamp         :: Number
+               , eventType         :: String
+               }
   type MouseEvent = { pageX :: Number, pageY :: Number }
-  type KeyboardEvent = { key :: String }
+  type KeyboardEvent = { altKey   :: Boolean
+                       , ctrlKey  :: Boolean
+                       , charCode :: Number
+                       , key      :: String
+                       , keyCode  :: Number
+                       , locale   :: String
+                       , location :: Number
+                       , metaKey  :: Boolean
+                       , repeat   :: Boolean
+                       , shiftKey :: Boolean
+                       , which    :: Number
+                       }
 
   type EventHandlerContext eff props state result = Eff (
     p :: ReadPropsEff props,
@@ -225,3 +258,16 @@ module React where
     \   }                                                                         \
     \ }"
     :: forall eff. String -> UI -> Eff (dom :: DOM | eff) UI
+
+  foreign import deferred
+    "function deferred(action) {\
+    \  var component = __current;\
+    \  return function() {\
+    \    __current = component;\
+    \    try {\
+    \      return action();\
+    \    } finally {\
+    \      __current = null;\
+    \    }\
+    \  };\
+    \}" :: forall a eff. Eff eff a -> Eff eff a
