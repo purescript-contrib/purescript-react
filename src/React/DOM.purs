@@ -324,7 +324,6 @@ module React.DOM where
   audio = mkDOM "audio"
   b = mkDOM "b"
   base = mkDOM "base"
-  base = mkDOM "base"
   bdi = mkDOM "bdi"
   bdo = mkDOM "bdo"
   big = mkDOM "big"
