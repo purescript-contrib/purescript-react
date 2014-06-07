@@ -1,0 +1,37 @@
+body
+{
+  padding : 20px 20px 20px 20px;
+}
+
+form
+{
+  width : 250px;
+}
+
+form .search-input
+{
+  display : block;
+}
+
+.red
+{
+  color : rgb(255,0,0);
+}
+
+thead
+{
+  min-width : 400px;
+}
+
+td
+{
+  min-width : 150px;
+}
+
+th
+{
+  min-width : 150px;
+}
+
+
+/* Generated with Clay, http://fvisser.nl/clay */
