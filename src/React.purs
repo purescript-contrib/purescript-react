@@ -261,3 +261,23 @@ module React where
     \}" :: forall props state result eff eff2.
     Eff (p :: ReadPropsEff props, r :: ReadStateEff state, w :: WriteStateEff state | eff) result
     -> Eff (eff) (Eff (eff2) result)
+
+  foreign import deferred1
+    "function deferred(action) {\
+    \  return function() {\
+    \  var component = __current;\
+    \  return function(a) {\
+    \    if (!component.isMounted()) {\
+    \      return;\
+    \    }\
+    \    __current = component;\
+    \    try {\
+    \      return action(a);\
+    \    } finally {\
+    \      __current = null;\
+    \    }\
+    \  };\
+    \  };\
+    \}" :: forall a props state result eff eff2.
+    (a -> Eff (p :: ReadPropsEff props, r :: ReadStateEff state, w :: WriteStateEff state | eff) result)
+    -> Eff (eff) (a -> Eff (eff2) result)
