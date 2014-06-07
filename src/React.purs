@@ -44,7 +44,8 @@ module React where
     f :: ReadRefsEff refs,
     r :: ReadStateEff state,
     w :: WriteStateEff state,
-    dom :: DOM
+    dom :: DOM,
+    trace :: Trace
     ) result
 
   type Render props refs state = Eff (
@@ -121,33 +122,6 @@ module React where
   transformState f = do
     state <- readState
     writeState $ f state
-
-  foreign import getSelf
-    " function getSelf() { \
-    \   return __current;  \
-    \ }"
-    :: forall eff props state.
-    Eff (p :: ReadPropsEff props, r :: ReadStateEff state | eff) (UIRef props state)
-
-  foreign import runUI
-    " function runUI(ref) {         \
-    \   return function(action) {   \
-    \     return function() {       \
-    \       if (ref.isMounted()) {  \
-    \         __current = ref;      \
-    \         try {                 \
-    \           return action();    \
-    \         } finally {           \
-    \           __current = null;   \
-    \         }                     \
-    \       }                       \
-    \     }                         \
-    \   }                           \
-    \ }"
-    :: forall eff props state result.
-    UIRef props state
-    -> Eff (p :: ReadPropsEff props, r :: ReadStateEff state, w :: WriteStateEff state | eff) result
-    -> Eff (eff) result
 
   foreign import mkUI
     " var __current;                                    \
@@ -270,8 +244,12 @@ module React where
 
   foreign import deferred
     "function deferred(action) {\
+    \  return function() {\
     \  var component = __current;\
     \  return function() {\
+    \    if (!component.isMounted()) {\
+    \      return;\
+    \    }\
     \    __current = component;\
     \    try {\
     \      return action();\
@@ -279,4 +257,7 @@ module React where
     \      __current = null;\
     \    }\
     \  };\
-    \}" :: forall a eff. Eff eff a -> Eff eff a
+    \  };\
+    \}" :: forall props state result eff eff2.
+    Eff (p :: ReadPropsEff props, r :: ReadStateEff state, w :: WriteStateEff state | eff) result
+    -> Eff (eff) (Eff (eff2) result)

@@ -28,23 +28,34 @@ hello = mkUI spec do
       text props.name
     ]
 
-incrementCounter e = do
-  val <- readState
-  writeState (val + 1)
+incrementCounter = do
+  transformState \val -> val + 1
 
 counter = mkUI spec {
     getInitialState = return 0,
     componentDidMount = do
-      self <- getSelf
-      interval 1000 $ runUI self do
-        val <- readState
-        print val
+      incrementCounterCallback <- deferred incrementCounter
+      interval 1000 $ do
+        incrementCounterCallback
+        return {}
   } do
   val <- readState
-  return $ p [className "Counter", onClick incrementCounter] [
-      text (show val),
-      text " Click me to increment!"
+  incrementCounterCallback <- deferred incrementCounter
+  return $ div [className "Counter"] [
+      p' [
+        text "Current counter value is: ",
+        text (show val),
+        text " (it is incremented each second)"
+      ],
+      p' [
+        text "Alternatively use this button to increment it manually:",
+        incrementer {onIncrement: incrementCounterCallback}
+      ]
     ]
+
+incrementer = mkUI spec do
+  props <- getProps
+  return $ button [onClick \e -> props.onIncrement] [text "Click me to increment!"]
 
 main = do
   let component = div' [hello {name: "World"}, counter {}]
