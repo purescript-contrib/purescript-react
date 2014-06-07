@@ -118,6 +118,10 @@ module React where
     \ }"
     :: forall state eff. Eff (r :: ReadStateEff state | eff) state
 
+  transformState f = do
+    state <- readState
+    writeState $ f state
+
   foreign import getSelf
     " function getSelf() { \
     \   return __current;  \
