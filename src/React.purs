@@ -1,5 +1,6 @@
 module React where
 
+  import Data.Function
   import Debug.Trace
   import Control.Monad.Eff
 
@@ -22,6 +23,10 @@ module React where
 
   foreign import noop2
     "var noop2 = noop0"
+    :: forall a b eff result. a -> b -> Eff ( eff ) result
+
+  foreign import noop2_
+    "function noop2_(x, y) {return function(x){return function(y){}}}"
     :: forall a b eff result. a -> b -> Eff ( eff ) result
 
   type ReadProps props refs result = Eff (
@@ -69,8 +74,8 @@ module React where
     , componentDidMount ::  ReadWriteState props refs state {}
     , componentWillReceiveProps :: props -> ReadWriteState props refs state {}
     , shouldComponentUpdate :: ShouldComponentUpdate refs props state
-    , componentWillUpdate :: props -> state -> ReadWriteState props refs state {}
-    , componentDidUpdate :: props -> state -> ReadState props refs state {}
+    , componentWillUpdate :: Fn2 props state (ReadWriteState props refs state {})
+    , componentDidUpdate :: Fn2 props state (ReadState props refs state {})
     , componentWillUnmount :: ReadState props refs state {}
     }
 
@@ -81,8 +86,8 @@ module React where
     , componentDidMount: noop0
     , componentWillReceiveProps: noop1
     , shouldComponentUpdate: updateAlways
-    , componentWillUpdate: noop2
-    , componentDidUpdate: noop2
+    , componentWillUpdate: mkFn2 noop2_
+    , componentDidUpdate: mkFn2 noop2_
     , componentWillUnmount: noop0
     }
       where
@@ -208,7 +213,21 @@ module React where
                , timeStamp         :: Number
                , eventType         :: String
                }
-  type MouseEvent = { pageX :: Number, pageY :: Number }
+  type MouseEvent = { pageX :: Number
+                    , pageY :: Number
+                    , bubbles           :: Boolean
+                    , cancelable        :: Boolean
+                    , currentTarget     :: DOMEventTarget
+                    , defaultPrevented  :: Boolean
+                    , eventPhase        :: Number
+                    , isTrusted         :: Boolean
+                    , nativeEvent       :: DOMEvent
+                    , preventDefault    :: {} -> {}
+                    , stopPropagation   :: {} -> {}
+                    , target            :: DOMEventTarget
+                    , timeStamp         :: Number
+                    , eventType         :: String
+                    }
   type KeyboardEvent = { altKey   :: Boolean
                        , ctrlKey  :: Boolean
                        , charCode :: Number
