@@ -2,9 +2,9 @@ module React where
 
   import Data.Function
   import Debug.Trace
+  import DOM
   import Control.Monad.Eff
 
-  foreign import data DOM :: !
   foreign import data ReadPropsEff :: * -> !
   foreign import data ReadRefsEff :: * -> !
   foreign import data ReadStateEff :: * -> !
@@ -73,7 +73,7 @@ module React where
     , componentWillMount :: ReadState props refs state {}
     , componentDidMount ::  ReadWriteState props refs state {}
     , componentWillReceiveProps :: props -> ReadWriteState props refs state {}
-    , shouldComponentUpdate :: ShouldComponentUpdate refs props state
+    , shouldComponentUpdate :: Fn2 refs props (ReadState props refs state Boolean)
     , componentWillUpdate :: Fn2 props state (ReadWriteState props refs state {})
     , componentDidUpdate :: Fn2 props state (ReadState props refs state {})
     , componentWillUnmount :: ReadState props refs state {}
@@ -85,7 +85,7 @@ module React where
     , componentWillMount: noop0
     , componentDidMount: noop0
     , componentWillReceiveProps: noop1
-    , shouldComponentUpdate: updateAlways
+    , shouldComponentUpdate: mkFn2 noop2_
     , componentWillUpdate: mkFn2 noop2_
     , componentDidUpdate: mkFn2 noop2_
     , componentWillUnmount: noop0

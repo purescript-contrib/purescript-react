@@ -17,7 +17,7 @@ module React.DOM where
     | CellPadding String
     | CellSpacing String
     | CharSet String
-    | Checked String
+    | Checked Boolean
     | ClassName String
     | Cols String
     | ColSpan String
