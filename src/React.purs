@@ -26,7 +26,7 @@ module React where
     :: forall a b eff result. a -> b -> Eff ( eff ) result
 
   foreign import noop2_
-    "function noop2_(x, y) {return function(x){return function(y){}}}"
+    "function noop2_(_) { return function(_) { return noop0; }; }"
     :: forall a b eff result. a -> b -> Eff ( eff ) result
 
   type ReadProps props refs result = Eff (
@@ -73,7 +73,7 @@ module React where
     , componentWillMount :: ReadState props refs state {}
     , componentDidMount ::  ReadWriteState props refs state {}
     , componentWillReceiveProps :: props -> ReadWriteState props refs state {}
-    , shouldComponentUpdate :: Fn2 refs props (ReadState props refs state Boolean)
+    , shouldComponentUpdate :: Fn2 props state (ReadState props refs state Boolean)
     , componentWillUpdate :: Fn2 props state (ReadWriteState props refs state {})
     , componentDidUpdate :: Fn2 props state (ReadState props refs state {})
     , componentWillUnmount :: ReadState props refs state {}
@@ -110,7 +110,7 @@ module React where
 
   foreign import writeState
     " function writeState(state) {                   \
-    \   __current.replaceState({state: state});      \
+    \   __current.replaceState(state);      \
     \   return function() { return state; }          \
     \ }"
     :: forall state eff.
@@ -119,7 +119,7 @@ module React where
 
   foreign import readState
     " function readState() {          \
-    \   return __current.state.state; \
+    \   return __current.state; \
     \ }"
     :: forall state eff. Eff (r :: ReadStateEff state | eff) state
 
@@ -176,7 +176,7 @@ module React where
     \     specs.getInitialState= function() {           \
     \       __current = this;                           \
     \       try {                                       \
-    \         return {state: ss.getInitialState()};     \
+    \         return ss.getInitialState();     \
     \       } finally {                                 \
     \         __current = null;                         \
     \       }                                           \
