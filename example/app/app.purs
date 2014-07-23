@@ -11,7 +11,7 @@ foreign import interval
   \    return function() { return setInterval(action, ms); } \
   \  } \
   \}"
-  :: forall eff r. Number -> Eff (trace :: Trace) r -> Eff (eff) {}
+  :: forall eff r. Number -> Eff (trace :: Trace) r -> Eff (eff) Unit
 
 helloInConsole e = do
   props <- getProps
