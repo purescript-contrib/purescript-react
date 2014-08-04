@@ -281,9 +281,9 @@ module React.DOM where
     \   var result = {};                                       \
     \   for (var i = 0, len = props.length; i < len; i++) {    \
     \     var prop = props[i];                                 \
-    \     var name = prop.ctor.substring(10);                  \
+    \     var name = prop.constructor.name;                    \
     \     name = name[0].toLowerCase() + name.substring(1);    \
-    \     var val = prop.values[0];                            \
+    \     var val = prop.value0;                               \
     \     /* Until React.js handles data and aria like style*/ \
     \     /* we have to unload the properties.*/               \
     \     if (name === 'data' || name === 'aria') {            \
