@@ -1,301 +1,94 @@
 module React where
 
-  import Data.Function
-  import Debug.Trace
-  import DOM
-  import Control.Monad.Eff
+  import Control.Monad.Eff (Eff())
 
-  foreign import data ReadPropsEff :: * -> !
-  foreign import data ReadRefsEff :: * -> !
-  foreign import data ReadStateEff :: * -> !
-  foreign import data WriteStateEff :: * -> !
-  foreign import data UI :: *
-  foreign import data UIRef :: * -> * -> *
-  foreign import data EventHandler :: * -> *
+  import Data.Foreign.EasyFFI
+  import Data.Function (mkFn1, Fn0(), Fn1(), Fn2())
 
-  foreign import noop0
-    "function noop0() { return null; }"
-    :: forall eff result. Eff ( eff ) result
+  import DOM (DOM())
 
-  foreign import noop1
-    "var noop1 = noop0"
-    :: forall a eff result. a -> Eff ( eff ) result
-
-  foreign import noop2
-    "var noop2 = noop0"
-    :: forall a b eff result. a -> b -> Eff ( eff ) result
-
-  foreign import noop2_
-    "function noop2_(_) { return function(_) { return noop0; }; }"
-    :: forall a b eff result. a -> b -> Eff ( eff ) result
-
-  type ReadProps props refs result = Eff (
-    p :: ReadPropsEff props,
-    f :: ReadRefsEff refs,
-    dom :: DOM,
-    trace :: Trace
-    ) result
-
-  type ReadState props refs state result = Eff (
-    p :: ReadPropsEff props,
-    f :: ReadRefsEff refs,
-    r :: ReadStateEff state,
-    dom :: DOM,
-    trace :: Trace
-    ) result
-
-  type ReadWriteState props refs state result = Eff (
-    p :: ReadPropsEff props,
-    f :: ReadRefsEff refs,
-    r :: ReadStateEff state,
-    w :: WriteStateEff state,
-    dom :: DOM
-    ) result
-
-  type Render props refs state = Eff (
-    p :: ReadPropsEff props,
-    f :: ReadRefsEff refs,
-    r :: ReadStateEff state,
-    trace :: Trace
-    ) UI
-
-  type ShouldComponentUpdate props refs state =
-    props -> state -> Eff (
-      p :: ReadPropsEff props,
-      f :: ReadRefsEff refs,
-      r :: ReadStateEff state,
-      w :: WriteStateEff state,
-      trace :: Trace
-      ) Boolean
-
-  type UISpec props refs state =
-    { getInitialState :: ReadProps props refs state
-    , componentWillMount :: ReadState props refs state {}
-    , componentDidMount ::  ReadWriteState props refs state {}
-    , componentWillReceiveProps :: props -> ReadWriteState props refs state {}
-    , shouldComponentUpdate :: Fn2 props state (ReadState props refs state Boolean)
-    , componentWillUpdate :: Fn2 props state (ReadWriteState props refs state {})
-    , componentDidUpdate :: Fn2 props state (ReadState props refs state {})
-    , componentWillUnmount :: ReadState props refs state {}
+  foreign import data Component :: *
+  foreign import data Element :: *
+  foreign import data Event :: *
+  foreign import data React :: !
+  foreign import document ::
+    { getElementById :: String -> Element
+    , body :: Element
     }
 
-  spec :: forall props refs state. UISpec props refs state
-  spec =
-    { getInitialState: noop0
-    , componentWillMount: noop0
-    , componentDidMount: noop0
-    , componentWillReceiveProps: noop1
-    , shouldComponentUpdate: mkFn2 noop2_
-    , componentWillUpdate: mkFn2 noop2_
-    , componentDidUpdate: mkFn2 noop2_
-    , componentWillUnmount: noop0
+  -- A ComponentClass is a builder for a Component.
+  type ComponentClass props state = props -> [Component] -> Component
+  -- A Component is an instantiated Component, i.e. it has props and children.
+  type This fields = { | fields}
+
+  type Spec fields props state s =
+    { render :: Render fields props { | state}
+    , getInitialState :: forall eff. This fields -> Eff (react :: React, dom :: DOM | eff) { | state}
+    , componentDidMount :: forall eff. ReactThis fields props { | state} -> Eff (react :: React, dom :: DOM | eff) Unit
+    | s
     }
-      where
-    updateAlways :: forall props refs state. ShouldComponentUpdate props refs state
-    updateAlways props state = return true
 
-  foreign import getProps
-    " function getProps() {     \
-    \   return __current.props; \
-    \ }"
-    :: forall props eff.
-    Eff (p :: ReadPropsEff props | eff) props
+  type ReactThis fields props state = This
+    ( state :: state
+    , props :: props
+    , replaceState :: state -> Unit
+    | fields
+    )
 
-  foreign import getRefs
-    " function getRefs() {     \
-    \   return __current.refs; \
-    \ }"
-    :: forall refs eff.
-    Eff (f :: ReadRefsEff refs | eff) refs
+  type Render fields props state = forall eff
+    .  ReactThis fields props state
+    -> Eff (react :: React, dom :: DOM | eff) Component
 
-  foreign import writeState
-    " function writeState(state) {                   \
-    \   __current.replaceState(state);      \
-    \   return function() { return state; }          \
-    \ }"
-    :: forall state eff.
-    state
-    -> Eff (r :: ReadStateEff state, w :: WriteStateEff state | eff) state
+  foreign import spec
+    "var spec = {};" :: forall fields state props s. Spec fields props state s
 
-  foreign import readState
-    " function readState() {          \
-    \   return __current.state; \
-    \ }"
-    :: forall state eff. Eff (r :: ReadStateEff state | eff) state
-
-  transformState f = do
-    state <- readState
-    writeState $ f state
-
-  foreign import getSelf
-    " function getSelf() { \
-    \   return __current;  \
-    \ }"
-    :: forall eff props state.
-    Eff (p :: ReadPropsEff props, r :: ReadStateEff state | eff) (UIRef props state)
-
-  foreign import runUI
-    " function runUI(ref) {         \
-    \   return function(action) {   \
-    \     return function() {       \
-    \       if (ref.isMounted()) {  \
-    \         __current = ref;      \
-    \         try {                 \
-    \           return action();    \
-    \         } finally {           \
-    \           __current = null;   \
-    \         }                     \
-    \       }                       \
-    \     }                         \
-    \   }                           \
-    \ }"
-    :: forall eff props state result.
-    UIRef props state
-    -> Eff (p :: ReadPropsEff props, r :: ReadStateEff state, w :: WriteStateEff state | eff) result
-    -> Eff (eff) result
-
-  foreign import mkUI
-    " var __current;                                    \
-    \ function mkUI(ss) {                               \
-    \   return function(render) {                       \
-    \     var specs = {};                               \
-    \     for (var s in ss) {                           \
-    \       if (ss.hasOwnProperty(s)) {                 \
-    \         specs[s] = (function(impl) {              \
-    \           return function() {                     \
-    \             __current = this;                     \
-    \             try {                                 \
-    \               return impl.apply(this, arguments); \
-    \             } finally {                           \
-    \               __current = null;                   \
-    \             }                                     \
-    \           }                                       \
-    \         })(ss[s]);                                \
-    \       }                                           \
-    \     }                                             \
-    \     specs.getInitialState= function() {           \
-    \       __current = this;                           \
-    \       try {                                       \
-    \         return ss.getInitialState();     \
-    \       } finally {                                 \
-    \         __current = null;                         \
-    \       }                                           \
-    \     };                                            \
-    \     specs.render = function() {                   \
-    \       __current = this;                           \
-    \       try {                                       \
-    \         var ui = render.call(this);               \
-    \       } finally {                                 \
-    \         __current = null;                         \
-    \       }                                           \
-    \       return ui;                                  \
-    \     };                                            \
-    \     return React.createClass(specs);              \
-    \   }                                               \
-    \ }"
-    :: forall props refs state.
-    UISpec props refs state
-    -> Render props refs state
-    -> (props -> UI)
-
-  type DOMEvent = forall attrs. { | attrs}
-  type DOMEventTarget = forall attrs. { | attrs }
-  type Event = { bubbles           :: Boolean
-               , cancelable        :: Boolean
-               , currentTarget     :: DOMEventTarget
-               , defaultPrevented  :: Boolean
-               , eventPhase        :: Number
-               , isTrusted         :: Boolean
-               , nativeEvent       :: DOMEvent
-               , preventDefault    :: {} -> {}
-               , stopPropagation   :: {} -> {}
-               , target            :: DOMEventTarget
-               , timeStamp         :: Number
-               , eventType         :: String
-               }
-  type MouseEvent = { pageX :: Number
-                    , pageY :: Number
-                    , bubbles           :: Boolean
-                    , cancelable        :: Boolean
-                    , currentTarget     :: DOMEventTarget
-                    , defaultPrevented  :: Boolean
-                    , eventPhase        :: Number
-                    , isTrusted         :: Boolean
-                    , nativeEvent       :: DOMEvent
-                    , preventDefault    :: {} -> {}
-                    , stopPropagation   :: {} -> {}
-                    , target            :: DOMEventTarget
-                    , timeStamp         :: Number
-                    , eventType         :: String
-                    }
-  type KeyboardEvent = { altKey   :: Boolean
-                       , ctrlKey  :: Boolean
-                       , charCode :: Number
-                       , key      :: String
-                       , keyCode  :: Number
-                       , locale   :: String
-                       , location :: Number
-                       , metaKey  :: Boolean
-                       , repeat   :: Boolean
-                       , shiftKey :: Boolean
-                       , which    :: Number
-                       }
-
-  type EventHandlerContext eff props state result = Eff (
-    p :: ReadPropsEff props,
-    r :: ReadStateEff state,
-    w :: WriteStateEff state
-    | eff
-    ) result
-
-  foreign import handle
-    " function handle(f) {                    \
-    \   var component = __current;            \
-    \   return function(e) {                  \
-    \     __current = component;              \
-    \     try {                               \
-    \       var res = f.call(__current, e)(); \
-    \     } finally {                         \
-    \       __current = null;                 \
-    \     }                                   \
-    \     return res;                         \
-    \   }                                     \
-    \ }"
-    :: forall eff ev props state result.
-    (ev -> EventHandlerContext eff props state result)
-    -> EventHandler ev
-
-  foreign import renderToString
-    "var renderToString = React.renderComponentToString"
-    :: UI -> String
-
-  foreign import renderToBody
-    " function renderToBody(component) {                          \
-    \   return function() {                                       \
-    \     return React.renderComponent(component, document.body); \
-    \   }                                                         \
-    \ }"
-    :: forall eff. UI -> Eff (dom :: DOM | eff) UI
-
-  foreign import renderToElementById
-    " function renderToElementById(id) {                                          \
-    \   return function(component) {                                              \
-    \     return function() {                                                     \
-    \       return React.renderComponent(component, document.getElementById(id)); \
-    \     }                                                                       \
-    \   }                                                                         \
-    \ }"
-    :: forall eff. String -> UI -> Eff (dom :: DOM | eff) UI
-
-  foreign import deferred
-    "function deferred(action) {\
-    \  var component = __current;\
-    \  return function() {\
-    \    __current = component;\
-    \    try {\
-    \      return action();\
-    \    } finally {\
-    \      __current = null;\
+  foreign import createClass
+    "function createClass(psSpec) {\
+    \  var spec = {};\
+    \  for (var fun in psSpec) {\
+    \    if (psSpec.hasOwnProperty(fun)) {\
+    \      (function(f) {\
+    \        if (typeof psSpec[f] === 'function') {\
+    \          spec[f] = function() {\
+    \            return psSpec[f].apply(this, [this].concat([].slice.call(arguments)))() ;\
+    \          }\
+    \        } else {\
+    \          spec[f] = f;\
+    \        }\
+    \      })(fun);\
     \    }\
-    \  };\
-    \}" :: forall a eff. Eff eff a -> Eff eff a
+    \  }\
+    \  return function(props) {\
+    \    return function(children) {\
+    \      return React.createClass(spec)(props, children);\
+    \    }\
+    \  }\
+    \}" :: forall s fields state props
+        .  Spec fields props state s
+        -> ComponentClass props { | state}
+
+  foreign import renderComponent
+    "function renderComponent(component) {\
+    \  return function(element) {\
+    \    return function() {\
+    \      return React.renderComponent(component, element);\
+    \    }\
+    \  }\
+    \}" :: forall eff. Component -> Element -> Eff (react :: React, dom :: DOM | eff) Component
+
+  renderToId :: forall eff
+             .  String
+             -> Component
+             -> Eff (react :: React, dom :: DOM | eff) Component
+  renderToId selector component =
+    renderComponent component (document.getElementById selector)
+
+  foreign import eventHandler
+    "function eventHandler(f) {\
+    \  return function(e) {\
+    \    return f(e)();\
+    \  }\
+    \}" :: forall eff
+       .  (Event -> Eff (react :: React, dom :: DOM | eff) Unit)
+       -> Event
+       -> Unit

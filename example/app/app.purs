@@ -1,51 +1,68 @@
 module Main where
 
 import Control.Monad.Eff
+
+import Data.Function
+
 import Debug.Trace
+
+import DOM
+
 import React
-import React.DOM
 
-foreign import interval
-  "function interval(ms) { \
-  \  return function(action) { \
-  \    return function() { return setInterval(action, ms); } \
-  \  } \
+import qualified React.DOM as D
+
+type HelloState = {}
+type HelloProps = {name :: String}
+type CounterState = {val :: Number}
+type CounterProps = {}
+
+helloInConsole :: forall eff fields state
+               .  ReactThis fields HelloProps HelloState
+               -> Event
+               -> Eff (trace :: Trace | eff) Unit
+helloInConsole this _ = trace $ "Hello, " ++ this.props.name ++ "!"
+
+hello :: ComponentClass HelloProps HelloState
+hello = createClass spec
+  { render = \this -> pure $ D.h1
+      { className: "Hello"
+      , onClick: eventHandler $ helloInConsole this
+      , style: {background: "gray"}
+      }
+      [D.rawText "Hello, ", D.rawText this.props.name]
+  }
+
+incrementCounter :: forall eff fields
+                 .  ReactThis fields CounterProps CounterState
+                 -> Event
+                 -> Eff eff Unit
+incrementCounter this _ = pure $ this.replaceState {val: this.state.val + 1}
+
+counter :: ComponentClass CounterProps CounterState
+counter = createClass spec
+  { render = \this -> pure $ D.p
+      { className: "Counter"
+      , onClick: eventHandler $ incrementCounter this
+      }
+      [ D.rawText $ show this.state.val
+      , D.rawText " Click me to increment!"
+      ]
+  , getInitialState = \_ -> pure {val: 0}
+  , componentDidMount = \this ->
+      setInterval 1000 $ print this.state.val
+  }
+
+main :: Eff (react :: React, dom :: DOM) Component
+main = let component = D.div {} [hello {name: "World"} [], counter {} []] in
+  renderComponent component document.body
+
+foreign import setInterval
+  "function setInterval(ms) {\
+  \  return function(action) {\
+  \    return function() {\
+  \      return setInterval(action, ms);\
+  \    }\
+  \  }\
   \}"
-  :: forall eff r. Number -> Eff (trace :: Trace) r -> Eff (eff) {}
-
-helloInConsole e = do
-  props <- getProps
-  trace ("Hello, " ++ props.name ++ "!")
-
-hello = mkUI spec do
-  props <- getProps
-  return $ h1 [
-      className "Hello",
-      onClick helloInConsole,
-      style {background: "gray"}
-    ] [
-      text "Hello, ",
-      text props.name
-    ]
-
-incrementCounter e = do
-  val <- readState
-  writeState (val + 1)
-
-counter = mkUI spec {
-    getInitialState = return 0,
-    componentDidMount = do
-      self <- getSelf
-      interval 1000 $ runUI self do
-        val <- readState
-        print val
-  } do
-  val <- readState
-  return $ p [className "Counter", onClick incrementCounter] [
-      text (show val),
-      text " Click me to increment!"
-    ]
-
-main = do
-  let component = div' [hello {name: "World"}, counter {}]
-  renderToBody component
+  :: forall eff r. Number -> Eff (trace :: Trace) r -> Eff eff Unit

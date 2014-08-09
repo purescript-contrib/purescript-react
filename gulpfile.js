@@ -1,4 +1,5 @@
 var gulp = require('gulp')
+  , gutil = require('gulp-util')
   , purescript = require('gulp-purescript');
 
 var paths = {
@@ -44,7 +45,7 @@ var compile = function(paths, options) {
         // https://github.com/gulpjs/gulp/issues/71
         var psc = purescript.psc(options);
         psc.on('error', function(e) {
-            console.error(e.message);
+            gutil.log(e.message);
             psc.end();
         });
         return gulp.src(paths.src)
@@ -62,6 +63,14 @@ gulp.task('example-tutorial',
 
 gulp.task('watch', function() {
     gulp.watch(paths.src, ['src']);
+});
+
+gulp.task('watch-example-app', function() {
+    gulp.watch(paths.example.app.src, ['example-app']);
+});
+
+gulp.task('watch-example-tutorial', function() {
+    gulp.watch(paths.example.tutorial.src, ['example-tutorial']);
 });
 
 gulp.task('default', ['src', 'watch']);

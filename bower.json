@@ -15,10 +15,8 @@
     "test",
     "tests"
   ],
-  "devDependencies": {
-    "react": "~0.10.0"
-  },
   "dependencies": {
-    "purescript-dom": "~0.1.0"
+    "purescript-dom": "~0.1.0",
+    "react": "~0.11.1"
   }
 }
