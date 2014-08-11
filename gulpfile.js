@@ -9,6 +9,7 @@ var paths = {
         'src/**/*.purs',
         'bower_components/purescript-*/src/**/*.purs'
     ],
+    docs: 'docs/README.md',
     example: {
         app: {
             src: [
@@ -58,6 +59,17 @@ var compile = function(paths, options) {
 };
 
 gulp.task('src', compile(paths, {}));
+
+gulp.task('docs', function() {
+    var docgen = purescript.docgen();
+    docgen.on('error', function(e) {
+        gutil.log(e.message);
+        docgen.end();
+    });
+    return gulp.src('src/**/*.purs')
+      .pipe(docgen)
+      .pipe(gulp.dest(paths.docs))
+});
 
 gulp.task('example-app', compile(paths.example.app, options.example.app));
 
