@@ -1,6 +1,8 @@
 var gulp = require('gulp')
   , gutil = require('gulp-util')
-  , purescript = require('gulp-purescript');
+  , purescript = require('gulp-purescript')
+  , webserver = require('gulp-webserver')
+  ;
 
 var paths = {
     src: [
@@ -16,6 +18,7 @@ var paths = {
             ]
         },
         tutorial: {
+            dir: 'example/tutorial',
             src: [
                 'src/**/*.purs',
                 'example/tutorial/tutorial.purs',
@@ -71,6 +74,13 @@ gulp.task('watch-example-app', function() {
 
 gulp.task('watch-example-tutorial', function() {
     gulp.watch(paths.example.tutorial.src, ['example-tutorial']);
+});
+
+gulp.task('run-example-tutorial', ['example-tutorial'], function() {
+    gulp.src(paths.example.tutorial.dir)
+        .pipe(webserver({
+            livereload: true
+        }));
 });
 
 gulp.task('default', ['src', 'watch']);

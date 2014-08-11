@@ -2,45 +2,26 @@ module React where
 
   import Control.Monad.Eff (Eff())
 
-  import Data.Foreign.EasyFFI
-  import Data.Function (mkFn1, Fn0(), Fn1(), Fn2())
-
   import DOM (DOM())
 
-  foreign import data Component :: *
-  foreign import data Element :: *
-  foreign import data Event :: *
-  foreign import data React :: !
+  import React.Types
+    ( Component()
+    , ComponentClass()
+    , Element()
+    , React()
+    , ReactSyntheticEvent()
+    , Spec()
+    , This()
+    )
+
   foreign import document ::
     { getElementById :: String -> Element
     , body :: Element
     }
 
-  -- A ComponentClass is a builder for a Component.
-  type ComponentClass props state = props -> [Component] -> Component
-  -- A Component is an instantiated Component, i.e. it has props and children.
-  type This fields = { | fields}
-
-  type Spec fields props state s =
-    { render :: Render fields props { | state}
-    , getInitialState :: forall eff. This fields -> Eff (react :: React, dom :: DOM | eff) { | state}
-    , componentDidMount :: forall eff. ReactThis fields props { | state} -> Eff (react :: React, dom :: DOM | eff) Unit
-    | s
-    }
-
-  type ReactThis fields props state = This
-    ( state :: state
-    , props :: props
-    , replaceState :: state -> Unit
-    | fields
-    )
-
-  type Render fields props state = forall eff
-    .  ReactThis fields props state
-    -> Eff (react :: React, dom :: DOM | eff) Component
-
   foreign import spec
-    "var spec = {};" :: forall fields state props s. Spec fields props state s
+    "var spec = {};" :: forall fields state props s eff mixins statics
+                     .  Spec   fields props state s eff mixins statics
 
   foreign import createClass
     "function createClass(psSpec) {\
@@ -53,7 +34,7 @@ module React where
     \            return psSpec[f].apply(this, [this].concat([].slice.call(arguments)))() ;\
     \          }\
     \        } else {\
-    \          spec[f] = f;\
+    \          spec[f] = psSpec[f];\
     \        }\
     \      })(fun);\
     \    }\
@@ -63,9 +44,9 @@ module React where
     \      return React.createClass(spec)(props, children);\
     \    }\
     \  }\
-    \}" :: forall s fields state props
-        .  Spec fields props state s
-        -> ComponentClass props { | state}
+    \}" :: forall s fields state props eff mixins statics
+        .  Spec fields props state s eff mixins statics
+        -> ComponentClass { | props} { | state}
 
   foreign import renderComponent
     "function renderComponent(component) {\
@@ -76,19 +57,22 @@ module React where
     \  }\
     \}" :: forall eff. Component -> Element -> Eff (react :: React, dom :: DOM | eff) Component
 
-  renderToId :: forall eff
-             .  String
-             -> Component
-             -> Eff (react :: React, dom :: DOM | eff) Component
-  renderToId selector component =
-    renderComponent component (document.getElementById selector)
-
   foreign import eventHandler
-    "function eventHandler(f) {\
-    \  return function(e) {\
-    \    return f(e)();\
+    "function eventHandler(that) {\
+    \  return function(f) {\
+    \    return function(e) {\
+    \      return f(that)(e)();\
+    \    }\
     \  }\
-    \}" :: forall eff
-       .  (Event -> Eff (react :: React, dom :: DOM | eff) Unit)
-       -> Event
+    \}" :: forall eff fields fields' event a
+       .  This fields
+       -> (This fields' -> ReactSyntheticEvent event -> Eff (react :: React, dom :: DOM | eff) a)
+       -> ReactSyntheticEvent event
        -> Unit
+
+  renderComponentById :: forall eff
+             .  Component
+             -> String
+             -> Eff (react :: React, dom :: DOM | eff) Component
+  renderComponentById component id =
+    renderComponent component $ document.getElementById id

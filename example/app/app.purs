@@ -9,6 +9,7 @@ import Debug.Trace
 import DOM
 
 import React
+import React.Types
 
 import qualified React.DOM as D
 
@@ -19,38 +20,38 @@ type CounterProps = {}
 
 helloInConsole :: forall eff fields state
                .  ReactThis fields HelloProps HelloState
-               -> Event
+               -> ReactFormEvent
                -> Eff (trace :: Trace | eff) Unit
 helloInConsole this _ = trace $ "Hello, " ++ this.props.name ++ "!"
 
 hello :: ComponentClass HelloProps HelloState
 hello = createClass spec
   { render = \this -> pure $ D.h1
-      { className: "Hello"
-      , onClick: eventHandler $ helloInConsole this
-      , style: {background: "gray"}
-      }
-      [D.rawText "Hello, ", D.rawText this.props.name]
+    { className: "Hello"
+    , onClick: eventHandler this helloInConsole
+    , style: {background: "gray"}
+    }
+    [D.rawText "Hello, ", D.rawText this.props.name]
   }
 
 incrementCounter :: forall eff fields
                  .  ReactThis fields CounterProps CounterState
-                 -> Event
+                 -> ReactFormEvent
                  -> Eff eff Unit
 incrementCounter this _ = pure $ this.replaceState {val: this.state.val + 1}
 
 counter :: ComponentClass CounterProps CounterState
 counter = createClass spec
   { render = \this -> pure $ D.p
-      { className: "Counter"
-      , onClick: eventHandler $ incrementCounter this
-      }
-      [ D.rawText $ show this.state.val
-      , D.rawText " Click me to increment!"
-      ]
+    { className: "Counter"
+    , onClick: eventHandler this incrementCounter
+    }
+    [ D.rawText $ show this.state.val
+    , D.rawText " Click me to increment!"
+    ]
   , getInitialState = \_ -> pure {val: 0}
   , componentDidMount = \this ->
-      setInterval 1000 $ print this.state.val
+    setInterval 1000 $ print this.state.val
   }
 
 main :: Eff (react :: React, dom :: DOM) Component
@@ -61,7 +62,7 @@ foreign import setInterval
   "function setInterval(ms) {\
   \  return function(action) {\
   \    return function() {\
-  \      return setInterval(action, ms);\
+  \      return setInterval(action(), ms);\
   \    }\
   \  }\
   \}"

@@ -19,6 +19,7 @@
   "devDependencies": {
     "gulp": "^3.8.7",
     "gulp-purescript": "0.0.9",
-    "gulp-util": "^3.0.0"
+    "gulp-util": "^3.0.0",
+    "gulp-webserver": "^0.6.0"
   }
 }
