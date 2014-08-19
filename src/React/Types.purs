@@ -8,7 +8,6 @@ module React.Types where
 
   -- These should be moved to DOM.
   foreign import data DOMEvent :: *
-  foreign import data DOMEventTarget :: *
   foreign import data Element :: *
   foreign import data Event :: !
 
@@ -21,14 +20,14 @@ module React.Types where
   type ReactSyntheticEvent fields =
     { bubbles          :: Boolean
     , cancelable       :: Boolean
-    , currentTarget    :: DOMEventTarget
+    , currentTarget    :: Element
     , defaultPrevented :: Boolean
     , eventPhase       :: Number
     , isTrusted        :: Boolean
     , nativeEvent      :: DOMEvent
     , preventDefault   :: forall eff. Eff (event :: Event | eff) Unit
     , stopPropagation  :: forall eff. Eff (event :: Event | eff) Unit
-    , target           :: DOMEventTarget
+    , target           :: Element
     , timeStamp        :: Number -- We need an actual Date type here.
     , "type"           :: String
     | fields
@@ -46,7 +45,7 @@ module React.Types where
     , componentWillReceiveProps :: ComponentWillReceiveProps fields {                        | props} { | state} eff
     , componentWillUnmount      :: ComponentWillUnmount      fields {                        | props} { | state} eff
     , componentWillUpdate       :: ComponentWillUpdate       fields {                        | props} { | state} eff
-    , getInitialState           :: GetInitialState           fields                                   { | state} eff
+    , getInitialState           :: GetInitialState           fields {                        | props} { | state} eff
     , shouldComponentUpdate     :: ShouldComponentUpdate     fields {                        | props} { | state} eff
     , displayName               :: String
     , mixins                    :: [{ | mixins}]
@@ -79,8 +78,8 @@ module React.Types where
             )
     -> Eff (react :: React, dom :: DOM | eff) Component
 
-  type GetInitialState fields state eff
-    =  This ( props :: BlackList
+  type GetInitialState fields props state eff
+    =  This ( props :: props
             , state :: BlackList
             , forceUpdate :: BlackList
             , getDOMNode :: BlackList
@@ -113,7 +112,7 @@ module React.Types where
   type ComponentWillReceiveProps fields props state eff =
     Fn2 (ReactThis fields props state)
         props
-        (Eff (react :: React, dom :: DOM | eff) Boolean)
+        (Eff (react :: React, dom :: DOM | eff) Unit)
 
   type ShouldComponentUpdate fields props state eff =
     Fn3 (ReactThis fields props state)
@@ -125,7 +124,7 @@ module React.Types where
     Fn3 (ReactThis fields props state)
         props
         state
-        (Eff (react :: React, dom :: DOM | eff) Boolean)
+        (Eff (react :: React, dom :: DOM | eff) Unit)
 
   type ComponentWillUpdate fields props state eff =
     Fn3 (This ( props :: props
@@ -139,4 +138,4 @@ module React.Types where
         )
         props
         state
-        (Eff (react :: React, dom :: DOM | eff) Boolean)
+        (Eff (react :: React, dom :: DOM | eff) Unit)

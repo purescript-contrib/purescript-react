@@ -23,6 +23,11 @@ module React where
     "var spec = {};" :: forall fields state props s eff mixins statics
                      .  Spec   fields props state s eff mixins statics
 
+  foreign import coerceThis
+    "function coerceThis(that) {\
+    \  return that;\
+    \}" :: forall fields fields'. This fields -> This fields'
+
   foreign import createClass
     "function createClass(psSpec) {\
     \  var spec = {};\
