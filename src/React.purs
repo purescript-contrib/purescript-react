@@ -44,9 +44,10 @@ module React where
     \      })(fun);\
     \    }\
     \  }\
+    \  var Class = React.createClass(spec);\
     \  return function(props) {\
     \    return function(children) {\
-    \      return React.createClass(spec)(props, children);\
+    \      return Class(props, children);\
     \    }\
     \  }\
     \}" :: forall s fields state props eff mixins statics
