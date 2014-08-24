@@ -17,7 +17,9 @@
   },
   "homepage": "https://github.com/purescript-contrib/purescript-react",
   "devDependencies": {
-    "gulp": "^3.6.2",
-    "gulp-purescript": "0.0.4"
+    "gulp": "^3.8.7",
+    "gulp-purescript": "0.0.9",
+    "gulp-util": "^3.0.0",
+    "gulp-webserver": "^0.6.0"
   }
 }

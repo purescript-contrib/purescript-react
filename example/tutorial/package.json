@@ -1,0 +1,21 @@
+{
+  "name": "purescript-react-tutorial",
+  "version": "0.0.1",
+  "description": "Purescript implementation of React.js tutorial",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "PureScript",
+    "React.js",
+    "tutorial"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "body-parser": "^1.6.2",
+    "express": "^4.8.2"
+  }
+}

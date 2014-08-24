@@ -3,107 +3,162 @@ module Tutorial where
   -- This is a mostly PureScript implementation of the tutorial found here:
   -- http://facebook.github.io/react/docs/tutorial.html
 
-  import Control.Monad.Eff
-  import Data.Array
+  import Control.Monad.Eff (Eff())
+
+  import Data.Array () -- Just want the instances.
+  import Data.Function (mkFn3)
+  import Data.String (trim)
+
+  import Debug.Trace (trace, Trace())
+
+  import DOM (DOM())
+
+  import Network.HTTP (Verb(..))
+  import Network.Oboe
+    ( done
+    , fail
+    , oboe
+    , oboeGet
+    , oboeOptions
+    , Oboe()
+    , OboeEff()
+    )
+
   import React
-  import React.DOM
-  import Showdown
-  import Debug.Trace
+    ( createClass
+    , eventHandler
+    , renderComponentById
+    , spec
+    )
+  import React.Types
+    ( Component()
+    , ComponentClass()
+    , Event()
+    , React()
+    , ReactFormEvent()
+    , ReactThis()
+    )
 
-  cBoxRender = do
-    state <- readState
-    pure $ div [ className "commentBox" ]
-                   [ h1' [ text "Comments" ]
-                   , commentList { data': state }
-                   , commentForm { onCommentSubmit: commentSubmit }
-                   ]
+  import Showdown (makeHtml)
 
-  commentBox = mkUI spec {
-      getInitialState = return [],
-      componentWillMount = componentWillMount
-    } cBoxRender
+  import qualified React.DOM as D
 
-  foreign import componentWillMount
-    "function componentWillMount() {\
-    \  var load = loadCommentsFromServer.bind(this);\
-    \  load();\
-    \  setInterval(function() { load(); }, this.props.pollInterval);\
-    \}" :: forall eff props state. ReadState eff props state {}
+  foreign import setInterval
+    "function setInterval(f) {\
+    \  return function(time) {\
+    \    return function() {\
+    \      window.setInterval(f, time);\
+    \    }\
+    \  }\
+    \}" :: forall eff a. Eff eff a -> Number -> Eff eff Unit
+  foreign import unsafeCorece
+    "function unsafeCorece(x) {\
+    \  return x;\
+    \}" :: forall a b. a -> b
+  foreign import stringify
+    "function stringify(x) {\
+    \  return JSON.stringify(x, null, 4);\
+    \}" :: forall a. a -> String
 
+  newtype Comment = Comment {author :: String, text :: String}
+  type CommentProps = {author :: String}
+  type CommentState = {}
+  type CommentBoxProps = {url :: String, pollInterval :: Number}
+  type CommentPropsState = {comments :: [Comment]}
+  type CommentFormProps =
+    {onCommentSubmit :: forall eff
+                     .  Comment
+                     -> Eff (oboe :: OboeEff, trace :: Trace | eff) Oboe
+    }
+  type CommentFormState = {}
 
-  commentList = mkUI spec do
-    props <- getProps
-    pure $ div [ className "commentList" ]
-                   (commentNodes <$> props.data')
+  instance eqComment :: Eq Comment where
+    (==) (Comment c) (Comment c') = c.author == c'.author && c.text == c'.text
+    (/=) c c' = not (c == c')
 
-  commentForm = mkUI spec do
-    props <- getProps
-    pure $ form [ className "commentForm"
-                    , onSubmit submit
-                    ]
-                    [ input [ typeProp "text"
-                            , placeholder "Your name"
-                            , ref "author"
-                            ] []
-                    , input [ typeProp "text"
-                            , placeholder "Say something..."
-                            , ref "text"
-                            ] []
-                    , input [ typeProp "submit"
-                            , value "Post"
-                            ] []
-                    ]
+  comment :: ComponentClass CommentProps CommentState
+  comment = createClass spec
+    { displayName = "Comment"
+    , render = \this -> do
+      let rawMarkup = case this.props.children of
+            []    -> ""
+            (x:_) -> makeHtml $ unsafeCorece x
+      pure $ D.div {className: "comment"}
+        [ D.h2 {className: "commentAuthor"}
+            [D.rawText this.props.author]
+        , D.span {dangerouslySetInnerHTML: {__html: rawMarkup}} []
+        ]
+    }
 
-  comment = mkUI spec do
-    props <- getProps
-    pure $ div [ className "comment" ]
-                   [ h2 [ className "commentAuthor" ]
-                            [ text props.author ]
-                   , span [ dangerouslySetInnerHTML $ makeHtml props.children ] []
-                   ]
+  commentBox :: ComponentClass CommentBoxProps CommentPropsState
+  commentBox = createClass spec
+    { displayName = "CommentBox"
+    , getInitialState = \_ -> pure {comments: []}
+    , componentDidMount = \this -> do
+      loadCommentsFromServer this
+      setInterval (loadCommentsFromServer this) this.props.pollInterval
+    , shouldComponentUpdate = mkFn3 \this _ state -> do
+      pure $ state.comments /= this.state.comments
+    , render = \this -> pure $
+      D.div {className: "commentBox"}
+        [ D.h1 {} [D.rawText "Comments"]
+        , commentList {comments: this.state.comments} []
+        , commentForm {onCommentSubmit: handleCommentSubmit $ unsafeCorece this} []
+        ]
+    }
 
-  commentNodes c = comment { author: c.author, children: c.text }
+  commentList :: ComponentClass {comments :: [Comment]} {}
+  commentList = createClass spec
+    { displayName = "CommentList"
+    , render = \this -> pure $ D.div {className: "commentList"} $
+      (\(Comment c) -> comment {author: c.author} [D.rawText c.text]) <$> this.props.comments
+    }
 
-  foreign import commentSubmit
-    "function commentSubmit(comment) {\
-    \  var comments = this.state.state;\
-    \  var newComments = comments.concat([comment]);\
-    \  this.setState({state: newComments});\
-    \  $.ajax({\
-    \    url: this.props.url,\
-    \    dataType: 'json',\
-    \    type: 'POST',\
-    \    data: comment,\
-    \    success: function(data) {\
-    \      this.setState({state: data});\
-    \    }.bind(this)\
-    \  });\
-    \}" :: forall eff. Eff eff {}
+  commentForm :: ComponentClass CommentFormProps CommentFormState
+  commentForm = createClass spec
+    { displayName = "CommentForm"
+    , render = \this -> pure $ D.form
+      { className: "commentForm"
+      , onSubmit: eventHandler this handleSubmit
+      }
+      [ D.input {"type": "text", placeholder: "Your name", ref: "author"} []
+      , D.input {"type": "text", placeholder: "Say something...", ref: "text"} []
+      , D.input {"type": "submit", value: "Post"} []
+      ]
+    }
 
-  foreign import submit
-    "function submit(e) {\
-    \  e.preventDefault();\
-    \  return function() { \
-    \    var author = this.refs.author.getDOMNode().value.trim();\
-    \    var text = this.refs.text.getDOMNode().value.trim();\
-    \    this.props.onCommentSubmit.call(this, {author: author, text: text});\
-    \    this.refs.author.getDOMNode().value = '';\
-    \    this.refs.text.getDOMNode().value = '';\
-    \    return false;\
-    \  } \
-    \}" :: Event -> forall eff. Eff eff Boolean
+  loadCommentsFromServer :: forall eff fields
+                         .  ReactThis fields CommentBoxProps CommentPropsState
+                         -> Eff (oboe :: OboeEff, trace :: Trace | eff) Oboe
+  loadCommentsFromServer this = do
+    o <- oboeGet this.props.url
+    done o (\json -> pure $ this.setState {comments: unsafeCorece json})
+    fail o (\obj  -> trace obj.body)
 
-  foreign import loadCommentsFromServer
-    "function loadCommentsFromServer() {\
-    \  $.ajax({\
-    \    url: this.props.url,\
-    \    dataType: 'json',\
-    \    success: function(data) {\
-    \      this.replaceState({state: data});\
-    \    }.bind(this)\
-    \  });\
-    \}" :: forall a r. {props :: {url :: String}, replaceState :: {state :: a} -> {} | r} -> {}
+  handleCommentSubmit :: forall eff fields
+                      .  ReactThis fields CommentBoxProps CommentPropsState
+                      -> Comment
+                      -> Eff (oboe :: OboeEff, trace :: Trace | eff) Oboe
+  handleCommentSubmit this comment = do
+    o <- oboe oboeOptions
+      { url = this.props.url
+      , method = POST
+      , body = unsafeCorece comment
+      }
+    done o (\json -> pure $ this.setState {comments: unsafeCorece json})
+    fail o (\obj  -> trace obj.body)
 
-  main = renderToElementById "content" $ commentBox { url: "comments.json"
-                                                    , pollInterval: 2000
-                                                    }
+  handleSubmit :: forall eff fields
+               .  ReactThis fields CommentFormProps CommentFormState
+               -> ReactFormEvent
+               -> Eff (event :: Event, oboe :: OboeEff, trace :: Trace | eff) Boolean
+  handleSubmit this event = do
+    author <- (\n -> n.value # trim) <$> this.refs.author.getDOMNode
+    text   <- (\n -> n.value # trim) <$> this.refs.text.getDOMNode
+    this.props.onCommentSubmit $ Comment {author: author, text: text}
+    pure false
+
+  main :: Eff (react :: React, dom :: DOM) Component
+  main = renderComponentById
+    (commentBox {url: "comments.json", pollInterval: 2000} [])
+    "content"

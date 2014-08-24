@@ -1,11 +1,15 @@
 var gulp = require('gulp')
-  , purescript = require('gulp-purescript');
+  , gutil = require('gulp-util')
+  , purescript = require('gulp-purescript')
+  , webserver = require('gulp-webserver')
+  ;
 
 var paths = {
     src: [
         'src/**/*.purs',
         'bower_components/purescript-*/src/**/*.purs'
     ],
+    docs: 'docs/README.md',
     example: {
         app: {
             src: [
@@ -15,6 +19,7 @@ var paths = {
             ]
         },
         tutorial: {
+            dir: 'example/tutorial',
             src: [
                 'src/**/*.purs',
                 'example/tutorial/tutorial.purs',
@@ -44,7 +49,7 @@ var compile = function(paths, options) {
         // https://github.com/gulpjs/gulp/issues/71
         var psc = purescript.psc(options);
         psc.on('error', function(e) {
-            console.error(e.message);
+            gutil.log(e.message);
             psc.end();
         });
         return gulp.src(paths.src)
@@ -55,6 +60,17 @@ var compile = function(paths, options) {
 
 gulp.task('src', compile(paths, {}));
 
+gulp.task('docs', function() {
+    var docgen = purescript.docgen();
+    docgen.on('error', function(e) {
+        gutil.log(e.message);
+        docgen.end();
+    });
+    return gulp.src('src/**/*.purs')
+      .pipe(docgen)
+      .pipe(gulp.dest(paths.docs))
+});
+
 gulp.task('example-app', compile(paths.example.app, options.example.app));
 
 gulp.task('example-tutorial',
@@ -62,6 +78,21 @@ gulp.task('example-tutorial',
 
 gulp.task('watch', function() {
     gulp.watch(paths.src, ['src']);
+});
+
+gulp.task('watch-example-app', function() {
+    gulp.watch(paths.example.app.src, ['example-app']);
+});
+
+gulp.task('watch-example-tutorial', function() {
+    gulp.watch(paths.example.tutorial.src, ['example-tutorial']);
+});
+
+gulp.task('run-example-tutorial', ['example-tutorial'], function() {
+    gulp.src(paths.example.tutorial.dir)
+        .pipe(webserver({
+            livereload: true
+        }));
 });
 
 gulp.task('default', ['src', 'watch']);
