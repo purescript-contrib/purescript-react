@@ -4,7 +4,7 @@ module Tutorial where
   -- http://facebook.github.io/react/docs/tutorial.html
 
   import Control.Monad.Eff
-  import Data.Array
+  import Data.Array hiding (span)
   import React
   import React.DOM
   import Showdown
@@ -28,7 +28,7 @@ module Tutorial where
     \  var load = loadCommentsFromServer.bind(this);\
     \  load();\
     \  setInterval(function() { load(); }, this.props.pollInterval);\
-    \}" :: forall eff props state. ReadState eff props state {}
+    \}" :: forall eff. Eff ( reactState :: ReactState (read :: ReadAllowed) Unit | eff ) Unit
 
 
   commentList = mkUI spec do
