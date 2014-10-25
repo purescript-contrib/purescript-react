@@ -26,6 +26,9 @@ module React.DOM where
     | ContextMenu String
     | Controls String
     | CrossOrigin String
+    | Cx String
+    | Cy String
+    | D String
     | Data { | dataAttrs }
     | DateTime String
     | Defer String
@@ -33,10 +36,20 @@ module React.DOM where
     | Disabled String
     | Download String
     | Draggable String
+    | Dx String
+    | Dy String
     | EncType String
+    | Fill String
+    | FillOpacity String
+    | FontFamily String
+    | FontSize String
     | Form String
     | FormNoValidate String
     | FrameBorder String
+    | Fx String
+    | Fy String
+    | GradientTransform String
+    | GradientUnits String
     | Height String
     | Hidden String
     | Href String
@@ -49,6 +62,9 @@ module React.DOM where
     | Lang String
     | List String
     | Loop String
+    | MarkerEnd String
+    | MarkerMid String
+    | MarkerStart String
     | Max String
     | MaxLength String
     | MediaGroup String
@@ -58,10 +74,17 @@ module React.DOM where
     | Muted String
     | Name String
     | NoValidate String
+    | Offset String
+    | Opacity String
     | Pattern String
+    | PatternContentUnits String
+    | PatternUnits String
     | Placeholder String
+    | Points String
     | Poster String
     | Preload String
+    | PreserveAspectRatio String
+    | R String
     | RadioGroup String
     | ReadOnly String
     | Rel String
@@ -69,6 +92,8 @@ module React.DOM where
     | Role String
     | Rows String
     | RowSpan String
+    | Rx String
+    | Ry String
     | Sandbox String
     | Scope String
     | ScrollLeft String
@@ -79,19 +104,37 @@ module React.DOM where
     | Size String
     | Span String
     | SpellCheck String
+    | SpreadMethod String
     | Src String
     | SrcDoc String
     | SrcSet String
     | Start String
     | Step String
+    | StopColor String
+    | StopOpacity String
+    | Stroke String
+    | StrokeDasharray String
+    | StrokeLinecap String
+    | StrokeOpacity String
+    | StrokeWidth String
     | Style { | s }
     | TabIndex String
     | Target String
+    | TextAnchor String
     | Title String
+    | Transform String
     | Type String
     | Value String
+    | Version String
+    | ViewBox String
     | Width String
     | Wmode String
+    | X String
+    | X1 String
+    | X2 String
+    | Y String
+    | Y1 String
+    | Y2 String
     | AutoCapitalize String
     | AutoCorrect String
     | Property String
@@ -163,6 +206,9 @@ module React.DOM where
   contextMenu = ContextMenu
   controls = Controls
   crossOrigin = CrossOrigin
+  cx = Cx
+  cy = Cy
+  d = D
   dataSet = Data
   dateTime = DateTime
   defer = Defer
@@ -170,10 +216,20 @@ module React.DOM where
   disabled = Disabled
   download = Download
   draggable = Draggable
+  dx = Dx
+  dy = Dy
   encType = EncType
   formProp = Form
+  fill = Fill
+  fillOpacity = FillOpacity
+  fontFamily = FontFamily
+  fontSize = FontSize
   formNoValidate = FormNoValidate
   frameBorder = FrameBorder
+  fx = Fx
+  fy = Fy
+  gradientTransform = GradientTransform
+  gradientUnits = GradientUnits
   height = Height
   hidden = Hidden
   href = Href
@@ -186,6 +242,9 @@ module React.DOM where
   lang = Lang
   list = List
   loop = Loop
+  markerEnd = MarkerEnd
+  markerMid = MarkerMid
+  markerStart = MarkerStart
   max = Max
   maxLength = MaxLength
   mediaGroup = MediaGroup
@@ -195,10 +254,17 @@ module React.DOM where
   muted = Muted
   name = Name
   noValidate = NoValidate
+  offset = Offset
+  opacity = Opacity
   pattern = Pattern
+  patternContentUnits = PatternContentUnits
+  patternUnits = PatternUnits
   placeholder = Placeholder
+  points = Points
   poster = Poster
   preload = Preload
+  preserveAspectRatio = PreserveAspectRatio
+  r = R
   radioGroup = RadioGroup
   readOnly = ReadOnly
   rel = Rel
@@ -206,6 +272,8 @@ module React.DOM where
   role = Role
   rows = Rows
   rowSpan = RowSpan
+  rx = Rx
+  ry = Ry
   sandbox = Sandbox
   scope = Scope
   scrollLeft = ScrollLeft
@@ -216,19 +284,36 @@ module React.DOM where
   size = Size
   spanProp = Span
   spellCheck = SpellCheck
+  spreadMethod = SpreadMethod
   src = Src
   srcDoc = SrcDoc
   srcSet = SrcSet
   start = Start
   step = Step
+  stopColor = StopColor
+  stopOpacity = StopOpacity
+  stroke = Stroke
+  strokeDasharray = StrokeDasharray
+  strokeLinecap = StrokeLinecap
+  strokeOpacity = StrokeOpacity
+  strokeWidth = StrokeWidth
   style = Style
   tabIndex = TabIndex
   target = Target
+  textAnchor = TextAnchor
   titleProp = Title
+  transform = Transform
   typeProp = Type
-  alue = Value
+  version = Version
+  viewBox = ViewBox
   width = Width
   wmode = Wmode
+  x = X
+  x1 = X1
+  x2 = X2
+  y = Y
+  y1 = Y1
+  y2 = Y2
   autoCapitalize = AutoCapitalize
   autoCorrect = AutoCorrect
   property = Property
