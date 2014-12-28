@@ -36,7 +36,7 @@ counter = mkUI spec { getInitialState = return 0 } do
     ]
 
 main = do
-  let component = div {} [hello {name: "World"}, counter {}]
+  let component = div [] [hello {name: "World"}, counter {}]
   renderToBody component
 ```
 
