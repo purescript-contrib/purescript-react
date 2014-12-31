@@ -21,7 +21,7 @@ hello = mkUI spec do
       text props.name
     ]
 
-incrementCounter = do
+incrementCounter e = do
   val <- readState
   writeState (val + 1)
 
