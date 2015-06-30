@@ -16,6 +16,7 @@
     "tests"
   ],
   "devDependencies": {
+    "purescript-console": "^0.1.0",
     "react": "~0.10.0"
   }
 }

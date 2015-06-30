@@ -1,21 +1,21 @@
-module Main where
+module Test.Main where
+
+import Prelude hiding (sub, div)
 
 import Control.Monad.Eff
-import Debug.Trace
+import Control.Monad.Eff.Console
+
 import React
 import React.DOM
 
-foreign import interval
-  "function interval(ms) { \
-  \  return function(action) { \
-  \    return function() { return setInterval(action, ms); } \
-  \  } \
-  \}"
-  :: forall eff r. Number -> Eff (trace :: Trace) r -> Eff (eff) Unit
+foreign import interval :: forall eff a. 
+                             Int -> 
+                             Eff (console :: CONSOLE | eff) a ->
+                             Eff (console :: CONSOLE | eff) Unit
 
 helloInConsole e = do
   props <- getProps
-  trace ("Hello, " ++ props.name ++ "!")
+  log ("Hello, " ++ props.name ++ "!")
 
 hello = mkUI spec do
   props <- getProps
