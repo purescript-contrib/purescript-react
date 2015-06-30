@@ -2,10 +2,11 @@ module React where
 
 import Prelude
 
+import DOM
+
 import Control.Monad.Eff
 import Control.Monad.Eff.Console
 
-foreign import data DOM :: !
 foreign import data UI :: *
 foreign import data UIRef :: # ! -> *
 foreign import data EventHandler :: * -> *

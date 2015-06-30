@@ -1,11 +1,5 @@
 ## Module React
 
-#### `DOM`
-
-``` purescript
-data DOM :: !
-```
-
 #### `UI`
 
 ``` purescript
