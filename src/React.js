@@ -35,27 +35,22 @@ exports.readState = function(ctx) {
 };
 
 exports.mkUI = function(ss) {
-    return function(render) {
-        var specs = {};
-        for (var s in ss) {
-            if (ss.hasOwnProperty(s)) {
-                specs[s] = (function(impl) {
-                    return function() {
-                        return impl(this)();
-                    }
-                })(ss[s]);
-            }
+    var result = {};
+    for (var s in ss) {
+        if (ss.hasOwnProperty(s)) {
+            result[s] = (function(impl) {
+                return function() {
+                    return impl(this)();
+                }
+            })(ss[s]);
         }
-        specs.getInitialState = function() {
-            return {
-                state: ss.getInitialState(this)()
-            };
-        };
-        specs.render = function() {
-            return render(this)();
-        };
-        return React.createClass(specs);
     }
+    result.getInitialState = function() {
+        return {
+            state: ss.getInitialState(this)()
+        };
+    };
+    return React.createClass(result);
 };
 
 exports.handle = function(f) {

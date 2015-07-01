@@ -155,7 +155,7 @@ A rendering function.
 #### `UISpec`
 
 ``` purescript
-type UISpec props state eff = { getInitialState :: UIRef -> Eff (props :: ReactProps props, state :: ReactState Disallowed state, refs :: ReactRefs Disallowed | eff) state, componentWillMount :: UIRef -> Eff (props :: ReactProps props, state :: ReactState ReadWrite state, refs :: ReactRefs Disallowed | eff) Unit, componentDidMount :: UIRef -> Eff (props :: ReactProps props, state :: ReactState ReadWrite state, refs :: ReactRefs ReadOnly | eff) Unit, componentWillReceiveProps :: UIRef -> Eff (props :: ReactProps props, state :: ReactState ReadWrite state, refs :: ReactRefs ReadOnly | eff) Unit, shouldComponentUpdate :: UIRef -> Eff (props :: ReactProps props, state :: ReactState ReadWrite state, refs :: ReactRefs ReadOnly | eff) Boolean, componentWillUpdate :: UIRef -> Eff (props :: ReactProps props, state :: ReactState ReadWrite state, refs :: ReactRefs ReadOnly | eff) Unit, componentDidUpdate :: UIRef -> Eff (props :: ReactProps props, state :: ReactState ReadOnly state, refs :: ReactRefs ReadOnly | eff) Unit, componentWillUnmount :: UIRef -> Eff (props :: ReactProps props, state :: ReactState ReadOnly state, refs :: ReactRefs ReadOnly | eff) Unit }
+type UISpec props state eff = { render :: Render props state eff, getInitialState :: UIRef -> Eff (props :: ReactProps props, state :: ReactState Disallowed state, refs :: ReactRefs Disallowed | eff) state, componentWillMount :: UIRef -> Eff (props :: ReactProps props, state :: ReactState ReadWrite state, refs :: ReactRefs Disallowed | eff) Unit, componentDidMount :: UIRef -> Eff (props :: ReactProps props, state :: ReactState ReadWrite state, refs :: ReactRefs ReadOnly | eff) Unit, componentWillReceiveProps :: UIRef -> Eff (props :: ReactProps props, state :: ReactState ReadWrite state, refs :: ReactRefs ReadOnly | eff) Unit, shouldComponentUpdate :: UIRef -> Eff (props :: ReactProps props, state :: ReactState ReadWrite state, refs :: ReactRefs ReadOnly | eff) Boolean, componentWillUpdate :: UIRef -> Eff (props :: ReactProps props, state :: ReactState ReadWrite state, refs :: ReactRefs ReadOnly | eff) Unit, componentDidUpdate :: UIRef -> Eff (props :: ReactProps props, state :: ReactState ReadOnly state, refs :: ReactRefs ReadOnly | eff) Unit, componentWillUnmount :: UIRef -> Eff (props :: ReactProps props, state :: ReactState ReadOnly state, refs :: ReactRefs ReadOnly | eff) Unit }
 ```
 
 A specification of a component.
@@ -163,7 +163,7 @@ A specification of a component.
 #### `spec`
 
 ``` purescript
-spec :: forall props state eff. state -> UISpec props state eff
+spec :: forall props state eff. state -> Render props state eff -> UISpec props state eff
 ```
 
 Create a component specification.
@@ -211,7 +211,7 @@ Transform the component state by applying a function.
 #### `mkUI`
 
 ``` purescript
-mkUI :: forall props state eff. UISpec props state eff -> Render props state eff -> props -> UI
+mkUI :: forall props state eff. UISpec props state eff -> props -> UI
 ```
 
 Create a component from a component spec.

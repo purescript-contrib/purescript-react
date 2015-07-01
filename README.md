@@ -37,7 +37,7 @@ incrementCounter ctx e = do
   val <- readState ctx
   writeState ctx (val + 1)
 
-counter = mkUI (spec 0) \ctx -> do
+counter = mkUI $ spec 0 \ctx -> do
   val <- readState ctx
   return $ D.p [ P.className "Counter"
                , P.onClick (incrementCounter ctx)

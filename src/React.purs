@@ -142,7 +142,8 @@ type Render props state eff =
 
 -- | A specification of a component.
 type UISpec props state eff =
-  { getInitialState
+  { render :: Render props state eff
+  , getInitialState
       :: UIRef ->
          Eff ( props :: ReactProps props
              , state :: ReactState Disallowed state
@@ -201,9 +202,10 @@ type UISpec props state eff =
   }
 
 -- | Create a component specification.
-spec :: forall props state eff. state -> UISpec props state eff
-spec st =
-  { getInitialState:           \_ -> pure st
+spec :: forall props state eff. state -> Render props state eff -> UISpec props state eff
+spec st render =
+  { render:                    render
+  , getInitialState:           \_ -> pure st
   , componentWillMount:        \_ -> return unit
   , componentDidMount:         \_ -> return unit
   , componentWillReceiveProps: \_ -> return unit
@@ -246,7 +248,6 @@ transformState ctx f = do
 -- | Create a component from a component spec.
 foreign import mkUI :: forall props state eff.
                          UISpec props state eff ->
-                         Render props state eff ->
                          props -> 
                          UI
 
