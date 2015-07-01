@@ -29,34 +29,62 @@ An event handler. The type argument represents the type of the event.
 #### `Disallowed`
 
 ``` purescript
-data Disallowed :: !
+data Disallowed
 ```
 
-This phantom effect indicates that both read and write access to a resource are disallowed.
+This phantom type indicates that both read and write access to a resource are disallowed.
 
-#### `ReadAllowed`
+#### `Read`
 
 ``` purescript
-data ReadAllowed :: !
+data Read write
 ```
 
-This phantom effect indicates that only read access to a resource is allowed.
+This phantom type indicates that read access to a resource is allowed.
 
-#### `WriteAllowed`
+#### `Write`
 
 ``` purescript
-data WriteAllowed :: !
+data Write
 ```
 
-This phantom effect indicates that only write access to a resource is allowed.
+This phantom type indicates that write access to a resource is allowed.
+
+#### `Only`
+
+``` purescript
+data Only
+```
+
+This phantom type indicates that only read access to a resource is allowed.
+
+#### `ReadWrite`
+
+``` purescript
+type ReadWrite = Read Write
+```
+
+An access synonym which indicates that both read and write access are allowed.
+
+#### `ReadOnly`
+
+``` purescript
+type ReadOnly = Read Only
+```
+
+An access synonym which indicates that reads are allowed but writes are not.
 
 #### `ReactState`
 
 ``` purescript
-data ReactState :: # ! -> * -> !
+data ReactState :: * -> * -> !
 ```
 
 This effect indicates that a computation may read or write the component state.
+
+The first type argument is either `ReadWrite`, `ReadOnly` or `Disallowed` dependeding on the context.
+
+The second type argument is the type of the state of the component.
 
 #### `ReactProps`
 
@@ -73,6 +101,16 @@ data ReactRefs :: * -> !
 ```
 
 This effect indicates that a computation may read the component refs.
+
+The first type argument is either `ReadOnly` or `Disallowed` dependeding on the context.
+
+#### `Refs`
+
+``` purescript
+data Refs :: *
+```
+
+The type of refs objects.
 
 #### `Event`
 
@@ -101,7 +139,7 @@ The type of keyboard events.
 #### `EventHandlerContext`
 
 ``` purescript
-type EventHandlerContext eff props refs state result = Eff (props :: ReactProps props, refs :: ReactRefs refs, state :: ReactState (read :: ReadAllowed, write :: WriteAllowed) state | eff) result
+type EventHandlerContext eff props state result = Eff (props :: ReactProps props, refs :: ReactRefs ReadOnly, state :: ReactState ReadWrite state | eff) result
 ```
 
 A function which handles events.
@@ -109,7 +147,7 @@ A function which handles events.
 #### `Render`
 
 ``` purescript
-type Render props refs state eff = UIRef -> Eff (props :: ReactProps props, refs :: Disallowed, state :: ReactState (read :: ReadAllowed) state | eff) UI
+type Render props state eff = UIRef -> Eff (props :: ReactProps props, refs :: ReactRefs Disallowed, state :: ReactState ReadOnly state | eff) UI
 ```
 
 A rendering function.
@@ -117,7 +155,7 @@ A rendering function.
 #### `UISpec`
 
 ``` purescript
-type UISpec props refs state eff = { getInitialState :: UIRef -> Eff (props :: ReactProps props, state :: Disallowed, refs :: Disallowed | eff) state, componentWillMount :: UIRef -> Eff (props :: ReactProps props, state :: ReactState (read :: ReadAllowed, write :: WriteAllowed) state, refs :: Disallowed | eff) Unit, componentDidMount :: UIRef -> Eff (props :: ReactProps props, state :: ReactState (read :: ReadAllowed, write :: WriteAllowed) state, refs :: ReactRefs refs | eff) Unit, componentWillReceiveProps :: UIRef -> Eff (props :: ReactProps props, state :: ReactState (read :: ReadAllowed, write :: WriteAllowed) state, refs :: ReactRefs refs | eff) Unit, shouldComponentUpdate :: UIRef -> Eff (props :: ReactProps props, state :: ReactState (read :: ReadAllowed, write :: WriteAllowed) state, refs :: ReactRefs refs | eff) Boolean, componentWillUpdate :: UIRef -> Eff (props :: ReactProps props, state :: ReactState (read :: ReadAllowed, write :: WriteAllowed) state, refs :: ReactRefs refs | eff) Unit, componentDidUpdate :: UIRef -> Eff (props :: ReactProps props, state :: ReactState (read :: ReadAllowed) state, refs :: ReactRefs refs | eff) Unit, componentWillUnmount :: UIRef -> Eff (props :: ReactProps props, state :: ReactState (read :: ReadAllowed) state, refs :: ReactRefs refs | eff) Unit }
+type UISpec props state eff = { getInitialState :: UIRef -> Eff (props :: ReactProps props, state :: ReactState Disallowed state, refs :: ReactRefs Disallowed | eff) state, componentWillMount :: UIRef -> Eff (props :: ReactProps props, state :: ReactState ReadWrite state, refs :: ReactRefs Disallowed | eff) Unit, componentDidMount :: UIRef -> Eff (props :: ReactProps props, state :: ReactState ReadWrite state, refs :: ReactRefs ReadOnly | eff) Unit, componentWillReceiveProps :: UIRef -> Eff (props :: ReactProps props, state :: ReactState ReadWrite state, refs :: ReactRefs ReadOnly | eff) Unit, shouldComponentUpdate :: UIRef -> Eff (props :: ReactProps props, state :: ReactState ReadWrite state, refs :: ReactRefs ReadOnly | eff) Boolean, componentWillUpdate :: UIRef -> Eff (props :: ReactProps props, state :: ReactState ReadWrite state, refs :: ReactRefs ReadOnly | eff) Unit, componentDidUpdate :: UIRef -> Eff (props :: ReactProps props, state :: ReactState ReadOnly state, refs :: ReactRefs ReadOnly | eff) Unit, componentWillUnmount :: UIRef -> Eff (props :: ReactProps props, state :: ReactState ReadOnly state, refs :: ReactRefs ReadOnly | eff) Unit }
 ```
 
 A specification of a component.
@@ -125,7 +163,7 @@ A specification of a component.
 #### `spec`
 
 ``` purescript
-spec :: forall props refs state eff. state -> UISpec props refs state eff
+spec :: forall props state eff. state -> UISpec props state eff
 ```
 
 Create a component specification.
@@ -141,7 +179,7 @@ Read the component props.
 #### `getRefs`
 
 ``` purescript
-getRefs :: forall refs eff. UIRef -> Eff (refs :: ReactRefs refs | eff) refs
+getRefs :: forall write eff. UIRef -> Eff (refs :: ReactRefs (Read write) | eff) Refs
 ```
 
 Read the component refs.
@@ -149,7 +187,7 @@ Read the component refs.
 #### `writeState`
 
 ``` purescript
-writeState :: forall state eff. UIRef -> state -> Eff (state :: ReactState (read :: ReadAllowed, write :: WriteAllowed) state | eff) state
+writeState :: forall state eff. UIRef -> state -> Eff (state :: ReactState ReadWrite state | eff) state
 ```
 
 Write the component state.
@@ -157,7 +195,7 @@ Write the component state.
 #### `readState`
 
 ``` purescript
-readState :: forall state stateEff eff. UIRef -> Eff (state :: ReactState (read :: ReadAllowed | stateEff) state | eff) state
+readState :: forall state write eff. UIRef -> Eff (state :: ReactState (Read write) state | eff) state
 ```
 
 Read the component state.
@@ -165,7 +203,7 @@ Read the component state.
 #### `transformState`
 
 ``` purescript
-transformState :: forall state statePerms eff. UIRef -> (state -> state) -> Eff (state :: ReactState (read :: ReadAllowed, write :: WriteAllowed) state | eff) state
+transformState :: forall state statePerms eff. UIRef -> (state -> state) -> Eff (state :: ReactState ReadWrite state | eff) state
 ```
 
 Transform the component state by applying a function.
@@ -173,7 +211,7 @@ Transform the component state by applying a function.
 #### `mkUI`
 
 ``` purescript
-mkUI :: forall props refs state eff. UISpec props refs state eff -> Render props refs state eff -> props -> UI
+mkUI :: forall props state eff. UISpec props state eff -> Render props state eff -> props -> UI
 ```
 
 Create a component from a component spec.
@@ -181,7 +219,7 @@ Create a component from a component spec.
 #### `handle`
 
 ``` purescript
-handle :: forall eff ev props refs state result. (ev -> EventHandlerContext eff props refs state result) -> EventHandler ev
+handle :: forall eff ev props state result. (ev -> EventHandlerContext eff props state result) -> EventHandler ev
 ```
 
 Create an event handler.
