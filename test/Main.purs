@@ -12,8 +12,8 @@ import qualified React.DOM.Props as P
 
 foreign import interval :: forall eff a. 
                              Int -> 
-                             Eff (console :: CONSOLE | eff) a ->
-                             Eff (console :: CONSOLE | eff) Unit
+                             Eff eff a ->
+                             Eff eff Unit
 
 hello = mkUI (spec unit) \ctx -> do
   props <- getProps ctx

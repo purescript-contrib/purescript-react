@@ -29,15 +29,9 @@ import Prelude
 import Control.Monad.Eff
 
 import React
-import React.DOM
 
-hello = mkUI (spec unit) \ctx -> do
-  props <- getProps ctx
-  return $ h1 [ className "Hello"
-              ] 
-              [ text "Hello, "
-              , text props.name
-              ]
+import qualified React.DOM as D
+import qualified React.DOM.Props as P
 
 incrementCounter ctx e = do
   val <- readState ctx
@@ -45,16 +39,14 @@ incrementCounter ctx e = do
 
 counter = mkUI (spec 0) \ctx -> do
   val <- readState ctx
-  return $ p [ className "Counter"
-             , onClick (incrementCounter ctx)
-             ] 
-             [ text (show val)
-             , text " Click me to increment!"
-             ]
+  return $ D.p [ P.className "Counter"
+               , P.onClick (incrementCounter ctx)
+               ] 
+               [ D.text (show val)
+               , D.text " Click me to increment!"
+               ]
 
 main = do
-  let component = div [] [ hello { name: "World" }
-                         , counter {}
-                         ]
+  let component = D.div [] [ counter {} ]
   renderToBody component
 ```
