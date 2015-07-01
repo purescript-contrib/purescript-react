@@ -31,22 +31,22 @@ import Control.Monad.Eff
 import React
 import React.DOM
 
-hello = mkUI spec do
-  props <- getProps
+hello = mkUI (spec unit) \ctx -> do
+  props <- getProps ctx
   return $ h1 [ className "Hello"
               ] 
               [ text "Hello, "
               , text props.name
               ]
 
-incrementCounter e = do
-  val <- readState
-  writeState (val + 1)
+incrementCounter ctx e = do
+  val <- readState ctx
+  writeState ctx (val + 1)
 
-counter = mkUI (spec { getInitialState = return 0 }) do
-  val <- readState
+counter = mkUI (spec 0) \ctx -> do
+  val <- readState ctx
   return $ p [ className "Counter"
-             , onClick incrementCounter
+             , onClick (incrementCounter ctx)
              ] 
              [ text (show val)
              , text " Click me to increment!"

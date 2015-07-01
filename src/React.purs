@@ -1,4 +1,46 @@
-module React where
+-- | This module defines foreign types and functions which wrap React's functionality.
+
+module React 
+  ( UI()
+  , UIRef()
+  
+  , EventHandler()
+  
+  , Disallowed()
+  , ReadAllowed()
+  , WriteAllowed()
+  
+  , ReactState()
+  , ReactProps()
+  , ReactRefs()
+  
+  , Render()
+  
+  , UISpec()
+  
+  , Event()
+  , MouseEvent()
+  , KeyboardEvent()
+  
+  , EventHandlerContext()
+  
+  , spec
+  
+  , getProps
+  , getRefs
+  
+  , readState
+  , writeState
+  , transformState
+  
+  , mkUI
+  
+  , handle
+  
+  , renderToString
+  , renderToBody
+  , renderToElementById
+  ) where
 
 import Prelude
 
@@ -7,189 +49,202 @@ import DOM
 import Control.Monad.Eff
 import Control.Monad.Eff.Console
 
+-- | A virtual DOM node, or component.
 foreign import data UI :: *
-foreign import data UIRef :: # ! -> *
+
+-- | A reference to a component, essentially React's `this`.
+foreign import data UIRef :: *
+
+-- | An event handler. The type argument represents the type of the event.
 foreign import data EventHandler :: * -> *
 
+-- | This phantom effect indicates that both read and write access to a resource are disallowed.
 foreign import data Disallowed :: !
+
+-- | This phantom effect indicates that only read access to a resource is allowed.
 foreign import data ReadAllowed :: !
+
+-- | This phantom effect indicates that only write access to a resource is allowed.
 foreign import data WriteAllowed :: !
 
+-- | This effect indicates that a computation may read or write the component state.
 foreign import data ReactState :: # ! -> * -> !
+
+-- | This effect indicates that a computation may read the component props.
 foreign import data ReactProps :: * -> !
+
+-- | This effect indicates that a computation may read the component refs.
 foreign import data ReactRefs :: * -> !
 
-foreign import noop0 :: forall eff result. Eff ( eff ) result
+-- | The type of DOM events.
+foreign import data Event :: *
 
-foreign import noop1 :: forall a eff result. a -> Eff ( eff ) result
+-- | The type of mouse events.
+type MouseEvent = 
+  { pageX :: Number
+  , pageY :: Number 
+  }
 
-foreign import noop2 :: forall a b eff result. a -> b -> Eff ( eff ) result
+-- | The type of keyboard events.
+type KeyboardEvent = 
+  { altKey   :: Boolean
+  , ctrlKey  :: Boolean
+  , charCode :: Int
+  , key      :: String
+  , keyCode  :: Int
+  , locale   :: String
+  , location :: Int
+  , metaKey  :: Boolean
+  , repeat   :: Boolean
+  , shiftKey :: Boolean
+  , which    :: Int
+  }
 
+-- | A function which handles events.
+type EventHandlerContext eff props refs state result =  
+  Eff ( props :: ReactProps props
+      , refs :: ReactRefs refs
+      , state :: ReactState (read :: ReadAllowed, write :: WriteAllowed) state
+      | eff
+      ) result
+
+-- | A rendering function.
 type Render props refs state eff =
-  Eff (
-    props :: ReactProps props,
-    refs :: Disallowed,
-    state :: ReactState (read :: ReadAllowed) state
-    | eff
-  ) UI
+  UIRef ->
+  Eff ( props :: ReactProps props
+      , refs :: Disallowed
+      , state :: ReactState (read :: ReadAllowed) state
+      | eff
+      ) UI
 
-type UISpec props refs state eff1 eff2 eff3 eff4 eff5 eff6 eff7 eff8 =
+-- | A specification of a component.
+type UISpec props refs state eff =
   { getInitialState
-      :: Eff (
-        props :: ReactProps props,
-        state :: Disallowed,
-        refs :: Disallowed
-        | eff1
-      ) state
+      :: UIRef ->
+         Eff ( props :: ReactProps props
+             , state :: Disallowed
+             , refs :: Disallowed
+             | eff
+             ) state
   , componentWillMount
-      :: Eff (
-        props :: ReactProps props,
-        state :: ReactState (read :: ReadAllowed, write :: WriteAllowed) state,
-        refs :: Disallowed
-        | eff2
-      ) Unit
+      :: UIRef ->
+         Eff ( props :: ReactProps props
+             , state :: ReactState (read :: ReadAllowed, write :: WriteAllowed) state
+             , refs :: Disallowed
+             | eff
+             ) Unit
   , componentDidMount
-      :: Eff (
-        props :: ReactProps props,
-        state :: ReactState (read :: ReadAllowed, write :: WriteAllowed) state,
-        refs :: ReactRefs refs
-        | eff3
-      ) Unit
+      :: UIRef ->
+         Eff ( props :: ReactProps props
+             , state :: ReactState (read :: ReadAllowed, write :: WriteAllowed) state
+             , refs :: ReactRefs refs
+             | eff
+             ) Unit
   , componentWillReceiveProps
-      :: props
-      -> Eff (
-        props :: ReactProps props,
-        state :: ReactState (read :: ReadAllowed, write :: WriteAllowed) state,
-        refs :: ReactRefs refs
-        | eff4
-      ) Unit
+      :: UIRef ->
+         Eff ( props :: ReactProps props
+             , state :: ReactState (read :: ReadAllowed, write :: WriteAllowed) state
+             , refs :: ReactRefs refs
+             | eff
+             ) Unit
   , shouldComponentUpdate
-      :: props
-      -> state
-      -> Eff (
-        props :: ReactProps props,
-        state :: ReactState (read :: ReadAllowed, write :: WriteAllowed) state,
-        refs :: ReactRefs refs
-        | eff5
-      ) Boolean
+      :: UIRef ->
+         Eff ( props :: ReactProps props
+             , state :: ReactState (read :: ReadAllowed, write :: WriteAllowed) state
+             , refs :: ReactRefs refs
+             | eff
+             ) Boolean
   , componentWillUpdate
-      :: props
-      -> state
-      -> Eff (
-        props :: ReactProps props,
-        state :: ReactState (read :: ReadAllowed, write :: WriteAllowed) state,
-        refs :: ReactRefs refs
-        | eff6
-      ) Unit
+      :: UIRef ->
+         Eff ( props :: ReactProps props
+             , state :: ReactState (read :: ReadAllowed, write :: WriteAllowed) state
+             , refs :: ReactRefs refs
+             | eff
+             ) Unit
   , componentDidUpdate
-      :: props
-      -> state
-      -> Eff (
-        props :: ReactProps props,
-        state :: ReactState (read :: ReadAllowed) state,
-        refs :: ReactRefs refs
-        | eff7
-      ) Unit
+      :: UIRef ->
+         Eff ( props :: ReactProps props
+             , state :: ReactState (read :: ReadAllowed) state
+             , refs :: ReactRefs refs
+             | eff
+             ) Unit
   , componentWillUnmount
-      :: Eff (
-        props :: ReactProps props,
-        state :: ReactState (read :: ReadAllowed) state,
-        refs :: ReactRefs refs
-        | eff8
-      ) Unit
+      :: UIRef ->
+         Eff ( props :: ReactProps props
+             , state :: ReactState (read :: ReadAllowed) state
+             , refs :: ReactRefs refs
+             | eff
+             ) Unit
   }
 
-spec
-  :: forall props refs state eff1 eff2 eff3 eff4 eff5 eff6 eff7 eff8.
-  UISpec props refs state eff1 eff2 eff3 eff4 eff5 eff6 eff7 eff8
-spec =
-  { getInitialState: noop0
-  , componentWillMount: noop0
-  , componentDidMount: noop0
-  , componentWillReceiveProps: noop1
-  , shouldComponentUpdate: updateAlways
-  , componentWillUpdate: noop2
-  , componentDidUpdate: noop2
-  , componentWillUnmount: noop0
+-- | Create a component specification.
+spec :: forall props refs state eff. state -> UISpec props refs state eff
+spec st =
+  { getInitialState:           \_ -> pure st
+  , componentWillMount:        \_ -> return unit
+  , componentDidMount:         \_ -> return unit
+  , componentWillReceiveProps: \_ -> return unit
+  , shouldComponentUpdate:     \_ -> return true
+  , componentWillUpdate:       \_ -> return unit
+  , componentDidUpdate:        \_ -> return unit
+  , componentWillUnmount:      \_ -> return unit
   }
-    where
-  updateAlways
-      :: forall props refs state. props
-      -> state
-      -> forall eff. Eff (
-        props :: ReactProps props,
-        state :: ReactState (read :: ReadAllowed, write :: WriteAllowed) state,
-        refs :: ReactRefs refs
-        | eff
-      ) Boolean
-  updateAlways props state = return true
 
-foreign import getProps :: forall props eff. Eff (props :: ReactProps props | eff) props
+-- | Read the component props.
+foreign import getProps :: forall props eff. 
+                             UIRef -> 
+                             Eff (props :: ReactProps props | eff) props
 
-foreign import getRefs :: forall refs eff. Eff (refs :: ReactRefs refs | eff) refs
+-- | Read the component refs.
+foreign import getRefs :: forall refs eff. UIRef -> Eff (refs :: ReactRefs refs | eff) refs
 
-foreign import writeState :: forall state statePerms eff. 
-                               state -> Eff (state :: ReactState (read :: ReadAllowed, write :: WriteAllowed | statePerms) state | eff) state
+-- | Write the component state.
+foreign import writeState :: forall state eff. 
+                               UIRef -> 
+                               state -> 
+                               Eff ( state :: ReactState ( read :: ReadAllowed
+                                                         , write :: WriteAllowed
+                                                         ) state 
+                                   | eff
+                                   ) state
 
-foreign import readState :: forall state statePerms eff. Eff (state :: ReactState (read :: ReadAllowed | statePerms) state | eff) state
+-- | Read the component state.
+foreign import readState :: forall state stateEff eff. 
+                              UIRef ->
+                              Eff ( state :: ReactState (read :: ReadAllowed | stateEff) state 
+                                  | eff
+                                  ) state
 
-transformState f = do
-  state <- readState
-  writeState $ f state
+-- | Transform the component state by applying a function.
+transformState :: forall state statePerms eff. 
+                    UIRef ->
+                    (state -> state) -> 
+                    Eff ( state :: ReactState ( read :: ReadAllowed
+                                              , write :: WriteAllowed
+                                              ) state
+                        | eff
+                        ) state
+transformState ctx f = do
+  state <- readState ctx
+  writeState ctx $ f state
 
-foreign import getSelf :: forall eff. Eff (eff) (UIRef eff)
+-- | Create a component from a component spec.
+foreign import mkUI :: forall props refs state eff.
+                         UISpec props refs state eff ->
+                         Render props refs state eff ->
+                         props -> 
+                         UI
 
-foreign import runUI :: forall refEff eff result. UIRef refEff -> Eff (refEff) result -> Eff (eff) result
-
-foreign import mkUI :: forall props refs state eff eff1 eff2 eff3 eff4 eff5 eff6 eff7 eff8.
-                         UISpec props refs state eff1 eff2 eff3 eff4 eff5 eff6 eff7 eff8
-                         -> Render props refs state eff
-                         -> (props -> UI)
-
-type DOMEvent = forall attrs. { | attrs}
-type DOMEventTarget = forall attrs. { | attrs }
-type Event = { bubbles           :: Boolean
-             , cancelable        :: Boolean
-             , currentTarget     :: DOMEventTarget
-             , defaultPrevented  :: Boolean
-             , eventPhase        :: Number
-             , isTrusted         :: Boolean
-             , nativeEvent       :: DOMEvent
-             , preventDefault    :: {} -> {}
-             , stopPropagation   :: {} -> {}
-             , target            :: DOMEventTarget
-             , timeStamp         :: Number
-             , eventType         :: String
-             }
-type MouseEvent = { pageX :: Number, pageY :: Number }
-type KeyboardEvent = { altKey   :: Boolean
-                     , ctrlKey  :: Boolean
-                     , charCode :: Number
-                     , key      :: String
-                     , keyCode  :: Number
-                     , locale   :: String
-                     , location :: Number
-                     , metaKey  :: Boolean
-                     , repeat   :: Boolean
-                     , shiftKey :: Boolean
-                     , which    :: Number
-                     }
-
-type EventHandlerContext eff props refs state result = forall statePerms. Eff (
-  props :: ReactProps props,
-  refs :: ReactRefs refs,
-  state :: ReactState (read :: ReadAllowed, write :: WriteAllowed | statePerms) state
-  | eff
-  ) result
-
+-- | Create an event handler.
 foreign import handle :: forall eff ev props refs state result.
-                           (ev -> EventHandlerContext eff props refs state result)
-                           -> EventHandler ev
+                           (ev -> EventHandlerContext eff props refs state result) ->
+                           EventHandler ev
 
+-- | Render a component as a string.
 foreign import renderToString :: UI -> String
 
+-- | Render a component to the document body.
 foreign import renderToBody :: forall eff. UI -> Eff (dom :: DOM | eff) UI
 
+-- | Render a component to the element with the specified ID.
 foreign import renderToElementById :: forall eff. String -> UI -> Eff (dom :: DOM | eff) UI
-
-foreign import deferred :: forall a eff. Eff eff a -> Eff eff a

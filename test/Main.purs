@@ -13,39 +13,33 @@ foreign import interval :: forall eff a.
                              Eff (console :: CONSOLE | eff) a ->
                              Eff (console :: CONSOLE | eff) Unit
 
-helloInConsole e = do
-  props <- getProps
-  log ("Hello, " ++ props.name ++ "!")
+hello = mkUI (spec unit) \ctx -> do
+  props <- getProps ctx
+  return $ h1 [ className "Hello"
+              , style { background: "lightgray" }
+              ] 
+              [ text "Hello, "
+              , text props.name
+              ]
 
-hello = mkUI spec do
-  props <- getProps
-  return $ h1 [
-      className "Hello",
-      onClick helloInConsole,
-      style {background: "gray"}
-    ] [
-      text "Hello, ",
-      text props.name
-    ]
-
-incrementCounter e = do
-  val <- readState
-  writeState (val + 1)
-
-counter = mkUI spec {
-    getInitialState = return 0,
-    componentDidMount = do
-      self <- getSelf
-      interval 1000 $ runUI self do
-        val <- readState
-        print val
-  } do
-  val <- readState
-  return $ p [className "Counter", onClick incrementCounter] [
-      text (show val),
-      text " Click me to increment!"
-    ]
+counter = mkUI counterSpec \ctx -> do
+  val <- readState ctx
+  return $ button [ className "Counter"
+                  , onClick \_ -> do
+                      val <- readState ctx
+                      writeState ctx (val + 1)
+                  ]
+                  [ text (show val)
+                  , text " Click me to increment!"
+                  ]
+  where
+  counterSpec = (spec 0)
+    { componentDidMount = \ctx ->
+        interval 1000 $ do
+          val <- readState ctx
+          print val
+    }
 
 main = do
-  let component = div' [hello {name: "World"}, counter {}]
+  let component = div' [ hello { name: "World" }, counter unit ]
   renderToBody component
