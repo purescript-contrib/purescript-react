@@ -1,7 +1,7 @@
 purescript-react
 ================
 
-[![Maintainer: paf31](https://img.shields.io/badge/maintainer-paf31-lightgrey.svg)](http://github.com/paf31)
+[![Maintainer: paf31](https://img.shields.io/badge/maintainer-paf31-lightgrey.svg)](http://github.com/paf31) ![React: 0.12.2](https://img.shields.io/badge/react-0.12.2-lightgrey.svg)
 
 Low-level React Bindings for PureScript.
 
