@@ -22,6 +22,7 @@ module React
   , Render()
 
   , UISpec()
+  , UIFactory()
 
   , Event()
   , MouseEvent()
@@ -45,6 +46,7 @@ module React
   , renderToString
   , renderToBody
   , renderToElementById
+  , createElement
   ) where
 
 import Prelude
@@ -202,6 +204,9 @@ type UISpec props state eff =
              ) Unit
   }
 
+-- | Factory function for components.
+type UIFactory props = props -> UI
+
 -- | Create a component specification.
 spec :: forall props state eff. state -> Render props state eff -> UISpec props state eff
 spec st render =
@@ -250,8 +255,7 @@ transformState ctx f = do
 -- | Create a component from a component spec.
 foreign import mkUI :: forall props state eff.
                          UISpec props state eff ->
-                         props ->
-                         UI
+                         UIFactory props
 
 -- | Create an event handler.
 foreign import handle :: forall eff ev props state result.
@@ -266,3 +270,6 @@ foreign import renderToBody :: forall eff. UI -> Eff (dom :: DOM | eff) UI
 
 -- | Render a component to the element with the specified ID.
 foreign import renderToElementById :: forall eff. String -> UI -> Eff (dom :: DOM | eff) UI
+
+-- | Create an element from a component factory.
+foreign import createElement :: forall props. UIFactory props -> props -> Array UI -> UI

@@ -79,3 +79,11 @@ exports.renderToElementById = function(id) {
         }
     }
 };
+
+exports.createElement = function(factory) {
+  return function(props) {
+    return function(children){
+      return React.createElement.apply(React, [factory, props].concat(children));
+    };
+  };
+};
