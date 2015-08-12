@@ -160,6 +160,14 @@ type UISpec props state eff = { render :: Render props state eff, displayName ::
 
 A specification of a component.
 
+#### `UIFactory`
+
+``` purescript
+type UIFactory props = props -> UI
+```
+
+Factory function for components.
+
 #### `spec`
 
 ``` purescript
@@ -211,7 +219,7 @@ Transform the component state by applying a function.
 #### `mkUI`
 
 ``` purescript
-mkUI :: forall props state eff. UISpec props state eff -> props -> UI
+mkUI :: forall props state eff. UISpec props state eff -> UIFactory props
 ```
 
 Create a component from a component spec.
@@ -247,5 +255,13 @@ renderToElementById :: forall eff. String -> UI -> Eff (dom :: DOM | eff) UI
 ```
 
 Render a component to the element with the specified ID.
+
+#### `createElement`
+
+``` purescript
+createElement :: forall props. UIFactory props -> props -> Array UI -> UI
+```
+
+Create an element from a component factory.
 
 
