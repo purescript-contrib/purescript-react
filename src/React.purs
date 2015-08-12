@@ -143,6 +143,7 @@ type Render props state eff =
 -- | A specification of a component.
 type UISpec props state eff =
   { render :: Render props state eff
+  , displayName :: String
   , getInitialState
       :: UIRef ->
          Eff ( props :: ReactProps props
@@ -205,6 +206,7 @@ type UISpec props state eff =
 spec :: forall props state eff. state -> Render props state eff -> UISpec props state eff
 spec st render =
   { render:                    render
+  , displayName:               ""
   , getInitialState:           \_ -> pure st
   , componentWillMount:        \_ -> return unit
   , componentDidMount:         \_ -> return unit
