@@ -38,11 +38,16 @@ exports.mkUI = function(ss) {
     var result = {};
     for (var s in ss) {
         if (ss.hasOwnProperty(s)) {
+          if (s === "displayName") {
+            result[s] = ss[s];
+          }
+          else {
             result[s] = (function(impl) {
                 return function() {
                     return impl(this)();
                 }
             })(ss[s]);
+          }
         }
     }
     result.getInitialState = function() {
