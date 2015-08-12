@@ -1,47 +1,47 @@
 -- | This module defines foreign types and functions which wrap React's functionality.
 
-module React 
+module React
   ( UI()
   , UIRef()
-  
+
   , EventHandler()
-  
+
   , Disallowed()
   , Read()
   , Write()
   , Only()
   , ReadWrite()
   , ReadOnly()
-  
+
   , ReactState()
   , ReactProps()
   , ReactRefs()
-  
+
   , Refs()
-  
+
   , Render()
-  
+
   , UISpec()
-  
+
   , Event()
   , MouseEvent()
   , KeyboardEvent()
-  
+
   , EventHandlerContext()
-  
+
   , spec
-  
+
   , getProps
   , getRefs
-  
+
   , readState
   , writeState
   , transformState
-  
+
   , mkUI
-  
+
   , handle
-  
+
   , renderToString
   , renderToBody
   , renderToElementById
@@ -103,13 +103,13 @@ foreign import data Refs :: *
 foreign import data Event :: *
 
 -- | The type of mouse events.
-type MouseEvent = 
+type MouseEvent =
   { pageX :: Number
-  , pageY :: Number 
+  , pageY :: Number
   }
 
 -- | The type of keyboard events.
-type KeyboardEvent = 
+type KeyboardEvent =
   { altKey   :: Boolean
   , ctrlKey  :: Boolean
   , charCode :: Int
@@ -124,7 +124,7 @@ type KeyboardEvent =
   }
 
 -- | A function which handles events.
-type EventHandlerContext eff props state result =  
+type EventHandlerContext eff props state result =
   Eff ( props :: ReactProps props
       , refs :: ReactRefs ReadOnly
       , state :: ReactState ReadWrite state
@@ -143,6 +143,7 @@ type Render props state eff =
 -- | A specification of a component.
 type UISpec props state eff =
   { render :: Render props state eff
+  , displayName :: String
   , getInitialState
       :: UIRef ->
          Eff ( props :: ReactProps props
@@ -205,6 +206,7 @@ type UISpec props state eff =
 spec :: forall props state eff. state -> Render props state eff -> UISpec props state eff
 spec st render =
   { render:                    render
+  , displayName:               ""
   , getInitialState:           \_ -> pure st
   , componentWillMount:        \_ -> return unit
   , componentDidMount:         \_ -> return unit
@@ -216,30 +218,30 @@ spec st render =
   }
 
 -- | Read the component props.
-foreign import getProps :: forall props eff. 
-                             UIRef -> 
+foreign import getProps :: forall props eff.
+                             UIRef ->
                              Eff (props :: ReactProps props | eff) props
 
 -- | Read the component refs.
 foreign import getRefs :: forall write eff.
-                            UIRef -> 
+                            UIRef ->
                             Eff (refs :: ReactRefs (Read write) | eff) Refs
 
 -- | Write the component state.
-foreign import writeState :: forall state eff. 
-                               UIRef -> 
-                               state -> 
+foreign import writeState :: forall state eff.
+                               UIRef ->
+                               state ->
                                Eff (state :: ReactState ReadWrite state | eff) state
 
 -- | Read the component state.
-foreign import readState :: forall state write eff. 
+foreign import readState :: forall state write eff.
                               UIRef ->
                               Eff (state :: ReactState (Read write) state | eff) state
 
 -- | Transform the component state by applying a function.
-transformState :: forall state statePerms eff. 
+transformState :: forall state statePerms eff.
                     UIRef ->
-                    (state -> state) -> 
+                    (state -> state) ->
                     Eff (state :: ReactState ReadWrite state | eff) state
 transformState ctx f = do
   state <- readState ctx
@@ -248,7 +250,7 @@ transformState ctx f = do
 -- | Create a component from a component spec.
 foreign import mkUI :: forall props state eff.
                          UISpec props state eff ->
-                         props -> 
+                         props ->
                          UI
 
 -- | Create an event handler.

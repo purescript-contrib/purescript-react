@@ -9,7 +9,7 @@ foreign import data Props :: *
 foreign import unsafeMkProps :: forall val. String -> val -> Props
 
 foreign import unsafeUnfoldProps :: forall vals. String -> { | vals } -> Props
-    
+
 aria :: forall ariaAttrs. { | ariaAttrs } -> Props
 aria = unsafeUnfoldProps "aria"
 
