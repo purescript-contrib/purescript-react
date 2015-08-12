@@ -192,6 +192,14 @@ getRefs :: forall write eff. UIRef -> Eff (refs :: ReactRefs (Read write) | eff)
 
 Read the component refs.
 
+#### `getChildren`
+
+``` purescript
+getChildren :: forall props eff. UIRef -> Eff (props :: ReactProps props | eff) (Array UI)
+```
+
+Read the component children property.
+
 #### `writeState`
 
 ``` purescript

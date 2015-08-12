@@ -34,6 +34,7 @@ module React
 
   , getProps
   , getRefs
+  , getChildren
 
   , readState
   , writeState
@@ -231,6 +232,11 @@ foreign import getProps :: forall props eff.
 foreign import getRefs :: forall write eff.
                             UIRef ->
                             Eff (refs :: ReactRefs (Read write) | eff) Refs
+
+-- | Read the component children property.
+foreign import getChildren :: forall props eff.
+                                UIRef ->
+                                Eff (props :: ReactProps props | eff) (Array UI)
 
 -- | Write the component state.
 foreign import writeState :: forall state eff.
