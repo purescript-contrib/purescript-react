@@ -1,9 +1,9 @@
 module React.DOM.SVG where
-    
+
 import React
 import React.DOM (mkDOM)
 import React.DOM.Props (Props())
-    
+
 circle :: Array Props -> Array UI -> UI
 circle = mkDOM "circle"
 
