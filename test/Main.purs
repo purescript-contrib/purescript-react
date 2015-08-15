@@ -10,8 +10,10 @@ import React
 import qualified React.DOM as D
 import qualified React.DOM.Props as P
 
-foreign import interval :: forall eff a. 
-                             Int -> 
+import Test.Container (container)
+
+foreign import interval :: forall eff a.
+                             Int ->
                              Eff eff a ->
                              Eff eff Unit
 
@@ -19,7 +21,7 @@ hello = mkUI $ spec unit \ctx -> do
   props <- getProps ctx
   return $ D.h1 [ P.className "Hello"
                 , P.style { background: "lightgray" }
-                ] 
+                ]
                 [ D.text "Hello, "
                 , D.text props.name
                 ]
@@ -44,5 +46,13 @@ counter = mkUI counterSpec
                       ]
 
 main = do
-  let component = D.div' [ hello { name: "World" }, counter unit ]
+  let component = D.div' [
+                    hello { name: "World" },
+                    counter unit,
+                    createElement container unit [
+                      D.p [] [ D.text  "This is line one" ],
+                      D.p [] [ D.text "This is line two" ]
+                    ]
+                  ]
+
   renderToBody component
