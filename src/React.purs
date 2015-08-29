@@ -167,6 +167,7 @@ type UISpec props state eff =
              ) Unit
   , componentWillReceiveProps
       :: UIRef ->
+         props ->
          Eff ( props :: ReactProps props
              , state :: ReactState ReadWrite state
              , refs :: ReactRefs ReadOnly
@@ -174,6 +175,8 @@ type UISpec props state eff =
              ) Unit
   , shouldComponentUpdate
       :: UIRef ->
+         props ->
+         state ->
          Eff ( props :: ReactProps props
              , state :: ReactState ReadWrite state
              , refs :: ReactRefs ReadOnly
@@ -181,6 +184,8 @@ type UISpec props state eff =
              ) Boolean
   , componentWillUpdate
       :: UIRef ->
+         props ->
+         state ->
          Eff ( props :: ReactProps props
              , state :: ReactState ReadWrite state
              , refs :: ReactRefs ReadOnly
@@ -188,6 +193,8 @@ type UISpec props state eff =
              ) Unit
   , componentDidUpdate
       :: UIRef ->
+         props ->
+         state ->
          Eff ( props :: ReactProps props
              , state :: ReactState ReadOnly state
              , refs :: ReactRefs ReadOnly
@@ -210,10 +217,10 @@ spec st render =
   , getInitialState:           \_ -> pure st
   , componentWillMount:        \_ -> return unit
   , componentDidMount:         \_ -> return unit
-  , componentWillReceiveProps: \_ -> return unit
-  , shouldComponentUpdate:     \_ -> return true
-  , componentWillUpdate:       \_ -> return unit
-  , componentDidUpdate:        \_ -> return unit
+  , componentWillReceiveProps: \_ _ -> return unit
+  , shouldComponentUpdate:     \_ _ _ -> return true
+  , componentWillUpdate:       \_ _ _ -> return unit
+  , componentDidUpdate:        \_ _ _ -> return unit
   , componentWillUnmount:      \_ -> return unit
   }
 
