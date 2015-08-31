@@ -15,6 +15,12 @@ exports.getRefs = function(ctx) {
     };
 };
 
+exports.getChildren = function(ctx) {
+  return function() {
+    return ctx.props.children;
+  };
+};
+
 exports.writeState = function(ctx) {
     return function(state) {
         return function() {
@@ -78,4 +84,12 @@ exports.renderToElementById = function(id) {
             return React.renderComponent(component, document.getElementById(id));
         }
     }
+};
+
+exports.createElement = function(factory) {
+  return function(props) {
+    return function(children){
+      return React.createElement.apply(React, [factory, props].concat(children));
+    };
+  };
 };
