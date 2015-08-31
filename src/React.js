@@ -47,6 +47,34 @@ exports.mkUI = function(ss) {
           if (s === "displayName") {
             result[s] = ss[s];
           }
+          else if (s === "componentWillReceiveProps") {
+            result[s] = (function(impl) {
+                return function(nextProps) {
+                    return impl(this)(nextProps)();
+                }
+            })(ss[s]);
+          }
+          else if (s === "shouldComponentUpdate") {
+            result[s] = (function(impl) {
+                return function(nextProps, nextState) {
+                    return impl(this)(nextProps)(nextState.state)();
+                }
+            })(ss[s]);
+          }
+          else if (s === "componentWillUpdate") {
+            result[s] = (function(impl) {
+                return function(nextProps, nextState) {
+                    return impl(this)(nextProps)(nextState.state)();
+                }
+            })(ss[s]);
+          }
+          else if (s === "componentDidUpdate") {
+            result[s] = (function(impl) {
+                return function(prevProps, prevState) {
+                    return impl(this)(prevProps)(prevState.state)();
+                }
+            })(ss[s]);
+          }
           else {
             result[s] = (function(impl) {
                 return function() {
