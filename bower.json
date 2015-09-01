@@ -16,8 +16,10 @@
     "tests"
   ],
   "dependencies": {
-    "purescript-console": "^0.1.0",
-    "purescript-dom": "^0.1.1",
-    "react": "~0.12.2"
+    "purescript-console": "~0.1.1",
+    "purescript-dom": "~0.2.6"
+  },
+  "devDependencies": {
+    "react": "~0.13.3"
   }
 }

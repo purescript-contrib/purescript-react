@@ -22,7 +22,7 @@ module React
   , Render()
 
   , UISpec()
-  , UIFactory()
+  , UIClass()
 
   , Event()
   , MouseEvent()
@@ -44,18 +44,19 @@ module React
 
   , handle
 
-  , renderToString
-  , renderToBody
-  , renderToElementById
   , createElement
+  , createFactory
+
+  , render
+  , renderToString
   ) where
 
-import Prelude
+import Prelude (Unit(), ($), bind, pure, return, unit)
 
-import DOM
+import DOM (DOM())
+import DOM.Node.Types (Element())
 
-import Control.Monad.Eff
-import Control.Monad.Eff.Console
+import Control.Monad.Eff (Eff())
 
 -- | A virtual DOM node, or component.
 foreign import data UI :: *
@@ -212,13 +213,10 @@ type UISpec props state eff =
              ) Unit
   }
 
--- | Factory function for components.
-type UIFactory props = props -> UI
-
 -- | Create a component specification.
 spec :: forall props state eff. state -> Render props state eff -> UISpec props state eff
-spec st render =
-  { render:                    render
+spec st renderFn =
+  { render:                    renderFn
   , displayName:               ""
   , getInitialState:           \_ -> pure st
   , componentWillMount:        \_ -> return unit
@@ -229,6 +227,9 @@ spec st render =
   , componentDidUpdate:        \_ _ _ -> return unit
   , componentWillUnmount:      \_ -> return unit
   }
+
+-- | Factory function for components.
+foreign import data UIClass :: * -> *
 
 -- | Read the component props.
 foreign import getProps :: forall props eff.
@@ -265,24 +266,24 @@ transformState ctx f = do
   state <- readState ctx
   writeState ctx $ f state
 
--- | Create a component from a component spec.
+-- | Create a React class from a specification.
 foreign import mkUI :: forall props state eff.
                          UISpec props state eff ->
-                         UIFactory props
+                         UIClass props
 
 -- | Create an event handler.
 foreign import handle :: forall eff ev props state result.
                            (ev -> EventHandlerContext eff props state result) ->
                            EventHandler ev
 
--- | Render a component as a string.
+-- | Render a React element in a document element.
+foreign import render :: forall eff. UI -> Element -> Eff (dom :: DOM | eff) UI
+
+-- | Render a React element as a string.
 foreign import renderToString :: UI -> String
 
--- | Render a component to the document body.
-foreign import renderToBody :: forall eff. UI -> Eff (dom :: DOM | eff) UI
+-- | Create an element from a React class.
+foreign import createElement :: forall props. UIClass props -> props -> Array UI -> UI
 
--- | Render a component to the element with the specified ID.
-foreign import renderToElementById :: forall eff. String -> UI -> Eff (dom :: DOM | eff) UI
-
--- | Create an element from a component factory.
-foreign import createElement :: forall props. UIFactory props -> props -> Array UI -> UI
+-- | Create a factory from a React class.
+foreign import createFactory :: forall props. UIClass props -> props -> UI

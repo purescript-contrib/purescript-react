@@ -98,26 +98,24 @@ exports.handle = function(f) {
     };
 };
 
-exports.renderToString = React.renderComponentToString;
-
-exports.renderToBody = function(component) {
-    return function() {
-        return React.renderComponent(component, document.body);
-    }
-};
-
-exports.renderToElementById = function(id) {
-    return function(component) {
-        return function() {
-            return React.renderComponent(component, document.getElementById(id));
-        }
-    }
-};
-
-exports.createElement = function(factory) {
+exports.createElement = function(clazz) {
   return function(props) {
     return function(children){
-      return React.createElement.apply(React, [factory, props].concat(children));
+      return React.createElement.apply(React, [clazz, props].concat(children));
     };
   };
 };
+
+exports.createFactory = function(clazz) {
+  return React.createFactory(clazz);
+};
+
+exports.render = function(element) {
+  return function(container) {
+    return function() {
+      return React.render(element, container);
+    }
+  };
+};
+
+exports.renderToString = React.renderToString;
