@@ -5,678 +5,678 @@ import Prelude hiding (sub, div, map)
 import React
 import React.DOM.Props (Props())
 
-foreign import mkDOM :: String -> Array Props -> Array UI -> UI
+foreign import mkDOM :: String -> Array Props -> Array ReactElement -> ReactElement
 
-foreign import text :: String -> UI
+foreign import text :: String -> ReactElement
 
-a :: Array Props -> Array UI -> UI
+a :: Array Props -> Array ReactElement -> ReactElement
 a = mkDOM "a"
 
-a' :: Array UI -> UI
+a' :: Array ReactElement -> ReactElement
 a' = a []
 
-abbr :: Array Props -> Array UI -> UI
+abbr :: Array Props -> Array ReactElement -> ReactElement
 abbr = mkDOM "abbr"
 
-abbr' :: Array UI -> UI
+abbr' :: Array ReactElement -> ReactElement
 abbr' = abbr []
 
-address :: Array Props -> Array UI -> UI
+address :: Array Props -> Array ReactElement -> ReactElement
 address = mkDOM "address"
 
-address' :: Array UI -> UI
+address' :: Array ReactElement -> ReactElement
 address' = address []
 
-area :: Array Props -> Array UI -> UI
+area :: Array Props -> Array ReactElement -> ReactElement
 area = mkDOM "area"
 
-area' :: Array UI -> UI
+area' :: Array ReactElement -> ReactElement
 area' = area []
 
-article :: Array Props -> Array UI -> UI
+article :: Array Props -> Array ReactElement -> ReactElement
 article = mkDOM "article"
 
-article' :: Array UI -> UI
+article' :: Array ReactElement -> ReactElement
 article' = article []
 
-aside :: Array Props -> Array UI -> UI
+aside :: Array Props -> Array ReactElement -> ReactElement
 aside = mkDOM "aside"
 
-aside' :: Array UI -> UI
+aside' :: Array ReactElement -> ReactElement
 aside' = aside []
 
-audio :: Array Props -> Array UI -> UI
+audio :: Array Props -> Array ReactElement -> ReactElement
 audio = mkDOM "audio"
 
-audio' :: Array UI -> UI
+audio' :: Array ReactElement -> ReactElement
 audio' = audio []
 
-b :: Array Props -> Array UI -> UI
+b :: Array Props -> Array ReactElement -> ReactElement
 b = mkDOM "b"
 
-b' :: Array UI -> UI
+b' :: Array ReactElement -> ReactElement
 b' = b []
 
-base :: Array Props -> Array UI -> UI
+base :: Array Props -> Array ReactElement -> ReactElement
 base = mkDOM "base"
 
-base' :: Array UI -> UI
+base' :: Array ReactElement -> ReactElement
 base' = base []
 
-bdi :: Array Props -> Array UI -> UI
+bdi :: Array Props -> Array ReactElement -> ReactElement
 bdi = mkDOM "bdi"
 
-bdi' :: Array UI -> UI
+bdi' :: Array ReactElement -> ReactElement
 bdi' = bdi []
 
-bdo :: Array Props -> Array UI -> UI
+bdo :: Array Props -> Array ReactElement -> ReactElement
 bdo = mkDOM "bdo"
 
-bdo' :: Array UI -> UI
+bdo' :: Array ReactElement -> ReactElement
 bdo' = bdo []
 
-big :: Array Props -> Array UI -> UI
+big :: Array Props -> Array ReactElement -> ReactElement
 big = mkDOM "big"
 
-big' :: Array UI -> UI
+big' :: Array ReactElement -> ReactElement
 big' = big []
 
-blockquote :: Array Props -> Array UI -> UI
+blockquote :: Array Props -> Array ReactElement -> ReactElement
 blockquote = mkDOM "blockquote"
 
-blockquote' :: Array UI -> UI
+blockquote' :: Array ReactElement -> ReactElement
 blockquote' = blockquote []
 
-body :: Array Props -> Array UI -> UI
+body :: Array Props -> Array ReactElement -> ReactElement
 body = mkDOM "body"
 
-body' :: Array UI -> UI
+body' :: Array ReactElement -> ReactElement
 body' = body []
 
-br :: Array Props -> Array UI -> UI
+br :: Array Props -> Array ReactElement -> ReactElement
 br = mkDOM "br"
 
-br' :: Array UI -> UI
+br' :: Array ReactElement -> ReactElement
 br' = br []
 
-button :: Array Props -> Array UI -> UI
+button :: Array Props -> Array ReactElement -> ReactElement
 button = mkDOM "button"
 
-button' :: Array UI -> UI
+button' :: Array ReactElement -> ReactElement
 button' = button []
 
-canvas :: Array Props -> Array UI -> UI
+canvas :: Array Props -> Array ReactElement -> ReactElement
 canvas = mkDOM "canvas"
 
-canvas' :: Array UI -> UI
+canvas' :: Array ReactElement -> ReactElement
 canvas' = canvas []
 
-caption :: Array Props -> Array UI -> UI
+caption :: Array Props -> Array ReactElement -> ReactElement
 caption = mkDOM "caption"
 
-caption' :: Array UI -> UI
+caption' :: Array ReactElement -> ReactElement
 caption' = caption []
 
-cite :: Array Props -> Array UI -> UI
+cite :: Array Props -> Array ReactElement -> ReactElement
 cite = mkDOM "cite"
 
-cite' :: Array UI -> UI
+cite' :: Array ReactElement -> ReactElement
 cite' = cite []
 
-code :: Array Props -> Array UI -> UI
+code :: Array Props -> Array ReactElement -> ReactElement
 code = mkDOM "code"
 
-code' :: Array UI -> UI
+code' :: Array ReactElement -> ReactElement
 code' = code []
 
-col :: Array Props -> Array UI -> UI
+col :: Array Props -> Array ReactElement -> ReactElement
 col = mkDOM "col"
 
-col' :: Array UI -> UI
+col' :: Array ReactElement -> ReactElement
 col' = col []
 
-colgroup :: Array Props -> Array UI -> UI
+colgroup :: Array Props -> Array ReactElement -> ReactElement
 colgroup = mkDOM "colgroup"
 
-colgroup' :: Array UI -> UI
+colgroup' :: Array ReactElement -> ReactElement
 colgroup' = colgroup []
 
-_data :: Array Props -> Array UI -> UI
+_data :: Array Props -> Array ReactElement -> ReactElement
 _data = mkDOM "data"
 
-_data' :: Array UI -> UI
+_data' :: Array ReactElement -> ReactElement
 _data' = _data []
 
-datalist :: Array Props -> Array UI -> UI
+datalist :: Array Props -> Array ReactElement -> ReactElement
 datalist = mkDOM "datalist"
 
-datalist' :: Array UI -> UI
+datalist' :: Array ReactElement -> ReactElement
 datalist' = datalist []
 
-dd :: Array Props -> Array UI -> UI
+dd :: Array Props -> Array ReactElement -> ReactElement
 dd = mkDOM "dd"
 
-dd' :: Array UI -> UI
+dd' :: Array ReactElement -> ReactElement
 dd' = dd []
 
-del :: Array Props -> Array UI -> UI
+del :: Array Props -> Array ReactElement -> ReactElement
 del = mkDOM "del"
 
-del' :: Array UI -> UI
+del' :: Array ReactElement -> ReactElement
 del' = del []
 
-details :: Array Props -> Array UI -> UI
+details :: Array Props -> Array ReactElement -> ReactElement
 details = mkDOM "details"
 
-details' :: Array UI -> UI
+details' :: Array ReactElement -> ReactElement
 details' = details []
 
-dfn :: Array Props -> Array UI -> UI
+dfn :: Array Props -> Array ReactElement -> ReactElement
 dfn = mkDOM "dfn"
 
-dfn' :: Array UI -> UI
+dfn' :: Array ReactElement -> ReactElement
 dfn' = dfn []
 
-dialog :: Array Props -> Array UI -> UI
+dialog :: Array Props -> Array ReactElement -> ReactElement
 dialog = mkDOM "dialog"
 
-dialog' :: Array UI -> UI
+dialog' :: Array ReactElement -> ReactElement
 dialog' = dialog []
 
-div :: Array Props -> Array UI -> UI
+div :: Array Props -> Array ReactElement -> ReactElement
 div = mkDOM "div"
 
-div' :: Array UI -> UI
+div' :: Array ReactElement -> ReactElement
 div' = div []
 
-dl :: Array Props -> Array UI -> UI
+dl :: Array Props -> Array ReactElement -> ReactElement
 dl = mkDOM "dl"
 
-dl' :: Array UI -> UI
+dl' :: Array ReactElement -> ReactElement
 dl' = dl []
 
-dt :: Array Props -> Array UI -> UI
+dt :: Array Props -> Array ReactElement -> ReactElement
 dt = mkDOM "dt"
 
-dt' :: Array UI -> UI
+dt' :: Array ReactElement -> ReactElement
 dt' = dt []
 
-em :: Array Props -> Array UI -> UI
+em :: Array Props -> Array ReactElement -> ReactElement
 em = mkDOM "em"
 
-em' :: Array UI -> UI
+em' :: Array ReactElement -> ReactElement
 em' = em []
 
-embed :: Array Props -> Array UI -> UI
+embed :: Array Props -> Array ReactElement -> ReactElement
 embed = mkDOM "embed"
 
-embed' :: Array UI -> UI
+embed' :: Array ReactElement -> ReactElement
 embed' = embed []
 
-fieldset :: Array Props -> Array UI -> UI
+fieldset :: Array Props -> Array ReactElement -> ReactElement
 fieldset = mkDOM "fieldset"
 
-fieldset' :: Array UI -> UI
+fieldset' :: Array ReactElement -> ReactElement
 fieldset' = fieldset []
 
-figcaption :: Array Props -> Array UI -> UI
+figcaption :: Array Props -> Array ReactElement -> ReactElement
 figcaption = mkDOM "figcaption"
 
-figcaption' :: Array UI -> UI
+figcaption' :: Array ReactElement -> ReactElement
 figcaption' = figcaption []
 
-figure :: Array Props -> Array UI -> UI
+figure :: Array Props -> Array ReactElement -> ReactElement
 figure = mkDOM "figure"
 
-figure' :: Array UI -> UI
+figure' :: Array ReactElement -> ReactElement
 figure' = figure []
 
-footer :: Array Props -> Array UI -> UI
+footer :: Array Props -> Array ReactElement -> ReactElement
 footer = mkDOM "footer"
 
-footer' :: Array UI -> UI
+footer' :: Array ReactElement -> ReactElement
 footer' = footer []
 
-form :: Array Props -> Array UI -> UI
+form :: Array Props -> Array ReactElement -> ReactElement
 form = mkDOM "form"
 
-form' :: Array UI -> UI
+form' :: Array ReactElement -> ReactElement
 form' = form []
 
-h1 :: Array Props -> Array UI -> UI
+h1 :: Array Props -> Array ReactElement -> ReactElement
 h1 = mkDOM "h1"
 
-h1' :: Array UI -> UI
+h1' :: Array ReactElement -> ReactElement
 h1' = h1 []
 
-h2 :: Array Props -> Array UI -> UI
+h2 :: Array Props -> Array ReactElement -> ReactElement
 h2 = mkDOM "h2"
 
-h2' :: Array UI -> UI
+h2' :: Array ReactElement -> ReactElement
 h2' = h2 []
 
-h3 :: Array Props -> Array UI -> UI
+h3 :: Array Props -> Array ReactElement -> ReactElement
 h3 = mkDOM "h3"
 
-h3' :: Array UI -> UI
+h3' :: Array ReactElement -> ReactElement
 h3' = h3 []
 
-h4 :: Array Props -> Array UI -> UI
+h4 :: Array Props -> Array ReactElement -> ReactElement
 h4 = mkDOM "h4"
 
-h4' :: Array UI -> UI
+h4' :: Array ReactElement -> ReactElement
 h4' = h4 []
 
-h5 :: Array Props -> Array UI -> UI
+h5 :: Array Props -> Array ReactElement -> ReactElement
 h5 = mkDOM "h5"
 
-h5' :: Array UI -> UI
+h5' :: Array ReactElement -> ReactElement
 h5' = h5 []
 
-h6 :: Array Props -> Array UI -> UI
+h6 :: Array Props -> Array ReactElement -> ReactElement
 h6 = mkDOM "h6"
 
-h6' :: Array UI -> UI
+h6' :: Array ReactElement -> ReactElement
 h6' = h6 []
 
-head :: Array Props -> Array UI -> UI
+head :: Array Props -> Array ReactElement -> ReactElement
 head = mkDOM "head"
 
-head' :: Array UI -> UI
+head' :: Array ReactElement -> ReactElement
 head' = head []
 
-header :: Array Props -> Array UI -> UI
+header :: Array Props -> Array ReactElement -> ReactElement
 header = mkDOM "header"
 
-header' :: Array UI -> UI
+header' :: Array ReactElement -> ReactElement
 header' = header []
 
-hr :: Array Props -> Array UI -> UI
+hr :: Array Props -> Array ReactElement -> ReactElement
 hr = mkDOM "hr"
 
-hr' :: Array UI -> UI
+hr' :: Array ReactElement -> ReactElement
 hr' = hr []
 
-html :: Array Props -> Array UI -> UI
+html :: Array Props -> Array ReactElement -> ReactElement
 html = mkDOM "html"
 
-html' :: Array UI -> UI
+html' :: Array ReactElement -> ReactElement
 html' = html []
 
-i :: Array Props -> Array UI -> UI
+i :: Array Props -> Array ReactElement -> ReactElement
 i = mkDOM "i"
 
-i' :: Array UI -> UI
+i' :: Array ReactElement -> ReactElement
 i' = i []
 
-iframe :: Array Props -> Array UI -> UI
+iframe :: Array Props -> Array ReactElement -> ReactElement
 iframe = mkDOM "iframe"
 
-iframe' :: Array UI -> UI
+iframe' :: Array ReactElement -> ReactElement
 iframe' = iframe []
 
-img :: Array Props -> Array UI -> UI
+img :: Array Props -> Array ReactElement -> ReactElement
 img = mkDOM "img"
 
-img' :: Array UI -> UI
+img' :: Array ReactElement -> ReactElement
 img' = img []
 
-input :: Array Props -> Array UI -> UI
+input :: Array Props -> Array ReactElement -> ReactElement
 input = mkDOM "input"
 
-input' :: Array UI -> UI
+input' :: Array ReactElement -> ReactElement
 input' = input []
 
-ins :: Array Props -> Array UI -> UI
+ins :: Array Props -> Array ReactElement -> ReactElement
 ins = mkDOM "ins"
 
-ins' :: Array UI -> UI
+ins' :: Array ReactElement -> ReactElement
 ins' = ins []
 
-kbd :: Array Props -> Array UI -> UI
+kbd :: Array Props -> Array ReactElement -> ReactElement
 kbd = mkDOM "kbd"
 
-kbd' :: Array UI -> UI
+kbd' :: Array ReactElement -> ReactElement
 kbd' = kbd []
 
-keygen :: Array Props -> Array UI -> UI
+keygen :: Array Props -> Array ReactElement -> ReactElement
 keygen = mkDOM "keygen"
 
-keygen' :: Array UI -> UI
+keygen' :: Array ReactElement -> ReactElement
 keygen' = keygen []
 
-label :: Array Props -> Array UI -> UI
+label :: Array Props -> Array ReactElement -> ReactElement
 label = mkDOM "label"
 
-label' :: Array UI -> UI
+label' :: Array ReactElement -> ReactElement
 label' = label []
 
-legend :: Array Props -> Array UI -> UI
+legend :: Array Props -> Array ReactElement -> ReactElement
 legend = mkDOM "legend"
 
-legend' :: Array UI -> UI
+legend' :: Array ReactElement -> ReactElement
 legend' = legend []
 
-li :: Array Props -> Array UI -> UI
+li :: Array Props -> Array ReactElement -> ReactElement
 li = mkDOM "li"
 
-li' :: Array UI -> UI
+li' :: Array ReactElement -> ReactElement
 li' = li []
 
-link :: Array Props -> Array UI -> UI
+link :: Array Props -> Array ReactElement -> ReactElement
 link = mkDOM "link"
 
-link' :: Array UI -> UI
+link' :: Array ReactElement -> ReactElement
 link' = body []
 
-main :: Array Props -> Array UI -> UI
+main :: Array Props -> Array ReactElement -> ReactElement
 main = mkDOM "main"
 
-main' :: Array UI -> UI
+main' :: Array ReactElement -> ReactElement
 main' = main []
 
-map :: Array Props -> Array UI -> UI
+map :: Array Props -> Array ReactElement -> ReactElement
 map = mkDOM "map"
 
-map' :: Array UI -> UI
+map' :: Array ReactElement -> ReactElement
 map' = map []
 
-mark :: Array Props -> Array UI -> UI
+mark :: Array Props -> Array ReactElement -> ReactElement
 mark = mkDOM "mark"
 
-mark' :: Array UI -> UI
+mark' :: Array ReactElement -> ReactElement
 mark' = mark []
 
-menu :: Array Props -> Array UI -> UI
+menu :: Array Props -> Array ReactElement -> ReactElement
 menu = mkDOM "menu"
 
-menu' :: Array UI -> UI
+menu' :: Array ReactElement -> ReactElement
 menu' = menu []
 
-menuitem :: Array Props -> Array UI -> UI
+menuitem :: Array Props -> Array ReactElement -> ReactElement
 menuitem = mkDOM "menuitem"
 
-menuitem' :: Array UI -> UI
+menuitem' :: Array ReactElement -> ReactElement
 menuitem' = menuitem []
 
-meta :: Array Props -> Array UI -> UI
+meta :: Array Props -> Array ReactElement -> ReactElement
 meta = mkDOM "meta"
 
-meta' :: Array UI -> UI
+meta' :: Array ReactElement -> ReactElement
 meta' = meta []
 
-meter :: Array Props -> Array UI -> UI
+meter :: Array Props -> Array ReactElement -> ReactElement
 meter = mkDOM "meter"
 
-meter' :: Array UI -> UI
+meter' :: Array ReactElement -> ReactElement
 meter' = meter []
 
-nav :: Array Props -> Array UI -> UI
+nav :: Array Props -> Array ReactElement -> ReactElement
 nav = mkDOM "nav"
 
-nav' :: Array UI -> UI
+nav' :: Array ReactElement -> ReactElement
 nav' = nav []
 
-noscript :: Array Props -> Array UI -> UI
+noscript :: Array Props -> Array ReactElement -> ReactElement
 noscript = mkDOM "noscript"
 
-noscript' :: Array UI -> UI
+noscript' :: Array ReactElement -> ReactElement
 noscript' = noscript []
 
-object :: Array Props -> Array UI -> UI
+object :: Array Props -> Array ReactElement -> ReactElement
 object = mkDOM "object"
 
-object' :: Array UI -> UI
+object' :: Array ReactElement -> ReactElement
 object' = object []
 
-ol :: Array Props -> Array UI -> UI
+ol :: Array Props -> Array ReactElement -> ReactElement
 ol = mkDOM "ol"
 
-ol' :: Array UI -> UI
+ol' :: Array ReactElement -> ReactElement
 ol' = ol []
 
-optgroup :: Array Props -> Array UI -> UI
+optgroup :: Array Props -> Array ReactElement -> ReactElement
 optgroup = mkDOM "optgroup"
 
-optgroup' :: Array UI -> UI
+optgroup' :: Array ReactElement -> ReactElement
 optgroup' = optgroup []
 
-option :: Array Props -> Array UI -> UI
+option :: Array Props -> Array ReactElement -> ReactElement
 option = mkDOM "option"
 
-option' :: Array UI -> UI
+option' :: Array ReactElement -> ReactElement
 option' = option []
 
-output :: Array Props -> Array UI -> UI
+output :: Array Props -> Array ReactElement -> ReactElement
 output = mkDOM "output"
 
-output' :: Array UI -> UI
+output' :: Array ReactElement -> ReactElement
 output' = output []
 
-p :: Array Props -> Array UI -> UI
+p :: Array Props -> Array ReactElement -> ReactElement
 p = mkDOM "p"
 
-p' :: Array UI -> UI
+p' :: Array ReactElement -> ReactElement
 p' = p []
 
-param :: Array Props -> Array UI -> UI
+param :: Array Props -> Array ReactElement -> ReactElement
 param = mkDOM "param"
 
-param' :: Array UI -> UI
+param' :: Array ReactElement -> ReactElement
 param' = param []
 
-picture :: Array Props -> Array UI -> UI
+picture :: Array Props -> Array ReactElement -> ReactElement
 picture = mkDOM "picture"
 
-picture' :: Array UI -> UI
+picture' :: Array ReactElement -> ReactElement
 picture' = picture []
 
-pre :: Array Props -> Array UI -> UI
+pre :: Array Props -> Array ReactElement -> ReactElement
 pre = mkDOM "pre"
 
-pre' :: Array UI -> UI
+pre' :: Array ReactElement -> ReactElement
 pre' = pre []
 
-progress :: Array Props -> Array UI -> UI
+progress :: Array Props -> Array ReactElement -> ReactElement
 progress = mkDOM "progress"
 
-progress' :: Array UI -> UI
+progress' :: Array ReactElement -> ReactElement
 progress' = progress []
 
-q :: Array Props -> Array UI -> UI
+q :: Array Props -> Array ReactElement -> ReactElement
 q = mkDOM "q"
 
-q' :: Array UI -> UI
+q' :: Array ReactElement -> ReactElement
 q' = q []
 
-rp :: Array Props -> Array UI -> UI
+rp :: Array Props -> Array ReactElement -> ReactElement
 rp = mkDOM "rp"
 
-rp' :: Array UI -> UI
+rp' :: Array ReactElement -> ReactElement
 rp' = rp []
 
-rt :: Array Props -> Array UI -> UI
+rt :: Array Props -> Array ReactElement -> ReactElement
 rt = mkDOM "rt"
 
-rt' :: Array UI -> UI
+rt' :: Array ReactElement -> ReactElement
 rt' = rt []
 
-ruby :: Array Props -> Array UI -> UI
+ruby :: Array Props -> Array ReactElement -> ReactElement
 ruby = mkDOM "ruby"
 
-ruby' :: Array UI -> UI
+ruby' :: Array ReactElement -> ReactElement
 ruby' = ruby []
 
-s :: Array Props -> Array UI -> UI
+s :: Array Props -> Array ReactElement -> ReactElement
 s = mkDOM "s"
 
-s' :: Array UI -> UI
+s' :: Array ReactElement -> ReactElement
 s' = s []
 
-samp :: Array Props -> Array UI -> UI
+samp :: Array Props -> Array ReactElement -> ReactElement
 samp = mkDOM "samp"
 
-samp' :: Array UI -> UI
+samp' :: Array ReactElement -> ReactElement
 samp' = samp []
 
-script :: Array Props -> Array UI -> UI
+script :: Array Props -> Array ReactElement -> ReactElement
 script = mkDOM "script"
 
-script' :: Array UI -> UI
+script' :: Array ReactElement -> ReactElement
 script' = script []
 
-section :: Array Props -> Array UI -> UI
+section :: Array Props -> Array ReactElement -> ReactElement
 section = mkDOM "section"
 
-section' :: Array UI -> UI
+section' :: Array ReactElement -> ReactElement
 section' = section []
 
-select :: Array Props -> Array UI -> UI
+select :: Array Props -> Array ReactElement -> ReactElement
 select = mkDOM "select"
 
-select' :: Array UI -> UI
+select' :: Array ReactElement -> ReactElement
 select' = select []
 
-small :: Array Props -> Array UI -> UI
+small :: Array Props -> Array ReactElement -> ReactElement
 small = mkDOM "small"
 
-small' :: Array UI -> UI
+small' :: Array ReactElement -> ReactElement
 small' = small []
 
-source :: Array Props -> Array UI -> UI
+source :: Array Props -> Array ReactElement -> ReactElement
 source = mkDOM "source"
 
-source' :: Array UI -> UI
+source' :: Array ReactElement -> ReactElement
 source' = source []
 
-span :: Array Props -> Array UI -> UI
+span :: Array Props -> Array ReactElement -> ReactElement
 span = mkDOM "span"
 
-span' :: Array UI -> UI
+span' :: Array ReactElement -> ReactElement
 span' = span []
 
-strong :: Array Props -> Array UI -> UI
+strong :: Array Props -> Array ReactElement -> ReactElement
 strong = mkDOM "strong"
 
-strong' :: Array UI -> UI
+strong' :: Array ReactElement -> ReactElement
 strong' = strong []
 
-style :: Array Props -> Array UI -> UI
+style :: Array Props -> Array ReactElement -> ReactElement
 style = mkDOM "style"
 
-style' :: Array UI -> UI
+style' :: Array ReactElement -> ReactElement
 style' = style []
 
-sub :: Array Props -> Array UI -> UI
+sub :: Array Props -> Array ReactElement -> ReactElement
 sub = mkDOM "sub"
 
-sub' :: Array UI -> UI
+sub' :: Array ReactElement -> ReactElement
 sub' = sub []
 
-summary :: Array Props -> Array UI -> UI
+summary :: Array Props -> Array ReactElement -> ReactElement
 summary = mkDOM "summary"
 
-summary' :: Array UI -> UI
+summary' :: Array ReactElement -> ReactElement
 summary' = summary []
 
-sup :: Array Props -> Array UI -> UI
+sup :: Array Props -> Array ReactElement -> ReactElement
 sup = mkDOM "sup"
 
-sup' :: Array UI -> UI
+sup' :: Array ReactElement -> ReactElement
 sup' = sup []
 
-table :: Array Props -> Array UI -> UI
+table :: Array Props -> Array ReactElement -> ReactElement
 table = mkDOM "table"
 
-table' :: Array UI -> UI
+table' :: Array ReactElement -> ReactElement
 table' = table []
 
-tbody :: Array Props -> Array UI -> UI
+tbody :: Array Props -> Array ReactElement -> ReactElement
 tbody = mkDOM "tbody"
 
-tbody' :: Array UI -> UI
+tbody' :: Array ReactElement -> ReactElement
 tbody' = tbody []
 
-td :: Array Props -> Array UI -> UI
+td :: Array Props -> Array ReactElement -> ReactElement
 td = mkDOM "td"
 
-td' :: Array UI -> UI
+td' :: Array ReactElement -> ReactElement
 td' = td []
 
-textarea :: Array Props -> Array UI -> UI
+textarea :: Array Props -> Array ReactElement -> ReactElement
 textarea = mkDOM "textarea"
 
-textarea' :: Array UI -> UI
+textarea' :: Array ReactElement -> ReactElement
 textarea' = textarea []
 
-tfoot :: Array Props -> Array UI -> UI
+tfoot :: Array Props -> Array ReactElement -> ReactElement
 tfoot = mkDOM "tfoot"
 
-tfoot' :: Array UI -> UI
+tfoot' :: Array ReactElement -> ReactElement
 tfoot' = tfoot []
 
-th :: Array Props -> Array UI -> UI
+th :: Array Props -> Array ReactElement -> ReactElement
 th = mkDOM "th"
 
-th' :: Array UI -> UI
+th' :: Array ReactElement -> ReactElement
 th' = th []
 
-thead :: Array Props -> Array UI -> UI
+thead :: Array Props -> Array ReactElement -> ReactElement
 thead = mkDOM "thead"
 
-thead' :: Array UI -> UI
+thead' :: Array ReactElement -> ReactElement
 thead' = thead []
 
-time :: Array Props -> Array UI -> UI
+time :: Array Props -> Array ReactElement -> ReactElement
 time = mkDOM "time"
 
-time' :: Array UI -> UI
+time' :: Array ReactElement -> ReactElement
 time' = time []
 
-title :: Array Props -> Array UI -> UI
+title :: Array Props -> Array ReactElement -> ReactElement
 title = mkDOM "title"
 
-title' :: Array UI -> UI
+title' :: Array ReactElement -> ReactElement
 title' = title []
 
-tr :: Array Props -> Array UI -> UI
+tr :: Array Props -> Array ReactElement -> ReactElement
 tr = mkDOM "tr"
 
-tr' :: Array UI -> UI
+tr' :: Array ReactElement -> ReactElement
 tr' = tr []
 
-track :: Array Props -> Array UI -> UI
+track :: Array Props -> Array ReactElement -> ReactElement
 track = mkDOM "track"
 
-track' :: Array UI -> UI
+track' :: Array ReactElement -> ReactElement
 track' = track []
 
-u :: Array Props -> Array UI -> UI
+u :: Array Props -> Array ReactElement -> ReactElement
 u = mkDOM "u"
 
-u' :: Array UI -> UI
+u' :: Array ReactElement -> ReactElement
 u' = u []
 
-ul :: Array Props -> Array UI -> UI
+ul :: Array Props -> Array ReactElement -> ReactElement
 ul = mkDOM "ul"
 
-ul' :: Array UI -> UI
+ul' :: Array ReactElement -> ReactElement
 ul' = ul []
 
-var :: Array Props -> Array UI -> UI
+var :: Array Props -> Array ReactElement -> ReactElement
 var = mkDOM "var"
 
-var' :: Array UI -> UI
+var' :: Array ReactElement -> ReactElement
 var' = var []
 
-video :: Array Props -> Array UI -> UI
+video :: Array Props -> Array ReactElement -> ReactElement
 video = mkDOM "video"
 
-video' :: Array UI -> UI
+video' :: Array ReactElement -> ReactElement
 video' = video []
 
-wbr :: Array Props -> Array UI -> UI
+wbr :: Array Props -> Array ReactElement -> ReactElement
 wbr = mkDOM "body"
 
-wbr' :: Array UI -> UI
+wbr' :: Array ReactElement -> ReactElement
 wbr' = wbr []

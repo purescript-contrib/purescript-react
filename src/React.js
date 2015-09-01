@@ -40,7 +40,7 @@ exports.readState = function(ctx) {
     };
 };
 
-exports.mkUI = function(ss) {
+exports.createClass = function(ss) {
     var result = {};
     for (var s in ss) {
         if (ss.hasOwnProperty(s)) {

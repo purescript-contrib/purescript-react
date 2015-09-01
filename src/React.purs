@@ -1,8 +1,8 @@
 -- | This module defines foreign types and functions which wrap React's functionality.
 
 module React
-  ( UI()
-  , UIRef()
+  ( ReactElement()
+  , ReactThis()
 
   , EventHandler()
 
@@ -21,8 +21,8 @@ module React
 
   , Render()
 
-  , UISpec()
-  , UIClass()
+  , ReactSpec()
+  , ReactClass()
 
   , Event()
   , MouseEvent()
@@ -40,10 +40,9 @@ module React
   , writeState
   , transformState
 
-  , mkUI
-
   , handle
 
+  , createClass
   , createElement
   , createFactory
 
@@ -59,10 +58,10 @@ import DOM.Node.Types (Element())
 import Control.Monad.Eff (Eff())
 
 -- | A virtual DOM node, or component.
-foreign import data UI :: *
+foreign import data ReactElement :: *
 
 -- | A reference to a component, essentially React's `this`.
-foreign import data UIRef :: *
+foreign import data ReactThis :: *
 
 -- | An event handler. The type argument represents the type of the event.
 foreign import data EventHandler :: * -> *
@@ -137,40 +136,40 @@ type EventHandlerContext eff props state result =
 
 -- | A rendering function.
 type Render props state eff =
-  UIRef ->
+  ReactThis ->
   Eff ( props :: ReactProps props
       , refs :: ReactRefs Disallowed
       , state :: ReactState ReadOnly state
       | eff
-      ) UI
+      ) ReactElement
 
 -- | A specification of a component.
-type UISpec props state eff =
+type ReactSpec props state eff =
   { render :: Render props state eff
   , displayName :: String
   , getInitialState
-      :: UIRef ->
+      :: ReactThis ->
          Eff ( props :: ReactProps props
              , state :: ReactState Disallowed state
              , refs :: ReactRefs Disallowed
              | eff
              ) state
   , componentWillMount
-      :: UIRef ->
+      :: ReactThis ->
          Eff ( props :: ReactProps props
              , state :: ReactState ReadWrite state
              , refs :: ReactRefs Disallowed
              | eff
              ) Unit
   , componentDidMount
-      :: UIRef ->
+      :: ReactThis ->
          Eff ( props :: ReactProps props
              , state :: ReactState ReadWrite state
              , refs :: ReactRefs ReadOnly
              | eff
              ) Unit
   , componentWillReceiveProps
-      :: UIRef ->
+      :: ReactThis ->
          props ->
          Eff ( props :: ReactProps props
              , state :: ReactState ReadWrite state
@@ -178,7 +177,7 @@ type UISpec props state eff =
              | eff
              ) Unit
   , shouldComponentUpdate
-      :: UIRef ->
+      :: ReactThis ->
          props ->
          state ->
          Eff ( props :: ReactProps props
@@ -187,7 +186,7 @@ type UISpec props state eff =
              | eff
              ) Boolean
   , componentWillUpdate
-      :: UIRef ->
+      :: ReactThis ->
          props ->
          state ->
          Eff ( props :: ReactProps props
@@ -196,7 +195,7 @@ type UISpec props state eff =
              | eff
              ) Unit
   , componentDidUpdate
-      :: UIRef ->
+      :: ReactThis ->
          props ->
          state ->
          Eff ( props :: ReactProps props
@@ -205,7 +204,7 @@ type UISpec props state eff =
              | eff
              ) Unit
   , componentWillUnmount
-      :: UIRef ->
+      :: ReactThis ->
          Eff ( props :: ReactProps props
              , state :: ReactState ReadOnly state
              , refs :: ReactRefs ReadOnly
@@ -214,7 +213,7 @@ type UISpec props state eff =
   }
 
 -- | Create a component specification.
-spec :: forall props state eff. state -> Render props state eff -> UISpec props state eff
+spec :: forall props state eff. state -> Render props state eff -> ReactSpec props state eff
 spec st renderFn =
   { render:                    renderFn
   , displayName:               ""
@@ -228,62 +227,44 @@ spec st renderFn =
   , componentWillUnmount:      \_ -> return unit
   }
 
--- | Factory function for components.
-foreign import data UIClass :: * -> *
+-- | React class for components.
+foreign import data ReactClass :: * -> *
 
 -- | Read the component props.
-foreign import getProps :: forall props eff.
-                             UIRef ->
-                             Eff (props :: ReactProps props | eff) props
+foreign import getProps :: forall props eff. ReactThis -> Eff (props :: ReactProps props | eff) props
 
 -- | Read the component refs.
-foreign import getRefs :: forall write eff.
-                            UIRef ->
-                            Eff (refs :: ReactRefs (Read write) | eff) Refs
+foreign import getRefs :: forall write eff. ReactThis -> Eff (refs :: ReactRefs (Read write) | eff) Refs
 
 -- | Read the component children property.
-foreign import getChildren :: forall props eff.
-                                UIRef ->
-                                Eff (props :: ReactProps props | eff) (Array UI)
+foreign import getChildren :: forall props eff. ReactThis -> Eff (props :: ReactProps props | eff) (Array ReactElement)
 
 -- | Write the component state.
-foreign import writeState :: forall state eff.
-                               UIRef ->
-                               state ->
-                               Eff (state :: ReactState ReadWrite state | eff) state
+foreign import writeState :: forall state eff. ReactThis -> state -> Eff (state :: ReactState ReadWrite state | eff) state
 
 -- | Read the component state.
-foreign import readState :: forall state write eff.
-                              UIRef ->
-                              Eff (state :: ReactState (Read write) state | eff) state
+foreign import readState :: forall state write eff. ReactThis -> Eff (state :: ReactState (Read write) state | eff) state
 
 -- | Transform the component state by applying a function.
-transformState :: forall state statePerms eff.
-                    UIRef ->
-                    (state -> state) ->
-                    Eff (state :: ReactState ReadWrite state | eff) state
+transformState :: forall state eff. ReactThis -> (state -> state) -> Eff (state :: ReactState ReadWrite state | eff) state
 transformState ctx f = do
   state <- readState ctx
   writeState ctx $ f state
 
 -- | Create a React class from a specification.
-foreign import mkUI :: forall props state eff.
-                         UISpec props state eff ->
-                         UIClass props
+foreign import createClass :: forall props state eff. ReactSpec props state eff -> ReactClass props
 
 -- | Create an event handler.
-foreign import handle :: forall eff ev props state result.
-                           (ev -> EventHandlerContext eff props state result) ->
-                           EventHandler ev
-
--- | Render a React element in a document element.
-foreign import render :: forall eff. UI -> Element -> Eff (dom :: DOM | eff) UI
-
--- | Render a React element as a string.
-foreign import renderToString :: UI -> String
+foreign import handle :: forall eff ev props state result.  (ev -> EventHandlerContext eff props state result) -> EventHandler ev
 
 -- | Create an element from a React class.
-foreign import createElement :: forall props. UIClass props -> props -> Array UI -> UI
+foreign import createElement :: forall props. ReactClass props -> props -> Array ReactElement -> ReactElement
 
 -- | Create a factory from a React class.
-foreign import createFactory :: forall props. UIClass props -> props -> UI
+foreign import createFactory :: forall props. ReactClass props -> props -> ReactElement
+
+-- | Render a React element in a document element.
+foreign import render :: forall eff. ReactElement -> Element -> Eff (dom :: DOM | eff) ReactElement
+
+-- | Render a React element as a string.
+foreign import renderToString :: ReactElement -> String

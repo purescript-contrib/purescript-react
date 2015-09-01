@@ -29,7 +29,7 @@ foreign import interval :: forall eff a.
                              Eff eff a ->
                              Eff eff Unit
 
-hello = mkUI $ spec unit \ctx -> do
+hello = createClass $ spec unit \ctx -> do
   props <- getProps ctx
   return $ D.h1 [ P.className "Hello"
                 , P.style { background: "lightgray" }
@@ -38,7 +38,7 @@ hello = mkUI $ spec unit \ctx -> do
                 , D.text props.name
                 ]
 
-counter = mkUI counterSpec
+counter = createClass counterSpec
   where
   counterSpec = (spec 0 render)
     { componentDidMount = \ctx ->
@@ -60,7 +60,7 @@ counter = mkUI counterSpec
 
 main = body' >>= render ui
   where
-  ui :: UI
+  ui :: ReactElement
   ui = D.div' [ createFactory hello { name: "World" }
               , createFactory counter unit
               , createElement container unit
