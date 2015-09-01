@@ -160,14 +160,6 @@ type UISpec props state eff = { render :: Render props state eff, displayName ::
 
 A specification of a component.
 
-#### `UIFactory`
-
-``` purescript
-type UIFactory props = props -> UI
-```
-
-Factory function for components.
-
 #### `spec`
 
 ``` purescript
@@ -175,6 +167,14 @@ spec :: forall props state eff. state -> Render props state eff -> UISpec props 
 ```
 
 Create a component specification.
+
+#### `UIClass`
+
+``` purescript
+data UIClass :: * -> *
+```
+
+Factory function for components.
 
 #### `getProps`
 
@@ -227,10 +227,10 @@ Transform the component state by applying a function.
 #### `mkUI`
 
 ``` purescript
-mkUI :: forall props state eff. UISpec props state eff -> UIFactory props
+mkUI :: forall props state eff. UISpec props state eff -> UIClass props
 ```
 
-Create a component from a component spec.
+Create a React class from a specification.
 
 #### `handle`
 
@@ -240,36 +240,36 @@ handle :: forall eff ev props state result. (ev -> EventHandlerContext eff props
 
 Create an event handler.
 
+#### `render`
+
+``` purescript
+render :: forall eff. UI -> Element -> Eff (dom :: DOM | eff) UI
+```
+
+Render a React element in a document element.
+
 #### `renderToString`
 
 ``` purescript
 renderToString :: UI -> String
 ```
 
-Render a component as a string.
-
-#### `renderToBody`
-
-``` purescript
-renderToBody :: forall eff. UI -> Eff (dom :: DOM | eff) UI
-```
-
-Render a component to the document body.
-
-#### `renderToElementById`
-
-``` purescript
-renderToElementById :: forall eff. String -> UI -> Eff (dom :: DOM | eff) UI
-```
-
-Render a component to the element with the specified ID.
+Render a React element as a string.
 
 #### `createElement`
 
 ``` purescript
-createElement :: forall props. UIFactory props -> props -> Array UI -> UI
+createElement :: forall props. UIClass props -> props -> Array UI -> UI
 ```
 
-Create an element from a component factory.
+Create an element from a React class.
+
+#### `createFactory`
+
+``` purescript
+createFactory :: forall props. UIClass props -> props -> UI
+```
+
+Create a factory from a React class.
 
 

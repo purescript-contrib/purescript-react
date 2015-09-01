@@ -75,4 +75,3 @@ main = body' >>= render ui
     doc <- document win
     elm <- fromJust <$> toMaybe <$> body doc
     return $ htmlElementToElement elm
-
