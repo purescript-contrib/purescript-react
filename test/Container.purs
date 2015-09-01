@@ -7,7 +7,7 @@ import React
 import qualified React.DOM as D
 import qualified React.DOM.Props as P
 
-container = mkUI $ spec unit \ctx -> do
+container = createClass $ spec unit \ctx -> do
   children <- getChildren ctx
 
   let ui = D.div [ P.style { borderColor: "red"

@@ -5,6 +5,18 @@ import Prelude
 import Control.Monad.Eff
 import Control.Monad.Eff.Console
 
+import Data.Maybe (Maybe(..))
+import Data.Maybe.Unsafe (fromJust)
+import Data.Nullable (toMaybe)
+
+import DOM (DOM())
+import DOM.HTML (window)
+import DOM.HTML.Document (body)
+import DOM.HTML.Types (htmlElementToElement)
+import DOM.HTML.Window (document)
+
+import DOM.Node.Types (Element())
+
 import React
 
 import qualified React.DOM as D
@@ -17,7 +29,7 @@ foreign import interval :: forall eff a.
                              Eff eff a ->
                              Eff eff Unit
 
-hello = mkUI $ spec unit \ctx -> do
+hello = createClass $ spec unit \ctx -> do
   props <- getProps ctx
   return $ D.h1 [ P.className "Hello"
                 , P.style { background: "lightgray" }
@@ -26,7 +38,7 @@ hello = mkUI $ spec unit \ctx -> do
                 , D.text props.name
                 ]
 
-counter = mkUI counterSpec
+counter = createClass counterSpec
   where
   counterSpec = (spec 0 render)
     { componentDidMount = \ctx ->
@@ -34,6 +46,7 @@ counter = mkUI counterSpec
           val <- readState ctx
           print val
     }
+
   render ctx = do
     val <- readState ctx
     return $ D.button [ P.className "Counter"
@@ -45,14 +58,20 @@ counter = mkUI counterSpec
                       , D.text " Click me to increment!"
                       ]
 
-main = do
-  let component = D.div' [
-                    hello { name: "World" },
-                    counter unit,
-                    createElement container unit [
-                      D.p [] [ D.text  "This is line one" ],
-                      D.p [] [ D.text "This is line two" ]
-                    ]
-                  ]
+main = body' >>= render ui
+  where
+  ui :: ReactElement
+  ui = D.div' [ createFactory hello { name: "World" }
+              , createFactory counter unit
+              , createElement container unit
+                              [ D.p [] [ D.text  "This is line one" ]
+                              , D.p [] [ D.text "This is line two" ]
+                              ]
+              ]
 
-  renderToBody component
+  body' :: forall eff. Eff (dom :: DOM | eff) Element
+  body' = do
+    win <- window
+    doc <- document win
+    elm <- fromJust <$> toMaybe <$> body doc
+    return $ htmlElementToElement elm

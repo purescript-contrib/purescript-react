@@ -2,18 +2,18 @@
 
 This module defines foreign types and functions which wrap React's functionality.
 
-#### `UI`
+#### `ReactElement`
 
 ``` purescript
-data UI :: *
+data ReactElement :: *
 ```
 
 A virtual DOM node, or component.
 
-#### `UIRef`
+#### `ReactThis`
 
 ``` purescript
-data UIRef :: *
+data ReactThis :: *
 ```
 
 A reference to a component, essentially React's `this`.
@@ -147,39 +147,39 @@ A function which handles events.
 #### `Render`
 
 ``` purescript
-type Render props state eff = UIRef -> Eff (props :: ReactProps props, refs :: ReactRefs Disallowed, state :: ReactState ReadOnly state | eff) UI
+type Render props state eff = ReactThis -> Eff (props :: ReactProps props, refs :: ReactRefs Disallowed, state :: ReactState ReadOnly state | eff) ReactElement
 ```
 
 A rendering function.
 
-#### `UISpec`
+#### `ReactSpec`
 
 ``` purescript
-type UISpec props state eff = { render :: Render props state eff, displayName :: String, getInitialState :: UIRef -> Eff (props :: ReactProps props, state :: ReactState Disallowed state, refs :: ReactRefs Disallowed | eff) state, componentWillMount :: UIRef -> Eff (props :: ReactProps props, state :: ReactState ReadWrite state, refs :: ReactRefs Disallowed | eff) Unit, componentDidMount :: UIRef -> Eff (props :: ReactProps props, state :: ReactState ReadWrite state, refs :: ReactRefs ReadOnly | eff) Unit, componentWillReceiveProps :: UIRef -> props -> Eff (props :: ReactProps props, state :: ReactState ReadWrite state, refs :: ReactRefs ReadOnly | eff) Unit, shouldComponentUpdate :: UIRef -> props -> state -> Eff (props :: ReactProps props, state :: ReactState ReadWrite state, refs :: ReactRefs ReadOnly | eff) Boolean, componentWillUpdate :: UIRef -> props -> state -> Eff (props :: ReactProps props, state :: ReactState ReadWrite state, refs :: ReactRefs ReadOnly | eff) Unit, componentDidUpdate :: UIRef -> props -> state -> Eff (props :: ReactProps props, state :: ReactState ReadOnly state, refs :: ReactRefs ReadOnly | eff) Unit, componentWillUnmount :: UIRef -> Eff (props :: ReactProps props, state :: ReactState ReadOnly state, refs :: ReactRefs ReadOnly | eff) Unit }
+type ReactSpec props state eff = { render :: Render props state eff, displayName :: String, getInitialState :: ReactThis -> Eff (props :: ReactProps props, state :: ReactState Disallowed state, refs :: ReactRefs Disallowed | eff) state, componentWillMount :: ReactThis -> Eff (props :: ReactProps props, state :: ReactState ReadWrite state, refs :: ReactRefs Disallowed | eff) Unit, componentDidMount :: ReactThis -> Eff (props :: ReactProps props, state :: ReactState ReadWrite state, refs :: ReactRefs ReadOnly | eff) Unit, componentWillReceiveProps :: ReactThis -> props -> Eff (props :: ReactProps props, state :: ReactState ReadWrite state, refs :: ReactRefs ReadOnly | eff) Unit, shouldComponentUpdate :: ReactThis -> props -> state -> Eff (props :: ReactProps props, state :: ReactState ReadWrite state, refs :: ReactRefs ReadOnly | eff) Boolean, componentWillUpdate :: ReactThis -> props -> state -> Eff (props :: ReactProps props, state :: ReactState ReadWrite state, refs :: ReactRefs ReadOnly | eff) Unit, componentDidUpdate :: ReactThis -> props -> state -> Eff (props :: ReactProps props, state :: ReactState ReadOnly state, refs :: ReactRefs ReadOnly | eff) Unit, componentWillUnmount :: ReactThis -> Eff (props :: ReactProps props, state :: ReactState ReadOnly state, refs :: ReactRefs ReadOnly | eff) Unit }
 ```
 
 A specification of a component.
 
-#### `UIFactory`
-
-``` purescript
-type UIFactory props = props -> UI
-```
-
-Factory function for components.
-
 #### `spec`
 
 ``` purescript
-spec :: forall props state eff. state -> Render props state eff -> UISpec props state eff
+spec :: forall props state eff. state -> Render props state eff -> ReactSpec props state eff
 ```
 
 Create a component specification.
 
+#### `ReactClass`
+
+``` purescript
+data ReactClass :: * -> *
+```
+
+React class for components.
+
 #### `getProps`
 
 ``` purescript
-getProps :: forall props eff. UIRef -> Eff (props :: ReactProps props | eff) props
+getProps :: forall props eff. ReactThis -> Eff (props :: ReactProps props | eff) props
 ```
 
 Read the component props.
@@ -187,7 +187,7 @@ Read the component props.
 #### `getRefs`
 
 ``` purescript
-getRefs :: forall write eff. UIRef -> Eff (refs :: ReactRefs (Read write) | eff) Refs
+getRefs :: forall write eff. ReactThis -> Eff (refs :: ReactRefs (Read write) | eff) Refs
 ```
 
 Read the component refs.
@@ -195,7 +195,7 @@ Read the component refs.
 #### `getChildren`
 
 ``` purescript
-getChildren :: forall props eff. UIRef -> Eff (props :: ReactProps props | eff) (Array UI)
+getChildren :: forall props eff. ReactThis -> Eff (props :: ReactProps props | eff) (Array ReactElement)
 ```
 
 Read the component children property.
@@ -203,7 +203,7 @@ Read the component children property.
 #### `writeState`
 
 ``` purescript
-writeState :: forall state eff. UIRef -> state -> Eff (state :: ReactState ReadWrite state | eff) state
+writeState :: forall state eff. ReactThis -> state -> Eff (state :: ReactState ReadWrite state | eff) state
 ```
 
 Write the component state.
@@ -211,7 +211,7 @@ Write the component state.
 #### `readState`
 
 ``` purescript
-readState :: forall state write eff. UIRef -> Eff (state :: ReactState (Read write) state | eff) state
+readState :: forall state write eff. ReactThis -> Eff (state :: ReactState (Read write) state | eff) state
 ```
 
 Read the component state.
@@ -219,18 +219,18 @@ Read the component state.
 #### `transformState`
 
 ``` purescript
-transformState :: forall state statePerms eff. UIRef -> (state -> state) -> Eff (state :: ReactState ReadWrite state | eff) state
+transformState :: forall state eff. ReactThis -> (state -> state) -> Eff (state :: ReactState ReadWrite state | eff) state
 ```
 
 Transform the component state by applying a function.
 
-#### `mkUI`
+#### `createClass`
 
 ``` purescript
-mkUI :: forall props state eff. UISpec props state eff -> UIFactory props
+createClass :: forall props state eff. ReactSpec props state eff -> ReactClass props
 ```
 
-Create a component from a component spec.
+Create a React class from a specification.
 
 #### `handle`
 
@@ -240,36 +240,36 @@ handle :: forall eff ev props state result. (ev -> EventHandlerContext eff props
 
 Create an event handler.
 
-#### `renderToString`
-
-``` purescript
-renderToString :: UI -> String
-```
-
-Render a component as a string.
-
-#### `renderToBody`
-
-``` purescript
-renderToBody :: forall eff. UI -> Eff (dom :: DOM | eff) UI
-```
-
-Render a component to the document body.
-
-#### `renderToElementById`
-
-``` purescript
-renderToElementById :: forall eff. String -> UI -> Eff (dom :: DOM | eff) UI
-```
-
-Render a component to the element with the specified ID.
-
 #### `createElement`
 
 ``` purescript
-createElement :: forall props. UIFactory props -> props -> Array UI -> UI
+createElement :: forall props. ReactClass props -> props -> Array ReactElement -> ReactElement
 ```
 
-Create an element from a component factory.
+Create an element from a React class.
+
+#### `createFactory`
+
+``` purescript
+createFactory :: forall props. ReactClass props -> props -> ReactElement
+```
+
+Create a factory from a React class.
+
+#### `render`
+
+``` purescript
+render :: forall eff. ReactElement -> Element -> Eff (dom :: DOM | eff) ReactElement
+```
+
+Render a React element in a document element.
+
+#### `renderToString`
+
+``` purescript
+renderToString :: ReactElement -> String
+```
+
+Render a React element as a string.
 
 

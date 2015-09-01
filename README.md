@@ -1,7 +1,7 @@
 purescript-react
 ================
 
-[![Maintainer: paf31](https://img.shields.io/badge/maintainer-paf31-lightgrey.svg)](http://github.com/paf31) ![React: 0.12.2](https://img.shields.io/badge/react-0.12.2-lightgrey.svg)
+[![Maintainer: paf31](https://img.shields.io/badge/maintainer-paf31-lightgrey.svg)](http://github.com/paf31) ![React: 0.13.3](https://img.shields.io/badge/react-0.13.3-lightgrey.svg)
 
 Low-level React Bindings for PureScript.
 
@@ -28,6 +28,17 @@ import Prelude
 
 import Control.Monad.Eff
 
+import Data.Maybe.Unsafe (fromJust)
+import Data.Nullable (toMaybe)
+
+import DOM (DOM())
+import DOM.HTML (window)
+import DOM.HTML.Document (body)
+import DOM.HTML.Types (htmlElementToElement)
+import DOM.HTML.Window (document)
+
+import DOM.Node.Types (Element())
+
 import React
 
 import qualified React.DOM as D
@@ -37,16 +48,24 @@ incrementCounter ctx e = do
   val <- readState ctx
   writeState ctx (val + 1)
 
-counter = mkUI $ spec 0 \ctx -> do
+counter = createClass $ spec 0 \ctx -> do
   val <- readState ctx
   return $ D.p [ P.className "Counter"
                , P.onClick (incrementCounter ctx)
-               ] 
+               ]
                [ D.text (show val)
                , D.text " Click me to increment!"
                ]
 
-main = do
-  let component = D.div [] [ counter {} ]
-  renderToBody component
+main = container >>= render ui
+  where
+  ui :: ReactElement
+  ui = D.div [] [ createFactory counter {} ]
+
+  container :: forall eff. Eff (dom :: DOM | eff) Element
+  container = do
+    win <- window
+    doc <- document win
+    elm <- fromJust <$> toMaybe <$> body doc
+    return $ htmlElementToElement elm
 ```

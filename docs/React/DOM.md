@@ -3,1357 +3,1357 @@
 #### `mkDOM`
 
 ``` purescript
-mkDOM :: String -> Array Props -> Array UI -> UI
+mkDOM :: String -> Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `text`
 
 ``` purescript
-text :: String -> UI
+text :: String -> ReactElement
 ```
 
 #### `a`
 
 ``` purescript
-a :: Array Props -> Array UI -> UI
+a :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `a'`
 
 ``` purescript
-a' :: Array UI -> UI
+a' :: Array ReactElement -> ReactElement
 ```
 
 #### `abbr`
 
 ``` purescript
-abbr :: Array Props -> Array UI -> UI
+abbr :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `abbr'`
 
 ``` purescript
-abbr' :: Array UI -> UI
+abbr' :: Array ReactElement -> ReactElement
 ```
 
 #### `address`
 
 ``` purescript
-address :: Array Props -> Array UI -> UI
+address :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `address'`
 
 ``` purescript
-address' :: Array UI -> UI
+address' :: Array ReactElement -> ReactElement
 ```
 
 #### `area`
 
 ``` purescript
-area :: Array Props -> Array UI -> UI
+area :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `area'`
 
 ``` purescript
-area' :: Array UI -> UI
+area' :: Array ReactElement -> ReactElement
 ```
 
 #### `article`
 
 ``` purescript
-article :: Array Props -> Array UI -> UI
+article :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `article'`
 
 ``` purescript
-article' :: Array UI -> UI
+article' :: Array ReactElement -> ReactElement
 ```
 
 #### `aside`
 
 ``` purescript
-aside :: Array Props -> Array UI -> UI
+aside :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `aside'`
 
 ``` purescript
-aside' :: Array UI -> UI
+aside' :: Array ReactElement -> ReactElement
 ```
 
 #### `audio`
 
 ``` purescript
-audio :: Array Props -> Array UI -> UI
+audio :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `audio'`
 
 ``` purescript
-audio' :: Array UI -> UI
+audio' :: Array ReactElement -> ReactElement
 ```
 
 #### `b`
 
 ``` purescript
-b :: Array Props -> Array UI -> UI
+b :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `b'`
 
 ``` purescript
-b' :: Array UI -> UI
+b' :: Array ReactElement -> ReactElement
 ```
 
 #### `base`
 
 ``` purescript
-base :: Array Props -> Array UI -> UI
+base :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `base'`
 
 ``` purescript
-base' :: Array UI -> UI
+base' :: Array ReactElement -> ReactElement
 ```
 
 #### `bdi`
 
 ``` purescript
-bdi :: Array Props -> Array UI -> UI
+bdi :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `bdi'`
 
 ``` purescript
-bdi' :: Array UI -> UI
+bdi' :: Array ReactElement -> ReactElement
 ```
 
 #### `bdo`
 
 ``` purescript
-bdo :: Array Props -> Array UI -> UI
+bdo :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `bdo'`
 
 ``` purescript
-bdo' :: Array UI -> UI
+bdo' :: Array ReactElement -> ReactElement
 ```
 
 #### `big`
 
 ``` purescript
-big :: Array Props -> Array UI -> UI
+big :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `big'`
 
 ``` purescript
-big' :: Array UI -> UI
+big' :: Array ReactElement -> ReactElement
 ```
 
 #### `blockquote`
 
 ``` purescript
-blockquote :: Array Props -> Array UI -> UI
+blockquote :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `blockquote'`
 
 ``` purescript
-blockquote' :: Array UI -> UI
+blockquote' :: Array ReactElement -> ReactElement
 ```
 
 #### `body`
 
 ``` purescript
-body :: Array Props -> Array UI -> UI
+body :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `body'`
 
 ``` purescript
-body' :: Array UI -> UI
+body' :: Array ReactElement -> ReactElement
 ```
 
 #### `br`
 
 ``` purescript
-br :: Array Props -> Array UI -> UI
+br :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `br'`
 
 ``` purescript
-br' :: Array UI -> UI
+br' :: Array ReactElement -> ReactElement
 ```
 
 #### `button`
 
 ``` purescript
-button :: Array Props -> Array UI -> UI
+button :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `button'`
 
 ``` purescript
-button' :: Array UI -> UI
+button' :: Array ReactElement -> ReactElement
 ```
 
 #### `canvas`
 
 ``` purescript
-canvas :: Array Props -> Array UI -> UI
+canvas :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `canvas'`
 
 ``` purescript
-canvas' :: Array UI -> UI
+canvas' :: Array ReactElement -> ReactElement
 ```
 
 #### `caption`
 
 ``` purescript
-caption :: Array Props -> Array UI -> UI
+caption :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `caption'`
 
 ``` purescript
-caption' :: Array UI -> UI
+caption' :: Array ReactElement -> ReactElement
 ```
 
 #### `cite`
 
 ``` purescript
-cite :: Array Props -> Array UI -> UI
+cite :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `cite'`
 
 ``` purescript
-cite' :: Array UI -> UI
+cite' :: Array ReactElement -> ReactElement
 ```
 
 #### `code`
 
 ``` purescript
-code :: Array Props -> Array UI -> UI
+code :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `code'`
 
 ``` purescript
-code' :: Array UI -> UI
+code' :: Array ReactElement -> ReactElement
 ```
 
 #### `col`
 
 ``` purescript
-col :: Array Props -> Array UI -> UI
+col :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `col'`
 
 ``` purescript
-col' :: Array UI -> UI
+col' :: Array ReactElement -> ReactElement
 ```
 
 #### `colgroup`
 
 ``` purescript
-colgroup :: Array Props -> Array UI -> UI
+colgroup :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `colgroup'`
 
 ``` purescript
-colgroup' :: Array UI -> UI
+colgroup' :: Array ReactElement -> ReactElement
 ```
 
 #### `_data`
 
 ``` purescript
-_data :: Array Props -> Array UI -> UI
+_data :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `_data'`
 
 ``` purescript
-_data' :: Array UI -> UI
+_data' :: Array ReactElement -> ReactElement
 ```
 
 #### `datalist`
 
 ``` purescript
-datalist :: Array Props -> Array UI -> UI
+datalist :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `datalist'`
 
 ``` purescript
-datalist' :: Array UI -> UI
+datalist' :: Array ReactElement -> ReactElement
 ```
 
 #### `dd`
 
 ``` purescript
-dd :: Array Props -> Array UI -> UI
+dd :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `dd'`
 
 ``` purescript
-dd' :: Array UI -> UI
+dd' :: Array ReactElement -> ReactElement
 ```
 
 #### `del`
 
 ``` purescript
-del :: Array Props -> Array UI -> UI
+del :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `del'`
 
 ``` purescript
-del' :: Array UI -> UI
+del' :: Array ReactElement -> ReactElement
 ```
 
 #### `details`
 
 ``` purescript
-details :: Array Props -> Array UI -> UI
+details :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `details'`
 
 ``` purescript
-details' :: Array UI -> UI
+details' :: Array ReactElement -> ReactElement
 ```
 
 #### `dfn`
 
 ``` purescript
-dfn :: Array Props -> Array UI -> UI
+dfn :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `dfn'`
 
 ``` purescript
-dfn' :: Array UI -> UI
+dfn' :: Array ReactElement -> ReactElement
 ```
 
 #### `dialog`
 
 ``` purescript
-dialog :: Array Props -> Array UI -> UI
+dialog :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `dialog'`
 
 ``` purescript
-dialog' :: Array UI -> UI
+dialog' :: Array ReactElement -> ReactElement
 ```
 
 #### `div`
 
 ``` purescript
-div :: Array Props -> Array UI -> UI
+div :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `div'`
 
 ``` purescript
-div' :: Array UI -> UI
+div' :: Array ReactElement -> ReactElement
 ```
 
 #### `dl`
 
 ``` purescript
-dl :: Array Props -> Array UI -> UI
+dl :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `dl'`
 
 ``` purescript
-dl' :: Array UI -> UI
+dl' :: Array ReactElement -> ReactElement
 ```
 
 #### `dt`
 
 ``` purescript
-dt :: Array Props -> Array UI -> UI
+dt :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `dt'`
 
 ``` purescript
-dt' :: Array UI -> UI
+dt' :: Array ReactElement -> ReactElement
 ```
 
 #### `em`
 
 ``` purescript
-em :: Array Props -> Array UI -> UI
+em :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `em'`
 
 ``` purescript
-em' :: Array UI -> UI
+em' :: Array ReactElement -> ReactElement
 ```
 
 #### `embed`
 
 ``` purescript
-embed :: Array Props -> Array UI -> UI
+embed :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `embed'`
 
 ``` purescript
-embed' :: Array UI -> UI
+embed' :: Array ReactElement -> ReactElement
 ```
 
 #### `fieldset`
 
 ``` purescript
-fieldset :: Array Props -> Array UI -> UI
+fieldset :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `fieldset'`
 
 ``` purescript
-fieldset' :: Array UI -> UI
+fieldset' :: Array ReactElement -> ReactElement
 ```
 
 #### `figcaption`
 
 ``` purescript
-figcaption :: Array Props -> Array UI -> UI
+figcaption :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `figcaption'`
 
 ``` purescript
-figcaption' :: Array UI -> UI
+figcaption' :: Array ReactElement -> ReactElement
 ```
 
 #### `figure`
 
 ``` purescript
-figure :: Array Props -> Array UI -> UI
+figure :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `figure'`
 
 ``` purescript
-figure' :: Array UI -> UI
+figure' :: Array ReactElement -> ReactElement
 ```
 
 #### `footer`
 
 ``` purescript
-footer :: Array Props -> Array UI -> UI
+footer :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `footer'`
 
 ``` purescript
-footer' :: Array UI -> UI
+footer' :: Array ReactElement -> ReactElement
 ```
 
 #### `form`
 
 ``` purescript
-form :: Array Props -> Array UI -> UI
+form :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `form'`
 
 ``` purescript
-form' :: Array UI -> UI
+form' :: Array ReactElement -> ReactElement
 ```
 
 #### `h1`
 
 ``` purescript
-h1 :: Array Props -> Array UI -> UI
+h1 :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `h1'`
 
 ``` purescript
-h1' :: Array UI -> UI
+h1' :: Array ReactElement -> ReactElement
 ```
 
 #### `h2`
 
 ``` purescript
-h2 :: Array Props -> Array UI -> UI
+h2 :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `h2'`
 
 ``` purescript
-h2' :: Array UI -> UI
+h2' :: Array ReactElement -> ReactElement
 ```
 
 #### `h3`
 
 ``` purescript
-h3 :: Array Props -> Array UI -> UI
+h3 :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `h3'`
 
 ``` purescript
-h3' :: Array UI -> UI
+h3' :: Array ReactElement -> ReactElement
 ```
 
 #### `h4`
 
 ``` purescript
-h4 :: Array Props -> Array UI -> UI
+h4 :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `h4'`
 
 ``` purescript
-h4' :: Array UI -> UI
+h4' :: Array ReactElement -> ReactElement
 ```
 
 #### `h5`
 
 ``` purescript
-h5 :: Array Props -> Array UI -> UI
+h5 :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `h5'`
 
 ``` purescript
-h5' :: Array UI -> UI
+h5' :: Array ReactElement -> ReactElement
 ```
 
 #### `h6`
 
 ``` purescript
-h6 :: Array Props -> Array UI -> UI
+h6 :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `h6'`
 
 ``` purescript
-h6' :: Array UI -> UI
+h6' :: Array ReactElement -> ReactElement
 ```
 
 #### `head`
 
 ``` purescript
-head :: Array Props -> Array UI -> UI
+head :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `head'`
 
 ``` purescript
-head' :: Array UI -> UI
+head' :: Array ReactElement -> ReactElement
 ```
 
 #### `header`
 
 ``` purescript
-header :: Array Props -> Array UI -> UI
+header :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `header'`
 
 ``` purescript
-header' :: Array UI -> UI
+header' :: Array ReactElement -> ReactElement
 ```
 
 #### `hr`
 
 ``` purescript
-hr :: Array Props -> Array UI -> UI
+hr :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `hr'`
 
 ``` purescript
-hr' :: Array UI -> UI
+hr' :: Array ReactElement -> ReactElement
 ```
 
 #### `html`
 
 ``` purescript
-html :: Array Props -> Array UI -> UI
+html :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `html'`
 
 ``` purescript
-html' :: Array UI -> UI
+html' :: Array ReactElement -> ReactElement
 ```
 
 #### `i`
 
 ``` purescript
-i :: Array Props -> Array UI -> UI
+i :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `i'`
 
 ``` purescript
-i' :: Array UI -> UI
+i' :: Array ReactElement -> ReactElement
 ```
 
 #### `iframe`
 
 ``` purescript
-iframe :: Array Props -> Array UI -> UI
+iframe :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `iframe'`
 
 ``` purescript
-iframe' :: Array UI -> UI
+iframe' :: Array ReactElement -> ReactElement
 ```
 
 #### `img`
 
 ``` purescript
-img :: Array Props -> Array UI -> UI
+img :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `img'`
 
 ``` purescript
-img' :: Array UI -> UI
+img' :: Array ReactElement -> ReactElement
 ```
 
 #### `input`
 
 ``` purescript
-input :: Array Props -> Array UI -> UI
+input :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `input'`
 
 ``` purescript
-input' :: Array UI -> UI
+input' :: Array ReactElement -> ReactElement
 ```
 
 #### `ins`
 
 ``` purescript
-ins :: Array Props -> Array UI -> UI
+ins :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `ins'`
 
 ``` purescript
-ins' :: Array UI -> UI
+ins' :: Array ReactElement -> ReactElement
 ```
 
 #### `kbd`
 
 ``` purescript
-kbd :: Array Props -> Array UI -> UI
+kbd :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `kbd'`
 
 ``` purescript
-kbd' :: Array UI -> UI
+kbd' :: Array ReactElement -> ReactElement
 ```
 
 #### `keygen`
 
 ``` purescript
-keygen :: Array Props -> Array UI -> UI
+keygen :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `keygen'`
 
 ``` purescript
-keygen' :: Array UI -> UI
+keygen' :: Array ReactElement -> ReactElement
 ```
 
 #### `label`
 
 ``` purescript
-label :: Array Props -> Array UI -> UI
+label :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `label'`
 
 ``` purescript
-label' :: Array UI -> UI
+label' :: Array ReactElement -> ReactElement
 ```
 
 #### `legend`
 
 ``` purescript
-legend :: Array Props -> Array UI -> UI
+legend :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `legend'`
 
 ``` purescript
-legend' :: Array UI -> UI
+legend' :: Array ReactElement -> ReactElement
 ```
 
 #### `li`
 
 ``` purescript
-li :: Array Props -> Array UI -> UI
+li :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `li'`
 
 ``` purescript
-li' :: Array UI -> UI
+li' :: Array ReactElement -> ReactElement
 ```
 
 #### `link`
 
 ``` purescript
-link :: Array Props -> Array UI -> UI
+link :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `link'`
 
 ``` purescript
-link' :: Array UI -> UI
+link' :: Array ReactElement -> ReactElement
 ```
 
 #### `main`
 
 ``` purescript
-main :: Array Props -> Array UI -> UI
+main :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `main'`
 
 ``` purescript
-main' :: Array UI -> UI
+main' :: Array ReactElement -> ReactElement
 ```
 
 #### `map`
 
 ``` purescript
-map :: Array Props -> Array UI -> UI
+map :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `map'`
 
 ``` purescript
-map' :: Array UI -> UI
+map' :: Array ReactElement -> ReactElement
 ```
 
 #### `mark`
 
 ``` purescript
-mark :: Array Props -> Array UI -> UI
+mark :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `mark'`
 
 ``` purescript
-mark' :: Array UI -> UI
+mark' :: Array ReactElement -> ReactElement
 ```
 
 #### `menu`
 
 ``` purescript
-menu :: Array Props -> Array UI -> UI
+menu :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `menu'`
 
 ``` purescript
-menu' :: Array UI -> UI
+menu' :: Array ReactElement -> ReactElement
 ```
 
 #### `menuitem`
 
 ``` purescript
-menuitem :: Array Props -> Array UI -> UI
+menuitem :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `menuitem'`
 
 ``` purescript
-menuitem' :: Array UI -> UI
+menuitem' :: Array ReactElement -> ReactElement
 ```
 
 #### `meta`
 
 ``` purescript
-meta :: Array Props -> Array UI -> UI
+meta :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `meta'`
 
 ``` purescript
-meta' :: Array UI -> UI
+meta' :: Array ReactElement -> ReactElement
 ```
 
 #### `meter`
 
 ``` purescript
-meter :: Array Props -> Array UI -> UI
+meter :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `meter'`
 
 ``` purescript
-meter' :: Array UI -> UI
+meter' :: Array ReactElement -> ReactElement
 ```
 
 #### `nav`
 
 ``` purescript
-nav :: Array Props -> Array UI -> UI
+nav :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `nav'`
 
 ``` purescript
-nav' :: Array UI -> UI
+nav' :: Array ReactElement -> ReactElement
 ```
 
 #### `noscript`
 
 ``` purescript
-noscript :: Array Props -> Array UI -> UI
+noscript :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `noscript'`
 
 ``` purescript
-noscript' :: Array UI -> UI
+noscript' :: Array ReactElement -> ReactElement
 ```
 
 #### `object`
 
 ``` purescript
-object :: Array Props -> Array UI -> UI
+object :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `object'`
 
 ``` purescript
-object' :: Array UI -> UI
+object' :: Array ReactElement -> ReactElement
 ```
 
 #### `ol`
 
 ``` purescript
-ol :: Array Props -> Array UI -> UI
+ol :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `ol'`
 
 ``` purescript
-ol' :: Array UI -> UI
+ol' :: Array ReactElement -> ReactElement
 ```
 
 #### `optgroup`
 
 ``` purescript
-optgroup :: Array Props -> Array UI -> UI
+optgroup :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `optgroup'`
 
 ``` purescript
-optgroup' :: Array UI -> UI
+optgroup' :: Array ReactElement -> ReactElement
 ```
 
 #### `option`
 
 ``` purescript
-option :: Array Props -> Array UI -> UI
+option :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `option'`
 
 ``` purescript
-option' :: Array UI -> UI
+option' :: Array ReactElement -> ReactElement
 ```
 
 #### `output`
 
 ``` purescript
-output :: Array Props -> Array UI -> UI
+output :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `output'`
 
 ``` purescript
-output' :: Array UI -> UI
+output' :: Array ReactElement -> ReactElement
 ```
 
 #### `p`
 
 ``` purescript
-p :: Array Props -> Array UI -> UI
+p :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `p'`
 
 ``` purescript
-p' :: Array UI -> UI
+p' :: Array ReactElement -> ReactElement
 ```
 
 #### `param`
 
 ``` purescript
-param :: Array Props -> Array UI -> UI
+param :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `param'`
 
 ``` purescript
-param' :: Array UI -> UI
+param' :: Array ReactElement -> ReactElement
 ```
 
 #### `picture`
 
 ``` purescript
-picture :: Array Props -> Array UI -> UI
+picture :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `picture'`
 
 ``` purescript
-picture' :: Array UI -> UI
+picture' :: Array ReactElement -> ReactElement
 ```
 
 #### `pre`
 
 ``` purescript
-pre :: Array Props -> Array UI -> UI
+pre :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `pre'`
 
 ``` purescript
-pre' :: Array UI -> UI
+pre' :: Array ReactElement -> ReactElement
 ```
 
 #### `progress`
 
 ``` purescript
-progress :: Array Props -> Array UI -> UI
+progress :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `progress'`
 
 ``` purescript
-progress' :: Array UI -> UI
+progress' :: Array ReactElement -> ReactElement
 ```
 
 #### `q`
 
 ``` purescript
-q :: Array Props -> Array UI -> UI
+q :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `q'`
 
 ``` purescript
-q' :: Array UI -> UI
+q' :: Array ReactElement -> ReactElement
 ```
 
 #### `rp`
 
 ``` purescript
-rp :: Array Props -> Array UI -> UI
+rp :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `rp'`
 
 ``` purescript
-rp' :: Array UI -> UI
+rp' :: Array ReactElement -> ReactElement
 ```
 
 #### `rt`
 
 ``` purescript
-rt :: Array Props -> Array UI -> UI
+rt :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `rt'`
 
 ``` purescript
-rt' :: Array UI -> UI
+rt' :: Array ReactElement -> ReactElement
 ```
 
 #### `ruby`
 
 ``` purescript
-ruby :: Array Props -> Array UI -> UI
+ruby :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `ruby'`
 
 ``` purescript
-ruby' :: Array UI -> UI
+ruby' :: Array ReactElement -> ReactElement
 ```
 
 #### `s`
 
 ``` purescript
-s :: Array Props -> Array UI -> UI
+s :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `s'`
 
 ``` purescript
-s' :: Array UI -> UI
+s' :: Array ReactElement -> ReactElement
 ```
 
 #### `samp`
 
 ``` purescript
-samp :: Array Props -> Array UI -> UI
+samp :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `samp'`
 
 ``` purescript
-samp' :: Array UI -> UI
+samp' :: Array ReactElement -> ReactElement
 ```
 
 #### `script`
 
 ``` purescript
-script :: Array Props -> Array UI -> UI
+script :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `script'`
 
 ``` purescript
-script' :: Array UI -> UI
+script' :: Array ReactElement -> ReactElement
 ```
 
 #### `section`
 
 ``` purescript
-section :: Array Props -> Array UI -> UI
+section :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `section'`
 
 ``` purescript
-section' :: Array UI -> UI
+section' :: Array ReactElement -> ReactElement
 ```
 
 #### `select`
 
 ``` purescript
-select :: Array Props -> Array UI -> UI
+select :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `select'`
 
 ``` purescript
-select' :: Array UI -> UI
+select' :: Array ReactElement -> ReactElement
 ```
 
 #### `small`
 
 ``` purescript
-small :: Array Props -> Array UI -> UI
+small :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `small'`
 
 ``` purescript
-small' :: Array UI -> UI
+small' :: Array ReactElement -> ReactElement
 ```
 
 #### `source`
 
 ``` purescript
-source :: Array Props -> Array UI -> UI
+source :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `source'`
 
 ``` purescript
-source' :: Array UI -> UI
+source' :: Array ReactElement -> ReactElement
 ```
 
 #### `span`
 
 ``` purescript
-span :: Array Props -> Array UI -> UI
+span :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `span'`
 
 ``` purescript
-span' :: Array UI -> UI
+span' :: Array ReactElement -> ReactElement
 ```
 
 #### `strong`
 
 ``` purescript
-strong :: Array Props -> Array UI -> UI
+strong :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `strong'`
 
 ``` purescript
-strong' :: Array UI -> UI
+strong' :: Array ReactElement -> ReactElement
 ```
 
 #### `style`
 
 ``` purescript
-style :: Array Props -> Array UI -> UI
+style :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `style'`
 
 ``` purescript
-style' :: Array UI -> UI
+style' :: Array ReactElement -> ReactElement
 ```
 
 #### `sub`
 
 ``` purescript
-sub :: Array Props -> Array UI -> UI
+sub :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `sub'`
 
 ``` purescript
-sub' :: Array UI -> UI
+sub' :: Array ReactElement -> ReactElement
 ```
 
 #### `summary`
 
 ``` purescript
-summary :: Array Props -> Array UI -> UI
+summary :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `summary'`
 
 ``` purescript
-summary' :: Array UI -> UI
+summary' :: Array ReactElement -> ReactElement
 ```
 
 #### `sup`
 
 ``` purescript
-sup :: Array Props -> Array UI -> UI
+sup :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `sup'`
 
 ``` purescript
-sup' :: Array UI -> UI
+sup' :: Array ReactElement -> ReactElement
 ```
 
 #### `table`
 
 ``` purescript
-table :: Array Props -> Array UI -> UI
+table :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `table'`
 
 ``` purescript
-table' :: Array UI -> UI
+table' :: Array ReactElement -> ReactElement
 ```
 
 #### `tbody`
 
 ``` purescript
-tbody :: Array Props -> Array UI -> UI
+tbody :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `tbody'`
 
 ``` purescript
-tbody' :: Array UI -> UI
+tbody' :: Array ReactElement -> ReactElement
 ```
 
 #### `td`
 
 ``` purescript
-td :: Array Props -> Array UI -> UI
+td :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `td'`
 
 ``` purescript
-td' :: Array UI -> UI
+td' :: Array ReactElement -> ReactElement
 ```
 
 #### `textarea`
 
 ``` purescript
-textarea :: Array Props -> Array UI -> UI
+textarea :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `textarea'`
 
 ``` purescript
-textarea' :: Array UI -> UI
+textarea' :: Array ReactElement -> ReactElement
 ```
 
 #### `tfoot`
 
 ``` purescript
-tfoot :: Array Props -> Array UI -> UI
+tfoot :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `tfoot'`
 
 ``` purescript
-tfoot' :: Array UI -> UI
+tfoot' :: Array ReactElement -> ReactElement
 ```
 
 #### `th`
 
 ``` purescript
-th :: Array Props -> Array UI -> UI
+th :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `th'`
 
 ``` purescript
-th' :: Array UI -> UI
+th' :: Array ReactElement -> ReactElement
 ```
 
 #### `thead`
 
 ``` purescript
-thead :: Array Props -> Array UI -> UI
+thead :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `thead'`
 
 ``` purescript
-thead' :: Array UI -> UI
+thead' :: Array ReactElement -> ReactElement
 ```
 
 #### `time`
 
 ``` purescript
-time :: Array Props -> Array UI -> UI
+time :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `time'`
 
 ``` purescript
-time' :: Array UI -> UI
+time' :: Array ReactElement -> ReactElement
 ```
 
 #### `title`
 
 ``` purescript
-title :: Array Props -> Array UI -> UI
+title :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `title'`
 
 ``` purescript
-title' :: Array UI -> UI
+title' :: Array ReactElement -> ReactElement
 ```
 
 #### `tr`
 
 ``` purescript
-tr :: Array Props -> Array UI -> UI
+tr :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `tr'`
 
 ``` purescript
-tr' :: Array UI -> UI
+tr' :: Array ReactElement -> ReactElement
 ```
 
 #### `track`
 
 ``` purescript
-track :: Array Props -> Array UI -> UI
+track :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `track'`
 
 ``` purescript
-track' :: Array UI -> UI
+track' :: Array ReactElement -> ReactElement
 ```
 
 #### `u`
 
 ``` purescript
-u :: Array Props -> Array UI -> UI
+u :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `u'`
 
 ``` purescript
-u' :: Array UI -> UI
+u' :: Array ReactElement -> ReactElement
 ```
 
 #### `ul`
 
 ``` purescript
-ul :: Array Props -> Array UI -> UI
+ul :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `ul'`
 
 ``` purescript
-ul' :: Array UI -> UI
+ul' :: Array ReactElement -> ReactElement
 ```
 
 #### `var`
 
 ``` purescript
-var :: Array Props -> Array UI -> UI
+var :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `var'`
 
 ``` purescript
-var' :: Array UI -> UI
+var' :: Array ReactElement -> ReactElement
 ```
 
 #### `video`
 
 ``` purescript
-video :: Array Props -> Array UI -> UI
+video :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `video'`
 
 ``` purescript
-video' :: Array UI -> UI
+video' :: Array ReactElement -> ReactElement
 ```
 
 #### `wbr`
 
 ``` purescript
-wbr :: Array Props -> Array UI -> UI
+wbr :: Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `wbr'`
 
 ``` purescript
-wbr' :: Array UI -> UI
+wbr' :: Array ReactElement -> ReactElement
 ```
 
 
