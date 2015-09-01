@@ -98,18 +98,18 @@ exports.handle = function(f) {
     };
 };
 
-exports.renderToString = React.renderComponentToString;
+exports.renderToString = React.renderToString;
 
 exports.renderToBody = function(component) {
     return function() {
-        return React.renderComponent(component, document.body);
+        return React.render(component, document.body);
     }
 };
 
 exports.renderToElementById = function(id) {
     return function(component) {
         return function() {
-            return React.renderComponent(component, document.getElementById(id));
+            return React.render(component, document.getElementById(id));
         }
     }
 };
