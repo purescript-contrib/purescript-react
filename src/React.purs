@@ -61,7 +61,7 @@ import Control.Monad.Eff (Eff())
 foreign import data ReactElement :: *
 
 -- | A reference to a component, essentially React's `this`.
-foreign import data ReactThis :: *
+foreign import data ReactThis :: * -> * -> *
 
 -- | An event handler. The type argument represents the type of the event.
 foreign import data EventHandler :: * -> *
@@ -136,7 +136,7 @@ type EventHandlerContext eff props state result =
 
 -- | A rendering function.
 type Render props state eff =
-  ReactThis ->
+  ReactThis props state ->
   Eff ( props :: ReactProps props
       , refs :: ReactRefs Disallowed
       , state :: ReactState ReadOnly state
@@ -148,28 +148,28 @@ type ReactSpec props state eff =
   { render :: Render props state eff
   , displayName :: String
   , getInitialState
-      :: ReactThis ->
+      :: ReactThis props state ->
          Eff ( props :: ReactProps props
              , state :: ReactState Disallowed state
              , refs :: ReactRefs Disallowed
              | eff
              ) state
   , componentWillMount
-      :: ReactThis ->
+      :: ReactThis props state ->
          Eff ( props :: ReactProps props
              , state :: ReactState ReadWrite state
              , refs :: ReactRefs Disallowed
              | eff
              ) Unit
   , componentDidMount
-      :: ReactThis ->
+      :: ReactThis props state ->
          Eff ( props :: ReactProps props
              , state :: ReactState ReadWrite state
              , refs :: ReactRefs ReadOnly
              | eff
              ) Unit
   , componentWillReceiveProps
-      :: ReactThis ->
+      :: ReactThis props state ->
          props ->
          Eff ( props :: ReactProps props
              , state :: ReactState ReadWrite state
@@ -177,7 +177,7 @@ type ReactSpec props state eff =
              | eff
              ) Unit
   , shouldComponentUpdate
-      :: ReactThis ->
+      :: ReactThis props state ->
          props ->
          state ->
          Eff ( props :: ReactProps props
@@ -186,7 +186,7 @@ type ReactSpec props state eff =
              | eff
              ) Boolean
   , componentWillUpdate
-      :: ReactThis ->
+      :: ReactThis props state ->
          props ->
          state ->
          Eff ( props :: ReactProps props
@@ -195,7 +195,7 @@ type ReactSpec props state eff =
              | eff
              ) Unit
   , componentDidUpdate
-      :: ReactThis ->
+      :: ReactThis props state ->
          props ->
          state ->
          Eff ( props :: ReactProps props
@@ -204,7 +204,7 @@ type ReactSpec props state eff =
              | eff
              ) Unit
   , componentWillUnmount
-      :: ReactThis ->
+      :: ReactThis props state ->
          Eff ( props :: ReactProps props
              , state :: ReactState ReadOnly state
              , refs :: ReactRefs ReadOnly
@@ -231,22 +231,22 @@ spec st renderFn =
 foreign import data ReactClass :: * -> *
 
 -- | Read the component props.
-foreign import getProps :: forall props eff. ReactThis -> Eff (props :: ReactProps props | eff) props
+foreign import getProps :: forall props state eff. ReactThis props state -> Eff (props :: ReactProps props | eff) props
 
 -- | Read the component refs.
-foreign import getRefs :: forall write eff. ReactThis -> Eff (refs :: ReactRefs (Read write) | eff) Refs
+foreign import getRefs :: forall props state write eff. ReactThis props state -> Eff (refs :: ReactRefs (Read write) | eff) Refs
 
 -- | Read the component children property.
-foreign import getChildren :: forall props eff. ReactThis -> Eff (props :: ReactProps props | eff) (Array ReactElement)
+foreign import getChildren :: forall props state eff. ReactThis props state -> Eff (props :: ReactProps props | eff) (Array ReactElement)
 
 -- | Write the component state.
-foreign import writeState :: forall state eff. ReactThis -> state -> Eff (state :: ReactState ReadWrite state | eff) state
+foreign import writeState :: forall props state eff. ReactThis props state -> state -> Eff (state :: ReactState ReadWrite state | eff) state
 
 -- | Read the component state.
-foreign import readState :: forall state write eff. ReactThis -> Eff (state :: ReactState (Read write) state | eff) state
+foreign import readState :: forall props state write eff. ReactThis props state -> Eff (state :: ReactState (Read write) state | eff) state
 
 -- | Transform the component state by applying a function.
-transformState :: forall state eff. ReactThis -> (state -> state) -> Eff (state :: ReactState ReadWrite state | eff) state
+transformState :: forall props state eff. ReactThis props state -> (state -> state) -> Eff (state :: ReactState ReadWrite state | eff) state
 transformState ctx f = do
   state <- readState ctx
   writeState ctx $ f state

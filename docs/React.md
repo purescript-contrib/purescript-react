@@ -13,7 +13,7 @@ A virtual DOM node, or component.
 #### `ReactThis`
 
 ``` purescript
-data ReactThis :: *
+data ReactThis :: * -> * -> *
 ```
 
 A reference to a component, essentially React's `this`.
@@ -147,7 +147,7 @@ A function which handles events.
 #### `Render`
 
 ``` purescript
-type Render props state eff = ReactThis -> Eff (props :: ReactProps props, refs :: ReactRefs Disallowed, state :: ReactState ReadOnly state | eff) ReactElement
+type Render props state eff = ReactThis props state -> Eff (props :: ReactProps props, refs :: ReactRefs Disallowed, state :: ReactState ReadOnly state | eff) ReactElement
 ```
 
 A rendering function.
@@ -155,7 +155,7 @@ A rendering function.
 #### `ReactSpec`
 
 ``` purescript
-type ReactSpec props state eff = { render :: Render props state eff, displayName :: String, getInitialState :: ReactThis -> Eff (props :: ReactProps props, state :: ReactState Disallowed state, refs :: ReactRefs Disallowed | eff) state, componentWillMount :: ReactThis -> Eff (props :: ReactProps props, state :: ReactState ReadWrite state, refs :: ReactRefs Disallowed | eff) Unit, componentDidMount :: ReactThis -> Eff (props :: ReactProps props, state :: ReactState ReadWrite state, refs :: ReactRefs ReadOnly | eff) Unit, componentWillReceiveProps :: ReactThis -> props -> Eff (props :: ReactProps props, state :: ReactState ReadWrite state, refs :: ReactRefs ReadOnly | eff) Unit, shouldComponentUpdate :: ReactThis -> props -> state -> Eff (props :: ReactProps props, state :: ReactState ReadWrite state, refs :: ReactRefs ReadOnly | eff) Boolean, componentWillUpdate :: ReactThis -> props -> state -> Eff (props :: ReactProps props, state :: ReactState ReadWrite state, refs :: ReactRefs ReadOnly | eff) Unit, componentDidUpdate :: ReactThis -> props -> state -> Eff (props :: ReactProps props, state :: ReactState ReadOnly state, refs :: ReactRefs ReadOnly | eff) Unit, componentWillUnmount :: ReactThis -> Eff (props :: ReactProps props, state :: ReactState ReadOnly state, refs :: ReactRefs ReadOnly | eff) Unit }
+type ReactSpec props state eff = { render :: Render props state eff, displayName :: String, getInitialState :: ReactThis props state -> Eff (props :: ReactProps props, state :: ReactState Disallowed state, refs :: ReactRefs Disallowed | eff) state, componentWillMount :: ReactThis props state -> Eff (props :: ReactProps props, state :: ReactState ReadWrite state, refs :: ReactRefs Disallowed | eff) Unit, componentDidMount :: ReactThis props state -> Eff (props :: ReactProps props, state :: ReactState ReadWrite state, refs :: ReactRefs ReadOnly | eff) Unit, componentWillReceiveProps :: ReactThis props state -> props -> Eff (props :: ReactProps props, state :: ReactState ReadWrite state, refs :: ReactRefs ReadOnly | eff) Unit, shouldComponentUpdate :: ReactThis props state -> props -> state -> Eff (props :: ReactProps props, state :: ReactState ReadWrite state, refs :: ReactRefs ReadOnly | eff) Boolean, componentWillUpdate :: ReactThis props state -> props -> state -> Eff (props :: ReactProps props, state :: ReactState ReadWrite state, refs :: ReactRefs ReadOnly | eff) Unit, componentDidUpdate :: ReactThis props state -> props -> state -> Eff (props :: ReactProps props, state :: ReactState ReadOnly state, refs :: ReactRefs ReadOnly | eff) Unit, componentWillUnmount :: ReactThis props state -> Eff (props :: ReactProps props, state :: ReactState ReadOnly state, refs :: ReactRefs ReadOnly | eff) Unit }
 ```
 
 A specification of a component.
@@ -179,7 +179,7 @@ React class for components.
 #### `getProps`
 
 ``` purescript
-getProps :: forall props eff. ReactThis -> Eff (props :: ReactProps props | eff) props
+getProps :: forall props state eff. ReactThis props state -> Eff (props :: ReactProps props | eff) props
 ```
 
 Read the component props.
@@ -187,7 +187,7 @@ Read the component props.
 #### `getRefs`
 
 ``` purescript
-getRefs :: forall write eff. ReactThis -> Eff (refs :: ReactRefs (Read write) | eff) Refs
+getRefs :: forall props state write eff. ReactThis props state -> Eff (refs :: ReactRefs (Read write) | eff) Refs
 ```
 
 Read the component refs.
@@ -195,7 +195,7 @@ Read the component refs.
 #### `getChildren`
 
 ``` purescript
-getChildren :: forall props eff. ReactThis -> Eff (props :: ReactProps props | eff) (Array ReactElement)
+getChildren :: forall props state eff. ReactThis props state -> Eff (props :: ReactProps props | eff) (Array ReactElement)
 ```
 
 Read the component children property.
@@ -203,7 +203,7 @@ Read the component children property.
 #### `writeState`
 
 ``` purescript
-writeState :: forall state eff. ReactThis -> state -> Eff (state :: ReactState ReadWrite state | eff) state
+writeState :: forall props state eff. ReactThis props state -> state -> Eff (state :: ReactState ReadWrite state | eff) state
 ```
 
 Write the component state.
@@ -211,7 +211,7 @@ Write the component state.
 #### `readState`
 
 ``` purescript
-readState :: forall state write eff. ReactThis -> Eff (state :: ReactState (Read write) state | eff) state
+readState :: forall props state write eff. ReactThis props state -> Eff (state :: ReactState (Read write) state | eff) state
 ```
 
 Read the component state.
@@ -219,7 +219,7 @@ Read the component state.
 #### `transformState`
 
 ``` purescript
-transformState :: forall state eff. ReactThis -> (state -> state) -> Eff (state :: ReactState ReadWrite state | eff) state
+transformState :: forall props state eff. ReactThis props state -> (state -> state) -> Eff (state :: ReactState ReadWrite state | eff) state
 ```
 
 Transform the component state by applying a function.
