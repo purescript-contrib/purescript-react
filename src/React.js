@@ -17,7 +17,15 @@ exports.getRefs = function(ctx) {
 
 exports.getChildren = function(ctx) {
   return function() {
-    return ctx.props.children;
+    var children = ctx.props.children;
+
+    var result = [];
+
+    React.Children.forEach(children, function(child){
+      result.push(child);
+    });
+
+    return result;
   };
 };
 
