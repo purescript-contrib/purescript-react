@@ -20,6 +20,14 @@ module React
   , Refs()
 
   , Render()
+  , GetInitialState()
+  , ComponentWillMount()
+  , ComponentDidMount()
+  , ComponentWillReceiveProps()
+  , ShouldComponentUpdate()
+  , ComponentWillUpdate()
+  , ComponentDidUpdate()
+  , ComponentWillUnmount()
 
   , ReactSpec()
   , ReactClass()
@@ -134,7 +142,7 @@ type EventHandlerContext eff props state result =
       | eff
       ) result
 
--- | A rendering function.
+-- | A render function.
 type Render props state eff =
   ReactThis props state ->
   Eff ( props :: ReactProps props
@@ -143,73 +151,97 @@ type Render props state eff =
       | eff
       ) ReactElement
 
+-- | A get initial state function.
+type GetInitialState props state eff =
+  ReactThis props state ->
+  Eff ( props :: ReactProps props
+      , state :: ReactState Disallowed state
+      , refs :: ReactRefs Disallowed
+      | eff
+      ) state
+
+-- | A component will mount function.
+type ComponentWillMount props state eff =
+  ReactThis props state ->
+  Eff ( props :: ReactProps props
+      , state :: ReactState ReadWrite state
+      , refs :: ReactRefs Disallowed
+      | eff
+      ) Unit
+
+-- | A component did mount function.
+type ComponentDidMount props state eff =
+  ReactThis props state ->
+  Eff ( props :: ReactProps props
+      , state :: ReactState ReadWrite state
+      , refs :: ReactRefs ReadOnly
+      | eff
+      ) Unit
+
+-- | A component will receive props function.
+type ComponentWillReceiveProps props state eff =
+   ReactThis props state ->
+   props ->
+   Eff ( props :: ReactProps props
+       , state :: ReactState ReadWrite state
+       , refs :: ReactRefs ReadOnly
+       | eff
+       ) Unit
+
+-- | A should component update function.
+type ShouldComponentUpdate props state eff =
+  ReactThis props state ->
+  props ->
+  state ->
+  Eff ( props :: ReactProps props
+      , state :: ReactState ReadWrite state
+      , refs :: ReactRefs ReadOnly
+      | eff
+      ) Boolean
+
+-- | A component will update function.
+type ComponentWillUpdate props state eff =
+  ReactThis props state ->
+  props ->
+  state ->
+  Eff ( props :: ReactProps props
+      , state :: ReactState ReadWrite state
+      , refs :: ReactRefs ReadOnly
+      | eff
+      ) Unit
+
+-- | A component did update function.
+type ComponentDidUpdate props state eff =
+  ReactThis props state ->
+  props ->
+  state ->
+  Eff ( props :: ReactProps props
+      , state :: ReactState ReadOnly state
+      , refs :: ReactRefs ReadOnly
+      | eff
+      ) Unit
+
+-- | A component will unmount function.
+type ComponentWillUnmount props state eff =
+  ReactThis props state ->
+  Eff ( props :: ReactProps props
+      , state :: ReactState ReadOnly state
+      , refs :: ReactRefs ReadOnly
+      | eff
+      ) Unit
+
 -- | A specification of a component.
 type ReactSpec props state eff =
   { render :: Render props state eff
   , displayName :: String
-  , getInitialState
-      :: ReactThis props state ->
-         Eff ( props :: ReactProps props
-             , state :: ReactState Disallowed state
-             , refs :: ReactRefs Disallowed
-             | eff
-             ) state
-  , componentWillMount
-      :: ReactThis props state ->
-         Eff ( props :: ReactProps props
-             , state :: ReactState ReadWrite state
-             , refs :: ReactRefs Disallowed
-             | eff
-             ) Unit
-  , componentDidMount
-      :: ReactThis props state ->
-         Eff ( props :: ReactProps props
-             , state :: ReactState ReadWrite state
-             , refs :: ReactRefs ReadOnly
-             | eff
-             ) Unit
-  , componentWillReceiveProps
-      :: ReactThis props state ->
-         props ->
-         Eff ( props :: ReactProps props
-             , state :: ReactState ReadWrite state
-             , refs :: ReactRefs ReadOnly
-             | eff
-             ) Unit
-  , shouldComponentUpdate
-      :: ReactThis props state ->
-         props ->
-         state ->
-         Eff ( props :: ReactProps props
-             , state :: ReactState ReadWrite state
-             , refs :: ReactRefs ReadOnly
-             | eff
-             ) Boolean
-  , componentWillUpdate
-      :: ReactThis props state ->
-         props ->
-         state ->
-         Eff ( props :: ReactProps props
-             , state :: ReactState ReadWrite state
-             , refs :: ReactRefs ReadOnly
-             | eff
-             ) Unit
-  , componentDidUpdate
-      :: ReactThis props state ->
-         props ->
-         state ->
-         Eff ( props :: ReactProps props
-             , state :: ReactState ReadOnly state
-             , refs :: ReactRefs ReadOnly
-             | eff
-             ) Unit
-  , componentWillUnmount
-      :: ReactThis props state ->
-         Eff ( props :: ReactProps props
-             , state :: ReactState ReadOnly state
-             , refs :: ReactRefs ReadOnly
-             | eff
-             ) Unit
+  , getInitialState :: GetInitialState props state eff
+  , componentWillMount :: ComponentWillMount props state eff
+  , componentDidMount :: ComponentDidMount props state eff
+  , componentWillReceiveProps :: ComponentWillReceiveProps props state eff
+  , shouldComponentUpdate :: ShouldComponentUpdate props state eff
+  , componentWillUpdate :: ComponentWillUpdate props state eff
+  , componentDidUpdate :: ComponentDidUpdate props state eff
+  , componentWillUnmount :: ComponentWillUnmount props state eff
   }
 
 -- | Create a component specification.
