@@ -14,13 +14,15 @@ exports.unsafeMkProps = function(key) {
 exports.unsafeUnfoldProps = function(key) {
     return function(value) {
         var result = {};
+        var props = {};
+        props[key] = result;
 
         for (var subprop in value) {
             if (value.hasOwnProperty(subprop)) {
-                result[key + '-' + subprop] = value[subprop];
+                result[subprop] = value[subprop];
             }
         }
 
-        return result;
+        return props;
     };
 };
