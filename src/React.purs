@@ -38,7 +38,7 @@ module React
 
   , EventHandlerContext()
 
-  , spec
+  , spec, spec'
 
   , getProps
   , getRefs
@@ -244,19 +244,23 @@ type ReactSpec props state eff =
   , componentWillUnmount :: ComponentWillUnmount props state eff
   }
 
--- | Create a component specification.
+-- | Create a component specification with a provided state.
 spec :: forall props state eff. state -> Render props state eff -> ReactSpec props state eff
-spec st renderFn =
-  { render:                    renderFn
-  , displayName:               ""
-  , getInitialState:           \_ -> pure st
-  , componentWillMount:        \_ -> return unit
-  , componentDidMount:         \_ -> return unit
+spec state = spec' (\_ -> pure state)
+
+-- | Create a component specification with a get initial state function.
+spec' :: forall props state eff. GetInitialState props state eff -> Render props state eff -> ReactSpec props state eff
+spec' getInitialState renderFn =
+  { render: renderFn
+  , displayName: ""
+  , getInitialState: getInitialState
+  , componentWillMount: \_ -> return unit
+  , componentDidMount: \_ -> return unit
   , componentWillReceiveProps: \_ _ -> return unit
-  , shouldComponentUpdate:     \_ _ _ -> return true
-  , componentWillUpdate:       \_ _ _ -> return unit
-  , componentDidUpdate:        \_ _ _ -> return unit
-  , componentWillUnmount:      \_ -> return unit
+  , shouldComponentUpdate: \_ _ _ -> return true
+  , componentWillUpdate: \_ _ _ -> return unit
+  , componentDidUpdate: \_ _ _ -> return unit
+  , componentWillUnmount: \_ -> return unit
   }
 
 -- | React class for components.
