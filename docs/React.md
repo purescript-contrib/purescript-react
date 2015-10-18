@@ -230,7 +230,15 @@ A specification of a component.
 spec :: forall props state eff. state -> Render props state eff -> ReactSpec props state eff
 ```
 
-Create a component specification.
+Create a component specification with a provided state.
+
+#### `spec'`
+
+``` purescript
+spec' :: forall props state eff. GetInitialState props state eff -> Render props state eff -> ReactSpec props state eff
+```
+
+Create a component specification with a get initial state function.
 
 #### `ReactClass`
 
