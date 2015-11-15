@@ -6,10 +6,9 @@ module React
 
   , EventHandler()
 
-  , Disallowed()
   , Read()
   , Write()
-  , Only()
+  , Disallowed()
   , ReadWrite()
   , ReadOnly()
 
@@ -74,38 +73,33 @@ foreign import data ReactThis :: * -> * -> *
 -- | An event handler. The type argument represents the type of the event.
 foreign import data EventHandler :: * -> *
 
--- | This phantom type indicates that both read and write access to a resource are disallowed.
-data Disallowed
-
 -- | This phantom type indicates that read access to a resource is allowed.
-data Read write
+foreign import data Read :: !
 
 -- | This phantom type indicates that write access to a resource is allowed.
-data Write
+foreign import data Write :: !
 
--- | This phantom type indicates that only read access to a resource is allowed.
-data Only
+-- | An access synonym which indicates that neither read nor write access are allowed.
+type Disallowed = () :: # !
 
 -- | An access synonym which indicates that both read and write access are allowed.
-type ReadWrite = Read Write
+type ReadWrite = (read :: Read, write :: Write)
 
 -- | An access synonym which indicates that reads are allowed but writes are not.
-type ReadOnly = Read Only
+type ReadOnly = (read :: Read)
 
 -- | This effect indicates that a computation may read or write the component state.
 -- |
--- | The first type argument is either `ReadWrite`, `ReadOnly` or `Disallowed` dependeding on the context.
--- |
--- | The second type argument is the type of the state of the component.
-foreign import data ReactState :: * -> * -> !
+-- | The first type argument is a row of access types (`Read`, `Write`).
+foreign import data ReactState :: # ! -> !
 
 -- | This effect indicates that a computation may read the component props.
-foreign import data ReactProps :: * -> !
+foreign import data ReactProps :: !
 
 -- | This effect indicates that a computation may read the component refs.
 -- |
--- | The first type argument is either `ReadOnly` or `Disallowed` dependeding on the context.
-foreign import data ReactRefs :: * -> !
+-- | The first type argument is a row of access types (`Read`, `Write`).
+foreign import data ReactRefs :: # ! -> !
 
 -- | The type of refs objects.
 foreign import data Refs :: *
@@ -136,26 +130,26 @@ type KeyboardEvent =
 
 -- | A function which handles events.
 type EventHandlerContext eff props state result =
-  Eff ( props :: ReactProps props
+  Eff ( props :: ReactProps
       , refs :: ReactRefs ReadOnly
-      , state :: ReactState ReadWrite state
+      , state :: ReactState ReadWrite
       | eff
       ) result
 
 -- | A render function.
 type Render props state eff =
   ReactThis props state ->
-  Eff ( props :: ReactProps props
+  Eff ( props :: ReactProps
       , refs :: ReactRefs Disallowed
-      , state :: ReactState ReadOnly state
+      , state :: ReactState ReadOnly
       | eff
       ) ReactElement
 
 -- | A get initial state function.
 type GetInitialState props state eff =
   ReactThis props state ->
-  Eff ( props :: ReactProps props
-      , state :: ReactState Disallowed state
+  Eff ( props :: ReactProps
+      , state :: ReactState Disallowed
       , refs :: ReactRefs Disallowed
       | eff
       ) state
@@ -163,8 +157,8 @@ type GetInitialState props state eff =
 -- | A component will mount function.
 type ComponentWillMount props state eff =
   ReactThis props state ->
-  Eff ( props :: ReactProps props
-      , state :: ReactState ReadWrite state
+  Eff ( props :: ReactProps
+      , state :: ReactState ReadWrite
       , refs :: ReactRefs Disallowed
       | eff
       ) Unit
@@ -172,8 +166,8 @@ type ComponentWillMount props state eff =
 -- | A component did mount function.
 type ComponentDidMount props state eff =
   ReactThis props state ->
-  Eff ( props :: ReactProps props
-      , state :: ReactState ReadWrite state
+  Eff ( props :: ReactProps
+      , state :: ReactState ReadWrite
       , refs :: ReactRefs ReadOnly
       | eff
       ) Unit
@@ -182,8 +176,8 @@ type ComponentDidMount props state eff =
 type ComponentWillReceiveProps props state eff =
    ReactThis props state ->
    props ->
-   Eff ( props :: ReactProps props
-       , state :: ReactState ReadWrite state
+   Eff ( props :: ReactProps
+       , state :: ReactState ReadWrite
        , refs :: ReactRefs ReadOnly
        | eff
        ) Unit
@@ -193,8 +187,8 @@ type ShouldComponentUpdate props state eff =
   ReactThis props state ->
   props ->
   state ->
-  Eff ( props :: ReactProps props
-      , state :: ReactState ReadWrite state
+  Eff ( props :: ReactProps
+      , state :: ReactState ReadWrite
       , refs :: ReactRefs ReadOnly
       | eff
       ) Boolean
@@ -204,8 +198,8 @@ type ComponentWillUpdate props state eff =
   ReactThis props state ->
   props ->
   state ->
-  Eff ( props :: ReactProps props
-      , state :: ReactState ReadWrite state
+  Eff ( props :: ReactProps
+      , state :: ReactState ReadWrite
       , refs :: ReactRefs ReadOnly
       | eff
       ) Unit
@@ -215,8 +209,8 @@ type ComponentDidUpdate props state eff =
   ReactThis props state ->
   props ->
   state ->
-  Eff ( props :: ReactProps props
-      , state :: ReactState ReadOnly state
+  Eff ( props :: ReactProps
+      , state :: ReactState ReadOnly
       , refs :: ReactRefs ReadOnly
       | eff
       ) Unit
@@ -224,8 +218,8 @@ type ComponentDidUpdate props state eff =
 -- | A component will unmount function.
 type ComponentWillUnmount props state eff =
   ReactThis props state ->
-  Eff ( props :: ReactProps props
-      , state :: ReactState ReadOnly state
+  Eff ( props :: ReactProps
+      , state :: ReactState ReadOnly
       , refs :: ReactRefs ReadOnly
       | eff
       ) Unit
@@ -267,22 +261,22 @@ spec' getInitialState renderFn =
 foreign import data ReactClass :: * -> *
 
 -- | Read the component props.
-foreign import getProps :: forall props state eff. ReactThis props state -> Eff (props :: ReactProps props | eff) props
+foreign import getProps :: forall props state eff. ReactThis props state -> Eff (props :: ReactProps | eff) props
 
 -- | Read the component refs.
-foreign import getRefs :: forall props state write eff. ReactThis props state -> Eff (refs :: ReactRefs (Read write) | eff) Refs
+foreign import getRefs :: forall props state access eff. ReactThis props state -> Eff (refs :: ReactRefs (read :: Read | access) | eff) Refs
 
 -- | Read the component children property.
-foreign import getChildren :: forall props state eff. ReactThis props state -> Eff (props :: ReactProps props | eff) (Array ReactElement)
+foreign import getChildren :: forall props state eff. ReactThis props state -> Eff (props :: ReactProps | eff) (Array ReactElement)
 
 -- | Write the component state.
-foreign import writeState :: forall props state eff. ReactThis props state -> state -> Eff (state :: ReactState ReadWrite state | eff) state
+foreign import writeState :: forall props state access eff. ReactThis props state -> state -> Eff (state :: ReactState (write :: Write | access) | eff) state
 
 -- | Read the component state.
-foreign import readState :: forall props state write eff. ReactThis props state -> Eff (state :: ReactState (Read write) state | eff) state
+foreign import readState :: forall props state access eff. ReactThis props state -> Eff (state :: ReactState (read :: Read | access) | eff) state
 
 -- | Transform the component state by applying a function.
-transformState :: forall props state eff. ReactThis props state -> (state -> state) -> Eff (state :: ReactState ReadWrite state | eff) state
+transformState :: forall props state eff. ReactThis props state -> (state -> state) -> Eff (state :: ReactState ReadWrite | eff) state
 transformState ctx f = do
   state <- readState ctx
   writeState ctx $ f state
