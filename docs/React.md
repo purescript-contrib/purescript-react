@@ -26,18 +26,10 @@ data EventHandler :: * -> *
 
 An event handler. The type argument represents the type of the event.
 
-#### `Disallowed`
-
-``` purescript
-data Disallowed
-```
-
-This phantom type indicates that both read and write access to a resource are disallowed.
-
 #### `Read`
 
 ``` purescript
-data Read write
+data Read :: !
 ```
 
 This phantom type indicates that read access to a resource is allowed.
@@ -45,23 +37,23 @@ This phantom type indicates that read access to a resource is allowed.
 #### `Write`
 
 ``` purescript
-data Write
+data Write :: !
 ```
 
 This phantom type indicates that write access to a resource is allowed.
 
-#### `Only`
+#### `Disallowed`
 
 ``` purescript
-data Only
+type Disallowed = () :: # !
 ```
 
-This phantom type indicates that only read access to a resource is allowed.
+An access synonym which indicates that neither read nor write access are allowed.
 
 #### `ReadWrite`
 
 ``` purescript
-type ReadWrite = Read Write
+type ReadWrite = (read :: Read, write :: Write)
 ```
 
 An access synonym which indicates that both read and write access are allowed.
@@ -69,7 +61,7 @@ An access synonym which indicates that both read and write access are allowed.
 #### `ReadOnly`
 
 ``` purescript
-type ReadOnly = Read Only
+type ReadOnly = (read :: Read)
 ```
 
 An access synonym which indicates that reads are allowed but writes are not.
@@ -77,19 +69,17 @@ An access synonym which indicates that reads are allowed but writes are not.
 #### `ReactState`
 
 ``` purescript
-data ReactState :: * -> * -> !
+data ReactState :: # ! -> !
 ```
 
 This effect indicates that a computation may read or write the component state.
 
-The first type argument is either `ReadWrite`, `ReadOnly` or `Disallowed` dependeding on the context.
-
-The second type argument is the type of the state of the component.
+The first type argument is a row of access types (`Read`, `Write`).
 
 #### `ReactProps`
 
 ``` purescript
-data ReactProps :: * -> !
+data ReactProps :: !
 ```
 
 This effect indicates that a computation may read the component props.
@@ -97,12 +87,12 @@ This effect indicates that a computation may read the component props.
 #### `ReactRefs`
 
 ``` purescript
-data ReactRefs :: * -> !
+data ReactRefs :: # ! -> !
 ```
 
 This effect indicates that a computation may read the component refs.
 
-The first type argument is either `ReadOnly` or `Disallowed` dependeding on the context.
+The first type argument is a row of access types (`Read`, `Write`).
 
 #### `Refs`
 
@@ -139,7 +129,7 @@ The type of keyboard events.
 #### `EventHandlerContext`
 
 ``` purescript
-type EventHandlerContext eff props state result = Eff (props :: ReactProps props, refs :: ReactRefs ReadOnly, state :: ReactState ReadWrite state | eff) result
+type EventHandlerContext eff props state result = Eff (props :: ReactProps, refs :: ReactRefs ReadOnly, state :: ReactState ReadWrite | eff) result
 ```
 
 A function which handles events.
@@ -147,7 +137,7 @@ A function which handles events.
 #### `Render`
 
 ``` purescript
-type Render props state eff = ReactThis props state -> Eff (props :: ReactProps props, refs :: ReactRefs Disallowed, state :: ReactState ReadOnly state | eff) ReactElement
+type Render props state eff = ReactThis props state -> Eff (props :: ReactProps, refs :: ReactRefs Disallowed, state :: ReactState ReadOnly | eff) ReactElement
 ```
 
 A render function.
@@ -155,7 +145,7 @@ A render function.
 #### `GetInitialState`
 
 ``` purescript
-type GetInitialState props state eff = ReactThis props state -> Eff (props :: ReactProps props, state :: ReactState Disallowed state, refs :: ReactRefs Disallowed | eff) state
+type GetInitialState props state eff = ReactThis props state -> Eff (props :: ReactProps, state :: ReactState Disallowed, refs :: ReactRefs Disallowed | eff) state
 ```
 
 A get initial state function.
@@ -163,7 +153,7 @@ A get initial state function.
 #### `ComponentWillMount`
 
 ``` purescript
-type ComponentWillMount props state eff = ReactThis props state -> Eff (props :: ReactProps props, state :: ReactState ReadWrite state, refs :: ReactRefs Disallowed | eff) Unit
+type ComponentWillMount props state eff = ReactThis props state -> Eff (props :: ReactProps, state :: ReactState ReadWrite, refs :: ReactRefs Disallowed | eff) Unit
 ```
 
 A component will mount function.
@@ -171,7 +161,7 @@ A component will mount function.
 #### `ComponentDidMount`
 
 ``` purescript
-type ComponentDidMount props state eff = ReactThis props state -> Eff (props :: ReactProps props, state :: ReactState ReadWrite state, refs :: ReactRefs ReadOnly | eff) Unit
+type ComponentDidMount props state eff = ReactThis props state -> Eff (props :: ReactProps, state :: ReactState ReadWrite, refs :: ReactRefs ReadOnly | eff) Unit
 ```
 
 A component did mount function.
@@ -179,7 +169,7 @@ A component did mount function.
 #### `ComponentWillReceiveProps`
 
 ``` purescript
-type ComponentWillReceiveProps props state eff = ReactThis props state -> props -> Eff (props :: ReactProps props, state :: ReactState ReadWrite state, refs :: ReactRefs ReadOnly | eff) Unit
+type ComponentWillReceiveProps props state eff = ReactThis props state -> props -> Eff (props :: ReactProps, state :: ReactState ReadWrite, refs :: ReactRefs ReadOnly | eff) Unit
 ```
 
 A component will receive props function.
@@ -187,7 +177,7 @@ A component will receive props function.
 #### `ShouldComponentUpdate`
 
 ``` purescript
-type ShouldComponentUpdate props state eff = ReactThis props state -> props -> state -> Eff (props :: ReactProps props, state :: ReactState ReadWrite state, refs :: ReactRefs ReadOnly | eff) Boolean
+type ShouldComponentUpdate props state eff = ReactThis props state -> props -> state -> Eff (props :: ReactProps, state :: ReactState ReadWrite, refs :: ReactRefs ReadOnly | eff) Boolean
 ```
 
 A should component update function.
@@ -195,7 +185,7 @@ A should component update function.
 #### `ComponentWillUpdate`
 
 ``` purescript
-type ComponentWillUpdate props state eff = ReactThis props state -> props -> state -> Eff (props :: ReactProps props, state :: ReactState ReadWrite state, refs :: ReactRefs ReadOnly | eff) Unit
+type ComponentWillUpdate props state eff = ReactThis props state -> props -> state -> Eff (props :: ReactProps, state :: ReactState ReadWrite, refs :: ReactRefs ReadOnly | eff) Unit
 ```
 
 A component will update function.
@@ -203,7 +193,7 @@ A component will update function.
 #### `ComponentDidUpdate`
 
 ``` purescript
-type ComponentDidUpdate props state eff = ReactThis props state -> props -> state -> Eff (props :: ReactProps props, state :: ReactState ReadOnly state, refs :: ReactRefs ReadOnly | eff) Unit
+type ComponentDidUpdate props state eff = ReactThis props state -> props -> state -> Eff (props :: ReactProps, state :: ReactState ReadOnly, refs :: ReactRefs ReadOnly | eff) Unit
 ```
 
 A component did update function.
@@ -211,7 +201,7 @@ A component did update function.
 #### `ComponentWillUnmount`
 
 ``` purescript
-type ComponentWillUnmount props state eff = ReactThis props state -> Eff (props :: ReactProps props, state :: ReactState ReadOnly state, refs :: ReactRefs ReadOnly | eff) Unit
+type ComponentWillUnmount props state eff = ReactThis props state -> Eff (props :: ReactProps, state :: ReactState ReadOnly, refs :: ReactRefs ReadOnly | eff) Unit
 ```
 
 A component will unmount function.
@@ -251,7 +241,7 @@ React class for components.
 #### `getProps`
 
 ``` purescript
-getProps :: forall props state eff. ReactThis props state -> Eff (props :: ReactProps props | eff) props
+getProps :: forall props state eff. ReactThis props state -> Eff (props :: ReactProps | eff) props
 ```
 
 Read the component props.
@@ -259,7 +249,7 @@ Read the component props.
 #### `getRefs`
 
 ``` purescript
-getRefs :: forall props state write eff. ReactThis props state -> Eff (refs :: ReactRefs (Read write) | eff) Refs
+getRefs :: forall props state access eff. ReactThis props state -> Eff (refs :: ReactRefs (read :: Read | access) | eff) Refs
 ```
 
 Read the component refs.
@@ -267,7 +257,7 @@ Read the component refs.
 #### `getChildren`
 
 ``` purescript
-getChildren :: forall props state eff. ReactThis props state -> Eff (props :: ReactProps props | eff) (Array ReactElement)
+getChildren :: forall props state eff. ReactThis props state -> Eff (props :: ReactProps | eff) (Array ReactElement)
 ```
 
 Read the component children property.
@@ -275,7 +265,7 @@ Read the component children property.
 #### `writeState`
 
 ``` purescript
-writeState :: forall props state eff. ReactThis props state -> state -> Eff (state :: ReactState ReadWrite state | eff) state
+writeState :: forall props state access eff. ReactThis props state -> state -> Eff (state :: ReactState (write :: Write | access) | eff) state
 ```
 
 Write the component state.
@@ -283,7 +273,7 @@ Write the component state.
 #### `readState`
 
 ``` purescript
-readState :: forall props state write eff. ReactThis props state -> Eff (state :: ReactState (Read write) state | eff) state
+readState :: forall props state access eff. ReactThis props state -> Eff (state :: ReactState (read :: Read | access) | eff) state
 ```
 
 Read the component state.
@@ -291,7 +281,7 @@ Read the component state.
 #### `transformState`
 
 ``` purescript
-transformState :: forall props state eff. ReactThis props state -> (state -> state) -> Eff (state :: ReactState ReadWrite state | eff) state
+transformState :: forall props state eff. ReactThis props state -> (state -> state) -> Eff (state :: ReactState ReadWrite | eff) state
 ```
 
 Transform the component state by applying a function.

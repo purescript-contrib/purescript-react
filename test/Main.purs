@@ -5,7 +5,6 @@ import Prelude
 import Control.Monad.Eff
 import Control.Monad.Eff.Console
 
-import Data.Maybe (Maybe(..))
 import Data.Maybe.Unsafe (fromJust)
 import Data.Nullable (toMaybe)
 
@@ -29,6 +28,7 @@ foreign import interval :: forall eff a.
                              Eff eff a ->
                              Eff eff Unit
 
+hello :: forall props. ReactClass { name :: String | props }
 hello = createClass $ spec unit \ctx -> do
   props <- getProps ctx
   return $ D.h1 [ P.className "Hello"
@@ -38,6 +38,7 @@ hello = createClass $ spec unit \ctx -> do
                 , D.text props.name
                 ]
 
+counter :: forall props. ReactClass props
 counter = createClass counterSpec
   where
   counterSpec = (spec 0 render)
@@ -58,7 +59,8 @@ counter = createClass counterSpec
                       , D.text " Click me to increment!"
                       ]
 
-main = body' >>= render ui
+main :: forall eff. Eff (dom :: DOM | eff) Unit
+main = void (body' >>= render ui)
   where
   ui :: ReactElement
   ui = D.div' [ createFactory hello { name: "World" }
@@ -69,7 +71,7 @@ main = body' >>= render ui
                               ]
               ]
 
-  body' :: forall eff. Eff (dom :: DOM | eff) Element
+  body' :: Eff (dom :: DOM | eff) Element
   body' = do
     win <- window
     doc <- document win
