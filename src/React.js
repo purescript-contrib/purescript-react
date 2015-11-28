@@ -37,12 +37,10 @@ exports.getChildren = getChildren;
 function writeState(this_) {
   return function(state){
     return function(){
-      this_.replaceState({
+      this_.setState({
         state: state
       });
-      return function(){
-        return state;
-      }
+      return state;
     };
   };
 }
