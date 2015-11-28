@@ -1,6 +1,5 @@
 {
   "name": "purescript-react",
-  "version": "0.0.5",
   "homepage": "https://github.com/purescript-contrib/purescript-react",
   "description": "Purescript bindings for React.js",
   "keywords": [
@@ -15,15 +14,15 @@
     "test",
     "tests"
   ],
-  "repository": {                                              
-    "type": "git",                                             
+  "repository": {
+    "type": "git",
     "url": "git://github.com/purescript-contrib/purescript-react.git"
-  },                                                        
-  "dependencies": {
-    "purescript-dom": "~0.2.6"
   },
   "devDependencies": {
-    "purescript-console": "~0.1.1",
-    "react": "~0.13.3"
+    "purescript-console": "~0.1.1"
+  },
+  "dependencies": {
+    "purescript-eff": "~0.1.2",
+    "purescript-unsafe-coerce": "~0.1.0"
   }
 }
