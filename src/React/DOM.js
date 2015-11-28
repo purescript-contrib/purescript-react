@@ -3,6 +3,8 @@
 
 // module React.DOM
 
+var React = require('react');
+
 function mkProps(props) {
     var result = {};
 

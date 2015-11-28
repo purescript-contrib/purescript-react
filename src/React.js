@@ -60,7 +60,9 @@ function createClass(spec) {
       return spec.render(this)();
     },
     getInitialState: function(){
-      return spec.getInitialState(this)();
+      return {
+        state: spec.getInitialState(this)()
+      };
     },
     componentWillMount: function(){
       return spec.componentWillMount(this)();

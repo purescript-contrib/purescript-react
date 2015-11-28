@@ -51,6 +51,7 @@ module React
   , handle
 
   , createClass
+  , createClassStateless
   , createElement
   , createFactory
   ) where

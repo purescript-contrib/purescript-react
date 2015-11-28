@@ -1,25 +1,20 @@
 {
   "name": "purescript-react",
   "homepage": "https://github.com/purescript-contrib/purescript-react",
-  "description": "Purescript bindings for React.js",
+  "description": "PureScript bindings for react",
+  "main": "",
   "keywords": [
     "purescript",
     "react"
   ],
   "license": "MIT",
   "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
+    "*",
+    "!src/**/*"
   ],
   "repository": {
     "type": "git",
     "url": "git://github.com/purescript-contrib/purescript-react.git"
-  },
-  "devDependencies": {
-    "purescript-console": "~0.1.1"
   },
   "dependencies": {
     "purescript-eff": "~0.1.2",

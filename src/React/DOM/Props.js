@@ -3,26 +3,30 @@
 
 // module React.DOM.Props
 
-exports.unsafeMkProps = function(key) {
-    return function(value) {
-        var result = {};
-        result[key] = value;
-        return result;
-    };
-};
+var React = require('react');
 
-exports.unsafeUnfoldProps = function(key) {
-    return function(value) {
-        var result = {};
-        var props = {};
-        props[key] = result;
+function unsafeMkProps(key) {
+  return function(value){
+    var result = {};
+    result[key] = value;
+    return result;
+  };
+}
+exports.unsafeMkProps = unsafeMkProps;
 
-        for (var subprop in value) {
-            if (value.hasOwnProperty(subprop)) {
-                result[subprop] = value[subprop];
-            }
-        }
+function unsafeUnfoldProps(key) {
+  return function(value){
+    var result = {};
+    var props = {};
+    props[key] = result;
 
-        return props;
-    };
-};
+    for (var subprop in value) {
+      if (value.hasOwnProperty(subprop)) {
+          result[subprop] = value[subprop];
+      }
+    }
+
+    return props;
+  };
+}
+exports.unsafeUnfoldProps = unsafeUnfoldProps;
