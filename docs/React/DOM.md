@@ -3,7 +3,7 @@
 #### `mkDOM`
 
 ``` purescript
-mkDOM :: String -> Array Props -> Array ReactElement -> ReactElement
+mkDOM :: TagName -> Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `text`

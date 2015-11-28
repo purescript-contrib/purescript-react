@@ -1,14 +1,14 @@
 module React.DOM.Props where
 
-import Prelude
-
-import React
+import React (Event(), EventHandlerContext(), KeyboardEvent(), MouseEvent(), handle)
 
 foreign import data Props :: *
 
 foreign import unsafeMkProps :: forall val. String -> val -> Props
 
 foreign import unsafeUnfoldProps :: forall vals. String -> { | vals } -> Props
+
+foreign import unsafeFromPropsArray :: forall props. Array Props -> props
 
 aria :: forall ariaAttrs. { | ariaAttrs } -> Props
 aria = unsafeUnfoldProps "aria"

@@ -9,6 +9,25 @@ For a more high-level set of bindings, you might like to look at `purescript-the
 
 - [Module Documentation](docs/)
 
+## Dynamic children
+
+There are two ways that child elements can be passed to components:
+1. The first way is to spread the child element array when passing
+   them to React's `createElement` function.
+   The [React.DOM](docs/React/DOM.md) and [React.DOM.SVG](docs/React/DOM/SVG.md)
+   spread the child element array.
+2. The second way is to pass the child element array to `createElement`
+   without spreading. This is useful when dealing with
+   [dynamic children](https://facebook.github.io/react/docs/multiple-components.html#dynamic-children).
+   In this case a `key` property should be assigned direclty to each child.
+   The [React.DOM.Dynamic](docs/React/DOM/Dynamic.md) and
+   [React.DOM.SVG.Dynamic](docs/React/DOM/SVG/Dynamic.md) pass the child
+   element array without spreading.
+
+Note that this module provides functions `createElement` and
+`createElementDynamic` to handle the two cases above for component
+classes.
+
 ## Building
 
 The library and example can be built with Pulp as follows:

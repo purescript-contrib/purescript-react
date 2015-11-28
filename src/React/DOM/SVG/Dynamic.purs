@@ -1,7 +1,7 @@
-module React.DOM.SVG where
+module React.DOM.SVG.Dynamic where
 
 import React (ReactElement())
-import React.DOM (mkDOM)
+import React.DOM.Dynamic (mkDOM)
 import React.DOM.Props (Props())
 
 circle :: Array Props -> Array ReactElement -> ReactElement

@@ -1,59 +1,111 @@
-module React.DOM.SVG where
+## Module React.DOM.SVG.Dynamic
 
-import React (ReactElement())
-import React.DOM (mkDOM)
-import React.DOM.Props (Props())
+#### `circle`
 
+``` purescript
 circle :: Array Props -> Array ReactElement -> ReactElement
-circle = mkDOM "circle"
+```
 
+#### `clipPath`
+
+``` purescript
 clipPath :: Array Props -> Array ReactElement -> ReactElement
-clipPath = mkDOM "clipPath"
+```
 
+#### `defs`
+
+``` purescript
 defs :: Array Props -> Array ReactElement -> ReactElement
-defs = mkDOM "defs"
+```
 
+#### `ellipse`
+
+``` purescript
 ellipse :: Array Props -> Array ReactElement -> ReactElement
-ellipse = mkDOM "ellipse"
+```
 
+#### `g`
+
+``` purescript
 g :: Array Props -> Array ReactElement -> ReactElement
-g = mkDOM "g"
+```
 
+#### `line`
+
+``` purescript
 line :: Array Props -> Array ReactElement -> ReactElement
-line = mkDOM "line"
+```
 
+#### `linearGradient`
+
+``` purescript
 linearGradient :: Array Props -> Array ReactElement -> ReactElement
-linearGradient = mkDOM "linearGradient"
+```
 
+#### `mask`
+
+``` purescript
 mask :: Array Props -> Array ReactElement -> ReactElement
-mask = mkDOM "mask"
+```
 
+#### `path`
+
+``` purescript
 path :: Array Props -> Array ReactElement -> ReactElement
-path = mkDOM "path"
+```
 
+#### `pattern`
+
+``` purescript
 pattern :: Array Props -> Array ReactElement -> ReactElement
-pattern = mkDOM "pattern"
+```
 
+#### `polygon`
+
+``` purescript
 polygon :: Array Props -> Array ReactElement -> ReactElement
-polygon = mkDOM "polygon"
+```
 
+#### `polyline`
+
+``` purescript
 polyline :: Array Props -> Array ReactElement -> ReactElement
-polyline = mkDOM "polyline"
+```
 
+#### `radialGradient`
+
+``` purescript
 radialGradient :: Array Props -> Array ReactElement -> ReactElement
-radialGradient = mkDOM "radialGradient"
+```
 
+#### `rect`
+
+``` purescript
 rect :: Array Props -> Array ReactElement -> ReactElement
-rect = mkDOM "rect"
+```
 
+#### `stop`
+
+``` purescript
 stop :: Array Props -> Array ReactElement -> ReactElement
-stop = mkDOM "stop"
+```
 
+#### `svg`
+
+``` purescript
 svg :: Array Props -> Array ReactElement -> ReactElement
-svg = mkDOM "svg"
+```
 
+#### `text`
+
+``` purescript
 text :: Array Props -> Array ReactElement -> ReactElement
-text = mkDOM "text"
+```
 
+#### `tspan`
+
+``` purescript
 tspan :: Array Props -> Array ReactElement -> ReactElement
-tspan = mkDOM "tspan"
+```
+
+

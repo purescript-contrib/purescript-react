@@ -1,10 +1,10 @@
-module React.DOM where
+module React.DOM.Dynamic where
 
-import React (ReactElement(), TagName(), createElementTagName)
+import React (ReactElement(), TagName(), createElementTagNameDynamic)
 import React.DOM.Props (Props(), unsafeFromPropsArray)
 
 mkDOM :: TagName -> Array Props -> Array ReactElement -> ReactElement
-mkDOM tag props = createElementTagName tag (unsafeFromPropsArray props)
+mkDOM tag props = createElementTagNameDynamic tag (unsafeFromPropsArray props)
 
 foreign import text :: String -> ReactElement
 

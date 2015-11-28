@@ -18,6 +18,12 @@ unsafeMkProps :: forall val. String -> val -> Props
 unsafeUnfoldProps :: forall vals. String -> {  | vals } -> Props
 ```
 
+#### `unsafeFromPropsArray`
+
+``` purescript
+unsafeFromPropsArray :: forall props. Array Props -> props
+```
+
 #### `aria`
 
 ``` purescript

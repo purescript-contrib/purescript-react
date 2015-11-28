@@ -1,681 +1,1359 @@
-module React.DOM where
+## Module React.DOM.Dynamic
 
-import React (ReactElement(), TagName(), createElementTagName)
-import React.DOM.Props (Props(), unsafeFromPropsArray)
+#### `mkDOM`
 
+``` purescript
 mkDOM :: TagName -> Array Props -> Array ReactElement -> ReactElement
-mkDOM tag props = createElementTagName tag (unsafeFromPropsArray props)
+```
 
-foreign import text :: String -> ReactElement
+#### `text`
 
+``` purescript
+text :: String -> ReactElement
+```
+
+#### `a`
+
+``` purescript
 a :: Array Props -> Array ReactElement -> ReactElement
-a = mkDOM "a"
+```
 
+#### `a'`
+
+``` purescript
 a' :: Array ReactElement -> ReactElement
-a' = a []
+```
 
+#### `abbr`
+
+``` purescript
 abbr :: Array Props -> Array ReactElement -> ReactElement
-abbr = mkDOM "abbr"
+```
 
+#### `abbr'`
+
+``` purescript
 abbr' :: Array ReactElement -> ReactElement
-abbr' = abbr []
+```
 
+#### `address`
+
+``` purescript
 address :: Array Props -> Array ReactElement -> ReactElement
-address = mkDOM "address"
+```
 
+#### `address'`
+
+``` purescript
 address' :: Array ReactElement -> ReactElement
-address' = address []
+```
 
+#### `area`
+
+``` purescript
 area :: Array Props -> Array ReactElement -> ReactElement
-area = mkDOM "area"
+```
 
+#### `area'`
+
+``` purescript
 area' :: Array ReactElement -> ReactElement
-area' = area []
+```
 
+#### `article`
+
+``` purescript
 article :: Array Props -> Array ReactElement -> ReactElement
-article = mkDOM "article"
+```
 
+#### `article'`
+
+``` purescript
 article' :: Array ReactElement -> ReactElement
-article' = article []
+```
 
+#### `aside`
+
+``` purescript
 aside :: Array Props -> Array ReactElement -> ReactElement
-aside = mkDOM "aside"
+```
 
+#### `aside'`
+
+``` purescript
 aside' :: Array ReactElement -> ReactElement
-aside' = aside []
+```
 
+#### `audio`
+
+``` purescript
 audio :: Array Props -> Array ReactElement -> ReactElement
-audio = mkDOM "audio"
+```
 
+#### `audio'`
+
+``` purescript
 audio' :: Array ReactElement -> ReactElement
-audio' = audio []
+```
 
+#### `b`
+
+``` purescript
 b :: Array Props -> Array ReactElement -> ReactElement
-b = mkDOM "b"
+```
 
+#### `b'`
+
+``` purescript
 b' :: Array ReactElement -> ReactElement
-b' = b []
+```
 
+#### `base`
+
+``` purescript
 base :: Array Props -> Array ReactElement -> ReactElement
-base = mkDOM "base"
+```
 
+#### `base'`
+
+``` purescript
 base' :: Array ReactElement -> ReactElement
-base' = base []
+```
 
+#### `bdi`
+
+``` purescript
 bdi :: Array Props -> Array ReactElement -> ReactElement
-bdi = mkDOM "bdi"
+```
 
+#### `bdi'`
+
+``` purescript
 bdi' :: Array ReactElement -> ReactElement
-bdi' = bdi []
+```
 
+#### `bdo`
+
+``` purescript
 bdo :: Array Props -> Array ReactElement -> ReactElement
-bdo = mkDOM "bdo"
+```
 
+#### `bdo'`
+
+``` purescript
 bdo' :: Array ReactElement -> ReactElement
-bdo' = bdo []
+```
 
+#### `big`
+
+``` purescript
 big :: Array Props -> Array ReactElement -> ReactElement
-big = mkDOM "big"
+```
 
+#### `big'`
+
+``` purescript
 big' :: Array ReactElement -> ReactElement
-big' = big []
+```
 
+#### `blockquote`
+
+``` purescript
 blockquote :: Array Props -> Array ReactElement -> ReactElement
-blockquote = mkDOM "blockquote"
+```
 
+#### `blockquote'`
+
+``` purescript
 blockquote' :: Array ReactElement -> ReactElement
-blockquote' = blockquote []
+```
 
+#### `body`
+
+``` purescript
 body :: Array Props -> Array ReactElement -> ReactElement
-body = mkDOM "body"
+```
 
+#### `body'`
+
+``` purescript
 body' :: Array ReactElement -> ReactElement
-body' = body []
+```
 
+#### `br`
+
+``` purescript
 br :: Array Props -> Array ReactElement -> ReactElement
-br = mkDOM "br"
+```
 
+#### `br'`
+
+``` purescript
 br' :: Array ReactElement -> ReactElement
-br' = br []
+```
 
+#### `button`
+
+``` purescript
 button :: Array Props -> Array ReactElement -> ReactElement
-button = mkDOM "button"
+```
 
+#### `button'`
+
+``` purescript
 button' :: Array ReactElement -> ReactElement
-button' = button []
+```
 
+#### `canvas`
+
+``` purescript
 canvas :: Array Props -> Array ReactElement -> ReactElement
-canvas = mkDOM "canvas"
+```
 
+#### `canvas'`
+
+``` purescript
 canvas' :: Array ReactElement -> ReactElement
-canvas' = canvas []
+```
 
+#### `caption`
+
+``` purescript
 caption :: Array Props -> Array ReactElement -> ReactElement
-caption = mkDOM "caption"
+```
 
+#### `caption'`
+
+``` purescript
 caption' :: Array ReactElement -> ReactElement
-caption' = caption []
+```
 
+#### `cite`
+
+``` purescript
 cite :: Array Props -> Array ReactElement -> ReactElement
-cite = mkDOM "cite"
+```
 
+#### `cite'`
+
+``` purescript
 cite' :: Array ReactElement -> ReactElement
-cite' = cite []
+```
 
+#### `code`
+
+``` purescript
 code :: Array Props -> Array ReactElement -> ReactElement
-code = mkDOM "code"
+```
 
+#### `code'`
+
+``` purescript
 code' :: Array ReactElement -> ReactElement
-code' = code []
+```
 
+#### `col`
+
+``` purescript
 col :: Array Props -> Array ReactElement -> ReactElement
-col = mkDOM "col"
+```
 
+#### `col'`
+
+``` purescript
 col' :: Array ReactElement -> ReactElement
-col' = col []
+```
 
+#### `colgroup`
+
+``` purescript
 colgroup :: Array Props -> Array ReactElement -> ReactElement
-colgroup = mkDOM "colgroup"
+```
 
+#### `colgroup'`
+
+``` purescript
 colgroup' :: Array ReactElement -> ReactElement
-colgroup' = colgroup []
+```
 
+#### `_data`
+
+``` purescript
 _data :: Array Props -> Array ReactElement -> ReactElement
-_data = mkDOM "data"
+```
 
+#### `_data'`
+
+``` purescript
 _data' :: Array ReactElement -> ReactElement
-_data' = _data []
+```
 
+#### `datalist`
+
+``` purescript
 datalist :: Array Props -> Array ReactElement -> ReactElement
-datalist = mkDOM "datalist"
+```
 
+#### `datalist'`
+
+``` purescript
 datalist' :: Array ReactElement -> ReactElement
-datalist' = datalist []
+```
 
+#### `dd`
+
+``` purescript
 dd :: Array Props -> Array ReactElement -> ReactElement
-dd = mkDOM "dd"
+```
 
+#### `dd'`
+
+``` purescript
 dd' :: Array ReactElement -> ReactElement
-dd' = dd []
+```
 
+#### `del`
+
+``` purescript
 del :: Array Props -> Array ReactElement -> ReactElement
-del = mkDOM "del"
+```
 
+#### `del'`
+
+``` purescript
 del' :: Array ReactElement -> ReactElement
-del' = del []
+```
 
+#### `details`
+
+``` purescript
 details :: Array Props -> Array ReactElement -> ReactElement
-details = mkDOM "details"
+```
 
+#### `details'`
+
+``` purescript
 details' :: Array ReactElement -> ReactElement
-details' = details []
+```
 
+#### `dfn`
+
+``` purescript
 dfn :: Array Props -> Array ReactElement -> ReactElement
-dfn = mkDOM "dfn"
+```
 
+#### `dfn'`
+
+``` purescript
 dfn' :: Array ReactElement -> ReactElement
-dfn' = dfn []
+```
 
+#### `dialog`
+
+``` purescript
 dialog :: Array Props -> Array ReactElement -> ReactElement
-dialog = mkDOM "dialog"
+```
 
+#### `dialog'`
+
+``` purescript
 dialog' :: Array ReactElement -> ReactElement
-dialog' = dialog []
+```
 
+#### `div`
+
+``` purescript
 div :: Array Props -> Array ReactElement -> ReactElement
-div = mkDOM "div"
+```
 
+#### `div'`
+
+``` purescript
 div' :: Array ReactElement -> ReactElement
-div' = div []
+```
 
+#### `dl`
+
+``` purescript
 dl :: Array Props -> Array ReactElement -> ReactElement
-dl = mkDOM "dl"
+```
 
+#### `dl'`
+
+``` purescript
 dl' :: Array ReactElement -> ReactElement
-dl' = dl []
+```
 
+#### `dt`
+
+``` purescript
 dt :: Array Props -> Array ReactElement -> ReactElement
-dt = mkDOM "dt"
+```
 
+#### `dt'`
+
+``` purescript
 dt' :: Array ReactElement -> ReactElement
-dt' = dt []
+```
 
+#### `em`
+
+``` purescript
 em :: Array Props -> Array ReactElement -> ReactElement
-em = mkDOM "em"
+```
 
+#### `em'`
+
+``` purescript
 em' :: Array ReactElement -> ReactElement
-em' = em []
+```
 
+#### `embed`
+
+``` purescript
 embed :: Array Props -> Array ReactElement -> ReactElement
-embed = mkDOM "embed"
+```
 
+#### `embed'`
+
+``` purescript
 embed' :: Array ReactElement -> ReactElement
-embed' = embed []
+```
 
+#### `fieldset`
+
+``` purescript
 fieldset :: Array Props -> Array ReactElement -> ReactElement
-fieldset = mkDOM "fieldset"
+```
 
+#### `fieldset'`
+
+``` purescript
 fieldset' :: Array ReactElement -> ReactElement
-fieldset' = fieldset []
+```
 
+#### `figcaption`
+
+``` purescript
 figcaption :: Array Props -> Array ReactElement -> ReactElement
-figcaption = mkDOM "figcaption"
+```
 
+#### `figcaption'`
+
+``` purescript
 figcaption' :: Array ReactElement -> ReactElement
-figcaption' = figcaption []
+```
 
+#### `figure`
+
+``` purescript
 figure :: Array Props -> Array ReactElement -> ReactElement
-figure = mkDOM "figure"
+```
 
+#### `figure'`
+
+``` purescript
 figure' :: Array ReactElement -> ReactElement
-figure' = figure []
+```
 
+#### `footer`
+
+``` purescript
 footer :: Array Props -> Array ReactElement -> ReactElement
-footer = mkDOM "footer"
+```
 
+#### `footer'`
+
+``` purescript
 footer' :: Array ReactElement -> ReactElement
-footer' = footer []
+```
 
+#### `form`
+
+``` purescript
 form :: Array Props -> Array ReactElement -> ReactElement
-form = mkDOM "form"
+```
 
+#### `form'`
+
+``` purescript
 form' :: Array ReactElement -> ReactElement
-form' = form []
+```
 
+#### `h1`
+
+``` purescript
 h1 :: Array Props -> Array ReactElement -> ReactElement
-h1 = mkDOM "h1"
+```
 
+#### `h1'`
+
+``` purescript
 h1' :: Array ReactElement -> ReactElement
-h1' = h1 []
+```
 
+#### `h2`
+
+``` purescript
 h2 :: Array Props -> Array ReactElement -> ReactElement
-h2 = mkDOM "h2"
+```
 
+#### `h2'`
+
+``` purescript
 h2' :: Array ReactElement -> ReactElement
-h2' = h2 []
+```
 
+#### `h3`
+
+``` purescript
 h3 :: Array Props -> Array ReactElement -> ReactElement
-h3 = mkDOM "h3"
+```
 
+#### `h3'`
+
+``` purescript
 h3' :: Array ReactElement -> ReactElement
-h3' = h3 []
+```
 
+#### `h4`
+
+``` purescript
 h4 :: Array Props -> Array ReactElement -> ReactElement
-h4 = mkDOM "h4"
+```
 
+#### `h4'`
+
+``` purescript
 h4' :: Array ReactElement -> ReactElement
-h4' = h4 []
+```
 
+#### `h5`
+
+``` purescript
 h5 :: Array Props -> Array ReactElement -> ReactElement
-h5 = mkDOM "h5"
+```
 
+#### `h5'`
+
+``` purescript
 h5' :: Array ReactElement -> ReactElement
-h5' = h5 []
+```
 
+#### `h6`
+
+``` purescript
 h6 :: Array Props -> Array ReactElement -> ReactElement
-h6 = mkDOM "h6"
+```
 
+#### `h6'`
+
+``` purescript
 h6' :: Array ReactElement -> ReactElement
-h6' = h6 []
+```
 
+#### `head`
+
+``` purescript
 head :: Array Props -> Array ReactElement -> ReactElement
-head = mkDOM "head"
+```
 
+#### `head'`
+
+``` purescript
 head' :: Array ReactElement -> ReactElement
-head' = head []
+```
 
+#### `header`
+
+``` purescript
 header :: Array Props -> Array ReactElement -> ReactElement
-header = mkDOM "header"
+```
 
+#### `header'`
+
+``` purescript
 header' :: Array ReactElement -> ReactElement
-header' = header []
+```
 
+#### `hr`
+
+``` purescript
 hr :: Array Props -> Array ReactElement -> ReactElement
-hr = mkDOM "hr"
+```
 
+#### `hr'`
+
+``` purescript
 hr' :: Array ReactElement -> ReactElement
-hr' = hr []
+```
 
+#### `html`
+
+``` purescript
 html :: Array Props -> Array ReactElement -> ReactElement
-html = mkDOM "html"
+```
 
+#### `html'`
+
+``` purescript
 html' :: Array ReactElement -> ReactElement
-html' = html []
+```
 
+#### `i`
+
+``` purescript
 i :: Array Props -> Array ReactElement -> ReactElement
-i = mkDOM "i"
+```
 
+#### `i'`
+
+``` purescript
 i' :: Array ReactElement -> ReactElement
-i' = i []
+```
 
+#### `iframe`
+
+``` purescript
 iframe :: Array Props -> Array ReactElement -> ReactElement
-iframe = mkDOM "iframe"
+```
 
+#### `iframe'`
+
+``` purescript
 iframe' :: Array ReactElement -> ReactElement
-iframe' = iframe []
+```
 
+#### `img`
+
+``` purescript
 img :: Array Props -> Array ReactElement -> ReactElement
-img = mkDOM "img"
+```
 
+#### `img'`
+
+``` purescript
 img' :: Array ReactElement -> ReactElement
-img' = img []
+```
 
+#### `input`
+
+``` purescript
 input :: Array Props -> Array ReactElement -> ReactElement
-input = mkDOM "input"
+```
 
+#### `input'`
+
+``` purescript
 input' :: Array ReactElement -> ReactElement
-input' = input []
+```
 
+#### `ins`
+
+``` purescript
 ins :: Array Props -> Array ReactElement -> ReactElement
-ins = mkDOM "ins"
+```
 
+#### `ins'`
+
+``` purescript
 ins' :: Array ReactElement -> ReactElement
-ins' = ins []
+```
 
+#### `kbd`
+
+``` purescript
 kbd :: Array Props -> Array ReactElement -> ReactElement
-kbd = mkDOM "kbd"
+```
 
+#### `kbd'`
+
+``` purescript
 kbd' :: Array ReactElement -> ReactElement
-kbd' = kbd []
+```
 
+#### `keygen`
+
+``` purescript
 keygen :: Array Props -> Array ReactElement -> ReactElement
-keygen = mkDOM "keygen"
+```
 
+#### `keygen'`
+
+``` purescript
 keygen' :: Array ReactElement -> ReactElement
-keygen' = keygen []
+```
 
+#### `label`
+
+``` purescript
 label :: Array Props -> Array ReactElement -> ReactElement
-label = mkDOM "label"
+```
 
+#### `label'`
+
+``` purescript
 label' :: Array ReactElement -> ReactElement
-label' = label []
+```
 
+#### `legend`
+
+``` purescript
 legend :: Array Props -> Array ReactElement -> ReactElement
-legend = mkDOM "legend"
+```
 
+#### `legend'`
+
+``` purescript
 legend' :: Array ReactElement -> ReactElement
-legend' = legend []
+```
 
+#### `li`
+
+``` purescript
 li :: Array Props -> Array ReactElement -> ReactElement
-li = mkDOM "li"
+```
 
+#### `li'`
+
+``` purescript
 li' :: Array ReactElement -> ReactElement
-li' = li []
+```
 
+#### `link`
+
+``` purescript
 link :: Array Props -> Array ReactElement -> ReactElement
-link = mkDOM "link"
+```
 
+#### `link'`
+
+``` purescript
 link' :: Array ReactElement -> ReactElement
-link' = body []
+```
 
+#### `main`
+
+``` purescript
 main :: Array Props -> Array ReactElement -> ReactElement
-main = mkDOM "main"
+```
 
+#### `main'`
+
+``` purescript
 main' :: Array ReactElement -> ReactElement
-main' = main []
+```
 
+#### `map`
+
+``` purescript
 map :: Array Props -> Array ReactElement -> ReactElement
-map = mkDOM "map"
+```
 
+#### `map'`
+
+``` purescript
 map' :: Array ReactElement -> ReactElement
-map' = map []
+```
 
+#### `mark`
+
+``` purescript
 mark :: Array Props -> Array ReactElement -> ReactElement
-mark = mkDOM "mark"
+```
 
+#### `mark'`
+
+``` purescript
 mark' :: Array ReactElement -> ReactElement
-mark' = mark []
+```
 
+#### `menu`
+
+``` purescript
 menu :: Array Props -> Array ReactElement -> ReactElement
-menu = mkDOM "menu"
+```
 
+#### `menu'`
+
+``` purescript
 menu' :: Array ReactElement -> ReactElement
-menu' = menu []
+```
 
+#### `menuitem`
+
+``` purescript
 menuitem :: Array Props -> Array ReactElement -> ReactElement
-menuitem = mkDOM "menuitem"
+```
 
+#### `menuitem'`
+
+``` purescript
 menuitem' :: Array ReactElement -> ReactElement
-menuitem' = menuitem []
+```
 
+#### `meta`
+
+``` purescript
 meta :: Array Props -> Array ReactElement -> ReactElement
-meta = mkDOM "meta"
+```
 
+#### `meta'`
+
+``` purescript
 meta' :: Array ReactElement -> ReactElement
-meta' = meta []
+```
 
+#### `meter`
+
+``` purescript
 meter :: Array Props -> Array ReactElement -> ReactElement
-meter = mkDOM "meter"
+```
 
+#### `meter'`
+
+``` purescript
 meter' :: Array ReactElement -> ReactElement
-meter' = meter []
+```
 
+#### `nav`
+
+``` purescript
 nav :: Array Props -> Array ReactElement -> ReactElement
-nav = mkDOM "nav"
+```
 
+#### `nav'`
+
+``` purescript
 nav' :: Array ReactElement -> ReactElement
-nav' = nav []
+```
 
+#### `noscript`
+
+``` purescript
 noscript :: Array Props -> Array ReactElement -> ReactElement
-noscript = mkDOM "noscript"
+```
 
+#### `noscript'`
+
+``` purescript
 noscript' :: Array ReactElement -> ReactElement
-noscript' = noscript []
+```
 
+#### `object`
+
+``` purescript
 object :: Array Props -> Array ReactElement -> ReactElement
-object = mkDOM "object"
+```
 
+#### `object'`
+
+``` purescript
 object' :: Array ReactElement -> ReactElement
-object' = object []
+```
 
+#### `ol`
+
+``` purescript
 ol :: Array Props -> Array ReactElement -> ReactElement
-ol = mkDOM "ol"
+```
 
+#### `ol'`
+
+``` purescript
 ol' :: Array ReactElement -> ReactElement
-ol' = ol []
+```
 
+#### `optgroup`
+
+``` purescript
 optgroup :: Array Props -> Array ReactElement -> ReactElement
-optgroup = mkDOM "optgroup"
+```
 
+#### `optgroup'`
+
+``` purescript
 optgroup' :: Array ReactElement -> ReactElement
-optgroup' = optgroup []
+```
 
+#### `option`
+
+``` purescript
 option :: Array Props -> Array ReactElement -> ReactElement
-option = mkDOM "option"
+```
 
+#### `option'`
+
+``` purescript
 option' :: Array ReactElement -> ReactElement
-option' = option []
+```
 
+#### `output`
+
+``` purescript
 output :: Array Props -> Array ReactElement -> ReactElement
-output = mkDOM "output"
+```
 
+#### `output'`
+
+``` purescript
 output' :: Array ReactElement -> ReactElement
-output' = output []
+```
 
+#### `p`
+
+``` purescript
 p :: Array Props -> Array ReactElement -> ReactElement
-p = mkDOM "p"
+```
 
+#### `p'`
+
+``` purescript
 p' :: Array ReactElement -> ReactElement
-p' = p []
+```
 
+#### `param`
+
+``` purescript
 param :: Array Props -> Array ReactElement -> ReactElement
-param = mkDOM "param"
+```
 
+#### `param'`
+
+``` purescript
 param' :: Array ReactElement -> ReactElement
-param' = param []
+```
 
+#### `picture`
+
+``` purescript
 picture :: Array Props -> Array ReactElement -> ReactElement
-picture = mkDOM "picture"
+```
 
+#### `picture'`
+
+``` purescript
 picture' :: Array ReactElement -> ReactElement
-picture' = picture []
+```
 
+#### `pre`
+
+``` purescript
 pre :: Array Props -> Array ReactElement -> ReactElement
-pre = mkDOM "pre"
+```
 
+#### `pre'`
+
+``` purescript
 pre' :: Array ReactElement -> ReactElement
-pre' = pre []
+```
 
+#### `progress`
+
+``` purescript
 progress :: Array Props -> Array ReactElement -> ReactElement
-progress = mkDOM "progress"
+```
 
+#### `progress'`
+
+``` purescript
 progress' :: Array ReactElement -> ReactElement
-progress' = progress []
+```
 
+#### `q`
+
+``` purescript
 q :: Array Props -> Array ReactElement -> ReactElement
-q = mkDOM "q"
+```
 
+#### `q'`
+
+``` purescript
 q' :: Array ReactElement -> ReactElement
-q' = q []
+```
 
+#### `rp`
+
+``` purescript
 rp :: Array Props -> Array ReactElement -> ReactElement
-rp = mkDOM "rp"
+```
 
+#### `rp'`
+
+``` purescript
 rp' :: Array ReactElement -> ReactElement
-rp' = rp []
+```
 
+#### `rt`
+
+``` purescript
 rt :: Array Props -> Array ReactElement -> ReactElement
-rt = mkDOM "rt"
+```
 
+#### `rt'`
+
+``` purescript
 rt' :: Array ReactElement -> ReactElement
-rt' = rt []
+```
 
+#### `ruby`
+
+``` purescript
 ruby :: Array Props -> Array ReactElement -> ReactElement
-ruby = mkDOM "ruby"
+```
 
+#### `ruby'`
+
+``` purescript
 ruby' :: Array ReactElement -> ReactElement
-ruby' = ruby []
+```
 
+#### `s`
+
+``` purescript
 s :: Array Props -> Array ReactElement -> ReactElement
-s = mkDOM "s"
+```
 
+#### `s'`
+
+``` purescript
 s' :: Array ReactElement -> ReactElement
-s' = s []
+```
 
+#### `samp`
+
+``` purescript
 samp :: Array Props -> Array ReactElement -> ReactElement
-samp = mkDOM "samp"
+```
 
+#### `samp'`
+
+``` purescript
 samp' :: Array ReactElement -> ReactElement
-samp' = samp []
+```
 
+#### `script`
+
+``` purescript
 script :: Array Props -> Array ReactElement -> ReactElement
-script = mkDOM "script"
+```
 
+#### `script'`
+
+``` purescript
 script' :: Array ReactElement -> ReactElement
-script' = script []
+```
 
+#### `section`
+
+``` purescript
 section :: Array Props -> Array ReactElement -> ReactElement
-section = mkDOM "section"
+```
 
+#### `section'`
+
+``` purescript
 section' :: Array ReactElement -> ReactElement
-section' = section []
+```
 
+#### `select`
+
+``` purescript
 select :: Array Props -> Array ReactElement -> ReactElement
-select = mkDOM "select"
+```
 
+#### `select'`
+
+``` purescript
 select' :: Array ReactElement -> ReactElement
-select' = select []
+```
 
+#### `small`
+
+``` purescript
 small :: Array Props -> Array ReactElement -> ReactElement
-small = mkDOM "small"
+```
 
+#### `small'`
+
+``` purescript
 small' :: Array ReactElement -> ReactElement
-small' = small []
+```
 
+#### `source`
+
+``` purescript
 source :: Array Props -> Array ReactElement -> ReactElement
-source = mkDOM "source"
+```
 
+#### `source'`
+
+``` purescript
 source' :: Array ReactElement -> ReactElement
-source' = source []
+```
 
+#### `span`
+
+``` purescript
 span :: Array Props -> Array ReactElement -> ReactElement
-span = mkDOM "span"
+```
 
+#### `span'`
+
+``` purescript
 span' :: Array ReactElement -> ReactElement
-span' = span []
+```
 
+#### `strong`
+
+``` purescript
 strong :: Array Props -> Array ReactElement -> ReactElement
-strong = mkDOM "strong"
+```
 
+#### `strong'`
+
+``` purescript
 strong' :: Array ReactElement -> ReactElement
-strong' = strong []
+```
 
+#### `style`
+
+``` purescript
 style :: Array Props -> Array ReactElement -> ReactElement
-style = mkDOM "style"
+```
 
+#### `style'`
+
+``` purescript
 style' :: Array ReactElement -> ReactElement
-style' = style []
+```
 
+#### `sub`
+
+``` purescript
 sub :: Array Props -> Array ReactElement -> ReactElement
-sub = mkDOM "sub"
+```
 
+#### `sub'`
+
+``` purescript
 sub' :: Array ReactElement -> ReactElement
-sub' = sub []
+```
 
+#### `summary`
+
+``` purescript
 summary :: Array Props -> Array ReactElement -> ReactElement
-summary = mkDOM "summary"
+```
 
+#### `summary'`
+
+``` purescript
 summary' :: Array ReactElement -> ReactElement
-summary' = summary []
+```
 
+#### `sup`
+
+``` purescript
 sup :: Array Props -> Array ReactElement -> ReactElement
-sup = mkDOM "sup"
+```
 
+#### `sup'`
+
+``` purescript
 sup' :: Array ReactElement -> ReactElement
-sup' = sup []
+```
 
+#### `table`
+
+``` purescript
 table :: Array Props -> Array ReactElement -> ReactElement
-table = mkDOM "table"
+```
 
+#### `table'`
+
+``` purescript
 table' :: Array ReactElement -> ReactElement
-table' = table []
+```
 
+#### `tbody`
+
+``` purescript
 tbody :: Array Props -> Array ReactElement -> ReactElement
-tbody = mkDOM "tbody"
+```
 
+#### `tbody'`
+
+``` purescript
 tbody' :: Array ReactElement -> ReactElement
-tbody' = tbody []
+```
 
+#### `td`
+
+``` purescript
 td :: Array Props -> Array ReactElement -> ReactElement
-td = mkDOM "td"
+```
 
+#### `td'`
+
+``` purescript
 td' :: Array ReactElement -> ReactElement
-td' = td []
+```
 
+#### `textarea`
+
+``` purescript
 textarea :: Array Props -> Array ReactElement -> ReactElement
-textarea = mkDOM "textarea"
+```
 
+#### `textarea'`
+
+``` purescript
 textarea' :: Array ReactElement -> ReactElement
-textarea' = textarea []
+```
 
+#### `tfoot`
+
+``` purescript
 tfoot :: Array Props -> Array ReactElement -> ReactElement
-tfoot = mkDOM "tfoot"
+```
 
+#### `tfoot'`
+
+``` purescript
 tfoot' :: Array ReactElement -> ReactElement
-tfoot' = tfoot []
+```
 
+#### `th`
+
+``` purescript
 th :: Array Props -> Array ReactElement -> ReactElement
-th = mkDOM "th"
+```
 
+#### `th'`
+
+``` purescript
 th' :: Array ReactElement -> ReactElement
-th' = th []
+```
 
+#### `thead`
+
+``` purescript
 thead :: Array Props -> Array ReactElement -> ReactElement
-thead = mkDOM "thead"
+```
 
+#### `thead'`
+
+``` purescript
 thead' :: Array ReactElement -> ReactElement
-thead' = thead []
+```
 
+#### `time`
+
+``` purescript
 time :: Array Props -> Array ReactElement -> ReactElement
-time = mkDOM "time"
+```
 
+#### `time'`
+
+``` purescript
 time' :: Array ReactElement -> ReactElement
-time' = time []
+```
 
+#### `title`
+
+``` purescript
 title :: Array Props -> Array ReactElement -> ReactElement
-title = mkDOM "title"
+```
 
+#### `title'`
+
+``` purescript
 title' :: Array ReactElement -> ReactElement
-title' = title []
+```
 
+#### `tr`
+
+``` purescript
 tr :: Array Props -> Array ReactElement -> ReactElement
-tr = mkDOM "tr"
+```
 
+#### `tr'`
+
+``` purescript
 tr' :: Array ReactElement -> ReactElement
-tr' = tr []
+```
 
+#### `track`
+
+``` purescript
 track :: Array Props -> Array ReactElement -> ReactElement
-track = mkDOM "track"
+```
 
+#### `track'`
+
+``` purescript
 track' :: Array ReactElement -> ReactElement
-track' = track []
+```
 
+#### `u`
+
+``` purescript
 u :: Array Props -> Array ReactElement -> ReactElement
-u = mkDOM "u"
+```
 
+#### `u'`
+
+``` purescript
 u' :: Array ReactElement -> ReactElement
-u' = u []
+```
 
+#### `ul`
+
+``` purescript
 ul :: Array Props -> Array ReactElement -> ReactElement
-ul = mkDOM "ul"
+```
 
+#### `ul'`
+
+``` purescript
 ul' :: Array ReactElement -> ReactElement
-ul' = ul []
+```
 
+#### `var`
+
+``` purescript
 var :: Array Props -> Array ReactElement -> ReactElement
-var = mkDOM "var"
+```
 
+#### `var'`
+
+``` purescript
 var' :: Array ReactElement -> ReactElement
-var' = var []
+```
 
+#### `video`
+
+``` purescript
 video :: Array Props -> Array ReactElement -> ReactElement
-video = mkDOM "video"
+```
 
+#### `video'`
+
+``` purescript
 video' :: Array ReactElement -> ReactElement
-video' = video []
+```
 
+#### `wbr`
+
+``` purescript
 wbr :: Array Props -> Array ReactElement -> ReactElement
-wbr = mkDOM "body"
+```
 
+#### `wbr'`
+
+``` purescript
 wbr' :: Array ReactElement -> ReactElement
-wbr' = wbr []
+```
+
+
