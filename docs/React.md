@@ -2,6 +2,14 @@
 
 This module defines foreign types and functions which wrap React's functionality.
 
+#### `TagName`
+
+``` purescript
+type TagName = String
+```
+
+Name of a tag.
+
 #### `ReactElement`
 
 ``` purescript
@@ -324,7 +332,31 @@ Create an event handler.
 createElement :: forall props. ReactClass props -> props -> Array ReactElement -> ReactElement
 ```
 
-Create an element from a React class.
+Create an element from a React class spreading the children array. Used when the children are known up front.
+
+#### `createElementDynamic`
+
+``` purescript
+createElementDynamic :: forall props. ReactClass props -> props -> Array ReactElement -> ReactElement
+```
+
+Create an element from a React class passing the children array. Used for a dynamic array of children.
+
+#### `createElementTagName`
+
+``` purescript
+createElementTagName :: forall props. TagName -> props -> Array ReactElement -> ReactElement
+```
+
+Create an element from a tag name spreading the children array. Used when the children are known up front.
+
+#### `createElementTagNameDynamic`
+
+``` purescript
+createElementTagNameDynamic :: forall props. TagName -> props -> Array ReactElement -> ReactElement
+```
+
+Create an element from a tag name passing the children array. Used for a dynamic array of children.
 
 #### `createFactory`
 

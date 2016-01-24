@@ -30,3 +30,20 @@ function unsafeUnfoldProps(key) {
   };
 }
 exports.unsafeUnfoldProps = unsafeUnfoldProps;
+
+function unsafeFromPropsArray(props) {
+  var result = {};
+
+  for (var i = 0, len = props.length; i < len; i++) {
+    var prop = props[i];
+
+    for (var key in prop) {
+      if (prop.hasOwnProperty(key)) {
+        result[key] = prop[key];
+      }
+    }
+  }
+
+  return result;
+};
+exports.unsafeFromPropsArray = unsafeFromPropsArray;

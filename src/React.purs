@@ -4,6 +4,7 @@ module React
   ( ReactElement()
   , ReactComponent()
   , ReactThis()
+  , TagName()
 
   , EventHandler()
 
@@ -53,6 +54,9 @@ module React
   , createClass
   , createClassStateless
   , createElement
+  , createElementDynamic
+  , createElementTagName
+  , createElementTagNameDynamic
   , createFactory
   ) where
 
@@ -61,6 +65,9 @@ import Prelude (Unit(), ($), bind, pure, return, unit)
 import Control.Monad.Eff (Eff())
 
 import Unsafe.Coerce (unsafeCoerce)
+
+-- | Name of a tag.
+type TagName = String
 
 -- | A virtual DOM node, or component.
 foreign import data ReactElement :: *
@@ -292,8 +299,17 @@ createClassStateless = unsafeCoerce
 -- | Create an event handler.
 foreign import handle :: forall eff ev props state result.  (ev -> EventHandlerContext eff props state result) -> EventHandler ev
 
--- | Create an element from a React class.
+-- | Create an element from a React class spreading the children array. Used when the children are known up front.
 foreign import createElement :: forall props. ReactClass props -> props -> Array ReactElement -> ReactElement
+
+-- | Create an element from a React class passing the children array. Used for a dynamic array of children.
+foreign import createElementDynamic :: forall props. ReactClass props -> props -> Array ReactElement -> ReactElement
+
+-- | Create an element from a tag name spreading the children array. Used when the children are known up front.
+foreign import createElementTagName :: forall props. TagName -> props -> Array ReactElement -> ReactElement
+
+-- | Create an element from a tag name passing the children array. Used for a dynamic array of children.
+foreign import createElementTagNameDynamic :: forall props. TagName -> props -> Array ReactElement -> ReactElement
 
 -- | Create a factory from a React class.
 foreign import createFactory :: forall props. ReactClass props -> props -> ReactElement

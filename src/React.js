@@ -106,6 +106,17 @@ function createElement(class_) {
   };
 }
 exports.createElement = createElement;
+exports.createElementTagName = createElement;
+
+function createElementDynamic(class_) {
+  return function(props) {
+    return function(children){
+      return React.createElement(class_, props, children);
+    };
+  };
+};
+exports.createElementDynamic = createElementDynamic;
+exports.createElementTagNameDynamic = createElementDynamic;
 
 function createFactory(class_) {
   return React.createFactory(class_);
