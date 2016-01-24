@@ -1,59 +1,111 @@
-module React.DOM.SVG where
+## Module React.DOM.SVG.Dynamic
 
-import React (ReactElement())
-import React.DOM (IsDynamic(..), mkDOM)
-import React.DOM.Props (Props())
+#### `circle`
 
+``` purescript
 circle :: Array Props -> Array ReactElement -> ReactElement
-circle = mkDOM (IsDynamic false) "circle"
+```
 
+#### `clipPath`
+
+``` purescript
 clipPath :: Array Props -> Array ReactElement -> ReactElement
-clipPath = mkDOM (IsDynamic false) "clipPath"
+```
 
+#### `defs`
+
+``` purescript
 defs :: Array Props -> Array ReactElement -> ReactElement
-defs = mkDOM (IsDynamic false) "defs"
+```
 
+#### `ellipse`
+
+``` purescript
 ellipse :: Array Props -> Array ReactElement -> ReactElement
-ellipse = mkDOM (IsDynamic false) "ellipse"
+```
 
+#### `g`
+
+``` purescript
 g :: Array Props -> Array ReactElement -> ReactElement
-g = mkDOM (IsDynamic false) "g"
+```
 
+#### `line`
+
+``` purescript
 line :: Array Props -> Array ReactElement -> ReactElement
-line = mkDOM (IsDynamic false) "line"
+```
 
+#### `linearGradient`
+
+``` purescript
 linearGradient :: Array Props -> Array ReactElement -> ReactElement
-linearGradient = mkDOM (IsDynamic false) "linearGradient"
+```
 
+#### `mask`
+
+``` purescript
 mask :: Array Props -> Array ReactElement -> ReactElement
-mask = mkDOM (IsDynamic false) "mask"
+```
 
+#### `path`
+
+``` purescript
 path :: Array Props -> Array ReactElement -> ReactElement
-path = mkDOM (IsDynamic false) "path"
+```
 
+#### `pattern`
+
+``` purescript
 pattern :: Array Props -> Array ReactElement -> ReactElement
-pattern = mkDOM (IsDynamic false) "pattern"
+```
 
+#### `polygon`
+
+``` purescript
 polygon :: Array Props -> Array ReactElement -> ReactElement
-polygon = mkDOM (IsDynamic false) "polygon"
+```
 
+#### `polyline`
+
+``` purescript
 polyline :: Array Props -> Array ReactElement -> ReactElement
-polyline = mkDOM (IsDynamic false) "polyline"
+```
 
+#### `radialGradient`
+
+``` purescript
 radialGradient :: Array Props -> Array ReactElement -> ReactElement
-radialGradient = mkDOM (IsDynamic false) "radialGradient"
+```
 
+#### `rect`
+
+``` purescript
 rect :: Array Props -> Array ReactElement -> ReactElement
-rect = mkDOM (IsDynamic false) "rect"
+```
 
+#### `stop`
+
+``` purescript
 stop :: Array Props -> Array ReactElement -> ReactElement
-stop = mkDOM (IsDynamic false) "stop"
+```
 
+#### `svg`
+
+``` purescript
 svg :: Array Props -> Array ReactElement -> ReactElement
-svg = mkDOM (IsDynamic false) "svg"
+```
 
+#### `text`
+
+``` purescript
 text :: Array Props -> Array ReactElement -> ReactElement
-text = mkDOM (IsDynamic false) "text"
+```
 
+#### `tspan`
+
+``` purescript
 tspan :: Array Props -> Array ReactElement -> ReactElement
-tspan = mkDOM (IsDynamic false) "tspan"
+```
+
+

@@ -7,6 +7,7 @@ import React
 import qualified React.DOM as D
 import qualified React.DOM.Props as P
 
+container :: forall props. ReactClass props
 container = createClass $ spec unit \ctx -> do
   children <- getChildren ctx
 

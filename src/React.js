@@ -106,13 +106,25 @@ exports.handle = function(f) {
     };
 };
 
-exports.createElement = function(clazz) {
+function createElement(value) {
   return function(props) {
     return function(children){
-      return React.createElement.apply(React, [clazz, props].concat(children));
+      return React.createElement.apply(React, [value, props].concat(children));
     };
   };
 };
+exports.createElement = createElement;
+exports.createElementTagName = createElement;
+
+function createElementDynamic(value) {
+  return function(props) {
+    return function(children){
+      return React.createElement(value, props, children);
+    };
+  };
+};
+exports.createElementDynamic = createElementDynamic;
+exports.createElementTagNameDynamic = createElementDynamic;
 
 exports.createFactory = function(clazz) {
   return React.createFactory(clazz);

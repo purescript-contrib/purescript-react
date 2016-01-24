@@ -1,9 +1,16 @@
 ## Module React.DOM
 
+#### `IsDynamic`
+
+``` purescript
+newtype IsDynamic
+  = IsDynamic Boolean
+```
+
 #### `mkDOM`
 
 ``` purescript
-mkDOM :: String -> Array Props -> Array ReactElement -> ReactElement
+mkDOM :: IsDynamic -> TagName -> Array Props -> Array ReactElement -> ReactElement
 ```
 
 #### `text`
