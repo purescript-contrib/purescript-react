@@ -1,11 +1,5 @@
 ## Module React.DOM.Dynamic
 
-#### `mkDOM`
-
-``` purescript
-mkDOM :: TagName -> Array Props -> Array ReactElement -> ReactElement
-```
-
 #### `text`
 
 ``` purescript
