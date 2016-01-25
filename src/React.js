@@ -3,21 +3,25 @@
 
 // module React
 
-exports.getProps = function(ctx) {
-    return function() {
-        return ctx.props;
-    };
-};
+var React = require('react');
 
-exports.getRefs = function(ctx) {
-    return function() {
-        return ctx.refs;
-    };
-};
+function getProps(this_) {
+  return function(){
+    return this_.props;
+  };
+}
+exports.getProps = getProps;
 
-exports.getChildren = function(ctx) {
-  return function() {
-    var children = ctx.props.children;
+function getRefs(this_) {
+  return function(){
+    return this_.refs;
+  };
+}
+exports.getRefs = getRefs;
+
+function getChildren(this_) {
+  return function(){
+    var children = this_.props.children;
 
     var result = [];
 
@@ -27,115 +31,94 @@ exports.getChildren = function(ctx) {
 
     return result;
   };
-};
+}
+exports.getChildren = getChildren;
 
-exports.writeState = function(ctx) {
-    return function(state) {
-        return function() {
-            ctx.replaceState({
-                state: state
-            });
-            return function() {
-                return state;
-            }
-        };
-    };
-};
-
-exports.readState = function(ctx) {
-    return function() {
-        return ctx.state.state;
-    };
-};
-
-exports.createClass = function(ss) {
-    var result = {};
-    for (var s in ss) {
-        if (ss.hasOwnProperty(s)) {
-          if (s === "displayName") {
-            result[s] = ss[s];
-          }
-          else if (s === "componentWillReceiveProps") {
-            result[s] = (function(impl) {
-                return function(nextProps) {
-                    return impl(this)(nextProps)();
-                }
-            })(ss[s]);
-          }
-          else if (s === "shouldComponentUpdate") {
-            result[s] = (function(impl) {
-                return function(nextProps, nextState) {
-                    return impl(this)(nextProps)(nextState.state)();
-                }
-            })(ss[s]);
-          }
-          else if (s === "componentWillUpdate") {
-            result[s] = (function(impl) {
-                return function(nextProps, nextState) {
-                    return impl(this)(nextProps)(nextState.state)();
-                }
-            })(ss[s]);
-          }
-          else if (s === "componentDidUpdate") {
-            result[s] = (function(impl) {
-                return function(prevProps, prevState) {
-                    return impl(this)(prevProps)(prevState.state)();
-                }
-            })(ss[s]);
-          }
-          else {
-            result[s] = (function(impl) {
-                return function() {
-                    return impl(this)();
-                }
-            })(ss[s]);
-          }
-        }
-    }
-    result.getInitialState = function() {
-        return {
-            state: ss.getInitialState(this)()
-        };
-    };
-    return React.createClass(result);
-};
-
-exports.handle = function(f) {
-    return function(e) {
-        return f(e)();
-    };
-};
-
-function createElement(value) {
-  return function(props) {
-    return function(children){
-      return React.createElement.apply(React, [value, props].concat(children));
+function writeState(this_) {
+  return function(state){
+    return function(){
+      this_.setState({
+        state: state
+      });
+      return state;
     };
   };
+}
+exports.writeState = writeState;
+
+function readState(this_) {
+  return function(){
+    return this_.state.state;
+  };
+}
+exports.readState = readState;
+
+function createClass(spec) {
+  var result = {
+    displayName: spec.displayName,
+    render: function(){
+      return spec.render(this)();
+    },
+    getInitialState: function(){
+      return {
+        state: spec.getInitialState(this)()
+      };
+    },
+    componentWillMount: function(){
+      return spec.componentWillMount(this)();
+    },
+    componentDidMount: function(){
+      return spec.componentDidMount(this)();
+    },
+    componentWillReceiveProps: function(nextProps){
+      return spec.componentWillReceiveProps(this)(nextProps)();
+    },
+    shouldComponentUpdate: function(nextProps, nextState){
+      return spec.shouldComponentUpdate(this)(nextProps)(nextState.state)();
+    },
+    componentWillUpdate: function(nextProps, nextState){
+      return spec.componentWillUpdate(this)(nextProps)(nextState.state)();
+    },
+    componentDidUpdate: function(prevProps, prevState){
+      return spec.componentDidUpdate(this)(prevProps)(prevState.state)();
+    },
+    componentWillUnmount: function(){
+      return spec.componentWillUnmount(this)();
+    }
+  };
+
+  return React.createClass(result);
+}
+exports.createClass = createClass;
+
+function handle(f) {
+  return function(e){
+    return f(e)();
+  };
 };
+exports.handle = handle;
+
+function createElement(class_) {
+  return function(props){
+    return function(children){
+      return React.createElement.apply(React, [class_, props].concat(children));
+    };
+  };
+}
 exports.createElement = createElement;
 exports.createElementTagName = createElement;
 
-function createElementDynamic(value) {
+function createElementDynamic(class_) {
   return function(props) {
     return function(children){
-      return React.createElement(value, props, children);
+      return React.createElement(class_, props, children);
     };
   };
 };
 exports.createElementDynamic = createElementDynamic;
 exports.createElementTagNameDynamic = createElementDynamic;
 
-exports.createFactory = function(clazz) {
-  return React.createFactory(clazz);
-};
-
-exports.render = function(element) {
-  return function(container) {
-    return function() {
-      return React.render(element, container);
-    }
-  };
-};
-
-exports.renderToString = React.renderToString;
+function createFactory(class_) {
+  return React.createFactory(class_);
+}
+exports.createFactory = createFactory;

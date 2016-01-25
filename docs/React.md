@@ -18,6 +18,14 @@ data ReactElement :: *
 
 A virtual DOM node, or component.
 
+#### `ReactComponent`
+
+``` purescript
+data ReactComponent :: *
+```
+
+A mounted react component
+
 #### `ReactThis`
 
 ``` purescript
@@ -302,6 +310,14 @@ createClass :: forall props state eff. ReactSpec props state eff -> ReactClass p
 
 Create a React class from a specification.
 
+#### `createClassStateless`
+
+``` purescript
+createClassStateless :: forall props. (props -> ReactElement) -> ReactClass props
+```
+
+Create a stateless React class.
+
 #### `handle`
 
 ``` purescript
@@ -349,21 +365,5 @@ createFactory :: forall props. ReactClass props -> props -> ReactElement
 ```
 
 Create a factory from a React class.
-
-#### `render`
-
-``` purescript
-render :: forall eff. ReactElement -> Element -> Eff (dom :: DOM | eff) ReactElement
-```
-
-Render a React element in a document element.
-
-#### `renderToString`
-
-``` purescript
-renderToString :: ReactElement -> String
-```
-
-Render a React element as a string.
 
 

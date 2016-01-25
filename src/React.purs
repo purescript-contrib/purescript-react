@@ -2,6 +2,7 @@
 
 module React
   ( ReactElement()
+  , ReactComponent()
   , ReactThis()
   , TagName()
 
@@ -51,28 +52,28 @@ module React
   , handle
 
   , createClass
+  , createClassStateless
   , createElement
   , createElementDynamic
   , createElementTagName
   , createElementTagNameDynamic
   , createFactory
-
-  , render
-  , renderToString
   ) where
 
 import Prelude (Unit(), ($), bind, pure, return, unit)
 
-import DOM (DOM())
-import DOM.Node.Types (Element())
-
 import Control.Monad.Eff (Eff())
+
+import Unsafe.Coerce (unsafeCoerce)
 
 -- | Name of a tag.
 type TagName = String
 
 -- | A virtual DOM node, or component.
 foreign import data ReactElement :: *
+
+-- | A mounted react component
+foreign import data ReactComponent :: *
 
 -- | A reference to a component, essentially React's `this`.
 foreign import data ReactThis :: * -> * -> *
@@ -291,6 +292,10 @@ transformState ctx f = do
 -- | Create a React class from a specification.
 foreign import createClass :: forall props state eff. ReactSpec props state eff -> ReactClass props
 
+-- | Create a stateless React class.
+createClassStateless :: forall props. (props -> ReactElement) -> ReactClass props
+createClassStateless = unsafeCoerce
+
 -- | Create an event handler.
 foreign import handle :: forall eff ev props state result.  (ev -> EventHandlerContext eff props state result) -> EventHandler ev
 
@@ -308,9 +313,3 @@ foreign import createElementTagNameDynamic :: forall props. TagName -> props -> 
 
 -- | Create a factory from a React class.
 foreign import createFactory :: forall props. ReactClass props -> props -> ReactElement
-
--- | Render a React element in a document element.
-foreign import render :: forall eff. ReactElement -> Element -> Eff (dom :: DOM | eff) ReactElement
-
--- | Render a React element as a string.
-foreign import renderToString :: ReactElement -> String
