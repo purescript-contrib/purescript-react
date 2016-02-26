@@ -284,10 +284,7 @@ foreign import writeState :: forall props state access eff. ReactThis props stat
 foreign import readState :: forall props state access eff. ReactThis props state -> Eff (state :: ReactState (read :: Read | access) | eff) state
 
 -- | Transform the component state by applying a function.
-transformState :: forall props state eff. ReactThis props state -> (state -> state) -> Eff (state :: ReactState ReadWrite | eff) state
-transformState ctx f = do
-  state <- readState ctx
-  writeState ctx $ f state
+foreign import transformState :: forall props state eff. ReactThis props state -> (state -> state) -> Eff (state :: ReactState ReadWrite | eff) Unit
 
 -- | Create a React class from a specification.
 foreign import createClass :: forall props state eff. ReactSpec props state eff -> ReactClass props
