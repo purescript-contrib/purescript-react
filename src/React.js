@@ -19,15 +19,22 @@ function getRefs(this_) {
 }
 exports.getRefs = getRefs;
 
+function childrenToArray(children) {
+  var result = [];
+
+  React.Children.forEach(children, function(child){
+    result.push(child);
+  });
+
+  return result;
+}
+exports.childrenToArray = childrenToArray;
+
 function getChildren(this_) {
   return function(){
     var children = this_.props.children;
 
-    var result = [];
-
-    React.Children.forEach(children, function(child){
-      result.push(child);
-    });
+    var result = childrenToArray(children);
 
     return result;
   };

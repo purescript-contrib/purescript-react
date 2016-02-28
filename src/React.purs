@@ -53,6 +53,7 @@ module React
 
   , createClass
   , createClassStateless
+  , createClassStateless'
   , createElement
   , createElementDynamic
   , createElementTagName
@@ -296,6 +297,10 @@ foreign import createClass :: forall props state eff. ReactSpec props state eff 
 createClassStateless :: forall props. (props -> ReactElement) -> ReactClass props
 createClassStateless = unsafeCoerce
 
+-- | Create a stateless React class with children access.
+createClassStateless' :: forall props. (props -> Array ReactElement -> ReactElement) -> ReactClass props
+createClassStateless' k = createClassStateless \props -> k props (childrenToArray (unsafeCoerce props).children)
+
 -- | Create an event handler.
 foreign import handle :: forall eff ev props state result.  (ev -> EventHandlerContext eff props state result) -> EventHandler ev
 
@@ -313,3 +318,9 @@ foreign import createElementTagNameDynamic :: forall props. TagName -> props -> 
 
 -- | Create a factory from a React class.
 foreign import createFactory :: forall props. ReactClass props -> props -> ReactElement
+
+-- | Internal representation for the children elements passed to a component
+foreign import data Children :: *
+
+-- | Internal conversion function from children elements to an array of React elements
+foreign import childrenToArray :: Children -> Array React.ReactElement

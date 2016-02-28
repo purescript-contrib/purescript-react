@@ -318,6 +318,14 @@ createClassStateless :: forall props. (props -> ReactElement) -> ReactClass prop
 
 Create a stateless React class.
 
+#### `createClassStateless'`
+
+``` purescript
+createClassStateless' :: forall props. (props -> Array ReactElement -> ReactElement) -> ReactClass props
+```
+
+Create a stateless React class with children access.
+
 #### `handle`
 
 ``` purescript
