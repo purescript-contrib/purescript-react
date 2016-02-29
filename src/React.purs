@@ -61,7 +61,7 @@ module React
   , createFactory
   ) where
 
-import Prelude (Unit(), ($), bind, pure, return, unit)
+import Prelude (Unit(), pure, return, unit)
 
 import Control.Monad.Eff (Eff())
 

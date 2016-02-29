@@ -297,7 +297,7 @@ Read the component state.
 #### `transformState`
 
 ``` purescript
-transformState :: forall props state eff. ReactThis props state -> (state -> state) -> Eff (state :: ReactState ReadWrite | eff) state
+transformState :: forall props state eff. ReactThis props state -> (state -> state) -> Eff (state :: ReactState ReadWrite | eff) Unit
 ```
 
 Transform the component state by applying a function.
