@@ -60,6 +60,17 @@ function readState(this_) {
 }
 exports.readState = readState;
 
+function transformState(this_){
+  return function(update){
+    return function(){
+      this_.setState(function(old, props){
+        return {state: update(old.state)};
+      });
+    };
+  };
+}
+exports.transformState = transformState;
+
 function createClass(spec) {
   var result = {
     displayName: spec.displayName,
