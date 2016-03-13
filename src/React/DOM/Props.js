@@ -22,7 +22,7 @@ function unsafeUnfoldProps(key) {
 
     for (var subprop in value) {
       if (value.hasOwnProperty(subprop)) {
-          result[subprop] = value[subprop];
+        result[subprop] = value[subprop];
       }
     }
 
@@ -30,6 +30,21 @@ function unsafeUnfoldProps(key) {
   };
 }
 exports.unsafeUnfoldProps = unsafeUnfoldProps;
+
+function unsafePrefixProps(prefix) {
+  return function(value){
+    var result = {};
+
+    for (var prop in value) {
+      if (value.hasOwnProperty(prop)) {
+        result[prefix + prop] = value[prop];
+      }
+    }
+
+    return result;
+  };
+}
+exports.unsafePrefixProps = unsafePrefixProps;
 
 function unsafeFromPropsArray(props) {
   var result = {};
