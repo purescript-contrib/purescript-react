@@ -8,13 +8,15 @@ foreign import unsafeMkProps :: forall val. String -> val -> Props
 
 foreign import unsafeUnfoldProps :: forall vals. String -> { | vals } -> Props
 
+foreign import unsafePrefixProps :: forall vals. String -> { | vals } -> Props
+
 foreign import unsafeFromPropsArray :: forall props. Array Props -> props
 
 aria :: forall ariaAttrs. { | ariaAttrs } -> Props
-aria = unsafeUnfoldProps "aria"
+aria = unsafePrefixProps "aria-"
 
 _data :: forall dataAttrs. { | dataAttrs } -> Props
-_data = unsafeUnfoldProps "data"
+_data = unsafePrefixProps "data-"
 
 style :: forall style. { | style } -> Props
 style = unsafeUnfoldProps "style"
