@@ -12,6 +12,11 @@ For a more high-level set of bindings, you might like to look at `purescript-the
 bower install purescript-react
 ```
 
+## Related Modules
+
+- [React DOM](https://github.com/purescript-contrib/purescript-react-dom)
+- [CSS Transition Group Addon](https://github.com/purescript-contrib/purescript-react-addons-css-transition-group)
+
 ## Example
 
 Please refer to [purescript-react-example](https://github.com/ethul/purescript-react-example)
