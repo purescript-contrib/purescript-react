@@ -1,8 +1,8 @@
 module React.DOM.SVG.Dynamic where
 
-import React (ReactElement())
+import React (ReactElement)
 import React.DOM (IsDynamic(..), mkDOM)
-import React.DOM.Props (Props())
+import React.DOM.Props (Props)
 
 circle :: Array Props -> Array ReactElement -> ReactElement
 circle = mkDOM (IsDynamic true) "circle"

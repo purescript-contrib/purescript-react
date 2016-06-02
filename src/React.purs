@@ -137,99 +137,109 @@ type KeyboardEvent =
 
 -- | A function which handles events.
 type EventHandlerContext eff props state result =
-  Eff ( props :: ReactProps
-      , refs :: ReactRefs ReadOnly
-      , state :: ReactState ReadWrite
-      | eff
-      ) result
+  Eff
+    ( props :: ReactProps
+    , refs :: ReactRefs ReadOnly
+    , state :: ReactState ReadWrite
+    | eff
+    ) result
 
 -- | A render function.
 type Render props state eff =
   ReactThis props state ->
-  Eff ( props :: ReactProps
-      , refs :: ReactRefs Disallowed
-      , state :: ReactState ReadOnly
-      | eff
-      ) ReactElement
+  Eff
+    ( props :: ReactProps
+    , refs :: ReactRefs Disallowed
+    , state :: ReactState ReadOnly
+    | eff
+    ) ReactElement
 
 -- | A get initial state function.
 type GetInitialState props state eff =
   ReactThis props state ->
-  Eff ( props :: ReactProps
-      , state :: ReactState Disallowed
-      , refs :: ReactRefs Disallowed
-      | eff
-      ) state
+  Eff
+    ( props :: ReactProps
+    , state :: ReactState Disallowed
+    , refs :: ReactRefs Disallowed
+    | eff
+    ) state
 
 -- | A component will mount function.
 type ComponentWillMount props state eff =
   ReactThis props state ->
-  Eff ( props :: ReactProps
-      , state :: ReactState ReadWrite
-      , refs :: ReactRefs Disallowed
-      | eff
-      ) Unit
+  Eff
+    ( props :: ReactProps
+    , state :: ReactState ReadWrite
+    , refs :: ReactRefs Disallowed
+    | eff
+    ) Unit
 
 -- | A component did mount function.
 type ComponentDidMount props state eff =
   ReactThis props state ->
-  Eff ( props :: ReactProps
-      , state :: ReactState ReadWrite
-      , refs :: ReactRefs ReadOnly
-      | eff
-      ) Unit
+  Eff
+    ( props :: ReactProps
+    , state :: ReactState ReadWrite
+    , refs :: ReactRefs ReadOnly
+    | eff
+    ) Unit
 
 -- | A component will receive props function.
 type ComponentWillReceiveProps props state eff =
    ReactThis props state ->
    props ->
-   Eff ( props :: ReactProps
-       , state :: ReactState ReadWrite
-       , refs :: ReactRefs ReadOnly
-       | eff
-       ) Unit
+   Eff
+    ( props :: ReactProps
+    , state :: ReactState ReadWrite
+    , refs :: ReactRefs ReadOnly
+    | eff
+    ) Unit
 
 -- | A should component update function.
 type ShouldComponentUpdate props state eff =
   ReactThis props state ->
   props ->
   state ->
-  Eff ( props :: ReactProps
-      , state :: ReactState ReadWrite
-      , refs :: ReactRefs ReadOnly
-      | eff
-      ) Boolean
+  Eff
+    ( props :: ReactProps
+    , state :: ReactState ReadWrite
+    , refs :: ReactRefs ReadOnly
+    | eff
+    ) Boolean
 
 -- | A component will update function.
 type ComponentWillUpdate props state eff =
   ReactThis props state ->
   props ->
   state ->
-  Eff ( props :: ReactProps
-      , state :: ReactState ReadWrite
-      , refs :: ReactRefs ReadOnly
-      | eff
-      ) Unit
+  Eff
+    ( props :: ReactProps
+    , state :: ReactState ReadWrite
+    , refs :: ReactRefs ReadOnly
+    | eff
+    ) Unit
 
 -- | A component did update function.
 type ComponentDidUpdate props state eff =
   ReactThis props state ->
   props ->
   state ->
-  Eff ( props :: ReactProps
-      , state :: ReactState ReadOnly
-      , refs :: ReactRefs ReadOnly
-      | eff
-      ) Unit
+  Eff
+    ( props :: ReactProps
+    , state :: ReactState ReadOnly
+    , refs :: ReactRefs ReadOnly
+    | eff
+    ) Unit
 
 -- | A component will unmount function.
 type ComponentWillUnmount props state eff =
   ReactThis props state ->
-  Eff ( props :: ReactProps
-      , state :: ReactState ReadOnly
-      , refs :: ReactRefs ReadOnly
-      | eff
-      ) Unit
+  Eff
+    ( props :: ReactProps
+    , state :: ReactState ReadOnly
+    , refs :: ReactRefs ReadOnly
+    | eff
+    ) Unit
 
 -- | A specification of a component.
 type ReactSpec props state eff =
@@ -246,11 +256,15 @@ type ReactSpec props state eff =
   }
 
 -- | Create a component specification with a provided state.
-spec :: forall props state eff. state -> Render props state eff -> ReactSpec props state eff
-spec state = spec' (\_ -> pure state)
+spec :: forall props state eff.
+  state -> Render props state eff -> ReactSpec props state eff
+spec state = spec' \_ -> pure state
 
 -- | Create a component specification with a get initial state function.
-spec' :: forall props state eff. GetInitialState props state eff -> Render props state eff -> ReactSpec props state eff
+spec' :: forall props state eff.
+  GetInitialState props state eff ->
+  Render props state eff ->
+  ReactSpec props state eff
 spec' getInitialState renderFn =
   { render: renderFn
   , displayName: ""
@@ -268,51 +282,76 @@ spec' getInitialState renderFn =
 foreign import data ReactClass :: * -> *
 
 -- | Read the component props.
-foreign import getProps :: forall props state eff. ReactThis props state -> Eff (props :: ReactProps | eff) props
+foreign import getProps :: forall props state eff.
+  ReactThis props state ->
+  Eff (props :: ReactProps | eff) props
 
 -- | Read the component refs.
-foreign import getRefs :: forall props state access eff. ReactThis props state -> Eff (refs :: ReactRefs (read :: Read | access) | eff) Refs
+foreign import getRefs :: forall props state access eff.
+  ReactThis props state ->
+  Eff (refs :: ReactRefs (read :: Read | access) | eff) Refs
 
 -- | Read the component children property.
-foreign import getChildren :: forall props state eff. ReactThis props state -> Eff (props :: ReactProps | eff) (Array ReactElement)
+foreign import getChildren :: forall props state eff.
+  ReactThis props state ->
+  Eff (props :: ReactProps | eff) (Array ReactElement)
 
 -- | Write the component state.
-foreign import writeState :: forall props state access eff. ReactThis props state -> state -> Eff (state :: ReactState (write :: Write | access) | eff) state
+foreign import writeState :: forall props state access eff.
+  ReactThis props state ->
+  state ->
+  Eff (state :: ReactState (write :: Write | access) | eff) state
 
 -- | Read the component state.
-foreign import readState :: forall props state access eff. ReactThis props state -> Eff (state :: ReactState (read :: Read | access) | eff) state
+foreign import readState :: forall props state access eff.
+  ReactThis props state ->
+  Eff (state :: ReactState (read :: Read | access) | eff) state
 
 -- | Transform the component state by applying a function.
-foreign import transformState :: forall props state eff. ReactThis props state -> (state -> state) -> Eff (state :: ReactState ReadWrite | eff) Unit
+foreign import transformState :: forall props state eff.
+  ReactThis props state ->
+  (state -> state) ->
+  Eff (state :: ReactState ReadWrite | eff) Unit
 
 -- | Create a React class from a specification.
-foreign import createClass :: forall props state eff. ReactSpec props state eff -> ReactClass props
+foreign import createClass :: forall props state eff.
+  ReactSpec props state eff -> ReactClass props
 
 -- | Create a stateless React class.
-createClassStateless :: forall props. (props -> ReactElement) -> ReactClass props
+createClassStateless :: forall props.
+  (props -> ReactElement) -> ReactClass props
 createClassStateless = unsafeCoerce
 
 -- | Create a stateless React class with children access.
-createClassStateless' :: forall props. (props -> Array ReactElement -> ReactElement) -> ReactClass props
-createClassStateless' k = createClassStateless \props -> k props (childrenToArray (unsafeCoerce props).children)
+createClassStateless' :: forall props.
+  (props -> Array ReactElement -> ReactElement) -> ReactClass props
+createClassStateless' k =
+  createClassStateless \props ->
+    k props (childrenToArray (unsafeCoerce props).children)
 
 -- | Create an event handler.
-foreign import handle :: forall eff ev props state result.  (ev -> EventHandlerContext eff props state result) -> EventHandler ev
+foreign import handle :: forall eff ev props state result.
+  (ev -> EventHandlerContext eff props state result) -> EventHandler ev
 
 -- | Create an element from a React class spreading the children array. Used when the children are known up front.
-foreign import createElement :: forall props. ReactClass props -> props -> Array ReactElement -> ReactElement
+foreign import createElement :: forall props.
+  ReactClass props -> props -> Array ReactElement -> ReactElement
 
 -- | Create an element from a React class passing the children array. Used for a dynamic array of children.
-foreign import createElementDynamic :: forall props. ReactClass props -> props -> Array ReactElement -> ReactElement
+foreign import createElementDynamic :: forall props.
+  ReactClass props -> props -> Array ReactElement -> ReactElement
 
 -- | Create an element from a tag name spreading the children array. Used when the children are known up front.
-foreign import createElementTagName :: forall props. TagName -> props -> Array ReactElement -> ReactElement
+foreign import createElementTagName :: forall props.
+  TagName -> props -> Array ReactElement -> ReactElement
 
 -- | Create an element from a tag name passing the children array. Used for a dynamic array of children.
-foreign import createElementTagNameDynamic :: forall props. TagName -> props -> Array ReactElement -> ReactElement
+foreign import createElementTagNameDynamic :: forall props.
+  TagName -> props -> Array ReactElement -> ReactElement
 
 -- | Create a factory from a React class.
-foreign import createFactory :: forall props. ReactClass props -> props -> ReactElement
+foreign import createFactory :: forall props.
+  ReactClass props -> props -> ReactElement
 
 -- | Internal representation for the children elements passed to a component
 foreign import data Children :: *

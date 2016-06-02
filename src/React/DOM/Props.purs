@@ -1,6 +1,6 @@
 module React.DOM.Props where
 
-import React (Event(), EventHandlerContext(), KeyboardEvent(), MouseEvent(), handle)
+import React (Event, EventHandlerContext, KeyboardEvent, MouseEvent, handle)
 
 foreign import data Props :: *
 
@@ -324,104 +324,138 @@ width = unsafeMkProps "width"
 wmode :: String -> Props
 wmode = unsafeMkProps "wmode"
 
-onCopy :: forall eff props state result. (Event -> EventHandlerContext eff props state result) -> Props
+onCopy :: forall eff props state result.
+  (Event -> EventHandlerContext eff props state result) -> Props
 onCopy f = unsafeMkProps "onCopy" (handle f)
 
-onCut :: forall eff props state result. (Event -> EventHandlerContext eff props state result) -> Props
+onCut :: forall eff props state result.
+  (Event -> EventHandlerContext eff props state result) -> Props
 onCut f = unsafeMkProps "onCut" (handle f)
 
-onPaste :: forall eff props state result. (Event -> EventHandlerContext eff props state result) -> Props
+onPaste :: forall eff props state result.
+  (Event -> EventHandlerContext eff props state result) -> Props
 onPaste f = unsafeMkProps "onPaste" (handle f)
 
-onKeyDown :: forall eff props state result. (KeyboardEvent -> EventHandlerContext eff props state result) -> Props
+onKeyDown :: forall eff props state result.
+  (KeyboardEvent -> EventHandlerContext eff props state result) -> Props
 onKeyDown f = unsafeMkProps "onKeyDown" (handle f)
 
-onKeyPress :: forall eff props state result. (KeyboardEvent -> EventHandlerContext eff props state result) -> Props
+onKeyPress :: forall eff props state result.
+  (KeyboardEvent -> EventHandlerContext eff props state result) -> Props
 onKeyPress f = unsafeMkProps "onKeyPress" (handle f)
 
-onKeyUp :: forall eff props state result. (KeyboardEvent -> EventHandlerContext eff props state result) -> Props
+onKeyUp :: forall eff props state result.
+  (KeyboardEvent -> EventHandlerContext eff props state result) -> Props
 onKeyUp f = unsafeMkProps "onKeyUp" (handle f)
 
-onFocus :: forall eff props state result. (Event -> EventHandlerContext eff props state result) -> Props
+onFocus :: forall eff props state result.
+  (Event -> EventHandlerContext eff props state result) -> Props
 onFocus f = unsafeMkProps "onFocus" (handle f)
 
-onBlur :: forall eff props state result. (Event -> EventHandlerContext eff props state result) -> Props
+onBlur :: forall eff props state result.
+  (Event -> EventHandlerContext eff props state result) -> Props
 onBlur f = unsafeMkProps "onBlur" (handle f)
 
-onChange :: forall eff props state result. (Event -> EventHandlerContext eff props state result) -> Props
+onChange :: forall eff props state result.
+  (Event -> EventHandlerContext eff props state result) -> Props
 onChange f = unsafeMkProps "onChange" (handle f)
 
-onInput :: forall eff props state result. (Event -> EventHandlerContext eff props state result) -> Props
+onInput :: forall eff props state result.
+  (Event -> EventHandlerContext eff props state result) -> Props
 onInput f = unsafeMkProps "onInput" (handle f)
 
-onSubmit :: forall eff props state result. (Event -> EventHandlerContext eff props state result) -> Props
+onSubmit :: forall eff props state result.
+  (Event -> EventHandlerContext eff props state result) -> Props
 onSubmit f = unsafeMkProps "onSubmit" (handle f)
 
-onClick :: forall eff props state result. (Event -> EventHandlerContext eff props state result) -> Props
+onClick :: forall eff props state result.
+  (Event -> EventHandlerContext eff props state result) -> Props
 onClick f = unsafeMkProps "onClick" (handle f)
 
-onDoubleClick :: forall eff props state result. (Event -> EventHandlerContext eff props state result) -> Props
+onDoubleClick :: forall eff props state result.
+  (Event -> EventHandlerContext eff props state result) -> Props
 onDoubleClick f = unsafeMkProps "onDoubleClick" (handle f)
 
-onDrag :: forall eff props state result. (Event -> EventHandlerContext eff props state result) -> Props
+onDrag :: forall eff props state result.
+  (Event -> EventHandlerContext eff props state result) -> Props
 onDrag f = unsafeMkProps "onDrag" (handle f)
 
-onDragEnd :: forall eff props state result. (Event -> EventHandlerContext eff props state result) -> Props
+onDragEnd :: forall eff props state result.
+  (Event -> EventHandlerContext eff props state result) -> Props
 onDragEnd f = unsafeMkProps "onDragEnd" (handle f)
 
-onDragEnter :: forall eff props state result. (Event -> EventHandlerContext eff props state result) -> Props
+onDragEnter :: forall eff props state result.
+  (Event -> EventHandlerContext eff props state result) -> Props
 onDragEnter f = unsafeMkProps "onDragEnter" (handle f)
 
-onDragExit :: forall eff props state result. (Event -> EventHandlerContext eff props state result) -> Props
+onDragExit :: forall eff props state result.
+  (Event -> EventHandlerContext eff props state result) -> Props
 onDragExit f = unsafeMkProps "onDragExit" (handle f)
 
-onDragLeave :: forall eff props state result. (Event -> EventHandlerContext eff props state result) -> Props
+onDragLeave :: forall eff props state result.
+  (Event -> EventHandlerContext eff props state result) -> Props
 onDragLeave f = unsafeMkProps "onDragLeave" (handle f)
 
-onDragOver :: forall eff props state result. (Event -> EventHandlerContext eff props state result) -> Props
+onDragOver :: forall eff props state result.
+  (Event -> EventHandlerContext eff props state result) -> Props
 onDragOver f = unsafeMkProps "onDragOver" (handle f)
 
-onDragStart :: forall eff props state result. (Event -> EventHandlerContext eff props state result) -> Props
+onDragStart :: forall eff props state result.
+  (Event -> EventHandlerContext eff props state result) -> Props
 onDragStart f = unsafeMkProps "onDragStart" (handle f)
 
-onDrop :: forall eff props state result. (Event -> EventHandlerContext eff props state result) -> Props
+onDrop :: forall eff props state result.
+  (Event -> EventHandlerContext eff props state result) -> Props
 onDrop f = unsafeMkProps "onDrop" (handle f)
 
-onMouseDown :: forall eff props state result. (MouseEvent -> EventHandlerContext eff props state result) -> Props
+onMouseDown :: forall eff props state result.
+  (MouseEvent -> EventHandlerContext eff props state result) -> Props
 onMouseDown f = unsafeMkProps "onMouseDown" (handle f)
 
-onMouseEnter :: forall eff props state result. (MouseEvent -> EventHandlerContext eff props state result) -> Props
+onMouseEnter :: forall eff props state result.
+  (MouseEvent -> EventHandlerContext eff props state result) -> Props
 onMouseEnter f = unsafeMkProps "onMouseEnter" (handle f)
 
-onMouseLeave :: forall eff props state result. (MouseEvent -> EventHandlerContext eff props state result) -> Props
+onMouseLeave :: forall eff props state result.
+  (MouseEvent -> EventHandlerContext eff props state result) -> Props
 onMouseLeave f = unsafeMkProps "onMouseLeave" (handle f)
 
-onMouseMove :: forall eff props state result. (MouseEvent -> EventHandlerContext eff props state result) -> Props
+onMouseMove :: forall eff props state result.
+  (MouseEvent -> EventHandlerContext eff props state result) -> Props
 onMouseMove f = unsafeMkProps "onMouseMove" (handle f)
 
-onMouseOut :: forall eff props state result. (MouseEvent -> EventHandlerContext eff props state result) -> Props
+onMouseOut :: forall eff props state result.
+  (MouseEvent -> EventHandlerContext eff props state result) -> Props
 onMouseOut f = unsafeMkProps "onMouseOut" (handle f)
 
-onMouseOver :: forall eff props state result. (MouseEvent -> EventHandlerContext eff props state result) -> Props
+onMouseOver :: forall eff props state result.
+  (MouseEvent -> EventHandlerContext eff props state result) -> Props
 onMouseOver f = unsafeMkProps "onMouseOver" (handle f)
 
-onMouseUp :: forall eff props state result. (MouseEvent -> EventHandlerContext eff props state result) -> Props
+onMouseUp :: forall eff props state result.
+  (MouseEvent -> EventHandlerContext eff props state result) -> Props
 onMouseUp f = unsafeMkProps "onMouseUp" (handle f)
 
-onTouchCancel :: forall eff props state result. (Event -> EventHandlerContext eff props state result) -> Props
+onTouchCancel :: forall eff props state result.
+  (Event -> EventHandlerContext eff props state result) -> Props
 onTouchCancel f = unsafeMkProps "onTouchCancel" (handle f)
 
-onTouchEnd :: forall eff props state result. (Event -> EventHandlerContext eff props state result) -> Props
+onTouchEnd :: forall eff props state result.
+  (Event -> EventHandlerContext eff props state result) -> Props
 onTouchEnd f = unsafeMkProps "onTouchEnd" (handle f)
 
-onTouchMove :: forall eff props state result. (Event -> EventHandlerContext eff props state result) -> Props
+onTouchMove :: forall eff props state result.
+  (Event -> EventHandlerContext eff props state result) -> Props
 onTouchMove f = unsafeMkProps "onTouchMove" (handle f)
 
-onTouchStart :: forall eff props state result. (Event -> EventHandlerContext eff props state result) -> Props
+onTouchStart :: forall eff props state result.
+  (Event -> EventHandlerContext eff props state result) -> Props
 onTouchStart f = unsafeMkProps "onTouchStart" (handle f)
 
-onScroll :: forall eff props state result. (Event -> EventHandlerContext eff props state result) -> Props
+onScroll :: forall eff props state result.
+  (Event -> EventHandlerContext eff props state result) -> Props
 onScroll f = unsafeMkProps "onScroll" (handle f)
 
-onWheel :: forall eff props state result. (Event -> EventHandlerContext eff props state result) -> Props
+onWheel :: forall eff props state result.
+  (Event -> EventHandlerContext eff props state result) -> Props
 onWheel f = unsafeMkProps "onWheel" (handle f)

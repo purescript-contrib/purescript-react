@@ -1,11 +1,13 @@
 module React.DOM where
 
-import React (ReactElement(), TagName(), createElementTagName, createElementTagNameDynamic)
-import React.DOM.Props (Props(), unsafeFromPropsArray)
+import React (ReactElement, TagName, createElementTagName, createElementTagNameDynamic)
+import React.DOM.Props (Props, unsafeFromPropsArray)
+import Unsafe.Coerce (unsafeCoerce)
 
 newtype IsDynamic = IsDynamic Boolean
 
-mkDOM :: IsDynamic -> TagName -> Array Props -> Array ReactElement -> ReactElement
+mkDOM ::
+  IsDynamic -> TagName -> Array Props -> Array ReactElement -> ReactElement
 mkDOM dynamic tag props = createElement tag (unsafeFromPropsArray props)
   where
   createElement :: TagName -> Array Props -> Array ReactElement -> ReactElement
@@ -14,7 +16,8 @@ mkDOM dynamic tag props = createElement tag (unsafeFromPropsArray props)
          IsDynamic false -> createElementTagName
          IsDynamic true -> createElementTagNameDynamic
 
-foreign import text :: String -> ReactElement
+text :: String -> ReactElement
+text = unsafeCoerce
 
 a :: Array Props -> Array ReactElement -> ReactElement
 a = mkDOM (IsDynamic false) "a"
