@@ -1,43 +1,43 @@
 -- | This module defines foreign types and functions which wrap React's functionality.
 
 module React
-  ( ReactElement()
-  , ReactComponent()
-  , ReactThis()
-  , TagName()
+  ( ReactElement
+  , ReactComponent
+  , ReactThis
+  , TagName
 
-  , EventHandler()
+  , EventHandler
 
-  , Read()
-  , Write()
-  , Disallowed()
-  , ReadWrite()
-  , ReadOnly()
+  , Read
+  , Write
+  , Disallowed
+  , ReadWrite
+  , ReadOnly
 
-  , ReactState()
-  , ReactProps()
-  , ReactRefs()
+  , ReactState
+  , ReactProps
+  , ReactRefs
 
-  , Refs()
+  , Refs
 
-  , Render()
-  , GetInitialState()
-  , ComponentWillMount()
-  , ComponentDidMount()
-  , ComponentWillReceiveProps()
-  , ShouldComponentUpdate()
-  , ComponentWillUpdate()
-  , ComponentDidUpdate()
-  , ComponentWillUnmount()
+  , Render
+  , GetInitialState
+  , ComponentWillMount
+  , ComponentDidMount
+  , ComponentWillReceiveProps
+  , ShouldComponentUpdate
+  , ComponentWillUpdate
+  , ComponentDidUpdate
+  , ComponentWillUnmount
 
-  , ReactSpec()
-  , ReactClass()
+  , ReactSpec
+  , ReactClass
 
-  , Event()
-  , MouseEvent()
-  , KeyboardEvent()
+  , Event
+  , MouseEvent
+  , KeyboardEvent
 
-  , EventHandlerContext()
+  , EventHandlerContext
 
   , spec, spec'
 
@@ -61,10 +61,8 @@ module React
   , createFactory
   ) where
 
-import Prelude (Unit(), pure, return, unit)
-
-import Control.Monad.Eff (Eff())
-
+import Prelude
+import Control.Monad.Eff (Eff)
 import Unsafe.Coerce (unsafeCoerce)
 
 -- | Name of a tag.
@@ -257,13 +255,13 @@ spec' getInitialState renderFn =
   { render: renderFn
   , displayName: ""
   , getInitialState: getInitialState
-  , componentWillMount: \_ -> return unit
-  , componentDidMount: \_ -> return unit
-  , componentWillReceiveProps: \_ _ -> return unit
-  , shouldComponentUpdate: \_ _ _ -> return true
-  , componentWillUpdate: \_ _ _ -> return unit
-  , componentDidUpdate: \_ _ _ -> return unit
-  , componentWillUnmount: \_ -> return unit
+  , componentWillMount: \_ -> pure unit
+  , componentDidMount: \_ -> pure unit
+  , componentWillReceiveProps: \_ _ -> pure unit
+  , shouldComponentUpdate: \_ _ _ -> pure true
+  , componentWillUpdate: \_ _ _ -> pure unit
+  , componentDidUpdate: \_ _ _ -> pure unit
+  , componentWillUnmount: \_ -> pure unit
   }
 
 -- | React class for components.
@@ -320,4 +318,4 @@ foreign import createFactory :: forall props. ReactClass props -> props -> React
 foreign import data Children :: *
 
 -- | Internal conversion function from children elements to an array of React elements
-foreign import childrenToArray :: Children -> Array React.ReactElement
+foreign import childrenToArray :: Children -> Array ReactElement
