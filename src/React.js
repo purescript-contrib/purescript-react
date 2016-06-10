@@ -53,6 +53,20 @@ function writeState(this_) {
 }
 exports.writeState = writeState;
 
+function writeStateWithCallback(this_, cb) {
+  return function(state){
+    return function(cb){
+      return function() {
+        this_.setState({
+          state: state
+        }, cb);
+        return state;
+      };
+    };
+  };
+}
+exports.writeStateWithCallback = writeStateWithCallback;
+
 function readState(this_) {
   return function(){
     return this_.state.state;

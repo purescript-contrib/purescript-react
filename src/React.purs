@@ -47,6 +47,7 @@ module React
 
   , readState
   , writeState
+  , writeStateWithCallback
   , transformState
 
   , handle
@@ -280,6 +281,9 @@ foreign import getChildren :: forall props state eff. ReactThis props state -> E
 
 -- | Write the component state.
 foreign import writeState :: forall props state access eff. ReactThis props state -> state -> Eff (state :: ReactState (write :: Write | access) | eff) state
+
+-- | Write the component state with a callback.
+foreign import writeStateWithCallback :: forall props state access eff. ReactThis props state -> state -> Eff (state :: ReactState (write :: Write | access) | eff) Unit -> Eff (state :: ReactState (write :: Write | access) | eff) state
 
 -- | Read the component state.
 foreign import readState :: forall props state access eff. ReactThis props state -> Eff (state :: ReactState (read :: Read | access) | eff) state
