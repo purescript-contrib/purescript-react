@@ -18,7 +18,8 @@
   },
   "dependencies": {
     "purescript-eff": "^1.0.0",
-    "purescript-prelude": "^1.0.0"
+    "purescript-prelude": "^1.0.0",
+    "purescript-unsafe-coerce": "^1.0.0"
   },
   "devDependencies": {
     "purescript-console": "^1.0.0",
