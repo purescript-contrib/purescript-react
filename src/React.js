@@ -1,9 +1,7 @@
 /* global exports */
 "use strict";
 
-// module React
-
-var React = require('react');
+var React = require("react");
 
 function getProps(this_) {
   return function(){

@@ -1,9 +1,7 @@
 /* global exports */
 "use strict";
 
-// module React.DOM.Props
-
-var React = require('react');
+var React = require("react");
 
 function unsafeMkProps(key) {
   return function(value){
