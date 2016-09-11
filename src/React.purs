@@ -51,6 +51,8 @@ module React
   , transformState
 
   , handle
+  , preventDefault
+  , stopPropagation
 
   , createClass
   , createClassStateless
@@ -362,3 +364,7 @@ foreign import data Children :: *
 
 -- | Internal conversion function from children elements to an array of React elements
 foreign import childrenToArray :: Children -> Array ReactElement
+
+foreign import preventDefault :: forall eff a. Event -> Eff eff a
+
+foreign import stopPropagation :: forall eff a. Event -> Eff eff a

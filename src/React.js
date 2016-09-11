@@ -152,3 +152,13 @@ function createFactory(class_) {
   return React.createFactory(class_);
 }
 exports.createFactory = createFactory;
+
+function preventDefault(event) {
+  return function() { return event.preventDefault();}
+};
+exports.preventDefault = preventDefault;
+
+function stopPropagation(event) {
+  return function() { return event.stopPropagation();}
+};
+exports.stopPropagation = stopPropagation;
