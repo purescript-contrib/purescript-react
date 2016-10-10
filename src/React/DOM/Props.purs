@@ -66,7 +66,7 @@ cellSpacing = unsafeMkProps "cellSpacing"
 charSet :: String -> Props
 charSet = unsafeMkProps "charSet"
 
-checked :: String -> Props
+checked :: Boolean -> Props
 checked = unsafeMkProps "checked"
 
 classID :: String -> Props
@@ -101,6 +101,9 @@ crossOrigin = unsafeMkProps "crossOrigin"
 
 dateTime :: String -> Props
 dateTime = unsafeMkProps "dateTime"
+
+defaultChecked :: Boolean -> Props
+defaultChecked = unsafeMkProps "defaultChecked"
 
 defer :: String -> Props
 defer = unsafeMkProps "defer"
