@@ -102,6 +102,9 @@ crossOrigin = unsafeMkProps "crossOrigin"
 dateTime :: String -> Props
 dateTime = unsafeMkProps "dateTime"
 
+defaultValue :: String -> Props
+defaultValue = unsafeMkProps "defaultValue"
+
 defer :: String -> Props
 defer = unsafeMkProps "defer"
 
