@@ -105,6 +105,9 @@ dateTime = unsafeMkProps "dateTime"
 defaultChecked :: Boolean -> Props
 defaultChecked = unsafeMkProps "defaultChecked"
 
+defaultValue :: String -> Props
+defaultValue = unsafeMkProps "defaultValue"
+
 defer :: String -> Props
 defer = unsafeMkProps "defer"
 
