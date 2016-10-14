@@ -57,6 +57,9 @@ autoFocus = unsafeMkProps "autoFocus"
 autoPlay :: Boolean -> Props
 autoPlay = unsafeMkProps "autoPlay"
 
+capture :: Boolean -> Props
+capture = unsafeMkProps "capture"
+
 cellPadding :: String -> Props
 cellPadding = unsafeMkProps "cellPadding"
 
@@ -66,8 +69,14 @@ cellSpacing = unsafeMkProps "cellSpacing"
 charSet :: String -> Props
 charSet = unsafeMkProps "charSet"
 
+challenge :: String -> Props
+challenge = unsafeMkProps "checked"
+
 checked :: Boolean -> Props
 checked = unsafeMkProps "checked"
+
+cite :: String -> Props
+cite = unsafeMkProps "cite"
 
 classID :: String -> Props
 classID = unsafeMkProps "classID"
@@ -98,9 +107,6 @@ coords = unsafeMkProps "coords"
 
 crossOrigin :: String -> Props
 crossOrigin = unsafeMkProps "crossOrigin"
-
-dataAttr :: String -> Props
-dataAttr = unsafeMkProps "data"
 
 dateTime :: String -> Props
 dateTime = unsafeMkProps "dateTime"
@@ -153,11 +159,17 @@ formTarget = unsafeMkProps "formTarget"
 frameBorder :: String -> Props
 frameBorder = unsafeMkProps "frameBorder"
 
+headers :: String -> Props
+headers = unsafeMkProps "headers"
+
 height :: String -> Props
 height = unsafeMkProps "height"
 
 hidden :: Boolean -> Props
 hidden = unsafeMkProps "hidden"
+
+high :: String -> Props
+high = unsafeMkProps "high"
 
 href :: String -> Props
 href = unsafeMkProps "href"
@@ -275,6 +287,9 @@ poster = unsafeMkProps "poster"
 
 preload :: String -> Props
 preload = unsafeMkProps "preload"
+
+profile :: String -> Props
+profile = unsafeMkProps "profile"
 
 radioGroup :: String -> Props
 radioGroup = unsafeMkProps "radioGroup"
