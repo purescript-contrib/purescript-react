@@ -36,16 +36,16 @@ accessKey = unsafeMkProps "accessKey"
 action :: String -> Props
 action = unsafeMkProps "action"
 
-allowFullScreen :: String -> Props
+allowFullScreen :: Boolean -> Props
 allowFullScreen = unsafeMkProps "allowFullScreen"
 
-allowTransparency :: String -> Props
+allowTransparency :: Boolean -> Props
 allowTransparency = unsafeMkProps "allowTransparency"
 
 alt :: String -> Props
 alt = unsafeMkProps "alt"
 
-async :: String -> Props
+async :: Boolean -> Props
 async = unsafeMkProps "async"
 
 autoComplete :: String -> Props
@@ -54,8 +54,11 @@ autoComplete = unsafeMkProps "autoComplete"
 autoFocus :: Boolean -> Props
 autoFocus = unsafeMkProps "autoFocus"
 
-autoPlay :: String -> Props
+autoPlay :: Boolean -> Props
 autoPlay = unsafeMkProps "autoPlay"
+
+capture :: Boolean -> Props
+capture = unsafeMkProps "capture"
 
 cellPadding :: String -> Props
 cellPadding = unsafeMkProps "cellPadding"
@@ -66,8 +69,14 @@ cellSpacing = unsafeMkProps "cellSpacing"
 charSet :: String -> Props
 charSet = unsafeMkProps "charSet"
 
-checked :: String -> Props
+challenge :: String -> Props
+challenge = unsafeMkProps "checked"
+
+checked :: Boolean -> Props
 checked = unsafeMkProps "checked"
+
+cite :: String -> Props
+cite = unsafeMkProps "cite"
 
 classID :: String -> Props
 classID = unsafeMkProps "classID"
@@ -75,22 +84,22 @@ classID = unsafeMkProps "classID"
 className :: String -> Props
 className = unsafeMkProps "className"
 
-cols :: String -> Props
+cols :: Int -> Props
 cols = unsafeMkProps "cols"
 
-colSpan :: String -> Props
+colSpan :: Int -> Props
 colSpan = unsafeMkProps "colSpan"
 
 content :: String -> Props
 content = unsafeMkProps "content"
 
-contentEditable :: String -> Props
+contentEditable :: Boolean -> Props
 contentEditable = unsafeMkProps "contentEditable"
 
 contextMenu :: String -> Props
 contextMenu = unsafeMkProps "contextMenu"
 
-controls :: String -> Props
+controls :: Boolean -> Props
 controls = unsafeMkProps "controls"
 
 coords :: String -> Props
@@ -102,10 +111,16 @@ crossOrigin = unsafeMkProps "crossOrigin"
 dateTime :: String -> Props
 dateTime = unsafeMkProps "dateTime"
 
+default :: Boolean -> Props
+default = unsafeMkProps "default"
+
+defaultChecked :: Boolean -> Props
+defaultChecked = unsafeMkProps "defaultChecked"
+
 defaultValue :: String -> Props
 defaultValue = unsafeMkProps "defaultValue"
 
-defer :: String -> Props
+defer :: Boolean -> Props
 defer = unsafeMkProps "defer"
 
 dir :: String -> Props
@@ -117,7 +132,7 @@ disabled = unsafeMkProps "disabled"
 download :: String -> Props
 download = unsafeMkProps "download"
 
-draggable :: String -> Props
+draggable :: Boolean -> Props
 draggable = unsafeMkProps "draggable"
 
 encType :: String -> Props
@@ -135,7 +150,7 @@ formEncType = unsafeMkProps "formEncType"
 formMethod :: String -> Props
 formMethod = unsafeMkProps "formMethod"
 
-formNoValidate :: String -> Props
+formNoValidate :: Boolean -> Props
 formNoValidate = unsafeMkProps "formNoValidate"
 
 formTarget :: String -> Props
@@ -144,11 +159,17 @@ formTarget = unsafeMkProps "formTarget"
 frameBorder :: String -> Props
 frameBorder = unsafeMkProps "frameBorder"
 
+headers :: String -> Props
+headers = unsafeMkProps "headers"
+
 height :: String -> Props
 height = unsafeMkProps "height"
 
-hidden :: String -> Props
+hidden :: Boolean -> Props
 hidden = unsafeMkProps "hidden"
+
+high :: String -> Props
+high = unsafeMkProps "high"
 
 href :: String -> Props
 href = unsafeMkProps "href"
@@ -168,8 +189,26 @@ icon = unsafeMkProps "icon"
 _id :: String -> Props
 _id = unsafeMkProps "id"
 
+inputMode :: String -> Props
+inputMode = unsafeMkProps "inputMode"
+
+integrity :: String -> Props
+integrity = unsafeMkProps "integrity"
+
+is :: String -> Props
+is = unsafeMkProps "is"
+
 key :: String -> Props
 key = unsafeMkProps "key"
+
+keyParams :: String -> Props
+keyParams = unsafeMkProps "keyParams"
+
+keyType :: String -> Props
+keyType = unsafeMkProps "keyType"
+
+kind :: String -> Props
+kind = unsafeMkProps "kind"
 
 label :: String -> Props
 label = unsafeMkProps "label"
@@ -180,8 +219,11 @@ lang = unsafeMkProps "lang"
 list :: String -> Props
 list = unsafeMkProps "list"
 
-loop :: String -> Props
+loop :: Boolean -> Props
 loop = unsafeMkProps "loop"
+
+low :: String -> Props
+low = unsafeMkProps "low"
 
 manifest :: String -> Props
 manifest = unsafeMkProps "manifest"
@@ -210,20 +252,29 @@ method = unsafeMkProps "method"
 min :: String -> Props
 min = unsafeMkProps "min"
 
-multiple :: String -> Props
+minLength :: String -> Props
+minLength = unsafeMkProps "minLength"
+
+multiple :: Boolean -> Props
 multiple = unsafeMkProps "multiple"
 
-muted :: String -> Props
+muted :: Boolean -> Props
 muted = unsafeMkProps "muted"
 
 name :: String -> Props
 name = unsafeMkProps "name"
 
-noValidate :: String -> Props
+nonce :: String -> Props
+nonce = unsafeMkProps "nonce"
+
+noValidate :: Boolean -> Props
 noValidate = unsafeMkProps "noValidate"
 
-open :: String -> Props
+open :: Boolean -> Props
 open = unsafeMkProps "open"
+
+optimum :: String -> Props
+optimum = unsafeMkProps "optimum"
 
 pattern :: String -> Props
 pattern = unsafeMkProps "pattern"
@@ -237,25 +288,31 @@ poster = unsafeMkProps "poster"
 preload :: String -> Props
 preload = unsafeMkProps "preload"
 
+profile :: String -> Props
+profile = unsafeMkProps "profile"
+
 radioGroup :: String -> Props
 radioGroup = unsafeMkProps "radioGroup"
 
-readOnly :: String -> Props
+readOnly :: Boolean -> Props
 readOnly = unsafeMkProps "readOnly"
 
 rel :: String -> Props
 rel = unsafeMkProps "rel"
 
-required :: String -> Props
+required :: Boolean -> Props
 required = unsafeMkProps "required"
+
+reversed :: Boolean -> Props
+reversed = unsafeMkProps "reversed"
 
 role :: String -> Props
 role = unsafeMkProps "role"
 
-rows :: String -> Props
+rows :: Int -> Props
 rows = unsafeMkProps "rows"
 
-rowSpan :: String -> Props
+rowSpan :: Int -> Props
 rowSpan = unsafeMkProps "rowSpan"
 
 sandbox :: String -> Props
@@ -264,28 +321,31 @@ sandbox = unsafeMkProps "sandbox"
 scope :: String -> Props
 scope = unsafeMkProps "scope"
 
+scoped :: Boolean -> Props
+scoped = unsafeMkProps "scoped"
+
 scrolling :: String -> Props
 scrolling = unsafeMkProps "scrolling"
 
-seamless :: String -> Props
+seamless :: Boolean -> Props
 seamless = unsafeMkProps "seamless"
 
-selected :: String -> Props
+selected :: Boolean -> Props
 selected = unsafeMkProps "selected"
 
 shape :: String -> Props
 shape = unsafeMkProps "shape"
 
-size :: String -> Props
+size :: Int -> Props
 size = unsafeMkProps "size"
 
 sizes :: String -> Props
 sizes = unsafeMkProps "sizes"
 
-span :: String -> Props
+span :: Int -> Props
 span = unsafeMkProps "span"
 
-spellCheck :: String -> Props
+spellCheck :: Boolean -> Props
 spellCheck = unsafeMkProps "spellCheck"
 
 src :: String -> Props
@@ -294,16 +354,22 @@ src = unsafeMkProps "src"
 srcDoc :: String -> Props
 srcDoc = unsafeMkProps "srcDoc"
 
+srcLang :: String -> Props
+srcLang = unsafeMkProps "srcLang"
+
 srcSet :: String -> Props
 srcSet = unsafeMkProps "srcSet"
 
-start :: String -> Props
+start :: Int -> Props
 start = unsafeMkProps "start"
 
 step :: String -> Props
 step = unsafeMkProps "step"
 
-tabIndex :: String -> Props
+summary :: String -> Props
+summary = unsafeMkProps "summary"
+
+tabIndex :: Int -> Props
 tabIndex = unsafeMkProps "tabIndex"
 
 target :: String -> Props
@@ -326,6 +392,71 @@ width = unsafeMkProps "width"
 
 wmode :: String -> Props
 wmode = unsafeMkProps "wmode"
+
+wrap :: String -> Props
+wrap = unsafeMkProps "wrap"
+
+-- RDFa Attributes
+about :: String -> Props
+about = unsafeMkProps "about"
+
+datatype :: String -> Props
+datatype = unsafeMkProps "datatype"
+
+inlist :: String -> Props
+inlist = unsafeMkProps "inlist"
+
+prefix :: String -> Props
+prefix = unsafeMkProps "prefix"
+
+property :: String -> Props
+property = unsafeMkProps "property"
+
+resource :: String -> Props
+resource = unsafeMkProps "resource"
+
+typeof :: String -> Props
+typeof = unsafeMkProps "typeof"
+
+vocab :: String -> Props
+vocab = unsafeMkProps "vocab"
+
+-- Non-standard Attributes
+autoCapitalize :: String -> Props
+autoCapitalize = unsafeMkProps "autoCapitalize"
+
+autoCorrect :: String -> Props
+autoCorrect = unsafeMkProps "autoCorrect"
+
+autoSave :: String -> Props
+autoSave = unsafeMkProps "autoSave"
+
+color :: String -> Props
+color = unsafeMkProps "color"
+
+itemProp :: String -> Props
+itemProp = unsafeMkProps "itemProp"
+
+itemScope :: Boolean -> Props
+itemScope = unsafeMkProps "itemScope"
+
+itemType :: String -> Props
+itemType = unsafeMkProps "itemType"
+
+itemID :: String -> Props
+itemID = unsafeMkProps "itemID"
+
+itemRef :: String -> Props
+itemRef = unsafeMkProps "itemRef"
+
+results :: Int -> Props
+results = unsafeMkProps "results"
+
+security :: String -> Props
+security = unsafeMkProps "security"
+
+unselectable :: Boolean -> Props
+unselectable = unsafeMkProps "unselectable"
 
 onCopy :: forall eff props state result.
   (Event -> EventHandlerContext eff props state result) -> Props
