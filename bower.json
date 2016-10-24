@@ -17,12 +17,12 @@
     "url": "git://github.com/purescript-contrib/purescript-react.git"
   },
   "dependencies": {
-    "purescript-eff": "^1.0.0",
-    "purescript-prelude": "^1.0.0",
-    "purescript-unsafe-coerce": "^1.0.0"
+    "purescript-eff": "^2.0.0",
+    "purescript-prelude": "^2.1.0",
+    "purescript-unsafe-coerce": "^2.0.0"
   },
   "devDependencies": {
-    "purescript-console": "^1.0.0",
-    "purescript-psci-support": "^1.0.0"
+    "purescript-console": "^2.0.0",
+    "purescript-psci-support": "^2.0.0"
   }
 }
