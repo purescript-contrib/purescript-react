@@ -593,3 +593,6 @@ onScroll f = unsafeMkProps "onScroll" (handle f)
 onWheel :: forall eff props state result.
   (Event -> EventHandlerContext eff props state result) -> Props
 onWheel f = unsafeMkProps "onWheel" (handle f)
+
+unsafe :: forall val. String -> val -> Props
+unsafe = unsafeMkProps
