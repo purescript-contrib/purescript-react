@@ -65,32 +65,32 @@ module React
   ) where
 
 import Prelude
-import Control.Monad.Eff (Eff)
+import Control.Monad.Eff (kind Effect, Eff)
 import Unsafe.Coerce (unsafeCoerce)
 
 -- | Name of a tag.
 type TagName = String
 
 -- | A virtual DOM node, or component.
-foreign import data ReactElement :: *
+foreign import data ReactElement :: Type
 
 -- | A mounted react component
-foreign import data ReactComponent :: *
+foreign import data ReactComponent :: Type
 
 -- | A reference to a component, essentially React's `this`.
-foreign import data ReactThis :: * -> * -> *
+foreign import data ReactThis :: Type -> Type -> Type
 
 -- | An event handler. The type argument represents the type of the event.
-foreign import data EventHandler :: * -> *
+foreign import data EventHandler :: Type -> Type
 
 -- | This phantom type indicates that read access to a resource is allowed.
-foreign import data Read :: !
+foreign import data Read :: Effect
 
 -- | This phantom type indicates that write access to a resource is allowed.
-foreign import data Write :: !
+foreign import data Write :: Effect
 
 -- | An access synonym which indicates that neither read nor write access are allowed.
-type Disallowed = () :: # !
+type Disallowed = () :: # Effect
 
 -- | An access synonym which indicates that both read and write access are allowed.
 type ReadWrite = (read :: Read, write :: Write)
@@ -101,21 +101,21 @@ type ReadOnly = (read :: Read)
 -- | This effect indicates that a computation may read or write the component state.
 -- |
 -- | The first type argument is a row of access types (`Read`, `Write`).
-foreign import data ReactState :: # ! -> !
+foreign import data ReactState :: # Effect -> Effect
 
 -- | This effect indicates that a computation may read the component props.
-foreign import data ReactProps :: !
+foreign import data ReactProps :: Effect
 
 -- | This effect indicates that a computation may read the component refs.
 -- |
 -- | The first type argument is a row of access types (`Read`, `Write`).
-foreign import data ReactRefs :: # ! -> !
+foreign import data ReactRefs :: # Effect -> Effect
 
 -- | The type of refs objects.
-foreign import data Refs :: *
+foreign import data Refs :: Type
 
 -- | The type of DOM events.
-foreign import data Event :: *
+foreign import data Event :: Type
 
 -- | The type of mouse events.
 type MouseEvent =
@@ -282,7 +282,7 @@ spec' getInitialState renderFn =
   }
 
 -- | React class for components.
-foreign import data ReactClass :: * -> *
+foreign import data ReactClass :: Type -> Type
 
 -- | Read the component props.
 foreign import getProps :: forall props state eff.
@@ -360,7 +360,7 @@ foreign import createFactory :: forall props.
   ReactClass props -> props -> ReactElement
 
 -- | Internal representation for the children elements passed to a component
-foreign import data Children :: *
+foreign import data Children :: Type
 
 -- | Internal conversion function from children elements to an array of React elements
 foreign import childrenToArray :: Children -> Array ReactElement

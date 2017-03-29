@@ -2,7 +2,7 @@ module React.DOM.Props where
 
 import React (Event, EventHandlerContext, KeyboardEvent, MouseEvent, handle)
 
-foreign import data Props :: *
+foreign import data Props :: Type
 
 foreign import unsafeMkProps :: forall val. String -> val -> Props
 
