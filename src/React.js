@@ -123,7 +123,7 @@ exports.createClass = createClass;
 
 function handle(f) {
   return function(e){
-    return f(e)();
+    return f(e);
   };
 };
 exports.handle = handle;
