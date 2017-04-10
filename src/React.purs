@@ -66,6 +66,7 @@ module React
 
 import Prelude
 import Control.Monad.Eff (kind Effect, Eff)
+import Data.Functor.Contravariant (class Contravariant)
 import Unsafe.Coerce (unsafeCoerce)
 
 -- | Name of a tag.
@@ -283,6 +284,12 @@ spec' getInitialState renderFn =
 
 -- | React class for components.
 foreign import data ReactClass :: Type -> Type
+
+instance contravariantReactClass :: Contravariant ReactClass where
+
+  cmap f cls = createClassStateless render
+    where
+      render props = createElement cls (f props) []
 
 -- | Read the component props.
 foreign import getProps :: forall props state eff.
