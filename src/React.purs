@@ -259,6 +259,18 @@ type ReactSpec props state eff =
   , componentWillUnmount :: ComponentWillUnmount props state eff
   }
 
+cmapSpec
+  :: forall props' props state eff
+   . (props -> props')
+  -> ReactSpec props' state eff
+  -> ReactSpec props Unit eff
+cmapSpec f sp = (spec unit renderFn) { displayName = sp.displayName <> "Mapped" }
+  where
+    cls = createClass sp
+    renderFn this = do
+      props <- getProps this
+      pure $ createElement cls (f props) []
+
 -- | Create a component specification with a provided state.
 spec :: forall props state eff.
   state -> Render props state eff -> ReactSpec props state eff
