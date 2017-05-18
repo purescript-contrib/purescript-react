@@ -2,6 +2,7 @@
 "use strict";
 
 var React = require("react");
+var createReactClass = require("create-react-class");
 
 function getProps(this_) {
   return function(){
@@ -117,7 +118,7 @@ function createClass(spec) {
     }
   };
 
-  return React.createClass(result);
+  return createReactClass(result);
 }
 exports.createClass = createClass;
 
