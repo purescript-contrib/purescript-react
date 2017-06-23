@@ -470,10 +470,6 @@ onAnimationIteration :: forall eff props state result.
   (Event -> EventHandlerContext eff props state result) -> Props
 onAnimationIteration f = unsafeMkProps "onAnimationIteration" (handle f)
 
-onTransitionStart :: forall eff props state result.
-  (Event -> EventHandlerContext eff props state result) -> Props
-onTransitionStart f = unsafeMkProps "onTransitionStart" (handle f)
-
 onTransitionEnd :: forall eff props state result.
   (Event -> EventHandlerContext eff props state result) -> Props
 onTransitionEnd f = unsafeMkProps "onTransitionEnd" (handle f)
