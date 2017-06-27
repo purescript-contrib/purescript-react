@@ -43,6 +43,7 @@ module React
 
   , getProps
   , getRefs
+  , readRef
   , getChildren
 
   , readState
@@ -65,7 +66,11 @@ module React
   ) where
 
 import Prelude
+
 import Control.Monad.Eff (kind Effect, Eff)
+import DOM.Node.Types (Node, readNode)
+import Data.Foreign (F, Foreign, toForeign)
+import Data.Foreign.Index (readProp)
 import Unsafe.Coerce (unsafeCoerce)
 
 -- | Name of a tag.
@@ -293,6 +298,16 @@ foreign import getProps :: forall props state eff.
 foreign import getRefs :: forall props state access eff.
   ReactThis props state ->
   Eff (refs :: ReactRefs (read :: Read | access) | eff) Refs
+
+-- | Read named ref from Refs
+readRef :: forall access eff.
+  String ->
+  Refs ->
+  Eff (refs :: ReactRefs (read :: Read | access) | eff) (F Node)
+readRef name refs = pure $ join (readNode <$> prop)
+  where
+    prop :: F Foreign
+    prop = readProp name (toForeign refs)
 
 -- | Read the component children property.
 foreign import getChildren :: forall props state eff.

@@ -297,6 +297,9 @@ radioGroup = unsafeMkProps "radioGroup"
 readOnly :: Boolean -> Props
 readOnly = unsafeMkProps "readOnly"
 
+ref :: String -> Props
+ref = unsafeMkProps "ref"
+
 rel :: String -> Props
 rel = unsafeMkProps "rel"
 
