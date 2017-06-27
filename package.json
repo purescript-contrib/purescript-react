@@ -2,6 +2,7 @@
   "name": "purescript-react",
   "files": [],
   "peerDependencies": {
-    "react": "^0.14.3"
+    "react": "^15.6.1",
+    "create-react-class": "^15.6.0"
   }
 }

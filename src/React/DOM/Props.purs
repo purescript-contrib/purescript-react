@@ -458,6 +458,26 @@ security = unsafeMkProps "security"
 unselectable :: Boolean -> Props
 unselectable = unsafeMkProps "unselectable"
 
+onAnimationStart :: forall eff props state result.
+  (Event -> EventHandlerContext eff props state result) -> Props
+onAnimationStart f = unsafeMkProps "onAnimationStart" (handle f)
+
+onAnimationEnd :: forall eff props state result.
+  (Event -> EventHandlerContext eff props state result) -> Props
+onAnimationEnd f = unsafeMkProps "onAnimationEnd" (handle f)
+
+onAnimationIteration :: forall eff props state result.
+  (Event -> EventHandlerContext eff props state result) -> Props
+onAnimationIteration f = unsafeMkProps "onAnimationIteration" (handle f)
+
+onTransitionEnd :: forall eff props state result.
+  (Event -> EventHandlerContext eff props state result) -> Props
+onTransitionEnd f = unsafeMkProps "onTransitionEnd" (handle f)
+
+onLoad :: forall eff props state result.
+  (Event -> EventHandlerContext eff props state result) -> Props
+onLoad f = unsafeMkProps "onLoad" (handle f)
+
 onCopy :: forall eff props state result.
   (Event -> EventHandlerContext eff props state result) -> Props
 onCopy f = unsafeMkProps "onCopy" (handle f)
@@ -497,6 +517,10 @@ onChange f = unsafeMkProps "onChange" (handle f)
 onInput :: forall eff props state result.
   (Event -> EventHandlerContext eff props state result) -> Props
 onInput f = unsafeMkProps "onInput" (handle f)
+
+onInvalid :: forall eff props state result.
+  (Event -> EventHandlerContext eff props state result) -> Props
+onInvalid f = unsafeMkProps "onInvalid" (handle f)
 
 onSubmit :: forall eff props state result.
   (Event -> EventHandlerContext eff props state result) -> Props
@@ -593,3 +617,6 @@ onScroll f = unsafeMkProps "onScroll" (handle f)
 onWheel :: forall eff props state result.
   (Event -> EventHandlerContext eff props state result) -> Props
 onWheel f = unsafeMkProps "onWheel" (handle f)
+
+suppressContentEditableWarning :: Boolean -> Props
+suppressContentEditableWarning = unsafeMkProps "suppressContentEditableWarning"
