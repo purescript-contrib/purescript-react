@@ -300,6 +300,12 @@ readOnly = unsafeMkProps "readOnly"
 ref :: String -> Props
 ref = unsafeMkProps "ref"
 
+refCb
+  :: forall props state
+   . (ReactThis props state -> Eff (refs :: ReactRefs (write :: Write | access) | eff)) 
+  -> Props
+refCb cb = unsafeMkProps "ref" (unsafePerformEff <<< cb)
+
 rel :: String -> Props
 rel = unsafeMkProps "rel"
 
