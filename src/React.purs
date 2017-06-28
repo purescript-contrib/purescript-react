@@ -69,7 +69,7 @@ import Prelude
 
 import Control.Monad.Eff (kind Effect, Eff)
 import DOM.Node.Types (Node, readNode)
-import Data.Foreign (F, Foreign, toForeign)
+import Data.Foreign (F, Foreign)
 import Data.Foreign.Index (readProp)
 import Unsafe.Coerce (unsafeCoerce)
 
@@ -302,12 +302,9 @@ foreign import getRefs :: forall props state access eff.
 -- | Read named ref from Refs
 readRef :: forall access eff.
   String ->
-  Refs ->
+  Foreign ->
   Eff (refs :: ReactRefs (read :: Read | access) | eff) (F Node)
-readRef name refs = pure $ join (readNode <$> prop)
-  where
-    prop :: F Foreign
-    prop = readProp name (toForeign refs)
+readRef name refs = pure $ join (readNode <$> readProp name refs)
 
 -- | Read the component children property.
 foreign import getChildren :: forall props state eff.
