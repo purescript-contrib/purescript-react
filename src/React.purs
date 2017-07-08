@@ -1,7 +1,8 @@
 -- | This module defines foreign types and functions which wrap React's functionality.
 
 module React
-  ( ReactElement
+  ( class ReactRender
+  , ReactElement
   , ReactComponent
   , ReactThis
   , TagName
@@ -147,15 +148,21 @@ type EventHandlerContext eff props state result =
     | eff
     ) result
 
+class ReactRender a
+
+instance arrayReactRender :: ReactRender (Array ReactElement)
+
+instance reactElementReactRender :: ReactRender ReactElement
+
 -- | A render function.
-type Render props state eff =
+type Render props state render eff =
   ReactThis props state ->
   Eff
     ( props :: ReactProps
     , refs :: ReactRefs Disallowed
     , state :: ReactState ReadOnly
     | eff
-    ) ReactElement
+    ) render
 
 -- | A get initial state function.
 type GetInitialState props state eff =
@@ -245,8 +252,8 @@ type ComponentWillUnmount props state eff =
     ) Unit
 
 -- | A specification of a component.
-type ReactSpec props state eff =
-  { render :: Render props state eff
+type ReactSpec props state render eff =
+  { render :: Render props state render eff
   , displayName :: String
   , getInitialState :: GetInitialState props state eff
   , componentWillMount :: ComponentWillMount props state eff
@@ -259,15 +266,17 @@ type ReactSpec props state eff =
   }
 
 -- | Create a component specification with a provided state.
-spec :: forall props state eff.
-  state -> Render props state eff -> ReactSpec props state eff
+spec :: forall props state render eff.
+  ReactRender render =>
+  state -> Render props state render eff -> ReactSpec props state render eff
 spec state = spec' \_ -> pure state
 
 -- | Create a component specification with a get initial state function.
-spec' :: forall props state eff.
+spec' :: forall props state render eff.
+  ReactRender render =>
   GetInitialState props state eff ->
-  Render props state eff ->
-  ReactSpec props state eff
+  Render props state render eff ->
+  ReactSpec props state render eff
 spec' getInitialState renderFn =
   { render: renderFn
   , displayName: ""
@@ -320,8 +329,8 @@ foreign import transformState :: forall props state eff.
   Eff (state :: ReactState ReadWrite | eff) Unit
 
 -- | Create a React class from a specification.
-foreign import createClass :: forall props state eff.
-  ReactSpec props state eff -> ReactClass props
+foreign import createClass :: forall props state render eff.
+  ReactSpec props state render eff -> ReactClass props
 
 -- | Create a stateless React class.
 createClassStateless :: forall props.
