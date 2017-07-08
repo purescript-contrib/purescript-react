@@ -1,6 +1,10 @@
 module React.DOM.Props where
 
-import React (Event, EventHandlerContext, KeyboardEvent, MouseEvent, handle)
+import Control.Monad.Eff (Eff)
+import Control.Monad.Eff.Unsafe (unsafePerformEff)
+import DOM.Node.Types (Node)
+import Prelude (Unit, (<<<))
+import React (Event, EventHandlerContext, KeyboardEvent, MouseEvent, ReactRefs, Write, handle)
 
 foreign import data Props :: Type
 
@@ -300,9 +304,13 @@ readOnly = unsafeMkProps "readOnly"
 ref :: String -> Props
 ref = unsafeMkProps "ref"
 
+-- | You can use `writeRef` to store a reference on `Refs`.
+-- | ``` purescrript
+-- | div [ refCb (writeRef this "inputEl") ] [...]
+-- | ```
 refCb
-  :: forall props state
-   . (ReactThis props state -> Eff (refs :: ReactRefs (write :: Write | access) | eff)) 
+  :: forall access eff
+   . (Node -> Eff (refs :: ReactRefs (write :: Write | access) | eff) Unit)
   -> Props
 refCb cb = unsafeMkProps "ref" (unsafePerformEff <<< cb)
 

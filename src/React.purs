@@ -44,6 +44,7 @@ module React
   , getProps
   , getRefs
   , readRef
+  , writeRef
   , getChildren
 
   , readState
@@ -68,9 +69,9 @@ module React
 import Prelude
 
 import Control.Monad.Eff (kind Effect, Eff)
-import DOM.Node.Types (Node, readNode)
-import Data.Foreign (F, Foreign)
-import Data.Foreign.Index (readProp)
+import DOM.Node.Types (Node)
+import Data.Maybe (Maybe)
+import Data.Nullable (Nullable, toMaybe)
 import Unsafe.Coerce (unsafeCoerce)
 
 -- | Name of a tag.
@@ -300,11 +301,22 @@ foreign import getRefs :: forall props state access eff.
   Eff (refs :: ReactRefs (read :: Read | access) | eff) Refs
 
 -- | Read named ref from Refs
-readRef :: forall access eff.
+foreign import readRefImpl :: forall props state access eff.
+  ReactThis props state ->
   String ->
-  Foreign ->
-  Eff (refs :: ReactRefs (read :: Read | access) | eff) (F Node)
-readRef name refs = pure $ join (readNode <$> readProp name refs)
+  Eff (refs :: ReactRefs (read :: Read | access) | eff) (Nullable Node)
+
+readRef :: forall props state access eff.
+  ReactThis props state ->
+  String ->
+  Eff (refs :: ReactRefs (read :: Read | access) | eff) (Maybe Node)
+readRef this name = toMaybe <$> readRefImpl this name
+
+foreign import writeRef :: forall props state access eff.
+  ReactThis props state ->
+  String ->
+  Node ->
+  Eff (refs :: ReactRefs (write :: Write | access) | eff) Unit
 
 -- | Read the component children property.
 foreign import getChildren :: forall props state eff.
