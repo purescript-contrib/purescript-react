@@ -50,6 +50,8 @@ module React
   , writeStateWithCallback
   , transformState
 
+  , forceUpdate
+
   , handle
   , preventDefault
   , stopPropagation
@@ -334,6 +336,14 @@ createClassStateless' :: forall props.
 createClassStateless' k =
   createClassStateless \props ->
     k props (childrenToArray (unsafeCoerce props).children)
+
+foreign import forceUpdateImpl :: forall eff props state.
+  EffFn1 eff (ReactThis props state) Unit
+
+-- | Force render of a react component.
+forceUpdate :: forall eff props state.
+  ReactThis props state -> Eff eff Unit
+forceUpdate this = runEffFn1 forceUpdateImpl this
 
 -- | Create an event handler.
 foreign import handle :: forall eff ev props state result.
