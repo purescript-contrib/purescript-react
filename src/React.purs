@@ -51,6 +51,7 @@ module React
   , transformState
 
   , forceUpdate
+  , forceUpdateCb
 
   , handle
   , preventDefault
@@ -67,7 +68,9 @@ module React
   ) where
 
 import Prelude
+
 import Control.Monad.Eff (kind Effect, Eff)
+import Control.Monad.Eff.Uncurried (EffFn1, EffFn2, runEffFn1, runEffFn2)
 import Unsafe.Coerce (unsafeCoerce)
 
 -- | Name of a tag.
@@ -344,6 +347,17 @@ foreign import forceUpdateImpl :: forall eff props state.
 forceUpdate :: forall eff props state.
   ReactThis props state -> Eff eff Unit
 forceUpdate this = runEffFn1 forceUpdateImpl this
+
+foreign import forceUpdateCbImpl :: forall eff e props state.
+  EffFn2 eff
+    (ReactThis props state)
+    (Eff e Unit)
+    Unit
+
+-- | Force render and then run an Eff computation.
+forceUpdateCb :: forall eff props state.
+  ReactThis props state -> Eff eff Unit -> Eff eff Unit
+forceUpdateCb this m = runEffFn2 forceUpdateCbImpl this m
 
 -- | Create an event handler.
 foreign import handle :: forall eff ev props state result.
