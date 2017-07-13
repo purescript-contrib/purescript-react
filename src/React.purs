@@ -70,7 +70,7 @@ module React
 import Prelude
 
 import Control.Monad.Eff (kind Effect, Eff)
-import Control.Monad.Eff.Uncurried (EffFn1, EffFn2, runEffFn1, runEffFn2)
+import Control.Monad.Eff.Uncurried (EffFn2, runEffFn2)
 import Unsafe.Coerce (unsafeCoerce)
 
 -- | Name of a tag.
@@ -340,13 +340,10 @@ createClassStateless' k =
   createClassStateless \props ->
     k props (childrenToArray (unsafeCoerce props).children)
 
-foreign import forceUpdateImpl :: forall eff props state.
-  EffFn1 eff (ReactThis props state) Unit
-
 -- | Force render of a react component.
 forceUpdate :: forall eff props state.
   ReactThis props state -> Eff eff Unit
-forceUpdate this = runEffFn1 forceUpdateImpl this
+forceUpdate this = forceUpdateCb this (pure unit)
 
 foreign import forceUpdateCbImpl :: forall eff e props state.
   EffFn2 eff
