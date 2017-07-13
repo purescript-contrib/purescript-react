@@ -122,12 +122,6 @@ function createClass(spec) {
 }
 exports.createClass = createClass;
 
-function forceUpdateImpl(this_) {
-  this_.forceUpdate();
-  return {};
-};
-exports.forceUpdateImpl = forceUpdateImpl
-
 function forceUpdateCbImpl(this_, cb) {
   this_.forceUpdate(function() {
     return cb();
