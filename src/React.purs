@@ -333,13 +333,15 @@ foreign import createClass :: forall props state render eff.
   ReactSpec props state render eff -> ReactClass props
 
 -- | Create a stateless React class.
-createClassStateless :: forall props.
-  (props -> ReactElement) -> ReactClass props
+createClassStateless :: forall props render.
+  ReactRender render =>
+  (props -> render) -> ReactClass props
 createClassStateless = unsafeCoerce
 
 -- | Create a stateless React class with children access.
-createClassStateless' :: forall props.
-  (props -> Array ReactElement -> ReactElement) -> ReactClass props
+createClassStateless' :: forall props render.
+  ReactRender render =>
+  (props -> Array ReactElement -> render) -> ReactClass props
 createClassStateless' k =
   createClassStateless \props ->
     k props (childrenToArray (unsafeCoerce props).children)
