@@ -65,6 +65,9 @@ module React
   , createElementTagName
   , createElementTagNameDynamic
   , createFactory
+
+  , Children
+  , childrenToArray
   ) where
 
 import Prelude
