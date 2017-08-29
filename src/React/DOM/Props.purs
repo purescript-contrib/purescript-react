@@ -620,3 +620,10 @@ onWheel f = unsafeMkProps "onWheel" (handle f)
 
 suppressContentEditableWarning :: Boolean -> Props
 suppressContentEditableWarning = unsafeMkProps "suppressContentEditableWarning"
+
+-- SVG attributes
+x :: Int -> Props
+x = unsafeMkProps "x"
+
+y :: Int -> Props
+y = unsafeMkProps "y"
