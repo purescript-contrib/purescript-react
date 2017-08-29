@@ -6,7 +6,7 @@ Low-level React Bindings for PureScript.
 
 For a more high-level set of bindings, you might like to look at `purescript-thermite`.
 
-- [Module Documentation](docs/)
+- [Module Documentation](https://pursuit.purescript.org/packages/purescript-react/)
 
 ```
 bower install purescript-react
