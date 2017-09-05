@@ -19,6 +19,7 @@ module React
   , ReactRefs
 
   , Refs
+  , Ref
 
   , Render
   , GetInitialState
@@ -69,7 +70,6 @@ module React
 import Prelude
 
 import Control.Monad.Eff (kind Effect, Eff)
-import DOM.Node.Types (Node)
 import Data.Maybe (Maybe)
 import Data.Nullable (Nullable, toMaybe)
 import Unsafe.Coerce (unsafeCoerce)
@@ -300,22 +300,24 @@ foreign import getRefs :: forall props state access eff.
   ReactThis props state ->
   Eff (refs :: ReactRefs (read :: Read | access) | eff) Refs
 
+foreign import data Ref :: Type
+
 -- | Read named ref from Refs
 foreign import readRefImpl :: forall props state access eff.
   ReactThis props state ->
   String ->
-  Eff (refs :: ReactRefs (read :: Read | access) | eff) (Nullable Node)
+  Eff (refs :: ReactRefs (read :: Read | access) | eff) (Nullable Ref)
 
 readRef :: forall props state access eff.
   ReactThis props state ->
   String ->
-  Eff (refs :: ReactRefs (read :: Read | access) | eff) (Maybe Node)
+  Eff (refs :: ReactRefs (read :: Read | access) | eff) (Maybe Ref)
 readRef this name = toMaybe <$> readRefImpl this name
 
 foreign import writeRef :: forall props state access eff.
   ReactThis props state ->
   String ->
-  Node ->
+  Ref ->
   Eff (refs :: ReactRefs (write :: Write | access) | eff) Unit
 
 -- | Read the component children property.

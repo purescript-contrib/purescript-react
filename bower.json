@@ -20,7 +20,8 @@
     "purescript-eff": "^3.0.0",
     "purescript-prelude": "^3.0.0",
     "purescript-unsafe-coerce": "^3.0.0",
-    "purescript-dom": "^4.5.0"
+    "purescript-maybe": "^3.0.0",
+    "purescript-nullable": "^3.0.0"
   },
   "devDependencies": {
     "purescript-console": "^3.0.0",

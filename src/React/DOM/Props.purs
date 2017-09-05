@@ -2,9 +2,8 @@ module React.DOM.Props where
 
 import Control.Monad.Eff (Eff)
 import Control.Monad.Eff.Unsafe (unsafePerformEff)
-import DOM.Node.Types (Node)
 import Prelude (Unit, (<<<))
-import React (Event, EventHandlerContext, KeyboardEvent, MouseEvent, ReactRefs, Write, handle)
+import React (Event, EventHandlerContext, KeyboardEvent, MouseEvent, ReactRefs, Ref, Write, handle)
 
 foreign import data Props :: Type
 
@@ -310,7 +309,7 @@ ref = unsafeMkProps "ref"
 -- | ```
 refCb
   :: forall access eff
-   . (Node -> Eff (refs :: ReactRefs (write :: Write | access) | eff) Unit)
+   . (Ref -> Eff (refs :: ReactRefs (write :: Write | access) | eff) Unit)
   -> Props
 refCb cb = unsafeMkProps "ref" (unsafePerformEff <<< cb)
 
