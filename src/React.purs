@@ -25,6 +25,7 @@ module React
   , GetInitialState
   , ComponentWillMount
   , ComponentDidMount
+  , ComponentDidCatch
   , ComponentWillReceiveProps
   , ShouldComponentUpdate
   , ComponentWillUpdate
@@ -66,7 +67,12 @@ module React
   ) where
 
 import Prelude
+
 import Control.Monad.Eff (kind Effect, Eff)
+import Control.Monad.Eff.Exception (Error)
+import Data.Function.Uncurried (Fn2, runFn2)
+import Data.Maybe (Maybe(Nothing))
+import Data.Nullable (Nullable, toNullable)
 import Unsafe.Coerce (unsafeCoerce)
 
 -- | Name of a tag.
@@ -200,6 +206,18 @@ type ComponentDidMount props state eff =
     | eff
     ) Unit
 
+type ComponentDidCatch props state eff =
+  ReactThis props state ->
+  Error ->
+  { componentStack :: String } ->
+  Eff
+    ( props :: ReactProps
+    , state :: ReactState ReadWrite
+    , refs :: ReactRefs ReadOnly
+    | eff
+    ) Unit
+
+
 -- | A component will receive props function.
 type ComponentWillReceiveProps props state eff =
    ReactThis props state ->
@@ -264,6 +282,7 @@ type ReactSpec props state render eff =
   , getInitialState :: GetInitialState props state eff
   , componentWillMount :: ComponentWillMount props state eff
   , componentDidMount :: ComponentDidMount props state eff
+  , componentDidCatch :: Maybe (ComponentDidCatch props state eff)
   , componentWillReceiveProps :: ComponentWillReceiveProps props state eff
   , shouldComponentUpdate :: ShouldComponentUpdate props state eff
   , componentWillUpdate :: ComponentWillUpdate props state eff
@@ -289,6 +308,7 @@ spec' getInitialState renderFn =
   , getInitialState: getInitialState
   , componentWillMount: \_ -> pure unit
   , componentDidMount: \_ -> pure unit
+  , componentDidCatch: Nothing
   , componentWillReceiveProps: \_ _ -> pure unit
   , shouldComponentUpdate: \_ _ _ -> pure true
   , componentWillUpdate: \_ _ _ -> pure unit
@@ -335,8 +355,15 @@ foreign import transformState :: forall props state eff.
   Eff (state :: ReactState ReadWrite | eff) Unit
 
 -- | Create a React class from a specification.
-foreign import createClass :: forall props state render eff.
+foreign import createClass' :: forall props state render eff.
+  Fn2
+    (forall a. Maybe a -> Nullable a)
+    (ReactSpec props state render eff)
+    (ReactClass props)
+
+createClass :: forall props state render eff.
   ReactSpec props state render eff -> ReactClass props
+createClass spc = runFn2 createClass' toNullable spc
 
 -- | Create a stateless React class.
 createClassStateless :: forall props render.
