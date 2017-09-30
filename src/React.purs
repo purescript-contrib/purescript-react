@@ -154,6 +154,8 @@ instance arrayReactRender :: ReactRender (Array ReactElement)
 
 instance reactElementReactRender :: ReactRender ReactElement
 
+instance stringReactRender :: ReactRender String
+
 -- | A render function.
 type Render props state render eff =
   ReactThis props state ->
