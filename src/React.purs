@@ -156,6 +156,10 @@ instance reactElementReactRender :: ReactRender ReactElement
 
 instance stringReactRender :: ReactRender String
 
+instance intReactRender :: ReactRender Int
+
+instance numberReactRender :: ReactRender Number
+
 -- | A render function.
 type Render props state render eff =
   ReactThis props state ->
