@@ -321,7 +321,7 @@ readRef this name = toMaybe <$> readRefImpl this name
 foreign import writeRef :: forall props state access eff.
   ReactThis props state ->
   String ->
-  Ref ->
+  Nullable Ref ->
   Eff (refs :: ReactRefs (write :: Write | access) | eff) Unit
 
 -- | Read the component children property.

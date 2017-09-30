@@ -2,6 +2,7 @@ module React.DOM.Props where
 
 import Control.Monad.Eff (Eff)
 import Control.Monad.Eff.Unsafe (unsafePerformEff)
+import Data.Nullable (Nullable)
 import Prelude (Unit, (<<<))
 import React (Event, EventHandlerContext, KeyboardEvent, MouseEvent, ReactRefs, Ref, Write, handle)
 
@@ -309,7 +310,7 @@ ref = unsafeMkProps "ref"
 -- | ```
 withRef
   :: forall access eff
-   . (Ref -> Eff (refs :: ReactRefs (write :: Write | access) | eff) Unit)
+   . (Nullable Ref -> Eff (refs :: ReactRefs (write :: Write | access) | eff) Unit)
   -> Props
 withRef cb = unsafeMkProps "ref" (unsafePerformEff <<< cb)
 
