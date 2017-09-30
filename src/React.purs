@@ -53,6 +53,9 @@ module React
   , writeStateWithCallback
   , transformState
 
+  , forceUpdate
+  , forceUpdateCb
+
   , handle
   , preventDefault
   , stopPropagation
@@ -65,6 +68,9 @@ module React
   , createElementTagName
   , createElementTagNameDynamic
   , createFactory
+
+  , Children
+  , childrenToArray
   ) where
 
 import Prelude
@@ -72,6 +78,7 @@ import Prelude
 import Control.Monad.Eff (kind Effect, Eff)
 import Data.Maybe (Maybe)
 import Data.Nullable (Nullable, toMaybe)
+import Control.Monad.Eff.Uncurried (EffFn2, runEffFn2)
 import Unsafe.Coerce (unsafeCoerce)
 
 -- | Name of a tag.
@@ -364,6 +371,22 @@ createClassStateless' :: forall props.
 createClassStateless' k =
   createClassStateless \props ->
     k props (childrenToArray (unsafeCoerce props).children)
+
+-- | Force render of a react component.
+forceUpdate :: forall eff props state.
+  ReactThis props state -> Eff eff Unit
+forceUpdate this = forceUpdateCb this (pure unit)
+
+foreign import forceUpdateCbImpl :: forall eff e props state.
+  EffFn2 eff
+    (ReactThis props state)
+    (Eff e Unit)
+    Unit
+
+-- | Force render and then run an Eff computation.
+forceUpdateCb :: forall eff props state.
+  ReactThis props state -> Eff eff Unit -> Eff eff Unit
+forceUpdateCb this m = runEffFn2 forceUpdateCbImpl this m
 
 -- | Create an event handler.
 foreign import handle :: forall eff ev props state result.

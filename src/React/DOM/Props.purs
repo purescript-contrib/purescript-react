@@ -637,3 +637,43 @@ onWheel f = unsafeMkProps "onWheel" (handle f)
 
 suppressContentEditableWarning :: Boolean -> Props
 suppressContentEditableWarning = unsafeMkProps "suppressContentEditableWarning"
+
+-- SVG attributes
+x :: Int -> Props
+x = unsafeMkProps "x"
+
+y :: Int -> Props
+y = unsafeMkProps "y"
+
+cx :: Int -> Props
+cx = unsafeMkProps "cx"
+
+cy :: Int -> Props
+cy = unsafeMkProps "cy"
+
+r :: Int -> Props
+r = unsafeMkProps "r"
+
+fill :: String -> Props
+fill = unsafeMkProps "fill"
+
+opacity :: Int -> Props
+opacity = unsafeMkProps "opacity"
+
+fillOpacity :: Int -> Props
+fillOpacity = unsafeMkProps "fillOpacity"
+
+stroke :: String -> Props
+stroke = unsafeMkProps "stroke"
+
+strokeWidth :: Int -> Props
+strokeWidth = unsafeMkProps "strokeWidth"
+
+points :: String -> Props
+points = unsafeMkProps "points"
+
+d :: String -> Props
+d = unsafeMkProps "d"
+
+viewBox :: String -> Props
+viewBox = unsafeMkProps "viewBox"

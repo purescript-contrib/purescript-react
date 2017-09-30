@@ -28,6 +28,9 @@ ellipse = mkDOM (IsDynamic false) "ellipse"
 ellipse' :: Array ReactElement -> ReactElement
 ellipse' = ellipse []
 
+foreignObject :: Array Props -> Array ReactElement -> ReactElement
+foreignObject = mkDOM (IsDynamic false) "foreignObject"
+
 g :: Array Props -> Array ReactElement -> ReactElement
 g = mkDOM (IsDynamic false) "g"
 
