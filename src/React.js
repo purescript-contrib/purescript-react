@@ -127,6 +127,14 @@ function createClass(toNullable, spec) {
 }
 exports["createClass'"] = createClass;
 
+function forceUpdateCbImpl(this_, cb) {
+  this_.forceUpdate(function() {
+    return cb();
+  });
+  return {};
+};
+exports.forceUpdateCbImpl = forceUpdateCbImpl;
+
 function handle(f) {
   return function(e){
     return f(e)();
