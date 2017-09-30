@@ -300,20 +300,24 @@ foreign import getRefs :: forall props state access eff.
   ReactThis props state ->
   Eff (refs :: ReactRefs (read :: Read | access) | eff) Refs
 
+-- | Ref type.  You can store `Ref` types on `Refs` object (which in
+-- | corresponds to `this.refs`).  Use `ReactDOM.refToNode` if you want to
+-- store a `DOM.Node.Types.Node`
 foreign import data Ref :: Type
 
--- | Read named ref from Refs
 foreign import readRefImpl :: forall props state access eff.
   ReactThis props state ->
   String ->
   Eff (refs :: ReactRefs (read :: Read | access) | eff) (Nullable Ref)
 
+-- | Read named ref from `Refs`.
 readRef :: forall props state access eff.
   ReactThis props state ->
   String ->
   Eff (refs :: ReactRefs (read :: Read | access) | eff) (Maybe Ref)
 readRef this name = toMaybe <$> readRefImpl this name
 
+-- | Write a `Ref` to `Refs`
 foreign import writeRef :: forall props state access eff.
   ReactThis props state ->
   String ->

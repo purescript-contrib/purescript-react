@@ -305,13 +305,13 @@ ref = unsafeMkProps "ref"
 
 -- | You can use `writeRef` to store a reference on `Refs`.
 -- | ``` purescrript
--- | div [ refCb (writeRef this "inputEl") ] [...]
+-- | div [ withRef (writeRef this "inputElement") ] [...]
 -- | ```
-refCb
+withRef
   :: forall access eff
    . (Ref -> Eff (refs :: ReactRefs (write :: Write | access) | eff) Unit)
   -> Props
-refCb cb = unsafeMkProps "ref" (unsafePerformEff <<< cb)
+withRef cb = unsafeMkProps "ref" (unsafePerformEff <<< cb)
 
 rel :: String -> Props
 rel = unsafeMkProps "rel"
