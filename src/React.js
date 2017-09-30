@@ -84,6 +84,12 @@ function transformState(this_){
 }
 exports.transformState = transformState;
 
+function createClassStatelessImpl(dn, fn) {
+  fn.displayName = dn;
+  return fn;
+}
+exports.createClassStatelessImpl = createClassStatelessImpl;
+
 function createClass(spec) {
   var result = {
     displayName: spec.displayName,
