@@ -74,6 +74,7 @@ import Prelude
 
 import Control.Monad.Eff (kind Effect, Eff)
 import Control.Monad.Eff.Uncurried (EffFn2, runEffFn2)
+import Data.Function.Uncurried (Fn2, runFn2)
 import Unsafe.Coerce (unsafeCoerce)
 
 -- | Name of a tag.
@@ -331,16 +332,19 @@ foreign import transformState :: forall props state eff.
 foreign import createClass :: forall props state eff.
   ReactSpec props state eff -> ReactClass props
 
--- | Create a stateless React class.
+foreign import createClassStatelessImpl :: forall props. Fn2 String (props -> ReactElement) (ReactClass props)
+
+-- | Create a stateless React class. The first argument will set
+-- | `displayName` of the component.
 createClassStateless :: forall props.
-  (props -> ReactElement) -> ReactClass props
-createClassStateless = unsafeCoerce
+  String -> (props -> ReactElement) -> ReactClass props
+createClassStateless dn fn = runFn2 createClassStatelessImpl dn fn
 
 -- | Create a stateless React class with children access.
 createClassStateless' :: forall props.
-  (props -> Array ReactElement -> ReactElement) -> ReactClass props
-createClassStateless' k =
-  createClassStateless \props ->
+  String -> (props -> Array ReactElement -> ReactElement) -> ReactClass props
+createClassStateless' dn k =
+  createClassStateless dn \props ->
     k props (childrenToArray (unsafeCoerce props).children)
 
 -- | Force render of a react component.
