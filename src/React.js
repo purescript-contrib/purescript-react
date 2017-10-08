@@ -127,6 +127,21 @@ function createClass(toNullable, spec) {
 }
 exports["createClass'"] = createClass;
 
+function capitalize(s) {
+  if (!s)
+    return s;
+  return s.charAt(0).toUpperCase() + s.slice(1);
+};
+
+function createClassStateless(dict) {
+  return function (f) {
+    if (!f.displayName)
+      f.displayName = capitalize(f.name);
+    return f;
+  };
+};
+exports.createClassStateless = createClassStateless;
+
 function forceUpdateCbImpl(this_, cb) {
   this_.forceUpdate(function() {
     return cb();

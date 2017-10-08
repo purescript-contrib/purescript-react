@@ -372,11 +372,17 @@ createClass :: forall props state render eff.
   ReactSpec props state render eff -> ReactClass props
 createClass spc = runFn2 createClass' toNullable spc
 
--- | Create a stateless React class.
-createClassStateless :: forall props render.
+-- | Create a stateless React class.  When using a non anonymous function the
+-- | displayName will be the capitalized name of the function, e.g.
+-- | ``` purescript
+-- | helloWorld = createClassStatelesss hellowWorldCls
+-- |    where
+-- |      hellowWorldCls props = ...
+-- | ```
+-- | Then the `displayName` will be set up to `HellowWorldCls`
+foreign import createClassStateless :: forall props render.
   ReactRender render =>
   (props -> render) -> ReactClass props
-createClassStateless = unsafeCoerce
 
 -- | Create a stateless React class with children access.
 createClassStateless' :: forall props render.
