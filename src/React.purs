@@ -19,6 +19,7 @@ module React
   , ReactRefs
 
   , Refs
+  , Ref
 
   , Render
   , GetInitialState
@@ -43,6 +44,8 @@ module React
 
   , getProps
   , getRefs
+  , readRef
+  , writeRef
   , getChildren
 
   , readState
@@ -73,6 +76,8 @@ module React
 import Prelude
 
 import Control.Monad.Eff (kind Effect, Eff)
+import Data.Maybe (Maybe)
+import Data.Nullable (Nullable, toMaybe)
 import Control.Monad.Eff.Uncurried (EffFn2, runEffFn2)
 import Unsafe.Coerce (unsafeCoerce)
 
@@ -301,6 +306,30 @@ foreign import getProps :: forall props state eff.
 foreign import getRefs :: forall props state access eff.
   ReactThis props state ->
   Eff (refs :: ReactRefs (read :: Read | access) | eff) Refs
+
+-- | Ref type.  You can store `Ref` types on `Refs` object (which in
+-- | corresponds to `this.refs`).  Use `ReactDOM.refToNode` if you want to
+-- store a `DOM.Node.Types.Node`
+foreign import data Ref :: Type
+
+foreign import readRefImpl :: forall props state access eff.
+  ReactThis props state ->
+  String ->
+  Eff (refs :: ReactRefs (read :: Read | access) | eff) (Nullable Ref)
+
+-- | Read named ref from `Refs`.
+readRef :: forall props state access eff.
+  ReactThis props state ->
+  String ->
+  Eff (refs :: ReactRefs (read :: Read | access) | eff) (Maybe Ref)
+readRef this name = toMaybe <$> readRefImpl this name
+
+-- | Write a `Ref` to `Refs`
+foreign import writeRef :: forall props state access eff.
+  ReactThis props state ->
+  String ->
+  Nullable Ref ->
+  Eff (refs :: ReactRefs (write :: Write | access) | eff) Unit
 
 -- | Read the component children property.
 foreign import getChildren :: forall props state eff.
