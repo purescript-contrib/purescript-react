@@ -305,7 +305,7 @@ ref :: String -> Props
 ref = unsafeMkProps "ref"
 
 -- | You can use `writeRef` to store a reference on `Refs`.
--- | ``` purescrript
+-- | ```purescript
 -- | div [ withRef (writeRef this "inputElement") ] [...]
 -- | ```
 withRef

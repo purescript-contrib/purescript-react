@@ -309,7 +309,7 @@ foreign import getRefs :: forall props state access eff.
 
 -- | Ref type.  You can store `Ref` types on `Refs` object (which in
 -- | corresponds to `this.refs`).  Use `ReactDOM.refToNode` if you want to
--- store a `DOM.Node.Types.Node`
+-- | store a `DOM.Node.Types.Node`
 foreign import data Ref :: Type
 
 foreign import readRefImpl :: forall props state access eff.
