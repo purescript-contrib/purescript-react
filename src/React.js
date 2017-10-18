@@ -40,6 +40,30 @@ function getChildren(this_) {
 }
 exports.getChildren = getChildren;
 
+function readRefImpl (this_) {
+  return function(name) {
+    return function() {
+      var refs = this_.refs || {};
+      return refs[name];
+    }
+  }
+}
+exports.readRefImpl = readRefImpl;
+
+function writeRef(this_) {
+  return function(name) {
+    return function(node) {
+      return function() {
+        var refs = this_.refs || {};
+        refs[name] = node;
+        this_.refs = refs;
+        return {};
+      }
+    }
+  }
+}
+exports.writeRef = writeRef;
+
 function writeState(this_) {
   return function(state){
     return function(){
