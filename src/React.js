@@ -187,11 +187,15 @@ function createFactory(class_) {
 exports.createFactory = createFactory;
 
 function preventDefault(event) {
-  return function() { return event.preventDefault();}
+  return function() {
+    event.preventDefault();
+  };
 };
 exports.preventDefault = preventDefault;
 
 function stopPropagation(event) {
-  return function() { return event.stopPropagation();}
+  return function() {
+    event.stopPropagation();
+  };
 };
 exports.stopPropagation = stopPropagation;
