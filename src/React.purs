@@ -1,7 +1,8 @@
 -- | This module defines foreign types and functions which wrap React's functionality.
 
 module React
-  ( ReactElement
+  ( class ReactRender
+  , ReactElement
   , ReactComponent
   , ReactThis
   , TagName
@@ -25,6 +26,7 @@ module React
   , GetInitialState
   , ComponentWillMount
   , ComponentDidMount
+  , ComponentDidCatch
   , ComponentWillReceiveProps
   , ShouldComponentUpdate
   , ComponentWillUpdate
@@ -76,8 +78,10 @@ module React
 import Prelude
 
 import Control.Monad.Eff (kind Effect, Eff)
-import Data.Maybe (Maybe)
-import Data.Nullable (Nullable, toMaybe)
+import Control.Monad.Eff.Exception (Error)
+import Data.Function.Uncurried (Fn2, runFn2)
+import Data.Maybe (Maybe(Nothing))
+import Data.Nullable (Nullable, toMaybe, toNullable)
 import Control.Monad.Eff.Uncurried (EffFn2, runEffFn2)
 import Unsafe.Coerce (unsafeCoerce)
 
@@ -160,15 +164,27 @@ type EventHandlerContext eff props state result =
     | eff
     ) result
 
+class ReactRender a
+
+instance arrayReactRender :: ReactRender (Array ReactElement)
+
+instance reactElementReactRender :: ReactRender ReactElement
+
+instance stringReactRender :: ReactRender String
+
+instance intReactRender :: ReactRender Int
+
+instance numberReactRender :: ReactRender Number
+
 -- | A render function.
-type Render props state eff =
+type Render props state render eff =
   ReactThis props state ->
   Eff
     ( props :: ReactProps
     , refs :: ReactRefs Disallowed
     , state :: ReactState ReadOnly
     | eff
-    ) ReactElement
+    ) render
 
 -- | A get initial state function.
 type GetInitialState props state eff =
@@ -199,6 +215,18 @@ type ComponentDidMount props state eff =
     , refs :: ReactRefs ReadOnly
     | eff
     ) Unit
+
+type ComponentDidCatch props state eff =
+  ReactThis props state ->
+  Error ->
+  { componentStack :: String } ->
+  Eff
+    ( props :: ReactProps
+    , state :: ReactState ReadWrite
+    , refs :: ReactRefs ReadOnly
+    | eff
+    ) Unit
+
 
 -- | A component will receive props function.
 type ComponentWillReceiveProps props state eff =
@@ -258,12 +286,13 @@ type ComponentWillUnmount props state eff =
     ) Unit
 
 -- | A specification of a component.
-type ReactSpec props state eff =
-  { render :: Render props state eff
+type ReactSpec props state render eff =
+  { render :: Render props state render eff
   , displayName :: String
   , getInitialState :: GetInitialState props state eff
   , componentWillMount :: ComponentWillMount props state eff
   , componentDidMount :: ComponentDidMount props state eff
+  , componentDidCatch :: Maybe (ComponentDidCatch props state eff)
   , componentWillReceiveProps :: ComponentWillReceiveProps props state eff
   , shouldComponentUpdate :: ShouldComponentUpdate props state eff
   , componentWillUpdate :: ComponentWillUpdate props state eff
@@ -272,21 +301,24 @@ type ReactSpec props state eff =
   }
 
 -- | Create a component specification with a provided state.
-spec :: forall props state eff.
-  state -> Render props state eff -> ReactSpec props state eff
+spec :: forall props state render eff.
+  ReactRender render =>
+  state -> Render props state render eff -> ReactSpec props state render eff
 spec state = spec' \_ -> pure state
 
 -- | Create a component specification with a get initial state function.
-spec' :: forall props state eff.
+spec' :: forall props state render eff.
+  ReactRender render =>
   GetInitialState props state eff ->
-  Render props state eff ->
-  ReactSpec props state eff
+  Render props state render eff ->
+  ReactSpec props state render eff
 spec' getInitialState renderFn =
   { render: renderFn
   , displayName: ""
   , getInitialState: getInitialState
   , componentWillMount: \_ -> pure unit
   , componentDidMount: \_ -> pure unit
+  , componentDidCatch: Nothing
   , componentWillReceiveProps: \_ _ -> pure unit
   , shouldComponentUpdate: \_ _ _ -> pure true
   , componentWillUpdate: \_ _ _ -> pure unit
@@ -357,17 +389,32 @@ foreign import transformState :: forall props state eff.
   Eff (state :: ReactState ReadWrite | eff) Unit
 
 -- | Create a React class from a specification.
-foreign import createClass :: forall props state eff.
-  ReactSpec props state eff -> ReactClass props
+foreign import createClass' :: forall props state render eff.
+  Fn2
+    (forall a. Maybe a -> Nullable a)
+    (ReactSpec props state render eff)
+    (ReactClass props)
 
--- | Create a stateless React class.
-createClassStateless :: forall props.
-  (props -> ReactElement) -> ReactClass props
-createClassStateless = unsafeCoerce
+createClass :: forall props state render eff.
+  ReactSpec props state render eff -> ReactClass props
+createClass spc = runFn2 createClass' toNullable spc
+
+-- | Create a stateless React class.  When using a non anonymous function the
+-- | displayName will be the capitalized name of the function, e.g.
+-- | ``` purescript
+-- | helloWorld = createClassStatelesss hellowWorldCls
+-- |    where
+-- |      hellowWorldCls props = ...
+-- | ```
+-- | Then the `displayName` will be set up to `HellowWorldCls`
+foreign import createClassStateless :: forall props render.
+  ReactRender render =>
+  (props -> render) -> ReactClass props
 
 -- | Create a stateless React class with children access.
-createClassStateless' :: forall props.
-  (props -> Array ReactElement -> ReactElement) -> ReactClass props
+createClassStateless' :: forall props render.
+  ReactRender render =>
+  (props -> Array ReactElement -> render) -> ReactClass props
 createClassStateless' k =
   createClassStateless \props ->
     k props (childrenToArray (unsafeCoerce props).children)

@@ -19,6 +19,12 @@ mkDOM dynamic tag props = createElement tag (unsafeFromPropsArray props)
 text :: String -> ReactElement
 text = unsafeCoerce
 
+int :: Int -> ReactElement
+int = unsafeCoerce
+
+number :: Number -> ReactElement
+number = unsafeCoerce
+
 a :: Array Props -> Array ReactElement -> ReactElement
 a = mkDOM (IsDynamic false) "a"
 

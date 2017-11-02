@@ -108,7 +108,9 @@ function transformState(this_){
 }
 exports.transformState = transformState;
 
-function createClass(spec) {
+function createClass(toNullable, spec) {
+  var didCatch = toNullable(spec.componentDidCatch)
+
   var result = {
     displayName: spec.displayName,
     render: function(){
@@ -125,6 +127,9 @@ function createClass(spec) {
     componentDidMount: function(){
       return spec.componentDidMount(this)();
     },
+    componentDidCatch: didCatch
+      ? function(error, info) {return didCatch(this)(error)(info)(); }
+      : undefined,
     componentWillReceiveProps: function(nextProps){
       return spec.componentWillReceiveProps(this)(nextProps)();
     },
@@ -144,7 +149,22 @@ function createClass(spec) {
 
   return createReactClass(result);
 }
-exports.createClass = createClass;
+exports["createClass'"] = createClass;
+
+function capitalize(s) {
+  if (!s)
+    return s;
+  return s.charAt(0).toUpperCase() + s.slice(1);
+};
+
+function createClassStateless(dict) {
+  return function (f) {
+    if (!f.displayName)
+      f.displayName = capitalize(f.name);
+    return f;
+  };
+};
+exports.createClassStateless = createClassStateless;
 
 function forceUpdateCbImpl(this_, cb) {
   this_.forceUpdate(function() {
