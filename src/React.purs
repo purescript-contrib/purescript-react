@@ -402,11 +402,11 @@ createClass spc = runFn2 createClass' toNullable spc
 -- | Create a stateless React class.  When using a non anonymous function the
 -- | displayName will be the capitalized name of the function, e.g.
 -- | ``` purescript
--- | helloWorld = createClassStatelesss hellowWorldCls
+-- | helloWorld = createClassStatelesss helloWorldCls
 -- |    where
--- |      hellowWorldCls props = ...
+-- |      helloWorldCls props = ...
 -- | ```
--- | Then the `displayName` will be set up to `HellowWorldCls`
+-- | Then the `displayName` will be set up to `HelloWorldCls`
 foreign import createClassStateless :: forall props render.
   ReactRender render =>
   (props -> render) -> ReactClass props
