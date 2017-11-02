@@ -465,6 +465,6 @@ foreign import data Children :: Type
 -- | Internal conversion function from children elements to an array of React elements
 foreign import childrenToArray :: Children -> Array ReactElement
 
-foreign import preventDefault :: forall eff a. Event -> Eff eff a
+foreign import preventDefault :: forall eff. Event -> Eff eff Unit
 
-foreign import stopPropagation :: forall eff a. Event -> Eff eff a
+foreign import stopPropagation :: forall eff. Event -> Eff eff Unit
