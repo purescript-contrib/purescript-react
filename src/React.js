@@ -13,7 +13,7 @@ exports.getProps = getProps;
 
 function getRefs(this_) {
   return function(){
-    return this_.refs;
+    return this_;
   };
 }
 exports.getRefs = getRefs;
@@ -43,8 +43,7 @@ exports.getChildren = getChildren;
 function readRefImpl (this_) {
   return function(name) {
     return function() {
-      var refs = this_.refs || {};
-      return refs[name];
+      return this_[name];
     }
   }
 }
@@ -54,9 +53,7 @@ function writeRef(this_) {
   return function(name) {
     return function(node) {
       return function() {
-        var refs = this_.refs || {};
-        refs[name] = node;
-        this_.refs = refs;
+        this_[name] = node;
         return {};
       }
     }
