@@ -13,7 +13,7 @@ exports.getProps = getProps;
 
 function getRefs(this_) {
   return function(){
-    return this_;
+    return this_.refs;
   };
 }
 exports.getRefs = getRefs;
