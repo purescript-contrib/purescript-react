@@ -301,13 +301,16 @@ radioGroup = unsafeMkProps "radioGroup"
 readOnly :: Boolean -> Props
 readOnly = unsafeMkProps "readOnly"
 
+-- | You can use `ref` to store a reference on `this.refs`.
+-- | To access the stored reference, `getRefs` can then be used.
 ref :: String -> Props
 ref = unsafeMkProps "ref"
 
--- | You can use `writeRef` to store a reference on `Refs`.
+-- | You can use `writeRef` to store a reference on `this`.
 -- | ```purescript
 -- | div [ withRef (writeRef this "inputElement") ] [...]
 -- | ```
+-- | To access the stored reference, `readRef` can then be used.
 withRef
   :: forall access eff
    . (Nullable Ref -> Eff (refs :: ReactRefs (write :: Write | access) | eff) Unit)
