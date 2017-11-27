@@ -22,7 +22,9 @@
     "purescript-unsafe-coerce": "^3.0.0",
     "purescript-exceptions": "^3.1.0",
     "purescript-maybe": "^3.0.0",
-    "purescript-nullable": "^3.0.0"
+    "purescript-nullable": "^3.0.0",
+    "purescript-foreign": "^4.0.1",
+    "purescript-typelevel-prelude": "^2.5.0"
   },
   "devDependencies": {
     "purescript-console": "^3.0.0",

@@ -1,10 +1,8 @@
 module React.DOM.Props where
 
-import Control.Monad.Eff (Eff)
-import Control.Monad.Eff.Unsafe (unsafePerformEff)
+import Data.Foreign (Foreign)
 import Data.Nullable (Nullable)
-import Prelude (Unit, (<<<))
-import React (Event, EventHandlerContext, KeyboardEvent, MouseEvent, ReactRefs, Ref, Write, handle)
+import React (Event, EventHandlerContext, KeyboardEvent, MouseEvent, handle)
 
 foreign import data Props :: Type
 
@@ -300,22 +298,6 @@ radioGroup = unsafeMkProps "radioGroup"
 
 readOnly :: Boolean -> Props
 readOnly = unsafeMkProps "readOnly"
-
--- | You can use `ref` to store a reference on `this.refs`.
--- | To access the stored reference, `getRefs` can then be used.
-ref :: String -> Props
-ref = unsafeMkProps "ref"
-
--- | You can use `writeRef` to store a reference on `this`.
--- | ```purescript
--- | div [ withRef (writeRef this "inputElement") ] [...]
--- | ```
--- | To access the stored reference, `readRef` can then be used.
-withRef
-  :: forall access eff
-   . (Nullable Ref -> Eff (refs :: ReactRefs (write :: Write | access) | eff) Unit)
-  -> Props
-withRef cb = unsafeMkProps "ref" (unsafePerformEff <<< cb)
 
 rel :: String -> Props
 rel = unsafeMkProps "rel"
@@ -637,6 +619,10 @@ onScroll f = unsafeMkProps "onScroll" (handle f)
 onWheel :: forall eff props state result.
   (Event -> EventHandlerContext eff props state result) -> Props
 onWheel f = unsafeMkProps "onWheel" (handle f)
+
+ref :: forall eff props state result.
+  (Nullable Foreign -> EventHandlerContext eff props state result) -> Props
+ref f = unsafeMkProps "ref" (handle f)
 
 suppressContentEditableWarning :: Boolean -> Props
 suppressContentEditableWarning = unsafeMkProps "suppressContentEditableWarning"
