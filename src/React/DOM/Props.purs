@@ -407,6 +407,9 @@ useMap = unsafeMkProps "useMap"
 value :: String -> Props
 value = unsafeMkProps "value"
 
+value' :: Array String -> Props
+value' = unsafeMkProps "value"
+
 width :: String -> Props
 width = unsafeMkProps "width"
 
