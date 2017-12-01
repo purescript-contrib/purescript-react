@@ -29,6 +29,7 @@ module React
   , ComponentWillUnmount
 
   , ReactClass
+  , Ref
 
   , Event
   , MouseEvent
@@ -308,6 +309,10 @@ foreign import pureComponentImpl :: forall this props eff r.
 
 -- | React class for components.
 foreign import data ReactClass :: Type -> Type
+
+-- | Type for React refs. This type is opaque, but you can use `Data.Foreign`
+-- | and `DOM` to validate the underlying representation.
+foreign import data Ref :: Type
 
 -- | Read the component props.
 foreign import getProps :: forall props state eff.

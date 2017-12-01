@@ -1,8 +1,7 @@
 module React.DOM.Props where
 
-import Data.Foreign (Foreign)
 import Data.Nullable (Nullable)
-import React (Event, EventHandlerContext, KeyboardEvent, MouseEvent, handle)
+import React (Event, EventHandlerContext, KeyboardEvent, MouseEvent, Ref, handle)
 
 foreign import data Props :: Type
 
@@ -621,7 +620,7 @@ onWheel :: forall eff props state result.
 onWheel f = unsafeMkProps "onWheel" (handle f)
 
 ref :: forall eff props state result.
-  (Nullable Foreign -> EventHandlerContext eff props state result) -> Props
+  (Nullable Ref -> EventHandlerContext eff props state result) -> Props
 ref f = unsafeMkProps "ref" (handle f)
 
 suppressContentEditableWarning :: Boolean -> Props
