@@ -497,6 +497,10 @@ onTransitionEnd :: forall eff props state result.
   (Event -> EventHandlerContext eff props state result) -> Props
 onTransitionEnd f = unsafeMkProps "onTransitionEnd" (handle f)
 
+onError :: forall eff props state result.
+  (Event -> EventHandlerContext eff props state result) -> Props
+onError f = unsafeMkProps "onError" (handle f)
+
 onLoad :: forall eff props state result.
   (Event -> EventHandlerContext eff props state result) -> Props
 onLoad f = unsafeMkProps "onLoad" (handle f)
