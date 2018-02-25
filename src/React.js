@@ -60,27 +60,9 @@ function getProps(this_) {
 }
 exports.getProps = getProps;
 
-function childrenToArray(children) {
-  var result = [];
+exports.childrenToArray = React.Children.toArray
 
-  React.Children.forEach(children, function(child){
-    result.push(child);
-  });
-
-  return result;
-}
-exports.childrenToArray = childrenToArray;
-
-function getChildren(this_) {
-  return function(){
-    var children = this_.props.children;
-
-    var result = childrenToArray(children);
-
-    return result;
-  };
-}
-exports.getChildren = getChildren;
+exports.childrenCount = React.Children.count;
 
 function writeState(this_) {
   return function(state){
@@ -144,8 +126,15 @@ function createElement(class_) {
     };
   };
 }
-exports.createElement = createElement;
+exports.createElementImpl = createElement;
 exports.createElementTagName = createElement;
+
+function createLeafElement(class_) {
+  return function(props) {
+    return React.createElement(class_, props);
+  };
+}
+exports.createLeafElementImpl = createLeafElement;
 
 function createElementDynamic(class_) {
   return function(props) {
@@ -154,7 +143,7 @@ function createElementDynamic(class_) {
     };
   };
 };
-exports.createElementDynamic = createElementDynamic;
+exports.createElementDynamicImpl = createElementDynamic;
 exports.createElementTagNameDynamic = createElementDynamic;
 
 function preventDefault(event) {

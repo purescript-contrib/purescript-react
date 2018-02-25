@@ -41,7 +41,6 @@ module React
   , pureComponent
 
   , getProps
-  , getChildren
 
   , readState
   , writeState
@@ -59,9 +58,13 @@ module React
   , createElementDynamic
   , createElementTagName
   , createElementTagNameDynamic
+  , createLeafElement
 
   , Children
   , childrenToArray
+  , childrenCount
+
+  , class ReactPropFields
   ) where
 
 import Prelude
@@ -69,7 +72,6 @@ import Prelude
 import Control.Monad.Eff (kind Effect, Eff)
 import Control.Monad.Eff.Exception (Error)
 import Control.Monad.Eff.Uncurried (EffFn2, runEffFn2)
-import Type.Row (class RowLacks)
 
 -- | Name of a tag.
 type TagName = String
@@ -277,8 +279,6 @@ type ReactClassConstructor props state render eff r =
 component
   :: forall props state render eff r x
    . Union (ReactSpecRequired (Record state) render eff r) x (ReactSpecAll (Record props) (Record state) render eff)
-  => RowLacks "children" props
-  => RowLacks "key" props
   => ReactRender render
   => String
   -> ReactClassConstructor (Record props) (Record state) render eff r
@@ -289,8 +289,6 @@ component = componentImpl
 pureComponent
   :: forall props state render eff r x
    . Union (ReactSpecRequired (Record state) render eff r) x (ReactSpecPure (Record props) (Record state) render eff)
-  => RowLacks "children" props
-  => RowLacks "key" props
   => ReactRender render
   => String
   -> ReactClassConstructor (Record props) (Record state) render eff r
@@ -318,11 +316,6 @@ foreign import data Ref :: Type
 foreign import getProps :: forall props state eff.
   ReactThis props state ->
   Eff (props :: ReactProps | eff) props
-
--- | Read the component children property.
-foreign import getChildren :: forall props state eff.
-  ReactThis props state ->
-  Eff (props :: ReactProps | eff) (Array ReactElement)
 
 -- | Write the component state.
 foreign import writeState :: forall props state access eff.
@@ -367,13 +360,48 @@ forceUpdateCb this m = runEffFn2 forceUpdateCbImpl this m
 foreign import handle :: forall eff ev props state result.
   (ev -> EventHandlerContext eff props state result) -> EventHandler ev
 
+class ReactPropFields (required :: # Type) (given :: # Type)
+
+instance reactPropFields ::
+  ( Union given optional (key :: String | required)
+  , Union optional leftover (key :: String)
+  ) =>
+  ReactPropFields required given
+
 -- | Create an element from a React class spreading the children array. Used when the children are known up front.
-foreign import createElement :: forall props.
-  ReactClass props -> props -> Array ReactElement -> ReactElement
+createElement :: forall required given.
+  ReactPropFields required given =>
+  ReactClass { children :: Children | required } ->
+  { | given } ->
+  Array ReactElement ->
+  ReactElement
+createElement = createElementImpl
 
 -- | Create an element from a React class passing the children array. Used for a dynamic array of children.
-foreign import createElementDynamic :: forall props.
-  ReactClass props -> props -> Array ReactElement -> ReactElement
+createElementDynamic :: forall required given.
+  ReactPropFields required given =>
+  ReactClass { children :: Children | required } ->
+  { | given } ->
+  Array ReactElement ->
+  ReactElement
+createElementDynamic = createElementDynamicImpl
+
+foreign import createElementImpl :: forall required given children.
+  ReactClass required -> given -> Array children -> ReactElement
+
+foreign import createElementDynamicImpl :: forall required given children.
+  ReactClass required -> given -> Array children -> ReactElement
+
+-- | Create an element from a React class that does not require children.
+createLeafElement :: forall required given.
+  ReactPropFields required given =>
+  ReactClass { | required } ->
+  { | given } ->
+  ReactElement
+createLeafElement = createLeafElementImpl
+
+foreign import createLeafElementImpl :: forall required given.
+  ReactClass required -> given -> ReactElement
 
 -- | Create an element from a tag name spreading the children array. Used when the children are known up front.
 foreign import createElementTagName :: forall props.
@@ -388,6 +416,9 @@ foreign import data Children :: Type
 
 -- | Internal conversion function from children elements to an array of React elements
 foreign import childrenToArray :: Children -> Array ReactElement
+
+-- | Returns the number of children.
+foreign import childrenCount :: Children -> Int
 
 foreign import preventDefault :: forall eff. Event -> Eff eff Unit
 
