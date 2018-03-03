@@ -53,6 +53,8 @@ exports.componentImpl = createClass(React.Component);
 
 exports.pureComponentImpl = createClass(React.PureComponent);
 
+exports.statelessComponent = function(x) { return x; };
+
 function getProps(this_) {
   return function(){
     return this_.props;

@@ -39,6 +39,7 @@ module React
 
   , component
   , pureComponent
+  , statelessComponent
 
   , getProps
 
@@ -305,6 +306,10 @@ foreign import pureComponentImpl :: forall this props eff r.
   String ->
   (this -> Eff eff r) ->
   ReactClass props
+
+foreign import statelessComponent :: forall props.
+  (Record props -> ReactElement) ->
+  ReactClass (Record props)
 
 -- | React class for components.
 foreign import data ReactClass :: Type -> Type
