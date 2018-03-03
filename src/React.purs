@@ -72,6 +72,7 @@ import Prelude
 import Control.Monad.Eff (kind Effect, Eff)
 import Control.Monad.Eff.Exception (Error)
 import Control.Monad.Eff.Uncurried (EffFn2, runEffFn2)
+import Data.Nullable (Nullable)
 
 -- | Name of a tag.
 type TagName = String
@@ -362,9 +363,15 @@ foreign import handle :: forall eff ev props state result.
 
 class ReactPropFields (required :: # Type) (given :: # Type)
 
+type ReservedReactPropFields r =
+  ( key :: String
+  , ref :: EventHandler (Nullable Ref)
+  | r
+  )
+
 instance reactPropFields ::
-  ( Union given optional (key :: String | required)
-  , Union optional leftover (key :: String)
+  ( Union given optional (ReservedReactPropFields required)
+  , Union optional leftover (ReservedReactPropFields ())
   ) =>
   ReactPropFields required given
 
