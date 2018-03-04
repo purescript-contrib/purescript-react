@@ -1,8 +1,7 @@
 -- | This module defines foreign types and functions which wrap React's functionality.
 
 module React
-  ( class ReactRender
-  , ReactElement
+  ( ReactElement
   , ReactComponent
   , ReactThis
   , TagName
@@ -66,6 +65,9 @@ module React
   , childrenCount
 
   , class ReactPropFields
+  , class IsReactElement
+  , toElement
+  , fragmentWithKey
   ) where
 
 import Prelude
@@ -74,6 +76,7 @@ import Control.Monad.Eff (kind Effect, Eff)
 import Control.Monad.Eff.Exception (Error)
 import Control.Monad.Eff.Uncurried (EffFn2, runEffFn2)
 import Data.Nullable (Nullable)
+import Unsafe.Coerce (unsafeCoerce)
 
 -- | Name of a tag.
 type TagName = String
@@ -145,25 +148,13 @@ type EventHandlerContext eff props state result =
     | eff
     ) result
 
-class ReactRender a
-
-instance arrayReactRender :: ReactRender (Array ReactElement)
-
-instance reactElementReactRender :: ReactRender ReactElement
-
-instance stringReactRender :: ReactRender String
-
-instance intReactRender :: ReactRender Int
-
-instance numberReactRender :: ReactRender Number
-
 -- | A render function.
-type Render render eff =
+type Render eff =
   Eff
     ( props :: ReactProps
     , state :: ReactState ReadOnly
     | eff
-    ) render
+    ) ReactElement
 
 -- | A component will mount function.
 type ComponentWillMount eff =
@@ -238,9 +229,9 @@ type ComponentWillUnmount eff =
     ) Unit
 
 -- | Required fields for constructing a ReactClass.
-type ReactSpecRequired state render eff r =
+type ReactSpecRequired state eff r =
   ( state :: state
-  , render :: Render render eff
+  , render :: Render eff
   | r
   )
 
@@ -260,40 +251,38 @@ type ReactSpecShouldComponentUpdate props state eff =
   ( shouldComponentUpdate :: ShouldComponentUpdate props state eff
   )
 
-type ReactSpecAll props state render eff =
-  ReactSpecRequired state render eff (ReactSpecOptional props state eff (ReactSpecShouldComponentUpdate props state eff))
+type ReactSpecAll props state eff =
+  ReactSpecRequired state eff (ReactSpecOptional props state eff (ReactSpecShouldComponentUpdate props state eff))
 
-type ReactSpecPure props state render eff =
-  ReactSpecRequired state render eff (ReactSpecOptional props state eff ())
+type ReactSpecPure props state eff =
+  ReactSpecRequired state eff (ReactSpecOptional props state eff ())
 
 -- | The signature for a ReactClass constructor. A constructor takes the
 -- | `ReactThis` context and returns a record with appropriate lifecycle
 -- | methods.
-type ReactClassConstructor props state render eff r =
+type ReactClassConstructor props state eff r =
   ReactThis props state ->
   Eff
     ( props :: ReactProps
     , state :: ReactState Disallowed
     | eff
-    ) (Record (ReactSpecRequired state render eff r))
+    ) (Record (ReactSpecRequired state eff r))
 
 -- | Creates a `ReactClass`` inherited from `React.Component`.
 component
-  :: forall props state render eff r x
-   . Union (ReactSpecRequired (Record state) render eff r) x (ReactSpecAll (Record props) (Record state) render eff)
-  => ReactRender render
+  :: forall props state eff r x
+   . Union (ReactSpecRequired (Record state) eff r) x (ReactSpecAll (Record props) (Record state) eff)
   => String
-  -> ReactClassConstructor (Record props) (Record state) render eff r
+  -> ReactClassConstructor (Record props) (Record state) eff r
   -> ReactClass (Record props)
 component = componentImpl
 
 -- | Creates a `ReactClass`` inherited from `React.PureComponent`.
 pureComponent
-  :: forall props state render eff r x
-   . Union (ReactSpecRequired (Record state) render eff r) x (ReactSpecPure (Record props) (Record state) render eff)
-  => ReactRender render
+  :: forall props state eff r x
+   . Union (ReactSpecRequired (Record state) eff r) x (ReactSpecPure (Record props) (Record state) eff)
   => String
-  -> ReactClassConstructor (Record props) (Record state) render eff r
+  -> ReactClassConstructor (Record props) (Record state) eff r
   -> ReactClass (Record props)
 pureComponent = pureComponentImpl
 
@@ -313,6 +302,8 @@ foreign import statelessComponent :: forall props.
 
 -- | React class for components.
 foreign import data ReactClass :: Type -> Type
+
+foreign import fragment :: ReactClass { children :: Children }
 
 -- | Type for React refs. This type is opaque, but you can use `Data.Foreign`
 -- | and `DOM` to validate the underlying representation.
@@ -435,3 +426,28 @@ foreign import childrenCount :: Children -> Int
 foreign import preventDefault :: forall eff. Event -> Eff eff Unit
 
 foreign import stopPropagation :: forall eff. Event -> Eff eff Unit
+
+class IsReactElement a where
+  toElement :: a -> ReactElement
+
+instance isReactElementString :: IsReactElement String where
+  toElement = unsafeCoerce
+
+instance isReactElementNumber :: IsReactElement Number where
+  toElement = unsafeCoerce
+
+instance isReactElementInt :: IsReactElement Int where
+  toElement = unsafeCoerce
+
+instance isReactElementChildren :: IsReactElement Children where
+  toElement = unsafeCoerce
+
+instance isReactElementReactElement :: IsReactElement ReactElement where
+  toElement = id
+
+instance isReactElementArray :: IsReactElement (Array ReactElement) where
+  toElement = createElement fragment {}
+
+-- | Creates a keyed fragment.
+fragmentWithKey :: String -> Array ReactElement -> ReactElement
+fragmentWithKey = createElement fragment <<< { key: _ }
