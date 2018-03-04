@@ -2,7 +2,58 @@
 "use strict";
 
 var React = require("react");
-var createReactClass = require("create-react-class");
+
+function createClass(baseClass) {
+  function bindProperty(instance, prop, value) {
+    switch (prop) {
+      case 'componentDidMount':
+      case 'componentDidUpdate':
+      case 'componentWillMount':
+      case 'componentWillUnmount':
+      case 'render':
+      case 'state':
+        instance[prop] = value;
+        break;
+
+      case 'componentWillReceiveProps':
+        instance[prop] = function (a) { return value(a)(); };
+        break;
+
+      case 'componentDidCatch':
+      case 'componentWillUpdate':
+      case 'shouldComponentUpdate':
+        instance[prop] = function (a, b) { return value(a)(b)(); };
+        break;
+
+      default:
+        throw new Error('Not a component property: ' + prop);
+    }
+  }
+
+  return function (displayName) {
+    return function (ctrFn) {
+      var Constructor = function (props) {
+        baseClass.call(this, props);
+        var spec = ctrFn(this)();
+        for (var k in spec) {
+          bindProperty(this, k, spec[k]);
+        }
+      };
+
+      Constructor.displayName = displayName;
+      Constructor.prototype = Object.create(baseClass.prototype);
+      Constructor.prototype.constructor = Constructor;
+
+      return Constructor;
+    };
+  };
+}
+
+exports.componentImpl = createClass(React.Component);
+
+exports.pureComponentImpl = createClass(React.PureComponent);
+
+exports.statelessComponent = function(x) { return x; };
 
 function getProps(this_) {
   return function(){
@@ -11,62 +62,14 @@ function getProps(this_) {
 }
 exports.getProps = getProps;
 
-function getRefs(this_) {
-  return function(){
-    return this_.refs;
-  };
-}
-exports.getRefs = getRefs;
+exports.childrenToArray = React.Children.toArray
 
-function childrenToArray(children) {
-  var result = [];
-
-  React.Children.forEach(children, function(child){
-    result.push(child);
-  });
-
-  return result;
-}
-exports.childrenToArray = childrenToArray;
-
-function getChildren(this_) {
-  return function(){
-    var children = this_.props.children;
-
-    var result = childrenToArray(children);
-
-    return result;
-  };
-}
-exports.getChildren = getChildren;
-
-function readRefImpl (this_) {
-  return function(name) {
-    return function() {
-      return this_[name];
-    }
-  }
-}
-exports.readRefImpl = readRefImpl;
-
-function writeRef(this_) {
-  return function(name) {
-    return function(node) {
-      return function() {
-        this_[name] = node;
-        return {};
-      }
-    }
-  }
-}
-exports.writeRef = writeRef;
+exports.childrenCount = React.Children.count;
 
 function writeState(this_) {
   return function(state){
     return function(){
-      this_.setState({
-        state: state
-      });
+      this_.setState(state);
       return state;
     };
   };
@@ -77,9 +80,7 @@ function writeStateWithCallback(this_, cb) {
   return function(state){
     return function(cb){
       return function() {
-        this_.setState({
-          state: state
-        }, cb);
+        this_.setState(state, cb);
         return state;
       };
     };
@@ -89,7 +90,7 @@ exports.writeStateWithCallback = writeStateWithCallback;
 
 function readState(this_) {
   return function(){
-    return this_.state.state;
+    return this_.state;
   };
 }
 exports.readState = readState;
@@ -98,70 +99,12 @@ function transformState(this_){
   return function(update){
     return function(){
       this_.setState(function(old, props){
-        return {state: update(old.state)};
+        return update(old);
       });
     };
   };
 }
 exports.transformState = transformState;
-
-function createClass(toNullable, spec) {
-  var didCatch = toNullable(spec.componentDidCatch)
-
-  var result = {
-    displayName: spec.displayName,
-    render: function(){
-      return spec.render(this)();
-    },
-    getInitialState: function(){
-      return {
-        state: spec.getInitialState(this)()
-      };
-    },
-    componentWillMount: function(){
-      return spec.componentWillMount(this)();
-    },
-    componentDidMount: function(){
-      return spec.componentDidMount(this)();
-    },
-    componentDidCatch: didCatch
-      ? function(error, info) {return didCatch(this)(error)(info)(); }
-      : undefined,
-    componentWillReceiveProps: function(nextProps){
-      return spec.componentWillReceiveProps(this)(nextProps)();
-    },
-    shouldComponentUpdate: function(nextProps, nextState){
-      return spec.shouldComponentUpdate(this)(nextProps)(nextState.state)();
-    },
-    componentWillUpdate: function(nextProps, nextState){
-      return spec.componentWillUpdate(this)(nextProps)(nextState.state)();
-    },
-    componentDidUpdate: function(prevProps, prevState){
-      return spec.componentDidUpdate(this)(prevProps)(prevState.state)();
-    },
-    componentWillUnmount: function(){
-      return spec.componentWillUnmount(this)();
-    }
-  };
-
-  return createReactClass(result);
-}
-exports["createClass'"] = createClass;
-
-function capitalize(s) {
-  if (!s)
-    return s;
-  return s.charAt(0).toUpperCase() + s.slice(1);
-};
-
-function createClassStateless(dict) {
-  return function (f) {
-    if (!f.displayName)
-      f.displayName = capitalize(f.name);
-    return f;
-  };
-};
-exports.createClassStateless = createClassStateless;
 
 function forceUpdateCbImpl(this_, cb) {
   this_.forceUpdate(function() {
@@ -185,8 +128,15 @@ function createElement(class_) {
     };
   };
 }
-exports.createElement = createElement;
+exports.createElementImpl = createElement;
 exports.createElementTagName = createElement;
+
+function createLeafElement(class_) {
+  return function(props) {
+    return React.createElement(class_, props);
+  };
+}
+exports.createLeafElementImpl = createLeafElement;
 
 function createElementDynamic(class_) {
   return function(props) {
@@ -195,13 +145,8 @@ function createElementDynamic(class_) {
     };
   };
 };
-exports.createElementDynamic = createElementDynamic;
+exports.createElementDynamicImpl = createElementDynamic;
 exports.createElementTagNameDynamic = createElementDynamic;
-
-function createFactory(class_) {
-  return React.createFactory(class_);
-}
-exports.createFactory = createFactory;
 
 function preventDefault(event) {
   return function() {
