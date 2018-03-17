@@ -55,6 +55,8 @@ exports.pureComponentImpl = createClass(React.PureComponent);
 
 exports.statelessComponent = function(x) { return x; };
 
+exports.fragment = React.Fragment;
+
 function getProps(this_) {
   return function(){
     return this_.props;
