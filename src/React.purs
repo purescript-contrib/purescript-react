@@ -6,8 +6,6 @@ module React
   , ReactThis
   , TagName
 
-  , EventHandler
-
   , Read
   , Write
   , Disallowed
@@ -30,18 +28,11 @@ module React
   , ReactClass
   , Ref
 
-  , Event
-  , MouseEvent
-  , KeyboardEvent
-
-  , EventHandlerContext
-
   , component
   , pureComponent
   , statelessComponent
 
   , getProps
-
   , readState
   , writeState
   , writeStateWithCallback
@@ -50,15 +41,15 @@ module React
   , forceUpdate
   , forceUpdateCb
 
-  , handle
-  , preventDefault
-  , stopPropagation
-
   , createElement
   , createElementDynamic
   , createElementTagName
   , createElementTagNameDynamic
   , createLeafElement
+
+  , SyntheticEventHandler
+  , SyntheticEventHandlerContext
+  , handle
 
   , Children
   , childrenToArray
@@ -68,6 +59,8 @@ module React
   , class IsReactElement
   , toElement
   , fragmentWithKey
+
+  , module SyntheticEvent
   ) where
 
 import Prelude
@@ -75,7 +68,11 @@ import Prelude
 import Control.Monad.Eff (kind Effect, Eff)
 import Control.Monad.Eff.Exception (Error)
 import Control.Monad.Eff.Uncurried (EffFn2, runEffFn2)
+
 import Data.Nullable (Nullable)
+
+import React.SyntheticEvent (preventDefault, isDefaultPrevented, stopPropagation, isPropagationStopped, persist) as SyntheticEvent
+
 import Unsafe.Coerce (unsafeCoerce)
 
 -- | Name of a tag.
@@ -91,7 +88,7 @@ foreign import data ReactComponent :: Type
 foreign import data ReactThis :: Type -> Type -> Type
 
 -- | An event handler. The type argument represents the type of the event.
-foreign import data EventHandler :: Type -> Type
+foreign import data SyntheticEventHandler :: Type -> Type
 
 -- | This phantom type indicates that read access to a resource is allowed.
 foreign import data Read :: Effect
@@ -116,32 +113,8 @@ foreign import data ReactState :: # Effect -> Effect
 -- | This effect indicates that a computation may read the component props.
 foreign import data ReactProps :: Effect
 
--- | The type of DOM events.
-foreign import data Event :: Type
-
--- | The type of mouse events.
-type MouseEvent =
-  { pageX :: Number
-  , pageY :: Number
-  }
-
--- | The type of keyboard events.
-type KeyboardEvent =
-  { altKey   :: Boolean
-  , ctrlKey  :: Boolean
-  , charCode :: Int
-  , key      :: String
-  , keyCode  :: Int
-  , locale   :: String
-  , location :: Int
-  , metaKey  :: Boolean
-  , repeat   :: Boolean
-  , shiftKey :: Boolean
-  , which    :: Int
-  }
-
 -- | A function which handles events.
-type EventHandlerContext eff props state result =
+type SyntheticEventHandlerContext eff props state result =
   Eff
     ( props :: ReactProps
     , state :: ReactState ReadWrite
@@ -355,13 +328,13 @@ forceUpdateCb this m = runEffFn2 forceUpdateCbImpl this m
 
 -- | Create an event handler.
 foreign import handle :: forall eff ev props state result.
-  (ev -> EventHandlerContext eff props state result) -> EventHandler ev
+  (ev -> SyntheticEventHandlerContext eff props state result) -> SyntheticEventHandler ev
 
 class ReactPropFields (required :: # Type) (given :: # Type)
 
 type ReservedReactPropFields r =
   ( key :: String
-  , ref :: EventHandler (Nullable Ref)
+  , ref :: SyntheticEventHandler (Nullable Ref)
   | r
   )
 
@@ -422,10 +395,6 @@ foreign import childrenToArray :: Children -> Array ReactElement
 
 -- | Returns the number of children.
 foreign import childrenCount :: Children -> Int
-
-foreign import preventDefault :: forall eff. Event -> Eff eff Unit
-
-foreign import stopPropagation :: forall eff. Event -> Eff eff Unit
 
 class IsReactElement a where
   toElement :: a -> ReactElement

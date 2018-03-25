@@ -149,17 +149,3 @@ function createElementDynamic(class_) {
 };
 exports.createElementDynamicImpl = createElementDynamic;
 exports.createElementTagNameDynamic = createElementDynamic;
-
-function preventDefault(event) {
-  return function() {
-    event.preventDefault();
-  };
-};
-exports.preventDefault = preventDefault;
-
-function stopPropagation(event) {
-  return function() {
-    event.stopPropagation();
-  };
-};
-exports.stopPropagation = stopPropagation;
