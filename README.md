@@ -29,10 +29,12 @@ npm install react
 
 Please refer to [purescript-react-example](https://github.com/ethul/purescript-react-example)
 
-## External Components
+## Troubleshooting
 
-To use a React component that is not published as a PureScript module,
-one can leverage PureScript's FFI to define a type for component and its
+#### How to use JavaScript components?
+
+To use a React component that is published as a JavaScript module one
+can leverage PureScript's FFI to define a type for component and its
 props. Consider the following example.
 
 ```purescript
@@ -139,9 +141,7 @@ clock =
     [ ]
 ```
 
-## Troubleshooting
-
-#### Component with type class constraints re-mounting on every render?
+#### Components with type class constraints re-mount on every render?
 
 Consider the following example where an ordered list component is
 defined for any item of type `a`, where `a` is constrained to have a
