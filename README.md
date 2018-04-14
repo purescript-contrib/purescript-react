@@ -211,6 +211,6 @@ in all cases; e.g., if `orderedList` had needed to store state.
 
 To avoid `orderedList` from being recreated each time, a function can be
 defined that specifies the type parameter with the type class contraint.
-If the component using the ordered list knows that the elements are of
-type `Int`, the component can define `orderedListInt` as shown above,
-and use it to render the ordered list instead of `orderedList`.
+If the component using the ordered list knows that the items are of type
+`Int`, the component can define `orderedListInt` as shown above, and use
+it to render the ordered list instead of `orderedList`.
