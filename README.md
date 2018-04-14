@@ -205,9 +205,9 @@ var orderedList = function (dictOrd) {
 ```
 
 Above, the component creation is wrapped by the function with the
-`dictOrd` parameter. This means that a new component is being recreated
-on each render of the component using `orderedList`. This may not be
-ideal in all cases; e.g., if `orderedList` had needed to store state.
+`dictOrd` parameter. This means that a new component is being created on
+each render of the component using `orderedList`. This may not be ideal
+in all cases; e.g., if `orderedList` had needed to store state.
 
 To avoid `orderedList` from being recreated each time, a function can be
 defined that specifies the type parameter with the type class contraint.
