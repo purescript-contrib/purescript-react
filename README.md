@@ -142,8 +142,8 @@ clock =
 #### Components with type class constraints re-mount on every render?
 
 Consider the following example where an ordered list component is
-defined for any item of type `a`, where `a` is constrained to have a
-type class instance `Ord`.
+defined for any item of type `a`, where `a` is constrained to have an
+`Ord` type class instance.
 
 ```purescript
 module OrderedList where
@@ -184,8 +184,7 @@ orderedList = React.component "OrderedList" component
           [ ]
           [ renderItem a ]
 
--- This may be defined elsewhere where the type parameter `a` is known.
--- In this case it is defined to be `Int`.
+-- This would be defined where the type parameter `a` is known.
 
 orderedListInt :: React.ReactClass (OrderedListProps Int)
 orderedListInt = orderedList
