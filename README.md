@@ -33,8 +33,8 @@ Please refer to [purescript-react-example](https://github.com/ethul/purescript-r
 
 #### How to use JavaScript components?
 
-To use a React component that is published as a JavaScript module one
-can leverage PureScript's FFI to define a type for component and its
+To use a React component that is published as a JavaScript module, one
+can leverage PureScript's FFI to define a type for the component and its
 props. Consider the following example.
 
 ```purescript
@@ -78,10 +78,8 @@ clock =
 A consideration when defining a type for an external component is that
 some components pass their props through to a DOM element. In a case
 such as this, it can be helpful to leverage the props defined in the
-`React.DOM.Props` module.
-
-One way to accomplish this is to define the external component as
-follows.
+`React.DOM.Props` module. One way to accomplish this is to define the
+external component as follows.
 
 ```purescript
 module Clock
@@ -193,7 +191,7 @@ orderedListInt :: React.ReactClass (OrderedListProps Int)
 orderedListInt = orderedList
 ```
 
-If the component `orderedList` above where to be rendered, the debugging
+If the component `orderedList` above were to be rendered, the debugging
 statement `OrderedList.componentDidMount` is printed to the console each
 time the parent component is rendered. The reason for this is due to how
 the `orderedList` component is compiled to JavaScript.
@@ -207,14 +205,13 @@ var orderedList = function (dictOrd) {
 };
 ```
 
-Above, the component is re-created each time due to the function with
-the `dictOrd` parameter wrapping the component. This means that a new
-component is being recreated on each render of the component using
-`orderedList`. This may not be ideal in all cases; e.g., if
-`orderedList` needed to store state.
+Above, the component creation is wrapped by the function with the
+`dictOrd` parameter. This means that a new component is being recreated
+on each render of the component using `orderedList`. This may not be
+ideal in all cases; e.g., if `orderedList` had needed to store state.
 
-To avoid `orderedList` from being re-created each time, a function can
-be defined that specifies the type parameter. If the component using the
-ordered list knows that the elements are of type `Int`, the component
-can define `orderedListInt` as above and use that to render the ordered
-list instead of `orderedList`.
+To avoid `orderedList` from being recreated each time, a function can be
+defined that specifies the type parameter with the type class contraint.
+If the component using the ordered list knows that the elements are of
+type `Int`, the component can define `orderedListInt` as shown above,
+and use it to render the ordered list instead of `orderedList`.
