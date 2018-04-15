@@ -100,41 +100,41 @@ import Control.Monad.Eff (Eff)
 
 import Data.Symbol (class IsSymbol, SProxy(..), reflectSymbol)
 
-type SyntheticEvent eff r
-  = SyntheticEvent_ (SyntheticEvent' eff r)
+type SyntheticEvent r
+  = SyntheticEvent_ (SyntheticEvent' r)
 
-type SyntheticAnimationEvent eff r
-  = SyntheticEvent_ (SyntheticAnimationEvent' (SyntheticAnimationTransitionEvent' (SyntheticEvent' eff r)))
+type SyntheticAnimationEvent r
+  = SyntheticEvent_ (SyntheticAnimationEvent' (SyntheticAnimationTransitionEvent' (SyntheticEvent' r)))
 
-type SyntheticClipboardEvent eff r
-  = SyntheticEvent_ (SyntheticClipboardEvent' (SyntheticEvent' eff r))
+type SyntheticClipboardEvent r
+  = SyntheticEvent_ (SyntheticClipboardEvent' (SyntheticEvent' r))
 
-type SyntheticCompositionEvent eff r
-  = SyntheticEvent_ (SyntheticCompositionEvent' (SyntheticUIEvent' (SyntheticEvent' eff r)))
+type SyntheticCompositionEvent r
+  = SyntheticEvent_ (SyntheticCompositionEvent' (SyntheticUIEvent' (SyntheticEvent' r)))
 
-type SyntheticInputEvent eff r
-  = SyntheticEvent_ (SyntheticUIEvent' (SyntheticEvent' eff r))
+type SyntheticInputEvent r
+  = SyntheticEvent_ (SyntheticUIEvent' (SyntheticEvent' r))
 
-type SyntheticKeyboardEvent eff r
-  = SyntheticEvent_ (SyntheticKeyboardEvent' (SyntheticKeyboardMouseTouchEvent' (SyntheticUIEvent' (SyntheticEvent' eff r))))
+type SyntheticKeyboardEvent r
+  = SyntheticEvent_ (SyntheticKeyboardEvent' (SyntheticKeyboardMouseTouchEvent' (SyntheticUIEvent' (SyntheticEvent' r))))
 
-type SyntheticFocusEvent eff r
-  = SyntheticEvent_ (SyntheticFocusMouseEvent' (SyntheticUIEvent' (SyntheticEvent' eff r)))
+type SyntheticFocusEvent r
+  = SyntheticEvent_ (SyntheticFocusMouseEvent' (SyntheticUIEvent' (SyntheticEvent' r)))
 
-type SyntheticMouseEvent eff r
-  = SyntheticEvent_ (SyntheticMouseEvent' (SyntheticFocusMouseEvent' (SyntheticKeyboardMouseTouchEvent' (SyntheticUIEvent' (SyntheticEvent' eff r)))))
+type SyntheticMouseEvent r
+  = SyntheticEvent_ (SyntheticMouseEvent' (SyntheticFocusMouseEvent' (SyntheticKeyboardMouseTouchEvent' (SyntheticUIEvent' (SyntheticEvent' r)))))
 
-type SyntheticTouchEvent eff r
-  = SyntheticEvent_ (SyntheticTouchEvent' (SyntheticKeyboardMouseTouchEvent' (SyntheticUIEvent' (SyntheticEvent' eff r))))
+type SyntheticTouchEvent r
+  = SyntheticEvent_ (SyntheticTouchEvent' (SyntheticKeyboardMouseTouchEvent' (SyntheticUIEvent' (SyntheticEvent' r))))
 
-type SyntheticTransitionEvent eff r
-  = SyntheticEvent_ (SyntheticTransitionEvent' (SyntheticAnimationTransitionEvent' (SyntheticEvent' eff r)))
+type SyntheticTransitionEvent r
+  = SyntheticEvent_ (SyntheticTransitionEvent' (SyntheticAnimationTransitionEvent' (SyntheticEvent' r)))
 
-type SyntheticUIEvent eff r
-  = SyntheticEvent_ (SyntheticUIEvent' (SyntheticEvent' eff r))
+type SyntheticUIEvent r
+  = SyntheticEvent_ (SyntheticUIEvent' (SyntheticEvent' r))
 
-type SyntheticWheelEvent eff r
-  = SyntheticEvent_ (SyntheticWheelEvent' (SyntheticMouseEvent' (SyntheticEvent' eff r)))
+type SyntheticWheelEvent r
+  = SyntheticEvent_ (SyntheticWheelEvent' (SyntheticMouseEvent' (SyntheticEvent' r)))
 
 foreign import data SyntheticEvent_ :: # Type -> Type
 
@@ -148,7 +148,7 @@ foreign import data NativeAbstractView :: Type
 
 foreign import data NativeTouchList :: Type
 
-type SyntheticEvent' eff r
+type SyntheticEvent' r
   = ( bubbles :: Boolean
     , cancelable :: Boolean
     , currentTarget :: NativeEventTarget
@@ -156,14 +156,9 @@ type SyntheticEvent' eff r
     , eventPhase :: Number
     , isTrusted :: Boolean
     , nativeEvent :: NativeEvent
-    , preventDefault :: Eff eff Unit
-    , isDefaultPrevented :: Eff eff Boolean
-    , stopPropagation :: Eff eff Unit
-    , isPropagationStopped :: Eff eff Boolean
     , target :: NativeEventTarget
     , timeStamp :: Number
     , type :: String
-    , persist :: Eff eff Unit
     | r
     )
 
@@ -246,56 +241,40 @@ type SyntheticFocusMouseEvent'  r
 type SyntheticKeyboardMouseTouchEvent' r
   = ( altKey :: Boolean
     , ctrlKey :: Boolean
-    , getModifierState :: String -> Boolean
     , metaKey :: Boolean
     , shiftKey :: Boolean
     | r
     )
 
-bubbles :: forall eff r. SyntheticEvent_ (SyntheticEvent' eff r) -> Eff eff Boolean
+bubbles :: forall eff r. SyntheticEvent_ (SyntheticEvent' r) -> Eff eff Boolean
 bubbles = get (SProxy :: SProxy "bubbles")
 
-cancelable :: forall eff r. SyntheticEvent_ (SyntheticEvent' eff r) -> Eff eff Boolean
+cancelable :: forall eff r. SyntheticEvent_ (SyntheticEvent' r) -> Eff eff Boolean
 cancelable = get (SProxy :: SProxy "cancelable")
 
-currentTarget :: forall eff r. SyntheticEvent_ (SyntheticEvent' eff r) -> Eff eff NativeEventTarget
+currentTarget :: forall eff r. SyntheticEvent_ (SyntheticEvent' r) -> Eff eff NativeEventTarget
 currentTarget = get (SProxy :: SProxy "currentTarget")
 
-defaultPrevented :: forall eff r. SyntheticEvent_ (SyntheticEvent' eff r) -> Eff eff Boolean
+defaultPrevented :: forall eff r. SyntheticEvent_ (SyntheticEvent' r) -> Eff eff Boolean
 defaultPrevented = get (SProxy :: SProxy "defaultPrevented")
 
-eventPhase :: forall eff r. SyntheticEvent_ (SyntheticEvent' eff r) -> Eff eff Number
+eventPhase :: forall eff r. SyntheticEvent_ (SyntheticEvent' r) -> Eff eff Number
 eventPhase = get (SProxy :: SProxy "eventPhase")
 
-isTrusted :: forall eff r. SyntheticEvent_ (SyntheticEvent' eff r) -> Eff eff Boolean
+isTrusted :: forall eff r. SyntheticEvent_ (SyntheticEvent' r) -> Eff eff Boolean
 isTrusted = get (SProxy :: SProxy "isTrusted")
 
-nativeEvent :: forall eff r. SyntheticEvent_ (SyntheticEvent' eff r) -> Eff eff NativeEvent
+nativeEvent :: forall eff r. SyntheticEvent_ (SyntheticEvent' r) -> Eff eff NativeEvent
 nativeEvent = get (SProxy :: SProxy "nativeEvent")
 
-preventDefault :: forall eff r. SyntheticEvent_ (SyntheticEvent' eff r) -> Eff eff Unit
-preventDefault = join <<< getFn (SProxy :: SProxy "preventDefault")
-
-isDefaultPrevented :: forall eff r. SyntheticEvent_ (SyntheticEvent' eff r) -> Eff eff Boolean
-isDefaultPrevented = join <<< getFn (SProxy :: SProxy "isDefaultPrevented")
-
-stopPropagation :: forall eff r. SyntheticEvent_ (SyntheticEvent' eff r) -> Eff eff Unit
-stopPropagation = join <<< getFn (SProxy :: SProxy "stopPropagation")
-
-isPropagationStopped :: forall eff r. SyntheticEvent_ (SyntheticEvent' eff r) -> Eff eff Boolean
-isPropagationStopped = join <<< getFn (SProxy :: SProxy "isPropagationStopped")
-
-target :: forall eff r. SyntheticEvent_ (SyntheticEvent' eff r) -> Eff eff NativeEventTarget
+target :: forall eff r. SyntheticEvent_ (SyntheticEvent' r) -> Eff eff NativeEventTarget
 target = get (SProxy :: SProxy "target")
 
-timeStamp :: forall eff r. SyntheticEvent_ (SyntheticEvent' eff r) -> Eff eff Number
+timeStamp :: forall eff r. SyntheticEvent_ (SyntheticEvent' r) -> Eff eff Number
 timeStamp = get (SProxy :: SProxy "timeStamp")
 
-type_ :: forall eff r. SyntheticEvent_ (SyntheticEvent' eff r) -> Eff eff String
+type_ :: forall eff r. SyntheticEvent_ (SyntheticEvent' r) -> Eff eff String
 type_ = get (SProxy :: SProxy "type")
-
-persist :: forall eff r. SyntheticEvent_ (SyntheticEvent' eff r) -> Eff eff Unit
-persist = join <<< get (SProxy :: SProxy "persist")
 
 animationName :: forall eff r. SyntheticEvent_ (SyntheticAnimationEvent' r) -> Eff eff String
 animationName = get (SProxy :: SProxy "animationName")
@@ -369,9 +348,6 @@ altKey = get (SProxy :: SProxy "altKey")
 ctrlKey :: forall eff r. SyntheticEvent_ (SyntheticKeyboardMouseTouchEvent' r) -> Eff eff Boolean
 ctrlKey = get (SProxy :: SProxy "ctrlKey")
 
-getModifierState :: forall eff r. String -> SyntheticEvent_ (SyntheticKeyboardMouseTouchEvent' r) -> Eff eff Boolean
-getModifierState a = map ((#) a) <<< getFn (SProxy :: SProxy "getModifierState")
-
 metaKey :: forall eff r. SyntheticEvent_ (SyntheticKeyboardMouseTouchEvent' r) -> Eff eff Boolean
 metaKey = get (SProxy :: SProxy "metaKey")
 
@@ -405,6 +381,18 @@ deltaY = get (SProxy :: SProxy "deltaY")
 deltaZ :: forall eff r. SyntheticEvent_ (SyntheticWheelEvent' r) -> Eff eff Number
 deltaZ = get (SProxy :: SProxy "deltaZ")
 
+foreign import preventDefault :: forall eff r. SyntheticEvent_ (SyntheticEvent' r) -> Eff eff Unit
+
+foreign import isDefaultPrevented :: forall eff r. SyntheticEvent_ (SyntheticEvent' r) -> Eff eff Boolean
+
+foreign import stopPropagation :: forall eff r. SyntheticEvent_ (SyntheticEvent' r) -> Eff eff Unit
+
+foreign import isPropagationStopped :: forall eff r. SyntheticEvent_ (SyntheticEvent' r) -> Eff eff Boolean
+
+foreign import persist :: forall eff r. SyntheticEvent_ (SyntheticEvent' r) -> Eff eff Unit
+
+foreign import getModifierState :: forall eff r. String -> SyntheticEvent_ (SyntheticKeyboardMouseTouchEvent' r) -> Eff eff Boolean
+
 get
   :: forall eff l r s a
    . RowCons l a r s
@@ -414,15 +402,4 @@ get
   -> Eff eff a
 get l r = unsafeGet (reflectSymbol l) r
 
-getFn
-  :: forall eff l r s a
-   . RowCons l a r s
-  => IsSymbol l
-  => SProxy l
-  -> SyntheticEvent_ s
-  -> Eff eff a
-getFn l r = unsafeGetFn (reflectSymbol l) r
-
 foreign import unsafeGet :: forall eff r a. String -> SyntheticEvent_ r -> Eff eff a
-
-foreign import unsafeGetFn :: forall eff r a. String -> SyntheticEvent_ r -> Eff eff a
