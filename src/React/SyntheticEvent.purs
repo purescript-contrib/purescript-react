@@ -421,7 +421,7 @@ getFn
   => SProxy l
   -> SyntheticEvent_ s
   -> Eff eff a
-getFn l r = unsafeGet (reflectSymbol l) r
+getFn l r = unsafeGetFn (reflectSymbol l) r
 
 foreign import unsafeGet :: forall eff r a. String -> SyntheticEvent_ r -> Eff eff a
 
