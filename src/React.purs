@@ -71,7 +71,7 @@ import Control.Monad.Eff.Uncurried (EffFn2, runEffFn2)
 
 import Data.Nullable (Nullable)
 
-import React.SyntheticEvent (preventDefault, isDefaultPrevented, stopPropagation, isPropagationStopped, persist) as SyntheticEvent
+import React.SyntheticEvent as SyntheticEvent
 
 import Unsafe.Coerce (unsafeCoerce)
 
