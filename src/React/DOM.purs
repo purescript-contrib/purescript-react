@@ -43,10 +43,10 @@ address = mkDOM (IsDynamic false) "address"
 address' :: Array ReactElement -> ReactElement
 address' = address []
 
-area :: Array Props -> Array ReactElement -> ReactElement
-area = mkDOM (IsDynamic false) "area"
+area :: Array Props -> ReactElement
+area props = mkDOM (IsDynamic false) "area" props []
 
-area' :: Array ReactElement -> ReactElement
+area' :: ReactElement
 area' = area []
 
 article :: Array Props -> Array ReactElement -> ReactElement
@@ -73,10 +73,10 @@ b = mkDOM (IsDynamic false) "b"
 b' :: Array ReactElement -> ReactElement
 b' = b []
 
-base :: Array Props -> Array ReactElement -> ReactElement
-base = mkDOM (IsDynamic false) "base"
+base :: Array Props -> ReactElement
+base props = mkDOM (IsDynamic false) "base" props []
 
-base' :: Array ReactElement -> ReactElement
+base' :: ReactElement
 base' = base []
 
 bdi :: Array Props -> Array ReactElement -> ReactElement
@@ -109,10 +109,10 @@ body = mkDOM (IsDynamic false) "body"
 body' :: Array ReactElement -> ReactElement
 body' = body []
 
-br :: Array Props -> Array ReactElement -> ReactElement
-br = mkDOM (IsDynamic false) "br"
+br :: Array Props -> ReactElement
+br props = mkDOM (IsDynamic false) "br" props []
 
-br' :: Array ReactElement -> ReactElement
+br' :: ReactElement
 br' = br []
 
 button :: Array Props -> Array ReactElement -> ReactElement
@@ -145,10 +145,10 @@ code = mkDOM (IsDynamic false) "code"
 code' :: Array ReactElement -> ReactElement
 code' = code []
 
-col :: Array Props -> Array ReactElement -> ReactElement
-col = mkDOM (IsDynamic false) "col"
+col :: Array Props -> ReactElement
+col props = mkDOM (IsDynamic false) "col" props []
 
-col' :: Array ReactElement -> ReactElement
+col' :: ReactElement
 col' = col []
 
 colgroup :: Array Props -> Array ReactElement -> ReactElement
@@ -223,10 +223,10 @@ em = mkDOM (IsDynamic false) "em"
 em' :: Array ReactElement -> ReactElement
 em' = em []
 
-embed :: Array Props -> Array ReactElement -> ReactElement
-embed = mkDOM (IsDynamic false) "embed"
+embed :: Array Props -> ReactElement
+embed props = mkDOM (IsDynamic false) "embed" props []
 
-embed' :: Array ReactElement -> ReactElement
+embed' :: ReactElement
 embed' = embed []
 
 fieldset :: Array Props -> Array ReactElement -> ReactElement
@@ -307,10 +307,10 @@ header = mkDOM (IsDynamic false) "header"
 header' :: Array ReactElement -> ReactElement
 header' = header []
 
-hr :: Array Props -> Array ReactElement -> ReactElement
-hr = mkDOM (IsDynamic false) "hr"
+hr :: Array Props -> ReactElement
+hr props = mkDOM (IsDynamic false) "hr" props []
 
-hr' :: Array ReactElement -> ReactElement
+hr' :: ReactElement
 hr' = hr []
 
 html :: Array Props -> Array ReactElement -> ReactElement
@@ -331,16 +331,16 @@ iframe = mkDOM (IsDynamic false) "iframe"
 iframe' :: Array ReactElement -> ReactElement
 iframe' = iframe []
 
-img :: Array Props -> Array ReactElement -> ReactElement
-img = mkDOM (IsDynamic false) "img"
+img :: Array Props -> ReactElement
+img props = mkDOM (IsDynamic false) "img" props []
 
-img' :: Array ReactElement -> ReactElement
+img' :: ReactElement
 img' = img []
 
-input :: Array Props -> Array ReactElement -> ReactElement
-input = mkDOM (IsDynamic false) "input"
+input :: Array Props -> ReactElement
+input props = mkDOM (IsDynamic false) "input" props []
 
-input' :: Array ReactElement -> ReactElement
+input' :: ReactElement
 input' = input []
 
 ins :: Array Props -> Array ReactElement -> ReactElement
@@ -355,10 +355,10 @@ kbd = mkDOM (IsDynamic false) "kbd"
 kbd' :: Array ReactElement -> ReactElement
 kbd' = kbd []
 
-keygen :: Array Props -> Array ReactElement -> ReactElement
-keygen = mkDOM (IsDynamic false) "keygen"
+keygen :: Array Props -> ReactElement
+keygen props = mkDOM (IsDynamic false) "keygen" props []
 
-keygen' :: Array ReactElement -> ReactElement
+keygen' :: ReactElement
 keygen' = keygen []
 
 label :: Array Props -> Array ReactElement -> ReactElement
@@ -379,11 +379,11 @@ li = mkDOM (IsDynamic false) "li"
 li' :: Array ReactElement -> ReactElement
 li' = li []
 
-link :: Array Props -> Array ReactElement -> ReactElement
-link = mkDOM (IsDynamic false) "link"
+link :: Array Props -> ReactElement
+link props = mkDOM (IsDynamic false) "link" props []
 
-link' :: Array ReactElement -> ReactElement
-link' = body []
+link' :: ReactElement
+link' = link []
 
 main :: Array Props -> Array ReactElement -> ReactElement
 main = mkDOM (IsDynamic false) "main"
@@ -409,16 +409,16 @@ menu = mkDOM (IsDynamic false) "menu"
 menu' :: Array ReactElement -> ReactElement
 menu' = menu []
 
-menuitem :: Array Props -> Array ReactElement -> ReactElement
-menuitem = mkDOM (IsDynamic false) "menuitem"
+menuitem :: Array Props -> ReactElement
+menuitem props = mkDOM (IsDynamic false) "menuitem" props []
 
-menuitem' :: Array ReactElement -> ReactElement
+menuitem' :: ReactElement
 menuitem' = menuitem []
 
-meta :: Array Props -> Array ReactElement -> ReactElement
-meta = mkDOM (IsDynamic false) "meta"
+meta :: Array Props -> ReactElement
+meta props = mkDOM (IsDynamic false) "meta" props []
 
-meta' :: Array ReactElement -> ReactElement
+meta' :: ReactElement
 meta' = meta []
 
 meter :: Array Props -> Array ReactElement -> ReactElement
@@ -475,10 +475,10 @@ p = mkDOM (IsDynamic false) "p"
 p' :: Array ReactElement -> ReactElement
 p' = p []
 
-param :: Array Props -> Array ReactElement -> ReactElement
-param = mkDOM (IsDynamic false) "param"
+param :: Array Props -> ReactElement
+param props = mkDOM (IsDynamic false) "param" props []
 
-param' :: Array ReactElement -> ReactElement
+param' :: ReactElement
 param' = param []
 
 picture :: Array Props -> Array ReactElement -> ReactElement
@@ -559,10 +559,10 @@ small = mkDOM (IsDynamic false) "small"
 small' :: Array ReactElement -> ReactElement
 small' = small []
 
-source :: Array Props -> Array ReactElement -> ReactElement
-source = mkDOM (IsDynamic false) "source"
+source :: Array Props -> ReactElement
+source props = mkDOM (IsDynamic false) "source" props []
 
-source' :: Array ReactElement -> ReactElement
+source' :: ReactElement
 source' = source []
 
 span :: Array Props -> Array ReactElement -> ReactElement
@@ -661,10 +661,10 @@ tr = mkDOM (IsDynamic false) "tr"
 tr' :: Array ReactElement -> ReactElement
 tr' = tr []
 
-track :: Array Props -> Array ReactElement -> ReactElement
-track = mkDOM (IsDynamic false) "track"
+track :: Array Props -> ReactElement
+track props = mkDOM (IsDynamic false) "track" props []
 
-track' :: Array ReactElement -> ReactElement
+track' :: ReactElement
 track' = track []
 
 u :: Array Props -> Array ReactElement -> ReactElement
@@ -691,8 +691,8 @@ video = mkDOM (IsDynamic false) "video"
 video' :: Array ReactElement -> ReactElement
 video' = video []
 
-wbr :: Array Props -> Array ReactElement -> ReactElement
-wbr = mkDOM (IsDynamic false) "body"
+wbr :: Array Props -> ReactElement
+wbr props = mkDOM (IsDynamic false) "wbr" props []
 
-wbr' :: Array ReactElement -> ReactElement
+wbr' :: ReactElement
 wbr' = wbr []
