@@ -29,3 +29,19 @@ exports.persist = function persist(event) {
     return event.persist();
   };
 };
+
+exports.getModifierState = function getModifierState(key) {
+  return function(event) {
+    return function() {
+      return event.getModifierState(key);
+    };
+  };
+};
+
+exports.unsafeGet = function unsafeGet(key) {
+  return function (event) {
+    return function () {
+      return event[key];
+    };
+  };
+};

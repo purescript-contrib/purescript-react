@@ -2,10 +2,13 @@ module React.DOM.Props where
 
 import Data.Nullable (Nullable)
 
-import React (SyntheticEventHandlerContext, Ref, handle)
+import React
+  ( Ref
+  , handle
 
-import React.SyntheticEvent
-  ( SyntheticEvent
+  , SyntheticEventHandlerContext
+
+  , SyntheticEvent
   , SyntheticAnimationEvent
   , SyntheticClipboardEvent
   , SyntheticCompositionEvent
