@@ -68,6 +68,12 @@ type TagName = String
 -- | A virtual DOM node, or component.
 foreign import data ReactElement :: Type
 
+instance semigroupReactElement :: Semigroup ReactElement where
+  append a b = toElement [ a, b ]
+
+instance monoidReactElement :: Monoid ReactElement where
+  mempty = toElement ([] :: Array ReactElement)
+
 -- | A mounted react component
 foreign import data ReactComponent :: Type
 
