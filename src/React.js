@@ -68,34 +68,32 @@ exports.childrenToArray = React.Children.toArray
 
 exports.childrenCount = React.Children.count;
 
-function writeState(this_) {
+function setStateImpl(this_) {
   return function(state){
     return function(){
       this_.setState(state);
-      return state;
     };
   };
 }
-exports.writeState = writeState;
+exports.setStateImpl = setState;
 
-function writeStateWithCallback(this_, cb) {
+function setStateWithCallbackImpl(this_, cb) {
   return function(state){
     return function(cb){
       return function() {
         this_.setState(state, cb);
-        return state;
       };
     };
   };
 }
-exports.writeStateWithCallback = writeStateWithCallback;
+exports.setStateWithCallbackImpl = setStateWithCallback;
 
-function readState(this_) {
+function getState(this_) {
   return function(){
     return this_.state;
   };
 }
-exports.readState = readState;
+exports.getState = getState;
 
 function transformState(this_){
   return function(update){
@@ -115,13 +113,6 @@ function forceUpdateCbImpl(this_, cb) {
   return {};
 };
 exports.forceUpdateCbImpl = forceUpdateCbImpl;
-
-function handle(f) {
-  return function(e){
-    return f(e)();
-  };
-};
-exports.handle = handle;
 
 function createElement(class_) {
   return function(props){

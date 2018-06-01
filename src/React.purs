@@ -6,15 +6,6 @@ module React
   , ReactThis
   , TagName
 
-  , Read
-  , Write
-  , Disallowed
-  , ReadWrite
-  , ReadOnly
-
-  , ReactState
-  , ReactProps
-
   , Render
   , ComponentWillMount
   , ComponentDidMount
@@ -33,13 +24,15 @@ module React
   , statelessComponent
 
   , getProps
-  , readState
+  , getState
+  , setState
+  , setStateWithCallback
   , writeState
   , writeStateWithCallback
   , transformState
 
   , forceUpdate
-  , forceUpdateCb
+  , forceUpdateWithCallback
 
   , createElement
   , createElementDynamic
@@ -48,8 +41,6 @@ module React
   , createLeafElement
 
   , SyntheticEventHandler
-  , SyntheticEventHandlerContext
-  , handle
 
   , Children
   , childrenToArray
@@ -59,20 +50,16 @@ module React
   , class IsReactElement
   , toElement
   , fragmentWithKey
-
-  , module SyntheticEvent
   ) where
 
 import Prelude
 
-import Control.Monad.Eff (kind Effect, Eff)
-import Control.Monad.Eff.Exception (Error)
-import Control.Monad.Eff.Uncurried (EffFn2, runEffFn2)
-
 import Data.Nullable (Nullable)
-
-import React.SyntheticEvent as SyntheticEvent
-
+import Effect (Effect)
+import Effect.Exception (Error)
+import Effect.Uncurried (EffectFn1, EffectFn2, runEffectFn2)
+import Prim.Row as Row
+import Type.Row (type (+))
 import Unsafe.Coerce (unsafeCoerce)
 
 -- | Name of a tag.
@@ -87,186 +74,100 @@ foreign import data ReactComponent :: Type
 -- | A reference to a component, essentially React's `this`.
 foreign import data ReactThis :: Type -> Type -> Type
 
--- | An event handler. The type argument represents the type of the event.
-foreign import data SyntheticEventHandler :: Type -> Type
+type SyntheticEventHandler event = EffectFn1 event Unit
 
--- | This phantom type indicates that read access to a resource is allowed.
-foreign import data Read :: Effect
+-- | A render effect.
+type Render = Effect ReactElement
 
--- | This phantom type indicates that write access to a resource is allowed.
-foreign import data Write :: Effect
+-- | A component will mount effect.
+type ComponentWillMount = Effect Unit
 
--- | An access synonym which indicates that neither read nor write access are allowed.
-type Disallowed = () :: # Effect
+-- | A component did mount effect.
+type ComponentDidMount = Effect Unit
 
--- | An access synonym which indicates that both read and write access are allowed.
-type ReadWrite = (read :: Read, write :: Write)
-
--- | An access synonym which indicates that reads are allowed but writes are not.
-type ReadOnly = (read :: Read)
-
--- | This effect indicates that a computation may read or write the component state.
--- |
--- | The first type argument is a row of access types (`Read`, `Write`).
-foreign import data ReactState :: # Effect -> Effect
-
--- | This effect indicates that a computation may read the component props.
-foreign import data ReactProps :: Effect
-
--- | A function which handles events.
-type SyntheticEventHandlerContext eff props state result =
-  Eff
-    ( props :: ReactProps
-    , state :: ReactState ReadWrite
-    | eff
-    ) result
-
--- | A render function.
-type Render eff =
-  Eff
-    ( props :: ReactProps
-    , state :: ReactState ReadOnly
-    | eff
-    ) ReactElement
-
--- | A component will mount function.
-type ComponentWillMount eff =
-  Eff
-    ( props :: ReactProps
-    , state :: ReactState ReadWrite
-    | eff
-    ) Unit
-
--- | A component did mount function.
-type ComponentDidMount eff =
-  Eff
-    ( props :: ReactProps
-    , state :: ReactState ReadWrite
-    | eff
-    ) Unit
-
-type ComponentDidCatch eff =
-  Error ->
-  { componentStack :: String } ->
-  Eff
-    ( props :: ReactProps
-    , state :: ReactState ReadWrite
-    | eff
-    ) Unit
+-- | A component did catch effect.
+type ComponentDidCatch = Error -> { componentStack :: String } -> Effect Unit
 
 -- | A component will receive props function.
-type ComponentWillReceiveProps props eff =
-   props ->
-   Eff
-    ( props :: ReactProps
-    , state :: ReactState ReadWrite
-    | eff
-    ) Unit
+type ComponentWillReceiveProps props = props -> Effect Unit
 
 -- | A should component update function.
-type ShouldComponentUpdate props state eff =
-  props ->
-  state ->
-  Eff
-    ( props :: ReactProps
-    , state :: ReactState ReadWrite
-    | eff
-    ) Boolean
+type ShouldComponentUpdate props state = props -> state -> Effect Boolean
 
 -- | A component will update function.
-type ComponentWillUpdate props state eff =
-  props ->
-  state ->
-  Eff
-    ( props :: ReactProps
-    , state :: ReactState ReadWrite
-    | eff
-    ) Unit
+type ComponentWillUpdate props state = props -> state -> Effect Unit
 
 -- | A component did update function.
-type ComponentDidUpdate props state eff =
-  props ->
-  state ->
-  Eff
-    ( props :: ReactProps
-    , state :: ReactState ReadOnly
-    | eff
-    ) Unit
+type ComponentDidUpdate props state = props -> state -> Effect Unit
 
--- | A component will unmount function.
-type ComponentWillUnmount eff =
-  Eff
-    ( props :: ReactProps
-    , state :: ReactState ReadOnly
-    | eff
-    ) Unit
+-- | A component will unmount effect..
+type ComponentWillUnmount = Effect Unit
 
 -- | Required fields for constructing a ReactClass.
-type ReactSpecRequired state eff r =
+type ReactSpecRequired state r =
   ( state :: state
-  , render :: Render eff
+  , render :: Render
   | r
   )
 
 -- | Optional fields for constructing a ReactClass.
-type ReactSpecOptional props state eff r =
-  ( componentWillMount :: ComponentWillMount eff
-  , componentDidMount :: ComponentDidMount eff
-  , componentDidCatch :: ComponentDidCatch eff
-  , componentWillReceiveProps :: ComponentWillReceiveProps props eff
-  , componentWillUpdate :: ComponentWillUpdate props state eff
-  , componentDidUpdate :: ComponentDidUpdate props state eff
-  , componentWillUnmount :: ComponentWillUnmount eff
+type ReactSpecOptional props state r =
+  ( componentWillMount :: ComponentWillMount
+  , componentDidMount :: ComponentDidMount
+  , componentDidCatch :: ComponentDidCatch
+  , componentWillReceiveProps :: ComponentWillReceiveProps props
+  , componentWillUpdate :: ComponentWillUpdate props state
+  , componentDidUpdate :: ComponentDidUpdate props state
+  , componentWillUnmount :: ComponentWillUnmount
   | r
   )
 
-type ReactSpecShouldComponentUpdate props state eff =
-  ( shouldComponentUpdate :: ShouldComponentUpdate props state eff
+type ReactSpecShouldComponentUpdate props state =
+  ( shouldComponentUpdate :: ShouldComponentUpdate props state
   )
 
-type ReactSpecAll props state eff =
-  ReactSpecRequired state eff (ReactSpecOptional props state eff (ReactSpecShouldComponentUpdate props state eff))
+type ReactSpecAll props state
+  = ReactSpecRequired state
+  + ReactSpecOptional props state
+  + ReactSpecShouldComponentUpdate props state
 
-type ReactSpecPure props state eff =
-  ReactSpecRequired state eff (ReactSpecOptional props state eff ())
+type ReactSpecPure props state
+  = ReactSpecRequired state
+  + ReactSpecOptional props state ()
 
 -- | The signature for a ReactClass constructor. A constructor takes the
 -- | `ReactThis` context and returns a record with appropriate lifecycle
 -- | methods.
-type ReactClassConstructor props state eff r =
+type ReactClassConstructor props state r =
   ReactThis props state ->
-  Eff
-    ( props :: ReactProps
-    , state :: ReactState Disallowed
-    | eff
-    ) (Record (ReactSpecRequired state eff r))
+  Effect (Record (ReactSpecRequired state r))
 
 -- | Creates a `ReactClass`` inherited from `React.Component`.
 component
-  :: forall props state eff r x
-   . Union (ReactSpecRequired (Record state) eff r) x (ReactSpecAll (Record props) (Record state) eff)
+  :: forall props state r x
+   . Row.Union (ReactSpecRequired (Record state) r) x (ReactSpecAll (Record props) (Record state))
   => String
-  -> ReactClassConstructor (Record props) (Record state) eff r
+  -> ReactClassConstructor (Record props) (Record state) r
   -> ReactClass (Record props)
 component = componentImpl
 
 -- | Creates a `ReactClass`` inherited from `React.PureComponent`.
 pureComponent
-  :: forall props state eff r x
-   . Union (ReactSpecRequired (Record state) eff r) x (ReactSpecPure (Record props) (Record state) eff)
+  :: forall props state r x
+   . Row.Union (ReactSpecRequired (Record state) r) x (ReactSpecPure (Record props) (Record state))
   => String
-  -> ReactClassConstructor (Record props) (Record state) eff r
+  -> ReactClassConstructor (Record props) (Record state) r
   -> ReactClass (Record props)
 pureComponent = pureComponentImpl
 
-foreign import componentImpl :: forall this props eff r.
+foreign import componentImpl :: forall this props r.
   String ->
-  (this -> Eff eff r) ->
+  (this -> Effect r) ->
   ReactClass props
 
-foreign import pureComponentImpl :: forall this props eff r.
+foreign import pureComponentImpl :: forall this props r.
   String ->
-  (this -> Eff eff r) ->
+  (this -> Effect r) ->
   ReactClass props
 
 foreign import statelessComponent :: forall props.
@@ -283,52 +184,75 @@ foreign import fragment :: ReactClass { children :: Children }
 foreign import data Ref :: Type
 
 -- | Read the component props.
-foreign import getProps :: forall props state eff.
+foreign import getProps :: forall props state.
   ReactThis props state ->
-  Eff (props :: ReactProps | eff) props
+  Effect props
 
 -- | Write the component state.
-foreign import writeState :: forall props state access eff.
-  ReactThis props state ->
-  state ->
-  Eff (state :: ReactState (write :: Write | access) | eff) state
+foreign import setStateImpl :: forall props given all.
+  ReactThis props (Record all) ->
+  Record given ->
+  Effect Unit
 
 -- | Write the component state with a callback.
-foreign import writeStateWithCallback :: forall props state access eff.
-  ReactThis props state ->
-  state ->
-  Eff (state :: ReactState (write :: Write | access) | eff) Unit -> Eff (state :: ReactState (write :: Write | access) | eff) state
+foreign import setStateWithCallbackImpl :: forall props given all.
+  ReactThis props (Record all) ->
+  Record given ->
+  Effect Unit ->
+  Effect Unit
 
--- | Read the component state.
-foreign import readState :: forall props state access eff.
+-- | Get the component state.
+foreign import getState :: forall props state.
   ReactThis props state ->
-  Eff (state :: ReactState (read :: Read | access) | eff) state
+  Effect state
 
 -- | Transform the component state by applying a function.
-foreign import transformState :: forall props state eff.
+foreign import transformState :: forall props state.
   ReactThis props state ->
   (state -> state) ->
-  Eff (state :: ReactState ReadWrite | eff) Unit
+  Effect Unit
+
+setState :: forall props given rest all.
+  Row.Union given rest all =>
+  ReactThis props (Record all) ->
+  Record given ->
+  Effect Unit
+setState = setStateImpl
+
+setStateWithCallback :: forall props given rest all.
+  Row.Union given rest all =>
+  ReactThis props (Record all) ->
+  Record given ->
+  Effect Unit ->
+  Effect Unit
+setStateWithCallback = setStateWithCallbackImpl
+
+writeState :: forall props all.
+  ReactThis props (Record all) ->
+  Record all ->
+  Effect Unit
+writeState = setStateImpl
+
+writeStateWithCallback :: forall props all.
+  ReactThis props (Record all) ->
+  Record all ->
+  Effect Unit ->
+  Effect Unit
+writeStateWithCallback = setStateWithCallbackImpl
 
 -- | Force render of a react component.
-forceUpdate :: forall eff props state.
-  ReactThis props state -> Eff eff Unit
-forceUpdate this = forceUpdateCb this (pure unit)
+forceUpdate :: forall props state. ReactThis props state -> Effect Unit
+forceUpdate this = forceUpdateWithCallback this (pure unit)
 
-foreign import forceUpdateCbImpl :: forall eff e props state.
-  EffFn2 eff
+foreign import forceUpdateCbImpl :: forall props state.
+  EffectFn2
     (ReactThis props state)
-    (Eff e Unit)
+    (Effect Unit)
     Unit
 
--- | Force render and then run an Eff computation.
-forceUpdateCb :: forall eff props state.
-  ReactThis props state -> Eff eff Unit -> Eff eff Unit
-forceUpdateCb this m = runEffFn2 forceUpdateCbImpl this m
-
--- | Create an event handler.
-foreign import handle :: forall eff ev props state result.
-  (ev -> SyntheticEventHandlerContext eff props state result) -> SyntheticEventHandler ev
+-- | Force render and then run an Effect.
+forceUpdateWithCallback :: forall props state. ReactThis props state -> Effect Unit -> Effect Unit
+forceUpdateWithCallback this m = runEffectFn2 forceUpdateCbImpl this m
 
 class ReactPropFields (required :: # Type) (given :: # Type)
 
@@ -339,8 +263,8 @@ type ReservedReactPropFields r =
   )
 
 instance reactPropFields ::
-  ( Union given optional (ReservedReactPropFields required)
-  , Union optional leftover (ReservedReactPropFields ())
+  ( Row.Union given optional (ReservedReactPropFields required)
+  , Row.Union optional leftover (ReservedReactPropFields ())
   ) =>
   ReactPropFields required given
 
@@ -412,7 +336,7 @@ instance isReactElementChildren :: IsReactElement Children where
   toElement = unsafeCoerce
 
 instance isReactElementReactElement :: IsReactElement ReactElement where
-  toElement = id
+  toElement = identity
 
 instance isReactElementArray :: IsReactElement (Array ReactElement) where
   toElement = createElement fragment {}
