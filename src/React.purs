@@ -50,6 +50,10 @@ module React
   , class IsReactElement
   , toElement
   , fragmentWithKey
+
+  , ContextProvider
+  , ContextConsumer
+  , createContext
   ) where
 
 import Prelude
@@ -350,3 +354,13 @@ instance isReactElementArray :: IsReactElement (Array ReactElement) where
 -- | Creates a keyed fragment.
 fragmentWithKey :: String -> Array ReactElement -> ReactElement
 fragmentWithKey = createElement fragment <<< { key: _ }
+
+type ContextProvider a = ReactClass { children :: Children, value :: a }
+
+type ContextConsumer a = ReactClass { children :: a -> ReactElement }
+
+foreign import createContext :: forall a.
+  a ->
+  { consumer :: ContextConsumer a
+  , provider :: ContextProvider a
+  }
