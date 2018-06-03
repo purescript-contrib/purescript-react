@@ -34,7 +34,8 @@ module React
   , setStateWithCallback
   , writeState
   , writeStateWithCallback
-  , transformState
+  , modifyState
+  , modifyStateWithCallback
 
   , forceUpdate
   , forceUpdateWithCallback
@@ -266,16 +267,14 @@ foreign import getProps :: forall props state.
   ReactThis props state ->
   Effect props
 
--- | Write the component state.
-foreign import setStateImpl :: forall props given all.
-  ReactThis props (Record all) ->
-  Record given ->
+foreign import setStateImpl :: forall props state update.
+  ReactThis props state ->
+  update ->
   Effect Unit
 
--- | Write the component state with a callback.
-foreign import setStateWithCallbackImpl :: forall props given all.
-  ReactThis props (Record all) ->
-  Record given ->
+foreign import setStateWithCallbackImpl :: forall props state update.
+  ReactThis props state ->
+  update ->
   Effect Unit ->
   Effect Unit
 
@@ -284,12 +283,7 @@ foreign import getState :: forall props state.
   ReactThis props state ->
   Effect state
 
--- | Transform the component state by applying a function.
-foreign import transformState :: forall props state.
-  ReactThis props state ->
-  (state -> state) ->
-  Effect Unit
-
+-- | Update component state given some sub-set of state properties.
 setState :: forall props given rest all.
   Row.Union given rest all =>
   ReactThis props (Record all) ->
@@ -297,6 +291,8 @@ setState :: forall props given rest all.
   Effect Unit
 setState = setStateImpl
 
+-- | Update component state given some sub-set of state properties, while
+-- | also invoking a callback when applied.
 setStateWithCallback :: forall props given rest all.
   Row.Union given rest all =>
   ReactThis props (Record all) ->
@@ -305,18 +301,36 @@ setStateWithCallback :: forall props given rest all.
   Effect Unit
 setStateWithCallback = setStateWithCallbackImpl
 
+-- | Update component state.
 writeState :: forall props all.
   ReactThis props (Record all) ->
   Record all ->
   Effect Unit
 writeState = setStateImpl
 
+-- | Update component state, while also invoking a callback when applied.
 writeStateWithCallback :: forall props all.
   ReactThis props (Record all) ->
   Record all ->
   Effect Unit ->
   Effect Unit
 writeStateWithCallback = setStateWithCallbackImpl
+
+-- | Update component state given a modification function.
+modifyState :: forall props state.
+  ReactThis props state ->
+  (state -> state) ->
+  Effect Unit
+modifyState = setStateImpl
+
+-- | Update component state given a modification function, while also invoking
+-- | a callback when applied.
+modifyStateWithCallback :: forall props state.
+  ReactThis props state ->
+  (state -> state) ->
+  Effect Unit ->
+  Effect Unit
+modifyStateWithCallback = setStateWithCallbackImpl
 
 -- | Force render of a react component.
 forceUpdate :: forall props state. ReactThis props state -> Effect Unit

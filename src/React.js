@@ -125,17 +125,6 @@ function getState(this_) {
 }
 exports.getState = getState;
 
-function transformState(this_){
-  return function(update){
-    return function(){
-      this_.setState(function(old, props){
-        return update(old);
-      });
-    };
-  };
-}
-exports.transformState = transformState;
-
 function forceUpdateCbImpl(this_, cb) {
   this_.forceUpdate(function() {
     return cb();
