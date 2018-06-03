@@ -190,41 +190,37 @@ instance reactPureComponentSpec ::
   ReactPureComponentSpec props state snapshot given spec
 
 -- | Creates a `ReactClass`` inherited from `React.Component`.
-component
-  :: forall props state snapshot given spec
-   . ReactComponentSpec (Record props) (Record state) snapshot given spec
-  => String
-  -> ReactClassConstructor (Record props) (Record state) given
-  -> ReactClass (Record props)
+component :: forall props state snapshot given spec.
+  ReactComponentSpec (Record props) (Record state) snapshot given spec =>
+  String ->
+  ReactClassConstructor (Record props) (Record state) given ->
+  ReactClass (Record props)
 component = componentImpl
 
 -- | Like `component`, but takes a `getDerivedStateFromProps` handler.
-componentWithDerivedState
-  :: forall props state snapshot given spec
-   . ReactComponentSpec (Record props) (Record state) snapshot given spec
-  => String
-  -> (Record props -> Record state -> Record state)
-  -> ReactClassConstructor (Record props) (Record state) given
-  -> ReactClass (Record props)
+componentWithDerivedState :: forall props state snapshot given spec.
+  ReactComponentSpec (Record props) (Record state) snapshot given spec =>
+  String ->
+  (Record props -> Record state -> Record state) ->
+  ReactClassConstructor (Record props) (Record state) given ->
+  ReactClass (Record props)
 componentWithDerivedState = componentWithDerivedStateImpl
 
 -- | Creates a `ReactClass`` inherited from `React.PureComponent`.
-pureComponent
-  :: forall props state snapshot given spec
-   . ReactPureComponentSpec (Record props) (Record state) snapshot given spec
-  => String
-  -> ReactClassConstructor (Record props) (Record state) given
-  -> ReactClass (Record props)
+pureComponent :: forall props state snapshot given spec.
+  ReactPureComponentSpec (Record props) (Record state) snapshot given spec =>
+  String ->
+  ReactClassConstructor (Record props) (Record state) given ->
+  ReactClass (Record props)
 pureComponent = pureComponentImpl
 
 -- | Like `pureComponent`, but takes a `getDerivedStateFromProps` handler.
-pureComponentWithDerivedState
-  :: forall props state snapshot given spec
-   . ReactPureComponentSpec (Record props) (Record state) snapshot given spec
-  => String
-  -> (Record props -> Record state -> Record state)
-  -> ReactClassConstructor (Record props) (Record state) given
-  -> ReactClass (Record props)
+pureComponentWithDerivedState :: forall props state snapshot given spec.
+  ReactPureComponentSpec (Record props) (Record state) snapshot given spec =>
+  String ->
+  (Record props -> Record state -> Record state) ->
+  ReactClassConstructor (Record props) (Record state) given ->
+  ReactClass (Record props)
 pureComponentWithDerivedState = componentWithDerivedStateImpl
 
 foreign import componentImpl :: forall this props r.
@@ -441,6 +437,7 @@ type ContextProvider a = ReactClass { children :: Children, value :: a }
 
 type ContextConsumer a = ReactClass { children :: a -> ReactElement }
 
+-- | Create a new context provider/consumer pair given a default value.
 foreign import createContext :: forall a.
   a ->
   { consumer :: ContextConsumer a
