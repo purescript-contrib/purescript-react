@@ -37,7 +37,7 @@ function createClass(baseClass) {
         break;
 
       default:
-        throw new Error('Not a component property: ' + prop);
+        throw new Error('[purescript-react] Not a component property: ' + prop);
     }
   }
 
@@ -117,6 +117,9 @@ exports.setStateWithCallbackImpl = setStateWithCallback;
 
 function getState(this_) {
   return function(){
+    if (!this_.state) {
+      throw new Error('[purescript-react] Cannot get state within constructor');
+    }
     return this_.state;
   };
 }
