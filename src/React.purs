@@ -18,7 +18,7 @@ module React
   , ComponentWillUnmount
 
   , ReactClass
-  , Ref
+  , ReactRef
 
   , class ReactComponentSpec
   , class ReactPureComponentSpec
@@ -259,7 +259,7 @@ foreign import fragment :: ReactClass { children :: Children }
 
 -- | Type for React refs. This type is opaque, but you can use `Data.Foreign`
 -- | and `DOM` to validate the underlying representation.
-foreign import data Ref :: Type
+foreign import data ReactRef :: Type
 
 -- | Read the component props.
 foreign import getProps :: forall props state.
@@ -336,7 +336,7 @@ class ReactPropFields (required :: # Type) (given :: # Type)
 
 type ReservedReactPropFields r =
   ( key :: String
-  , ref :: SyntheticEventHandler (Nullable Ref)
+  , ref :: SyntheticEventHandler (Nullable ReactRef)
   | r
   )
 

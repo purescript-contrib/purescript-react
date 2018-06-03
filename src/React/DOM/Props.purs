@@ -5,7 +5,7 @@ import Prelude
 import Data.Nullable (Nullable)
 import Effect (Effect)
 import Effect.Uncurried (mkEffectFn1)
-import React (Ref)
+import React (ReactRef)
 import React.SyntheticEvent
   ( SyntheticEvent
   , SyntheticAnimationEvent
@@ -894,7 +894,7 @@ onScrollCapture f = unsafeMkProps "onScrollCapture" (mkEffectFn1 f)
 onWheelCapture :: (SyntheticWheelEvent -> Effect Unit) -> Props
 onWheelCapture f = unsafeMkProps "onWheelCapture" (mkEffectFn1 f)
 
-ref :: (Nullable Ref -> Effect Unit) -> Props
+ref :: (Nullable ReactRef -> Effect Unit) -> Props
 ref f = unsafeMkProps "ref" (mkEffectFn1 f)
 
 suppressContentEditableWarning :: Boolean -> Props
