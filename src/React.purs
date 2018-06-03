@@ -4,6 +4,7 @@ module React
   ( ReactElement
   , ReactComponent
   , ReactThis
+  , ReactUnusedSnapshot
   , TagName
 
   , Render
@@ -19,8 +20,12 @@ module React
   , ReactClass
   , Ref
 
+  , class ReactComponentSpec
+  , class ReactPureComponentSpec
   , component
+  , componentWithDerivedState
   , pureComponent
+  , pureComponentWithDerivedState
   , statelessComponent
 
   , getProps
@@ -84,6 +89,8 @@ foreign import data ReactComponent :: Type
 -- | A reference to a component, essentially React's `this`.
 foreign import data ReactThis :: Type -> Type -> Type
 
+foreign import data ReactUnusedSnapshot :: Type
+
 type SyntheticEventHandler event = EffectFn1 event Unit
 
 -- | A render effect.
@@ -108,9 +115,11 @@ type ShouldComponentUpdate props state = props -> state -> Effect Boolean
 type ComponentWillUpdate props state = props -> state -> Effect Unit
 
 -- | A component did update function.
-type ComponentDidUpdate props state = props -> state -> Effect Unit
+type ComponentDidUpdate props state snapshot = props -> state -> snapshot -> Effect Unit
 
--- | A component will unmount effect..
+type GetSnapshotBeforeUpdate props state snapshot = props -> state -> Effect snapshot
+
+-- | A component will unmount effect.
 type ComponentWillUnmount = Effect Unit
 
 -- | Required fields for constructing a ReactClass.
@@ -120,63 +129,122 @@ type ReactSpecRequired state r =
   | r
   )
 
--- | Optional fields for constructing a ReactClass.
-type ReactSpecOptional props state r =
-  ( componentWillMount :: ComponentWillMount
-  , componentDidMount :: ComponentDidMount
-  , componentDidCatch :: ComponentDidCatch
-  , componentWillReceiveProps :: ComponentWillReceiveProps props
-  , componentWillUpdate :: ComponentWillUpdate props state
-  , componentDidUpdate :: ComponentDidUpdate props state
-  , componentWillUnmount :: ComponentWillUnmount
+type ReactSpecUnsafe props state r =
+  ( unsafeComponentWillMount :: ComponentWillMount
+  , unsafeComponentWillReceiveProps :: ComponentWillReceiveProps props
+  , unsafeComponentWillUpdate :: ComponentWillUpdate props state
   | r
+  )
+
+-- | Optional fields for constructing a ReactClass.
+type ReactSpecOptional props state snapshot r =
+  ( componentDidMount :: ComponentDidMount
+  , componentDidCatch :: ComponentDidCatch
+  , componentWillUnmount :: ComponentWillUnmount
+  , componentDidUpdate :: ComponentDidUpdate props state snapshot
+  , getSnapshotBeforeUpdate :: GetSnapshotBeforeUpdate props state snapshot
+  | ReactSpecUnsafe props state r
   )
 
 type ReactSpecShouldComponentUpdate props state =
   ( shouldComponentUpdate :: ShouldComponentUpdate props state
   )
 
-type ReactSpecAll props state
+type ReactSpecAll props state snapshot
   = ReactSpecRequired state
-  + ReactSpecOptional props state
+  + ReactSpecOptional props state snapshot
   + ReactSpecShouldComponentUpdate props state
 
-type ReactSpecPure props state
+type ReactSpecPure props state snapshot
   = ReactSpecRequired state
-  + ReactSpecOptional props state ()
+  + ReactSpecOptional props state snapshot ()
 
 -- | The signature for a ReactClass constructor. A constructor takes the
 -- | `ReactThis` context and returns a record with appropriate lifecycle
 -- | methods.
 type ReactClassConstructor props state r =
   ReactThis props state ->
-  Effect (Record (ReactSpecRequired state r))
+  Effect (Record r)
+
+class ReactComponentSpec props state snapshot (given :: # Type) (spec :: # Type)
+
+instance reactComponentSpec ::
+  ( Row.Union
+      (ReactSpecRequired state given)
+      (ReactSpecAll props state ReactUnusedSnapshot)
+      spec
+  , Row.Nub spec (ReactSpecAll props state snapshot)
+  ) =>
+  ReactComponentSpec props state snapshot given spec
+
+class ReactPureComponentSpec props state snapshot (given :: # Type) (spec :: # Type)
+
+instance reactPureComponentSpec ::
+  ( Row.Union
+      (ReactSpecRequired state given)
+      (ReactSpecPure props state ReactUnusedSnapshot)
+      spec
+  , Row.Nub spec (ReactSpecAll props state snapshot)
+  ) =>
+  ReactPureComponentSpec props state snapshot given spec
 
 -- | Creates a `ReactClass`` inherited from `React.Component`.
 component
-  :: forall props state r x
-   . Row.Union (ReactSpecRequired (Record state) r) x (ReactSpecAll (Record props) (Record state))
+  :: forall props state snapshot given spec
+   . ReactComponentSpec (Record props) (Record state) snapshot given spec
   => String
-  -> ReactClassConstructor (Record props) (Record state) r
+  -> ReactClassConstructor (Record props) (Record state) given
   -> ReactClass (Record props)
 component = componentImpl
 
+-- | Like `component`, but takes a `getDerivedStateFromProps` handler.
+componentWithDerivedState
+  :: forall props state snapshot given spec
+   . ReactComponentSpec (Record props) (Record state) snapshot given spec
+  => String
+  -> (Record props -> Record state -> Record state)
+  -> ReactClassConstructor (Record props) (Record state) given
+  -> ReactClass (Record props)
+componentWithDerivedState = componentWithDerivedStateImpl
+
 -- | Creates a `ReactClass`` inherited from `React.PureComponent`.
 pureComponent
-  :: forall props state r x
-   . Row.Union (ReactSpecRequired (Record state) r) x (ReactSpecPure (Record props) (Record state))
+  :: forall props state snapshot given spec
+   . ReactPureComponentSpec (Record props) (Record state) snapshot given spec
   => String
-  -> ReactClassConstructor (Record props) (Record state) r
+  -> ReactClassConstructor (Record props) (Record state) given
   -> ReactClass (Record props)
 pureComponent = pureComponentImpl
+
+-- | Like `pureComponent`, but takes a `getDerivedStateFromProps` handler.
+pureComponentWithDerivedState
+  :: forall props state snapshot given spec
+   . ReactPureComponentSpec (Record props) (Record state) snapshot given spec
+  => String
+  -> (Record props -> Record state -> Record state)
+  -> ReactClassConstructor (Record props) (Record state) given
+  -> ReactClass (Record props)
+pureComponentWithDerivedState = componentWithDerivedStateImpl
 
 foreign import componentImpl :: forall this props r.
   String ->
   (this -> Effect r) ->
   ReactClass props
 
+foreign import componentWithDerivedStateImpl :: forall this props state r.
+  String ->
+  (props -> state -> state) ->
+  (this -> Effect r) ->
+  ReactClass props
+
 foreign import pureComponentImpl :: forall this props r.
   String ->
+  (this -> Effect r) ->
+  ReactClass props
+
+foreign import pureComponentWithDerivedStateImpl :: forall this props state r.
+  String ->
+  (props -> state -> state) ->
   (this -> Effect r) ->
   ReactClass props
 
