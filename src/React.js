@@ -104,7 +104,7 @@ function setStateImpl(this_) {
 }
 exports.setStateImpl = setState;
 
-function setStateWithCallbackImpl(this_, cb) {
+function setStateWithCallbackImpl(this_) {
   return function(state){
     return function(cb){
       return function() {
@@ -125,13 +125,14 @@ function getState(this_) {
 }
 exports.getState = getState;
 
-function forceUpdateCbImpl(this_, cb) {
-  this_.forceUpdate(function() {
-    return cb();
-  });
-  return {};
-};
-exports.forceUpdateCbImpl = forceUpdateCbImpl;
+function forceUpdateWithCallback(this_) {
+  return function(cb) {
+    return function() {
+      this_.forceUpdate(cb);
+    };
+  };
+}
+exports.forceUpdateWithCallback = forceUpdateWithCallback;
 
 function createElement(class_) {
   return function(props){

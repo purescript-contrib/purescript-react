@@ -67,7 +67,7 @@ import Prelude
 import Data.Nullable (Nullable)
 import Effect (Effect)
 import Effect.Exception (Error)
-import Effect.Uncurried (EffectFn1, EffectFn2, runEffectFn2)
+import Effect.Uncurried (EffectFn1)
 import Prim.Row as Row
 import Type.Row (type (+))
 import Unsafe.Coerce (unsafeCoerce)
@@ -332,15 +332,11 @@ modifyStateWithCallback = setStateWithCallbackImpl
 forceUpdate :: forall props state. ReactThis props state -> Effect Unit
 forceUpdate this = forceUpdateWithCallback this (pure unit)
 
-foreign import forceUpdateCbImpl :: forall props state.
-  EffectFn2
-    (ReactThis props state)
-    (Effect Unit)
-    Unit
-
 -- | Force render and then run an Effect.
-forceUpdateWithCallback :: forall props state. ReactThis props state -> Effect Unit -> Effect Unit
-forceUpdateWithCallback this m = runEffectFn2 forceUpdateCbImpl this m
+foreign import forceUpdateWithCallback :: forall props state.
+  ReactThis props state ->
+  Effect Unit ->
+  Effect Unit
 
 class ReactPropFields (required :: # Type) (given :: # Type)
 
