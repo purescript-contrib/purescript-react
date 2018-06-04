@@ -108,6 +108,19 @@ function transformState(this_){
 }
 exports.transformState = transformState;
 
+function transformStateWithCallback(this_){
+  return function(update){
+    return function(cb){
+      return function(){
+        this_.setState(function(old, props){
+          return update(old);
+        }, cb);
+      };
+    };
+  };
+}
+exports.transformStateWithCallback = transformStateWithCallback;
+
 function forceUpdateCbImpl(this_, cb) {
   this_.forceUpdate(function() {
     return cb();

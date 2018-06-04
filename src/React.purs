@@ -37,6 +37,7 @@ module React
   , writeState
   , writeStateWithCallback
   , transformState
+  , transformStateWithCallback
 
   , forceUpdate
   , forceUpdateCb
@@ -308,6 +309,13 @@ foreign import readState :: forall props state access eff.
 foreign import transformState :: forall props state eff.
   ReactThis props state ->
   (state -> state) ->
+  Eff (state :: ReactState ReadWrite | eff) Unit
+
+-- | Transform the component state by applying a function with a callback.
+foreign import transformStateWithCallback :: forall props state eff.
+  ReactThis props state ->
+  (state -> state) ->
+  Eff (state :: ReactState ReadWrite | eff) Unit ->
   Eff (state :: ReactState ReadWrite | eff) Unit
 
 -- | Force render of a react component.
