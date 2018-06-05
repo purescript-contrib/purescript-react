@@ -102,7 +102,7 @@ function setStateImpl(this_) {
     };
   };
 }
-exports.setStateImpl = setState;
+exports.setStateImpl = setStateImpl;
 
 function setStateWithCallbackImpl(this_) {
   return function(state){
@@ -113,7 +113,7 @@ function setStateWithCallbackImpl(this_) {
     };
   };
 }
-exports.setStateWithCallbackImpl = setStateWithCallback;
+exports.setStateWithCallbackImpl = setStateWithCallbackImpl;
 
 function getState(this_) {
   return function(){
