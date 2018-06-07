@@ -57,6 +57,7 @@ module React
   , toElement
   , fragmentWithKey
 
+  , Context
   , ContextProvider
   , ContextConsumer
   , createContext
@@ -170,10 +171,7 @@ type ReactClassConstructor props state r =
 class ReactComponentSpec props state snapshot (given :: # Type) (spec :: # Type)
 
 instance reactComponentSpec ::
-  ( Row.Union
-      (ReactSpecRequired state given)
-      (ReactSpecAll props state ReactUnusedSnapshot)
-      spec
+  ( Row.Union given (ReactSpecAll props state ReactUnusedSnapshot) spec
   , Row.Nub spec (ReactSpecAll props state snapshot)
   ) =>
   ReactComponentSpec props state snapshot given spec
@@ -181,11 +179,8 @@ instance reactComponentSpec ::
 class ReactPureComponentSpec props state snapshot (given :: # Type) (spec :: # Type)
 
 instance reactPureComponentSpec ::
-  ( Row.Union
-      (ReactSpecRequired state given)
-      (ReactSpecPure props state ReactUnusedSnapshot)
-      spec
-  , Row.Nub spec (ReactSpecAll props state snapshot)
+  ( Row.Union given (ReactSpecPure props state ReactUnusedSnapshot) spec
+  , Row.Nub spec (ReactSpecPure props state snapshot)
   ) =>
   ReactPureComponentSpec props state snapshot given spec
 
@@ -429,13 +424,14 @@ instance isReactElementArray :: IsReactElement (Array ReactElement) where
 fragmentWithKey :: String -> Array ReactElement -> ReactElement
 fragmentWithKey = createElement fragment <<< { key: _ }
 
+type Context a =
+  { consumer :: ContextConsumer a
+  , provider :: ContextProvider a
+  }
+
 type ContextProvider a = ReactClass { children :: Children, value :: a }
 
 type ContextConsumer a = ReactClass { children :: a -> ReactElement }
 
 -- | Create a new context provider/consumer pair given a default value.
-foreign import createContext :: forall a.
-  a ->
-  { consumer :: ContextConsumer a
-  , provider :: ContextProvider a
-  }
+foreign import createContext :: forall a. a -> Context a
