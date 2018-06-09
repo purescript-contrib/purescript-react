@@ -41,10 +41,13 @@ module React
   , forceUpdateWithCallback
 
   , createElement
+  , unsafeCreateElement
   , createElementDynamic
+  , unsafeCreateElementDynamic
+  , createLeafElement
+  , unsafeCreateLeafElement
   , createElementTagName
   , createElementTagNameDynamic
-  , createLeafElement
 
   , SyntheticEventHandler
 
@@ -356,6 +359,15 @@ createElement :: forall required given.
   ReactElement
 createElement = createElementImpl
 
+-- | An unsafe version of `createElement` which does not enforce the reserved
+-- | properties "key" and "ref".
+unsafeCreateElement :: forall props.
+  ReactClass { children :: Children | props } ->
+  { | props } ->
+  Array ReactElement ->
+  ReactElement
+unsafeCreateElement = createElementImpl
+
 -- | Create an element from a React class passing the children array. Used for a dynamic array of children.
 createElementDynamic :: forall required given.
   ReactPropFields required given =>
@@ -364,6 +376,15 @@ createElementDynamic :: forall required given.
   Array ReactElement ->
   ReactElement
 createElementDynamic = createElementDynamicImpl
+
+-- | An unsafe version of `createElementDynamic` which does not enforce the reserved
+-- | properties "key" and "ref".
+unsafeCreateElementDynamic :: forall props.
+  ReactClass { children :: Children | props } ->
+  { | props } ->
+  Array ReactElement ->
+  ReactElement
+unsafeCreateElementDynamic = createElementDynamicImpl
 
 foreign import createElementImpl :: forall required given children.
   ReactClass required -> given -> Array children -> ReactElement
@@ -378,6 +399,14 @@ createLeafElement :: forall required given.
   { | given } ->
   ReactElement
 createLeafElement = createLeafElementImpl
+
+-- | An unsafe version of `createLeafElement` which does not enforce the reserved
+-- | properties "key" and "ref".
+unsafeCreateLeafElement :: forall props.
+  ReactClass props ->
+  props ->
+  ReactElement
+unsafeCreateLeafElement = createLeafElementImpl
 
 foreign import createLeafElementImpl :: forall required given.
   ReactClass required -> given -> ReactElement
