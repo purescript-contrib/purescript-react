@@ -93,9 +93,9 @@ module React.SyntheticEvent
 
 import Prelude
 
-import Control.Monad.Eff (Eff)
-
 import Data.Symbol (class IsSymbol, SProxy(..), reflectSymbol)
+import Effect (Effect)
+import Prim.Row as Row
 
 type SyntheticEvent
   = SyntheticEvent_ (SyntheticEvent' ())
@@ -248,160 +248,160 @@ type SyntheticWheelEvent' r
     | r
     )
 
-bubbles :: forall eff r. SyntheticEvent_ (bubbles :: Boolean | r) -> Eff eff Boolean
+bubbles :: forall r. SyntheticEvent_ (bubbles :: Boolean | r) -> Effect Boolean
 bubbles = get (SProxy :: SProxy "bubbles")
 
-cancelable :: forall eff r. SyntheticEvent_ (cancelable :: Boolean | r) -> Eff eff Boolean
+cancelable :: forall r. SyntheticEvent_ (cancelable :: Boolean | r) -> Effect Boolean
 cancelable = get (SProxy :: SProxy "cancelable")
 
-currentTarget :: forall eff r. SyntheticEvent_ (currentTarget :: NativeEventTarget | r) -> Eff eff NativeEventTarget
+currentTarget :: forall r. SyntheticEvent_ (currentTarget :: NativeEventTarget | r) -> Effect NativeEventTarget
 currentTarget = get (SProxy :: SProxy "currentTarget")
 
-defaultPrevented :: forall eff r. SyntheticEvent_ (defaultPrevented :: Boolean | r) -> Eff eff Boolean
+defaultPrevented :: forall r. SyntheticEvent_ (defaultPrevented :: Boolean | r) -> Effect Boolean
 defaultPrevented = get (SProxy :: SProxy "defaultPrevented")
 
-eventPhase :: forall eff r. SyntheticEvent_ (eventPhase :: Number | r) -> Eff eff Number
+eventPhase :: forall r. SyntheticEvent_ (eventPhase :: Number | r) -> Effect Number
 eventPhase = get (SProxy :: SProxy "eventPhase")
 
-isTrusted :: forall eff r. SyntheticEvent_ (isTrusted :: Boolean | r) -> Eff eff Boolean
+isTrusted :: forall r. SyntheticEvent_ (isTrusted :: Boolean | r) -> Effect Boolean
 isTrusted = get (SProxy :: SProxy "isTrusted")
 
-nativeEvent :: forall eff r. SyntheticEvent_ (nativeEvent :: NativeEvent | r) -> Eff eff NativeEvent
+nativeEvent :: forall r. SyntheticEvent_ (nativeEvent :: NativeEvent | r) -> Effect NativeEvent
 nativeEvent = get (SProxy :: SProxy "nativeEvent")
 
-target :: forall eff r. SyntheticEvent_ (target :: NativeEventTarget | r) -> Eff eff NativeEventTarget
+target :: forall r. SyntheticEvent_ (target :: NativeEventTarget | r) -> Effect NativeEventTarget
 target = get (SProxy :: SProxy "target")
 
-timeStamp :: forall eff r. SyntheticEvent_ (timeStamp :: Number | r) -> Eff eff Number
+timeStamp :: forall r. SyntheticEvent_ (timeStamp :: Number | r) -> Effect Number
 timeStamp = get (SProxy :: SProxy "timeStamp")
 
-type_ :: forall eff r. SyntheticEvent_ (type :: String | r) -> Eff eff String
+type_ :: forall r. SyntheticEvent_ (type :: String | r) -> Effect String
 type_ = get (SProxy :: SProxy "type")
 
-animationName :: forall eff r. SyntheticEvent_ (animationName :: String | r) -> Eff eff String
+animationName :: forall r. SyntheticEvent_ (animationName :: String | r) -> Effect String
 animationName = get (SProxy :: SProxy "animationName")
 
-clipboardData :: forall eff r. SyntheticEvent_ (clipboardData :: NativeDataTransfer | r) -> Eff eff NativeDataTransfer
+clipboardData :: forall r. SyntheticEvent_ (clipboardData :: NativeDataTransfer | r) -> Effect NativeDataTransfer
 clipboardData = get (SProxy :: SProxy "clipboardData")
 
-data_ :: forall eff r. SyntheticEvent_ (data :: String | r) -> Eff eff String
+data_ :: forall r. SyntheticEvent_ (data :: String | r) -> Effect String
 data_ = get (SProxy :: SProxy "data")
 
-relatedTarget :: forall eff r. SyntheticEvent_ (relatedTarget :: NativeEventTarget | r) -> Eff eff NativeEventTarget
+relatedTarget :: forall r. SyntheticEvent_ (relatedTarget :: NativeEventTarget | r) -> Effect NativeEventTarget
 relatedTarget = get (SProxy :: SProxy "relatedTarget")
 
-charCode :: forall eff r. SyntheticEvent_ (charCode :: Int | r) -> Eff eff Int
+charCode :: forall r. SyntheticEvent_ (charCode :: Int | r) -> Effect Int
 charCode = get (SProxy :: SProxy "charCode")
 
-key :: forall eff r. SyntheticEvent_ (key :: String | r) -> Eff eff String
+key :: forall r. SyntheticEvent_ (key :: String | r) -> Effect String
 key = get (SProxy :: SProxy "key")
 
-keyCode :: forall eff r. SyntheticEvent_ (keyCode :: Number | r) -> Eff eff Number
+keyCode :: forall r. SyntheticEvent_ (keyCode :: Number | r) -> Effect Number
 keyCode = get (SProxy :: SProxy "keyCode")
 
-locale :: forall eff r. SyntheticEvent_ (locale :: String | r) -> Eff eff String
+locale :: forall r. SyntheticEvent_ (locale :: String | r) -> Effect String
 locale = get (SProxy :: SProxy "locale")
 
-location :: forall eff r. SyntheticEvent_ (location :: Number | r) -> Eff eff Number
+location :: forall r. SyntheticEvent_ (location :: Number | r) -> Effect Number
 location = get (SProxy :: SProxy "location")
 
-repeat :: forall eff r. SyntheticEvent_ (repeat :: Boolean | r) -> Eff eff Boolean
+repeat :: forall r. SyntheticEvent_ (repeat :: Boolean | r) -> Effect Boolean
 repeat = get (SProxy :: SProxy "repeat")
 
-which :: forall eff r. SyntheticEvent_ (which :: Number | r) -> Eff eff Number
+which :: forall r. SyntheticEvent_ (which :: Number | r) -> Effect Number
 which = get (SProxy :: SProxy "which")
 
-button :: forall eff r. SyntheticEvent_ (button :: Number | r) -> Eff eff Number
+button :: forall r. SyntheticEvent_ (button :: Number | r) -> Effect Number
 button = get (SProxy :: SProxy "button")
 
-buttons :: forall eff r. SyntheticEvent_ (buttons :: Number | r) -> Eff eff Number
+buttons :: forall r. SyntheticEvent_ (buttons :: Number | r) -> Effect Number
 buttons = get (SProxy :: SProxy "buttons")
 
-clientX :: forall eff r. SyntheticEvent_ (clientX :: Number | r) -> Eff eff Number
+clientX :: forall r. SyntheticEvent_ (clientX :: Number | r) -> Effect Number
 clientX = get (SProxy :: SProxy "clientX")
 
-clientY :: forall eff r. SyntheticEvent_ (clientY :: Number | r) -> Eff eff Number
+clientY :: forall r. SyntheticEvent_ (clientY :: Number | r) -> Effect Number
 clientY = get (SProxy :: SProxy "clientY")
 
-pageX :: forall eff r. SyntheticEvent_ (pageX :: Number | r) -> Eff eff Number
+pageX :: forall r. SyntheticEvent_ (pageX :: Number | r) -> Effect Number
 pageX = get (SProxy :: SProxy "pageX")
 
-pageY :: forall eff r. SyntheticEvent_ (pageY :: Number | r) -> Eff eff Number
+pageY :: forall r. SyntheticEvent_ (pageY :: Number | r) -> Effect Number
 pageY = get (SProxy :: SProxy "pageY")
 
-screenX :: forall eff r. SyntheticEvent_ (screenX :: Number | r) -> Eff eff Number
+screenX :: forall r. SyntheticEvent_ (screenX :: Number | r) -> Effect Number
 screenX = get (SProxy :: SProxy "screenX")
 
-screenY :: forall eff r. SyntheticEvent_ (screenY :: Number | r) -> Eff eff Number
+screenY :: forall r. SyntheticEvent_ (screenY :: Number | r) -> Effect Number
 screenY = get (SProxy :: SProxy "screenY")
 
-changedTouches :: forall eff r. SyntheticEvent_ (changedTouches :: NativeTouchList | r) -> Eff eff NativeTouchList
+changedTouches :: forall r. SyntheticEvent_ (changedTouches :: NativeTouchList | r) -> Effect NativeTouchList
 changedTouches = get (SProxy :: SProxy "changedTouches")
 
-targetTouches :: forall eff r. SyntheticEvent_ (targetTouches :: NativeTouchList | r) -> Eff eff NativeTouchList
+targetTouches :: forall r. SyntheticEvent_ (targetTouches :: NativeTouchList | r) -> Effect NativeTouchList
 targetTouches = get (SProxy :: SProxy "targetTouches")
 
-touches :: forall eff r. SyntheticEvent_ (touches :: NativeTouchList | r) -> Eff eff NativeTouchList
+touches :: forall r. SyntheticEvent_ (touches :: NativeTouchList | r) -> Effect NativeTouchList
 touches = get (SProxy :: SProxy "touches")
 
-altKey :: forall eff r. SyntheticEvent_ (altKey :: Boolean | r) -> Eff eff Boolean
+altKey :: forall r. SyntheticEvent_ (altKey :: Boolean | r) -> Effect Boolean
 altKey = get (SProxy :: SProxy "altKey")
 
-ctrlKey :: forall eff r. SyntheticEvent_ (ctrlKey :: Boolean | r) -> Eff eff Boolean
+ctrlKey :: forall r. SyntheticEvent_ (ctrlKey :: Boolean | r) -> Effect Boolean
 ctrlKey = get (SProxy :: SProxy "ctrlKey")
 
-metaKey :: forall eff r. SyntheticEvent_ (metaKey :: Boolean | r) -> Eff eff Boolean
+metaKey :: forall r. SyntheticEvent_ (metaKey :: Boolean | r) -> Effect Boolean
 metaKey = get (SProxy :: SProxy "metaKey")
 
-shiftKey :: forall eff r. SyntheticEvent_ (shiftKey :: Boolean | r) -> Eff eff Boolean
+shiftKey :: forall r. SyntheticEvent_ (shiftKey :: Boolean | r) -> Effect Boolean
 shiftKey = get (SProxy :: SProxy "shiftKey")
 
-propertyName :: forall eff r. SyntheticEvent_ (propertyName :: String | r) -> Eff eff String
+propertyName :: forall r. SyntheticEvent_ (propertyName :: String | r) -> Effect String
 propertyName = get (SProxy :: SProxy "propertyName")
 
-pseudoElement :: forall eff r. SyntheticEvent_ (pseudoElement :: String | r) -> Eff eff String
+pseudoElement :: forall r. SyntheticEvent_ (pseudoElement :: String | r) -> Effect String
 pseudoElement = get (SProxy :: SProxy "pseudoElement")
 
-elapsedTime :: forall eff r. SyntheticEvent_ (elapsedTime :: Number | r) -> Eff eff Number
+elapsedTime :: forall r. SyntheticEvent_ (elapsedTime :: Number | r) -> Effect Number
 elapsedTime = get (SProxy :: SProxy "elapsedTime")
 
-detail :: forall eff r. SyntheticEvent_ (detail :: Number | r) -> Eff eff Number
+detail :: forall r. SyntheticEvent_ (detail :: Number | r) -> Effect Number
 detail = get (SProxy :: SProxy "detail")
 
-view :: forall eff r. SyntheticEvent_ (view :: NativeAbstractView | r) -> Eff eff NativeAbstractView
+view :: forall r. SyntheticEvent_ (view :: NativeAbstractView | r) -> Effect NativeAbstractView
 view = get (SProxy :: SProxy "view")
 
-deltaMode :: forall eff r. SyntheticEvent_ (deltaMode :: Number | r) -> Eff eff Number
+deltaMode :: forall r. SyntheticEvent_ (deltaMode :: Number | r) -> Effect Number
 deltaMode = get (SProxy :: SProxy "deltaMode")
 
-deltaX :: forall eff r. SyntheticEvent_ (deltaX :: Number | r) -> Eff eff Number
+deltaX :: forall r. SyntheticEvent_ (deltaX :: Number | r) -> Effect Number
 deltaX = get (SProxy :: SProxy "deltaX")
 
-deltaY :: forall eff r. SyntheticEvent_ (deltaY :: Number | r) -> Eff eff Number
+deltaY :: forall r. SyntheticEvent_ (deltaY :: Number | r) -> Effect Number
 deltaY = get (SProxy :: SProxy "deltaY")
 
-deltaZ :: forall eff r. SyntheticEvent_ (deltaZ :: Number | r) -> Eff eff Number
+deltaZ :: forall r. SyntheticEvent_ (deltaZ :: Number | r) -> Effect Number
 deltaZ = get (SProxy :: SProxy "deltaZ")
 
-foreign import preventDefault :: forall eff r. SyntheticEvent_ r -> Eff eff Unit
+foreign import preventDefault :: forall r. SyntheticEvent_ r -> Effect Unit
 
-foreign import isDefaultPrevented :: forall eff r. SyntheticEvent_ r -> Eff eff Boolean
+foreign import isDefaultPrevented :: forall r. SyntheticEvent_ r -> Effect Boolean
 
-foreign import stopPropagation :: forall eff r. SyntheticEvent_ r -> Eff eff Unit
+foreign import stopPropagation :: forall r. SyntheticEvent_ r -> Effect Unit
 
-foreign import isPropagationStopped :: forall eff r. SyntheticEvent_ r -> Eff eff Boolean
+foreign import isPropagationStopped :: forall r. SyntheticEvent_ r -> Effect Boolean
 
-foreign import persist :: forall eff r. SyntheticEvent_ r -> Eff eff Unit
+foreign import persist :: forall r. SyntheticEvent_ r -> Effect Unit
 
-foreign import getModifierState :: forall eff r. String -> SyntheticEvent_ (getModifierState :: String -> Boolean | r) -> Eff eff Boolean
+foreign import getModifierState :: forall r. String -> SyntheticEvent_ (getModifierState :: String -> Boolean | r) -> Effect Boolean
 
 get
-  :: forall eff l r s a
-   . RowCons l a r s
+  :: forall l r s a
+   . Row.Cons l a r s
   => IsSymbol l
   => SProxy l
   -> SyntheticEvent_ s
-  -> Eff eff a
+  -> Effect a
 get l r = unsafeGet (reflectSymbol l) r
 
-foreign import unsafeGet :: forall eff r a. String -> SyntheticEvent_ r -> Eff eff a
+foreign import unsafeGet :: forall r a. String -> SyntheticEvent_ r -> Effect a
