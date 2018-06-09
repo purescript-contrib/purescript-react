@@ -59,7 +59,10 @@ module Component where
 
 import Prelude
 
+import Effect.Uncurried (mkEffectFn1)
+
 import React as React
+import React.SyntheticEvent as Event
 
 import Clock as Clock
 
@@ -68,8 +71,8 @@ clock =
   React.createElement Clock.clockComponent
     { format: "HH:mm:ss"
     , className: "test-class-name"
-    , onTick: React.handle $ \event -> do
-        React.preventDefault event
+    , onTick: mkEffectFn1 $ \event -> do
+        Event.preventDefault event
         -- etc.
         pure unit
     } []
@@ -90,7 +93,10 @@ module Clock
 
 import Prelude
 
-import React (ReactClass, ReactElement, SyntheticEventHandlerContext, Children, createElement, handle)
+import Effect (Effect)
+import Effect.Uncurried (mkEffectFn1)
+
+import React (ReactClass, ReactElement, Children, createElement)
 import React.SyntheticEvent (SyntheticEvent)
 import React.DOM.Props (Props, unsafeFromPropsArray, unsafeMkProps)
 
@@ -100,8 +106,8 @@ clockComponent props children = createElement clockComponent_ (unsafeFromPropsAr
 format :: String -> Props
 format = unsafeMkProps "format"
 
-onTick :: forall eff props state. (SyntheticEvent -> SyntheticEventHandlerContext eff props state Unit) -> Props
-onTick k = unsafeMkProps "onTick" (handle k)
+onTick :: (SyntheticEvent -> Effect Unit) -> Props
+onTick k = unsafeMkProps "onTick" (mkEffectFn1 k)
 
 foreign import clockComponent_
   :: ReactClass
@@ -117,6 +123,7 @@ module Component where
 import Prelude
 
 import React as React
+import React.SyntheticEvent as Event
 import React.DOM.Props as Props
 
 import Clock as Clock
@@ -126,7 +133,7 @@ clock =
   Clock.clockComponent
     [ Clock.format "HH:mm:ss"
     , Clock.onTick $ \event -> do
-        React.preventDefault event
+        Event.preventDefault event
         -- etc.
         pure unit
     , Props.className "test-class-name"
@@ -200,7 +207,7 @@ var orderedList = function (dictOrd) {
   var component = function ($$this) {
     // ...
   };
-  return React.component()("OrderedList")(component);
+  return React.component(React.reactComponentSpec()())("OrderedList")(component);
 };
 ```
 
