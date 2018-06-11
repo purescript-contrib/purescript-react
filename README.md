@@ -1,7 +1,6 @@
 # purescript-react
 
 [![Maintainer: ethul](https://img.shields.io/badge/maintainer-ethul-lightgrey.svg)](http://github.com/ethul)
-[![Maintainer: paf31](https://img.shields.io/badge/maintainer-paf31-lightgrey.svg)](http://github.com/paf31)
 ![React: 16](https://img.shields.io/badge/react-16-lightgrey.svg)
 
 Low-level React Bindings for PureScript.
