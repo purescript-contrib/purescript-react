@@ -1,12 +1,12 @@
 -- | This module defines foreign types and functions which wrap React's functionality.
 
 module React
-  ( ReactElement
+  ( TagName
+  , ReactElement
   , ReactComponent
   , ReactThis
   , ReactUnusedSnapshot
-  , TagName
-
+  , SyntheticEventHandler
   , Render
   , ComponentWillMount
   , ComponentDidMount
@@ -15,11 +15,15 @@ module React
   , ShouldComponentUpdate
   , ComponentWillUpdate
   , ComponentDidUpdate
+  , GetSnapshotBeforeUpdate
   , ComponentWillUnmount
-
-  , ReactClass
-  , ReactRef
-
+  , ReactSpecRequired
+  , ReactSpecUnsafe
+  , ReactSpecOptional
+  , ReactSpecShouldComponentUpdate
+  , ReactSpecAll
+  , ReactSpecPure
+  , ReactClassConstructor
   , class ReactComponentSpec
   , class ReactPureComponentSpec
   , component
@@ -27,7 +31,8 @@ module React
   , pureComponent
   , pureComponentWithDerivedState
   , statelessComponent
-
+  , ReactClass
+  , ReactRef
   , getProps
   , getState
   , setState
@@ -36,10 +41,10 @@ module React
   , writeStateWithCallback
   , modifyState
   , modifyStateWithCallback
-
   , forceUpdate
   , forceUpdateWithCallback
-
+  , class ReactPropFields
+  , ReservedReactPropFields
   , createElement
   , unsafeCreateElement
   , createElementDynamic
@@ -48,18 +53,12 @@ module React
   , unsafeCreateLeafElement
   , createElementTagName
   , createElementTagNameDynamic
-
-  , SyntheticEventHandler
-
   , Children
   , childrenToArray
   , childrenCount
-
-  , class ReactPropFields
   , class IsReactElement
   , toElement
   , fragmentWithKey
-
   , Context
   , ContextProvider
   , ContextConsumer
