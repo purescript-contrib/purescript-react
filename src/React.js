@@ -169,3 +169,13 @@ function createContext(defaultValue) {
   };
 }
 exports.createContext = createContext;
+
+exports.createElementHooks = function createElementHooks(props) {
+  return function(fn) {
+    var fn_ = function(props) {
+      return fn(props)();
+    };
+
+    return React.createElement(fn_, props);
+  };
+};

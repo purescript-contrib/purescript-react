@@ -63,6 +63,7 @@ module React
   , ContextProvider
   , ContextConsumer
   , createContext
+  , module React
   ) where
 
 import Prelude
@@ -74,6 +75,53 @@ import Effect.Uncurried (EffectFn1)
 import Prim.Row as Row
 import Type.Row (type (+))
 import Unsafe.Coerce (unsafeCoerce)
+
+import React.Hooks
+  ( useState
+  , useStateLazy
+  , setState
+  , modifyState
+  , SetState
+
+  , useEffect
+  , effectInput
+  , EffectInput
+
+  , useContext
+  , Context
+
+  , useReducer
+  , useReducerLazy
+  , dispatch
+  , Dispatch
+  , Action_
+  , Action
+
+  , useCallback
+  , callbackInput
+  , CallbackInput
+
+  , useMemo
+  , memoInput
+  , MemoInput
+
+  , useRef
+  , getRef
+  , setRef
+  , Ref
+
+  , useImperativeMethods
+  , imperativeMethodsInput
+  , ImperativeMethodsInput
+
+  , useMutationEffect
+  , mutationEffectInput
+  , MutationEffectInput
+
+  , useLayoutEffect
+  , layoutEffectInput
+  , LayoutEffectInput
+  ) as React
 
 -- | Name of a tag.
 type TagName = String
@@ -463,3 +511,10 @@ type ContextConsumer a = ReactClass { children :: a -> ReactElement }
 
 -- | Create a new context provider/consumer pair given a default value.
 foreign import createContext :: forall a. a -> Context a
+
+-- | Create an element from a function using Hooks.
+foreign import createElementHooks
+  :: forall props
+   . { | props }
+  -> ({ | props } -> Effect ReactElement)
+  -> ReactElement
