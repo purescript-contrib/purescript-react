@@ -174,12 +174,15 @@ exports.createElementHooks = function createElementHooks(fn) {
   return function(props) {
     var name = fn.name;
 
-    var fn_ = {};
-
-    fn_[name] = function(props_) {
+    var fn_ = function(props_) {
       return fn(props_)();
     };
 
-    return React.createElement(fn_[name], props);
+    Object.defineProperty(fn_, 'name', {
+      value: name,
+      writable: false
+    });
+
+    return React.createElement(fn_, props);
   };
 };

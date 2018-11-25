@@ -63,7 +63,6 @@ module React
   , ContextProvider
   , ContextConsumer
   , createContext
-  , module React
   ) where
 
 import Prelude
@@ -75,51 +74,6 @@ import Effect.Uncurried (EffectFn1)
 import Prim.Row as Row
 import Type.Row (type (+))
 import Unsafe.Coerce (unsafeCoerce)
-
-import React.Hooks
-  ( useState
-  , useStateLazy
-  , setState
-  , modifyState
-  , SetState
-
-  , useEffect
-  , effectInput
-  , EffectInput
-
-  , useContext
-  , Context
-
-  , useReducer
-  , useReducerLazy
-  , dispatch
-  , Dispatch
-
-  , useCallback
-  , callbackInput
-  , CallbackInput
-
-  , useMemo
-  , memoInput
-  , MemoInput
-
-  , useRef
-  , getRef
-  , setRef
-  , Ref
-
-  , useImperativeMethods
-  , imperativeMethodsInput
-  , ImperativeMethodsInput
-
-  , useMutationEffect
-  , mutationEffectInput
-  , MutationEffectInput
-
-  , useLayoutEffect
-  , layoutEffectInput
-  , LayoutEffectInput
-  ) as React
 
 -- | Name of a tag.
 type TagName = String
