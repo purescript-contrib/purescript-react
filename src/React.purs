@@ -513,6 +513,6 @@ foreign import createContext :: forall a. a -> Context a
 -- | Create an element from a function using Hooks.
 foreign import createElementHooks
   :: forall props
-   . { | props }
-  -> ({ | props } -> Effect ReactElement)
+   . ({ | props } -> Effect ReactElement)
+  -> { | props }
   -> ReactElement
