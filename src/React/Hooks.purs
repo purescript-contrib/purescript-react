@@ -16,8 +16,6 @@ module React.Hooks
   , useReducerLazy
   , dispatch
   , Dispatch
-  , Action_
-  , Action
 
   , useCallback
   , callbackInput
@@ -137,50 +135,46 @@ foreign import useContext_
                a
 
 useReducer
-  :: forall r a
-   . (a -> Action r -> a)
+  :: forall a b
+   . (a -> b -> a)
   -> a
-  -> Effect (Tuple a (Dispatch (Action r)))
+  -> Effect (Tuple a (Dispatch a b))
 useReducer = runEffectFn3 useReducer_ Tuple <<< mkFn2
 
 useReducerLazy
-  :: forall r a
-   . (a -> Action r -> a)
+  :: forall a b
+   . (a -> b -> a)
   -> a
-  -> Action r
-  -> Effect (Tuple a (Dispatch (Action r)))
+  -> b
+  -> Effect (Tuple a (Dispatch a b))
 useReducerLazy = runEffectFn4 useReducerLazy_ Tuple <<< mkFn2
 
 dispatch
-  :: forall r
-   . Dispatch (Action r)
-  -> Action r
+  :: forall a b
+   . Dispatch a b
+  -> a
   -> Effect Unit
 dispatch k = runEffectFn1 k'
   where
-  k' :: EffectFn1 (Action r) Unit
+  k' :: EffectFn1 a Unit
   k' = unsafeCoerce k
 
-foreign import data Dispatch :: Type -> Type
-
-foreign import data Action_ :: # Type -> Type
-
-type Action r = Action_ ( type :: String | r )
+foreign import data Dispatch :: Type -> Type -> Type
 
 foreign import useReducer_
-  :: forall r a
-   . EffectFn3 (a -> Dispatch (Action r) -> Tuple a (Dispatch (Action r)))
-               (Fn2 a (Action r) a)
+  :: forall a b
+   . EffectFn3 (a -> Dispatch a b -> Tuple a (Dispatch a b))
+               (Fn2 a b a)
                a
-               (Tuple a (Dispatch (Action r)))
+               (Tuple a (Dispatch a b))
 
 foreign import useReducerLazy_
-  :: forall r a
-   . EffectFn4 (a -> Dispatch (Action r) -> Tuple a (Dispatch (Action r)))
-               (Fn2 a (Action r) a)
+  :: forall a b
+   . EffectFn4 (a -> Dispatch a b -> Tuple a (Dispatch a b))
+               (Fn2 a b a)
                a
-               (Action r)
-               (Tuple a (Dispatch (Action r)))
+               b
+               (Tuple a (Dispatch a b))
 
 useCallback
   :: forall a b
