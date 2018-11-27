@@ -295,9 +295,9 @@ setStateWithCallback :: forall props given rest all.
 setStateWithCallback = setStateWithCallbackImpl
 
 -- | Update component state.
-writeState :: forall props all.
-  ReactThis props (Record all) ->
-  Record all ->
+writeState :: forall props state.
+  ReactThis props state ->
+  state ->
   Effect Unit
 writeState = setStateImpl
 
