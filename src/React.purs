@@ -523,7 +523,7 @@ createHookLeafElement k = createLeafElementImpl (unsafeCoerce k)
 -- | properties "key" and "ref".
 unsafeCreateHookLeafElement
   :: forall props
-   . (props -> Hook ReactElement)
-  -> props
+   . ({ | props } -> Hook ReactElement)
+  -> { | props }
   -> ReactElement
 unsafeCreateHookLeafElement k = createLeafElementImpl (unsafeCoerce k)
