@@ -63,6 +63,7 @@ module React
   , ContextProvider
   , ContextConsumer
   , createContext
+  , createElementHooks
   ) where
 
 import Prelude
