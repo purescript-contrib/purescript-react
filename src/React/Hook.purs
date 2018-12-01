@@ -1,5 +1,7 @@
 module React.Hook
   ( Hook
+  , HookInput
+  , hookInput
 
   , useState
   , useStateLazy
@@ -8,8 +10,6 @@ module React.Hook
   , SetState
 
   , useEffect
-  , effectInput
-  , EffectInput
 
   , useContext
   , Context
@@ -20,12 +20,8 @@ module React.Hook
   , Dispatch
 
   , useCallback
-  , callbackInput
-  , CallbackInput
 
   , useMemo
-  , memoInput
-  , MemoInput
 
   , useRef
   , getRef
@@ -101,19 +97,14 @@ foreign import useState_
 useEffect
   :: forall a
    . Effect (Effect a)
-  -> Maybe (Array EffectInput)
+  -> Maybe (Array HookInput)
   -> Hook Unit
 useEffect k = runFn2 useEffect_ k <<< Nullable.toNullable
-
-effectInput :: forall a. a -> EffectInput
-effectInput = unsafeCoerce
-
-foreign import data EffectInput :: Type
 
 foreign import useEffect_
   :: forall a
    . Fn2 (Effect (Effect a))
-         (Nullable (Array EffectInput))
+         (Nullable (Array HookInput))
          (Hook Unit)
 
 useContext :: forall a. Context a -> Hook a
@@ -171,37 +162,27 @@ foreign import useReducerLazy_
 useCallback
   :: forall a b
    . (a -> b)
-  -> Maybe (Array CallbackInput)
+  -> Maybe (Array HookInput)
   -> Hook (a -> b)
 useCallback k = runFn2 useCallback_ k <<< Nullable.toNullable
-
-callbackInput :: forall a. a -> CallbackInput
-callbackInput = unsafeCoerce
-
-foreign import data CallbackInput :: Type
 
 foreign import useCallback_
   :: forall a b
    . Fn2 (a -> b)
-         (Nullable (Array CallbackInput))
+         (Nullable (Array HookInput))
          (Hook (a -> b))
 
 useMemo
   :: forall a b
    . (Unit -> a -> b)
-  -> Maybe (Array MemoInput)
+  -> Maybe (Array HookInput)
   -> Hook (a -> b)
 useMemo k = runFn2 useMemo_ k <<< Nullable.toNullable
-
-memoInput :: forall a. a -> MemoInput
-memoInput = unsafeCoerce
-
-foreign import data MemoInput :: Type
 
 foreign import useMemo_
   :: forall a b
    . Fn2 (Unit -> a -> b)
-         (Nullable (Array MemoInput))
+         (Nullable (Array HookInput))
          (Hook (a -> b))
 
 useRef :: forall a. Maybe a -> Hook (Ref a)
@@ -289,12 +270,6 @@ foreign import useLayoutEffect_
 
 foreign import data Hook :: Type -> Type
 
-unHook :: forall a. Hook a -> a
-unHook = unsafeCoerce
-
-hook :: forall a. a -> Hook a
-hook = unsafeCoerce
-
 instance functorHook :: Functor Hook where
   map k = hook <<< k <<< unHook
 
@@ -308,3 +283,14 @@ instance bindHook :: Bind Hook where
   bind fa k = k (unHook fa)
 
 instance monadHook :: Monad Hook
+
+unHook :: forall a. Hook a -> a
+unHook = unsafeCoerce
+
+hook :: forall a. a -> Hook a
+hook = unsafeCoerce
+
+foreign import data HookInput :: Type
+
+hookInput :: forall a. a -> HookInput
+hookInput = unsafeCoerce

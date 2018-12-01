@@ -63,7 +63,12 @@ module React
   , ContextProvider
   , ContextConsumer
   , createContext
-  , createElementHook
+  , createHookElement
+  , unsafeCreateHookElement
+  , createHookElementDynamic
+  , unsafeCreateHookElementDynamic
+  , createHookLeafElement
+  , unsafeCreateHookLeafElement
   ) where
 
 import Prelude
@@ -467,9 +472,58 @@ type ContextConsumer a = ReactClass { children :: a -> ReactElement }
 -- | Create a new context provider/consumer pair given a default value.
 foreign import createContext :: forall a. a -> Context a
 
--- | Create an element from a function using Hook.
-foreign import createElementHook
-  :: forall props
-   . ({ | props } -> Hook ReactElement)
-  -> { | props }
+-- | Create an element from a function using Hooks spreading the children array. Used when the children are known up front.
+createHookElement
+  :: forall required given
+   .  ReactPropFields required given
+  => ({ children :: Children | required } -> Hook ReactElement)
+  -> { | given }
+  -> Array ReactElement
   -> ReactElement
+createHookElement k = createElementImpl (unsafeCoerce k)
+
+-- | An unsafe version of `createHookElement` which does not enforce the reserved properties "key" and "ref".
+unsafeCreateHookElement
+  :: forall props
+   . ({ children :: Children | props } -> Hook ReactElement)
+  -> { | props }
+  -> Array ReactElement
+  -> ReactElement
+unsafeCreateHookElement k = createElementImpl (unsafeCoerce k)
+
+-- | Create an element from a function using Hooks passing the children array. Used for a dynamic array of children.
+createHookElementDynamic
+  :: forall required given
+   .  ReactPropFields required given
+  => ({ children :: Children | required } -> Hook ReactElement)
+  -> { | given }
+  -> Array ReactElement
+  -> ReactElement
+createHookElementDynamic k = createElementDynamicImpl (unsafeCoerce k)
+
+-- | An unsafe version of `createHookElementDynamic` which does not enforce the reserved properties "key" and "ref".
+unsafeCreateHookElementDynamic
+  :: forall props
+   . ({ children :: Children | props } -> Hook ReactElement)
+  -> { | props }
+  -> Array ReactElement
+  -> ReactElement
+unsafeCreateHookElementDynamic k = createElementDynamicImpl (unsafeCoerce k)
+
+-- | Create an element from a function using Hooks that does not require children.
+createHookLeafElement
+  :: forall required given
+   .  ReactPropFields required given
+  => ({ | given } -> Hook ReactElement)
+  -> { | given }
+  -> ReactElement
+createHookLeafElement k = createLeafElementImpl (unsafeCoerce k)
+
+-- | An unsafe version of `createHookLeafElement` which does not enforce the reserved
+-- | properties "key" and "ref".
+unsafeCreateHookLeafElement
+  :: forall props
+   . (props -> Hook ReactElement)
+  -> props
+  -> ReactElement
+unsafeCreateHookLeafElement k = createLeafElementImpl (unsafeCoerce k)
