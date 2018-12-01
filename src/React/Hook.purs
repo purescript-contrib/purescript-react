@@ -54,6 +54,7 @@ import Data.Nullable as Nullable
 import Data.Tuple (Tuple(..))
 
 import Effect (Effect)
+import Effect.Uncurried (EffectFn1, EffectFn2, runEffectFn1, runEffectFn2)
 
 import Unsafe.Coerce (unsafeCoerce)
 
@@ -73,20 +74,20 @@ setState
   :: forall a
    . SetState a
   -> a
-  -> Hook Unit
-setState k = runFn1 k'
+  -> Effect Unit
+setState k = runEffectFn1 k'
   where
-  k' :: Fn1 a (Hook Unit)
+  k' :: EffectFn1 a Unit
   k' = unsafeCoerce k
 
 modifyState
   :: forall a
    . SetState a
   -> (a -> a)
-  -> Hook Unit
-modifyState k = runFn1 k'
+  -> Effect Unit
+modifyState k = runEffectFn1 k'
   where
-  k' :: Fn1 (a -> a) (Hook Unit)
+  k' :: EffectFn1 (a -> a) Unit
   k' = unsafeCoerce k
 
 foreign import data SetState :: Type -> Type
@@ -144,10 +145,10 @@ dispatch
   :: forall a b
    . Dispatch a b
   -> a
-  -> Hook Unit
-dispatch k = runFn1 k'
+  -> Effect Unit
+dispatch k = runEffectFn1 k'
   where
-  k' :: Fn1 a (Hook Unit)
+  k' :: EffectFn1 a Unit
   k' = unsafeCoerce k
 
 foreign import data Dispatch :: Type -> Type -> Type
@@ -206,14 +207,11 @@ foreign import useMemo_
 useRef :: forall a. Maybe a -> Hook (Ref a)
 useRef = runFn1 useRef_ <<< Nullable.toNullable
 
-getRef :: forall a. Ref a -> Maybe a
-getRef r = Nullable.toMaybe r'.current
-  where
-  r' :: { current :: Nullable a }
-  r' = unsafeCoerce r
+getRef :: forall a. Ref a -> Effect (Maybe a)
+getRef r = Nullable.toMaybe <$> runEffectFn1 getRef_ r
 
-setRef :: forall a. Ref a -> Maybe a -> Hook Unit
-setRef r = runFn2 setRef_ r <<< Nullable.toNullable
+setRef :: forall a. Ref a -> Maybe a -> Effect Unit
+setRef r = runEffectFn2 setRef_ r <<< Nullable.toNullable
 
 foreign import data Ref :: Type -> Type
 
@@ -222,11 +220,16 @@ foreign import useRef_
    . Fn1 (Nullable a)
          (Hook (Ref a))
 
+foreign import getRef_
+  :: forall a
+   . EffectFn1 (Ref a)
+               (Nullable a)
+
 foreign import setRef_
   :: forall a
-   . Fn2 (Ref a)
-         (Nullable a)
-         (Hook Unit)
+   . EffectFn2 (Ref a)
+               (Nullable a)
+               Unit
 
 useImperativeMethods
   :: forall r a

@@ -68,6 +68,10 @@ exports.useRef_ = function useRef_(initialValue) {
   return result;
 }
 
+exports.getRef_ = function getRef_(ref) {
+  return ref.current;
+}
+
 exports.setRef_ = function setRef_(ref, value) {
   ref.current = value;
 }
