@@ -170,7 +170,7 @@ function createContext(defaultValue) {
 }
 exports.createContext = createContext;
 
-exports.createElementHooks = function createElementHooks(fn) {
+exports.createElementHook = function createElementHook(fn) {
   return function(props) {
     return React.createElement(fn, props);
   };

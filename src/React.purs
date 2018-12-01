@@ -63,7 +63,7 @@ module React
   , ContextProvider
   , ContextConsumer
   , createContext
-  , createElementHooks
+  , createElementHook
   ) where
 
 import Prelude
@@ -76,7 +76,7 @@ import Prim.Row as Row
 import Type.Row (type (+))
 import Unsafe.Coerce (unsafeCoerce)
 
-import React.Hooks (Hook)
+import React.Hook (Hook)
 
 -- | Name of a tag.
 type TagName = String
@@ -467,8 +467,8 @@ type ContextConsumer a = ReactClass { children :: a -> ReactElement }
 -- | Create a new context provider/consumer pair given a default value.
 foreign import createContext :: forall a. a -> Context a
 
--- | Create an element from a function using Hooks.
-foreign import createElementHooks
+-- | Create an element from a function using Hook.
+foreign import createElementHook
   :: forall props
    . ({ | props } -> Hook ReactElement)
   -> { | props }

@@ -1,4 +1,4 @@
-module React.Hooks
+module React.Hook
   ( Hook
 
   , useState
