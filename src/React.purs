@@ -514,7 +514,7 @@ unsafeCreateHookElementDynamic k = createElementDynamicImpl (unsafeCoerce k)
 createHookLeafElement
   :: forall required given
    .  ReactPropFields required given
-  => ({ | given } -> Hook ReactElement)
+  => ({ | required } -> Hook ReactElement)
   -> { | given }
   -> ReactElement
 createHookLeafElement k = createLeafElementImpl (unsafeCoerce k)
