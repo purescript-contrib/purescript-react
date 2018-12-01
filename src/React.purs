@@ -75,6 +75,8 @@ import Prim.Row as Row
 import Type.Row (type (+))
 import Unsafe.Coerce (unsafeCoerce)
 
+import React.Hooks (Hook)
+
 -- | Name of a tag.
 type TagName = String
 
@@ -467,6 +469,6 @@ foreign import createContext :: forall a. a -> Context a
 -- | Create an element from a function using Hooks.
 foreign import createElementHooks
   :: forall props
-   . ({ | props } -> Effect ReactElement)
+   . ({ | props } -> Hook ReactElement)
   -> { | props }
   -> ReactElement
