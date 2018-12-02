@@ -135,11 +135,11 @@ useReducerLazy = runFn4 useReducerLazy_ Tuple <<< mkFn2
 dispatch
   :: forall a b
    . Dispatch a b
-  -> a
+  -> b
   -> Effect Unit
 dispatch k = runEffectFn1 k'
   where
-  k' :: EffectFn1 a Unit
+  k' :: EffectFn1 b Unit
   k' = unsafeCoerce k
 
 foreign import data Dispatch :: Type -> Type -> Type
