@@ -173,17 +173,17 @@ foreign import useCallback_
          (Hook (a -> b))
 
 useMemo
-  :: forall a b
-   . (Unit -> a -> b)
+  :: forall a
+   . (Unit -> a)
   -> Maybe (Array HookInput)
-  -> Hook (a -> b)
+  -> Hook a
 useMemo k = runFn2 useMemo_ k <<< Nullable.toNullable
 
 foreign import useMemo_
-  :: forall a b
-   . Fn2 (Unit -> a -> b)
+  :: forall a
+   . Fn2 (Unit -> a)
          (Nullable (Array HookInput))
-         (Hook (a -> b))
+         (Hook a)
 
 useRef :: forall a. Maybe a -> Hook (Ref a)
 useRef = runFn1 useRef_ <<< Nullable.toNullable
