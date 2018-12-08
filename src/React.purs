@@ -57,6 +57,7 @@ module React
   , unsafeCreateHookElementDynamic
   , createHookLeafElement
   , unsafeCreateHookLeafElement
+  , createRenderPropsElement
   , module Exports
   ) where
 
@@ -378,7 +379,7 @@ unsafeCreateElementDynamic :: forall props.
 unsafeCreateElementDynamic = createElementDynamicImpl
 
 foreign import createElementImpl :: forall required given children.
-  ReactClass required -> given -> Array children -> ReactElement
+  ReactClass required -> given -> children -> ReactElement
 
 foreign import createElementDynamicImpl :: forall required given children.
   ReactClass required -> given -> Array children -> ReactElement
@@ -469,3 +470,13 @@ unsafeCreateHookLeafElement
   -> { | props }
   -> ReactElement
 unsafeCreateHookLeafElement k = createLeafElementImpl (unsafeCoerce k)
+
+-- | Create an element using the [render props pattern](https://reactjs.org/docs/render-props.html#using-props-other-than-render) when the name of the render prop is "children".
+createRenderPropsElement
+  :: forall required given childrenProps
+   . ReactPropFields required given
+  => ReactClass { children :: childrenProps -> ReactElement | required }
+  -> { | given }
+  -> (childrenProps -> ReactElement)
+  -> ReactElement
+createRenderPropsElement = createElementImpl
