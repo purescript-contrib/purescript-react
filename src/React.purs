@@ -2,7 +2,6 @@
 
 module React
   ( TagName
-  , ReactElement
   , ReactComponent
   , ReactThis
   , ReactUnusedSnapshot
@@ -31,8 +30,6 @@ module React
   , pureComponent
   , pureComponentWithDerivedState
   , statelessComponent
-  , ReactClass
-  , ReactRef
   , getProps
   , getState
   , setState
@@ -53,21 +50,19 @@ module React
   , unsafeCreateLeafElement
   , createElementTagName
   , createElementTagNameDynamic
-  , Children
-  , childrenToArray
-  , childrenCount
-  , class IsReactElement
-  , toElement
   , fragmentWithKey
-  , Context
-  , ContextProvider
-  , ContextConsumer
-  , createContext
+  , createHookElement
+  , unsafeCreateHookElement
+  , createHookElementDynamic
+  , unsafeCreateHookElementDynamic
+  , createHookLeafElement
+  , unsafeCreateHookLeafElement
+  , createRenderPropsElement
+  , module Exports
   ) where
 
 import Prelude
 
-import Data.Nullable (Nullable)
 import Effect (Effect)
 import Effect.Exception (Error)
 import Effect.Uncurried (EffectFn1)
@@ -75,17 +70,21 @@ import Prim.Row as Row
 import Type.Row (type (+))
 import Unsafe.Coerce (unsafeCoerce)
 
+import React.Hook (Hook)
+import React.Ref (Ref, DOMRef)
+import React.Types (ReactElement, ReactClass, Children)
+import React.Types
+  ( ReactClass
+  , ReactElement
+  , class IsReactElement
+  , toElement
+  , Children
+  , childrenToArray
+  , childrenCount
+  ) as Exports
+
 -- | Name of a tag.
 type TagName = String
-
--- | A virtual DOM node, or component.
-foreign import data ReactElement :: Type
-
-instance semigroupReactElement :: Semigroup ReactElement where
-  append a b = toElement [ a, b ]
-
-instance monoidReactElement :: Monoid ReactElement where
-  mempty = toElement ([] :: Array ReactElement)
 
 -- | A mounted react component
 foreign import data ReactComponent :: Type
@@ -246,14 +245,7 @@ foreign import statelessComponent :: forall props.
   (Record props -> ReactElement) ->
   ReactClass (Record props)
 
--- | React class for components.
-foreign import data ReactClass :: Type -> Type
-
 foreign import fragment :: ReactClass { children :: Children }
-
--- | Type for React refs. This type is opaque, but you can use `Data.Foreign`
--- | and `DOM` to validate the underlying representation.
-foreign import data ReactRef :: Type
 
 -- | Read the component props.
 foreign import getProps :: forall props state.
@@ -339,7 +331,7 @@ class ReactPropFields (required :: # Type) (given :: # Type)
 
 type ReservedReactPropFields r =
   ( key :: String
-  , ref :: SyntheticEventHandler (Nullable ReactRef)
+  , ref :: Ref DOMRef
   | r
   )
 
@@ -386,7 +378,7 @@ unsafeCreateElementDynamic :: forall props.
 unsafeCreateElementDynamic = createElementDynamicImpl
 
 foreign import createElementImpl :: forall required given children.
-  ReactClass required -> given -> Array children -> ReactElement
+  ReactClass required -> given -> children -> ReactElement
 
 foreign import createElementDynamicImpl :: forall required given children.
   ReactClass required -> given -> Array children -> ReactElement
@@ -418,48 +410,72 @@ foreign import createElementTagName :: forall props.
 foreign import createElementTagNameDynamic :: forall props.
   TagName -> props -> Array ReactElement -> ReactElement
 
--- | Internal representation for the children elements passed to a component
-foreign import data Children :: Type
-
--- | Internal conversion function from children elements to an array of React elements
-foreign import childrenToArray :: Children -> Array ReactElement
-
--- | Returns the number of children.
-foreign import childrenCount :: Children -> Int
-
-class IsReactElement a where
-  toElement :: a -> ReactElement
-
-instance isReactElementString :: IsReactElement String where
-  toElement = unsafeCoerce
-
-instance isReactElementNumber :: IsReactElement Number where
-  toElement = unsafeCoerce
-
-instance isReactElementInt :: IsReactElement Int where
-  toElement = unsafeCoerce
-
-instance isReactElementChildren :: IsReactElement Children where
-  toElement = unsafeCoerce
-
-instance isReactElementReactElement :: IsReactElement ReactElement where
-  toElement = identity
-
-instance isReactElementArray :: IsReactElement (Array ReactElement) where
-  toElement = createElement fragment {}
-
 -- | Creates a keyed fragment.
 fragmentWithKey :: String -> Array ReactElement -> ReactElement
 fragmentWithKey = createElement fragment <<< { key: _ }
 
-type Context a =
-  { consumer :: ContextConsumer a
-  , provider :: ContextProvider a
-  }
+-- | Create an element from a function using Hooks spreading the children array. Used when the children are known up front.
+createHookElement
+  :: forall required given
+   .  ReactPropFields required given
+  => ({ children :: Children | required } -> Hook ReactElement)
+  -> { | given }
+  -> Array ReactElement
+  -> ReactElement
+createHookElement k = createElementImpl (unsafeCoerce k)
 
-type ContextProvider a = ReactClass { children :: Children, value :: a }
+-- | An unsafe version of `createHookElement` which does not enforce the reserved properties "key" and "ref".
+unsafeCreateHookElement
+  :: forall props
+   . ({ children :: Children | props } -> Hook ReactElement)
+  -> { | props }
+  -> Array ReactElement
+  -> ReactElement
+unsafeCreateHookElement k = createElementImpl (unsafeCoerce k)
 
-type ContextConsumer a = ReactClass { children :: a -> ReactElement }
+-- | Create an element from a function using Hooks passing the children array. Used for a dynamic array of children.
+createHookElementDynamic
+  :: forall required given
+   .  ReactPropFields required given
+  => ({ children :: Children | required } -> Hook ReactElement)
+  -> { | given }
+  -> Array ReactElement
+  -> ReactElement
+createHookElementDynamic k = createElementDynamicImpl (unsafeCoerce k)
 
--- | Create a new context provider/consumer pair given a default value.
-foreign import createContext :: forall a. a -> Context a
+-- | An unsafe version of `createHookElementDynamic` which does not enforce the reserved properties "key" and "ref".
+unsafeCreateHookElementDynamic
+  :: forall props
+   . ({ children :: Children | props } -> Hook ReactElement)
+  -> { | props }
+  -> Array ReactElement
+  -> ReactElement
+unsafeCreateHookElementDynamic k = createElementDynamicImpl (unsafeCoerce k)
+
+-- | Create an element from a function using Hooks that does not require children.
+createHookLeafElement
+  :: forall required given
+   .  ReactPropFields required given
+  => ({ | required } -> Hook ReactElement)
+  -> { | given }
+  -> ReactElement
+createHookLeafElement k = createLeafElementImpl (unsafeCoerce k)
+
+-- | An unsafe version of `createHookLeafElement` which does not enforce the reserved
+-- | properties "key" and "ref".
+unsafeCreateHookLeafElement
+  :: forall props
+   . ({ | props } -> Hook ReactElement)
+  -> { | props }
+  -> ReactElement
+unsafeCreateHookLeafElement k = createLeafElementImpl (unsafeCoerce k)
+
+-- | Create an element using the [render props pattern](https://reactjs.org/docs/render-props.html#using-props-other-than-render) when the name of the render prop is "children".
+createRenderPropsElement
+  :: forall required given childrenProps
+   . ReactPropFields required given
+  => ReactClass { children :: childrenProps -> ReactElement | required }
+  -> { | given }
+  -> (childrenProps -> ReactElement)
+  -> ReactElement
+createRenderPropsElement = createElementImpl
