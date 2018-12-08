@@ -2,7 +2,6 @@
 
 module React
   ( TagName
-  , ReactElement
   , ReactComponent
   , ReactThis
   , ReactUnusedSnapshot
@@ -31,8 +30,6 @@ module React
   , pureComponent
   , pureComponentWithDerivedState
   , statelessComponent
-  , ReactClass
-  , ReactRef
   , getProps
   , getState
   , setState
@@ -53,22 +50,14 @@ module React
   , unsafeCreateLeafElement
   , createElementTagName
   , createElementTagNameDynamic
-  , Children
-  , childrenToArray
-  , childrenCount
-  , class IsReactElement
-  , toElement
   , fragmentWithKey
-  , Context
-  , ContextProvider
-  , ContextConsumer
-  , createContext
   , createHookElement
   , unsafeCreateHookElement
   , createHookElementDynamic
   , unsafeCreateHookElementDynamic
   , createHookLeafElement
   , unsafeCreateHookLeafElement
+  , module Exports
   ) where
 
 import Prelude
@@ -82,18 +71,20 @@ import Type.Row (type (+))
 import Unsafe.Coerce (unsafeCoerce)
 
 import React.Hook (Hook)
+import React.Types (ReactElement, ReactClass, Children, ReactRef)
+import React.Types
+  ( ReactClass
+  , ReactElement
+  , class IsReactElement
+  , toElement
+  , Children
+  , childrenToArray
+  , childrenCount
+  , ReactRef
+  ) as Exports
 
 -- | Name of a tag.
 type TagName = String
-
--- | A virtual DOM node, or component.
-foreign import data ReactElement :: Type
-
-instance semigroupReactElement :: Semigroup ReactElement where
-  append a b = toElement [ a, b ]
-
-instance monoidReactElement :: Monoid ReactElement where
-  mempty = toElement ([] :: Array ReactElement)
 
 -- | A mounted react component
 foreign import data ReactComponent :: Type
@@ -254,14 +245,7 @@ foreign import statelessComponent :: forall props.
   (Record props -> ReactElement) ->
   ReactClass (Record props)
 
--- | React class for components.
-foreign import data ReactClass :: Type -> Type
-
 foreign import fragment :: ReactClass { children :: Children }
-
--- | Type for React refs. This type is opaque, but you can use `Data.Foreign`
--- | and `DOM` to validate the underlying representation.
-foreign import data ReactRef :: Type
 
 -- | Read the component props.
 foreign import getProps :: forall props state.
@@ -426,51 +410,9 @@ foreign import createElementTagName :: forall props.
 foreign import createElementTagNameDynamic :: forall props.
   TagName -> props -> Array ReactElement -> ReactElement
 
--- | Internal representation for the children elements passed to a component
-foreign import data Children :: Type
-
--- | Internal conversion function from children elements to an array of React elements
-foreign import childrenToArray :: Children -> Array ReactElement
-
--- | Returns the number of children.
-foreign import childrenCount :: Children -> Int
-
-class IsReactElement a where
-  toElement :: a -> ReactElement
-
-instance isReactElementString :: IsReactElement String where
-  toElement = unsafeCoerce
-
-instance isReactElementNumber :: IsReactElement Number where
-  toElement = unsafeCoerce
-
-instance isReactElementInt :: IsReactElement Int where
-  toElement = unsafeCoerce
-
-instance isReactElementChildren :: IsReactElement Children where
-  toElement = unsafeCoerce
-
-instance isReactElementReactElement :: IsReactElement ReactElement where
-  toElement = identity
-
-instance isReactElementArray :: IsReactElement (Array ReactElement) where
-  toElement = createElement fragment {}
-
 -- | Creates a keyed fragment.
 fragmentWithKey :: String -> Array ReactElement -> ReactElement
 fragmentWithKey = createElement fragment <<< { key: _ }
-
-type Context a =
-  { consumer :: ContextConsumer a
-  , provider :: ContextProvider a
-  }
-
-type ContextProvider a = ReactClass { children :: Children, value :: a }
-
-type ContextConsumer a = ReactClass { children :: a -> ReactElement }
-
--- | Create a new context provider/consumer pair given a default value.
-foreign import createContext :: forall a. a -> Context a
 
 -- | Create an element from a function using Hooks spreading the children array. Used when the children are known up front.
 createHookElement

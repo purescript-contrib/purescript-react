@@ -2,40 +2,30 @@ module React.Hook
   ( Hook
   , HookInput
   , hookInput
-
   , useState
   , useStateLazy
   , setState
   , modifyState
   , SetState
-
   , useEffect
-
   , useContext
-  , Context
-
   , useReducer
   , useReducerLazy
   , dispatch
   , Dispatch
-
   , useCallback
-
   , useMemo
-
   , useRef
   , getRef
   , setRef
+  , refToReactRef
   , Ref
-
   , useImperativeMethods
   , imperativeMethodsInput
   , ImperativeMethodsInput
-
   , useMutationEffect
   , mutationEffectInput
   , MutationEffectInput
-
   , useLayoutEffect
   , layoutEffectInput
   , LayoutEffectInput
@@ -53,6 +43,9 @@ import Effect (Effect)
 import Effect.Uncurried (EffectFn1, EffectFn2, runEffectFn1, runEffectFn2)
 
 import Unsafe.Coerce (unsafeCoerce)
+
+import React.Context (Context)
+import React.Types (ReactRef)
 
 useState
   :: forall a
@@ -109,8 +102,6 @@ foreign import useEffect_
 
 useContext :: forall a. Context a -> Hook a
 useContext = runFn1 useContext_
-
-foreign import data Context :: Type -> Type
 
 foreign import useContext_
   :: forall a
@@ -187,6 +178,9 @@ foreign import useMemo_
 
 useRef :: forall a. Maybe a -> Hook (Ref a)
 useRef = runFn1 useRef_ <<< Nullable.toNullable
+
+refToReactRef :: forall a. Ref a -> ReactRef
+refToReactRef = unsafeCoerce
 
 getRef :: forall a. Ref a -> Effect (Maybe a)
 getRef r = Nullable.toMaybe <$> runEffectFn1 getRef_ r

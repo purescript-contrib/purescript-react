@@ -91,10 +91,6 @@ function getProps(this_) {
 }
 exports.getProps = getProps;
 
-exports.childrenToArray = React.Children.toArray
-
-exports.childrenCount = React.Children.count;
-
 function setStateImpl(this_) {
   return function(state){
     return function(){
@@ -160,12 +156,3 @@ function createElementDynamic(class_) {
 };
 exports.createElementDynamicImpl = createElementDynamic;
 exports.createElementTagNameDynamic = createElementDynamic;
-
-function createContext(defaultValue) {
-  var context = React.createContext(defaultValue);
-  return {
-    consumer: context.Consumer,
-    provider: context.Provider
-  };
-}
-exports.createContext = createContext;
