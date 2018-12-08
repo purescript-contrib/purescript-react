@@ -63,7 +63,6 @@ module React
 
 import Prelude
 
-import Data.Nullable (Nullable)
 import Effect (Effect)
 import Effect.Exception (Error)
 import Effect.Uncurried (EffectFn1)
@@ -72,7 +71,8 @@ import Type.Row (type (+))
 import Unsafe.Coerce (unsafeCoerce)
 
 import React.Hook (Hook)
-import React.Types (ReactElement, ReactClass, Children, ReactRef)
+import React.Ref (Ref, DOMRef)
+import React.Types (ReactElement, ReactClass, Children)
 import React.Types
   ( ReactClass
   , ReactElement
@@ -81,7 +81,6 @@ import React.Types
   , Children
   , childrenToArray
   , childrenCount
-  , ReactRef
   ) as Exports
 
 -- | Name of a tag.
@@ -332,7 +331,7 @@ class ReactPropFields (required :: # Type) (given :: # Type)
 
 type ReservedReactPropFields r =
   ( key :: String
-  , ref :: SyntheticEventHandler (Nullable ReactRef)
+  , ref :: Ref DOMRef
   | r
   )
 

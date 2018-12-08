@@ -68,22 +68,8 @@ exports.useRef_ = function useRef_(initialValue) {
   return result;
 }
 
-exports.getRef_ = function getRef_(ref) {
-  return ref.current;
-}
-
-exports.setRef_ = function setRef_(ref, value) {
-  ref.current = value;
-}
-
 exports.useImperativeMethods_ = function useImperativeMethods_(ref, imperativeMethods, inputs) {
   var result = inputs ? React.useImperativeMethods(ref, imperativeMethods, inputs) : React.useImperativeMethods(ref, imperativeMethods);
-
-  return result;
-};
-
-exports.useMutationEffect_ = function useMutationEffect_(mutationEffect, inputs) {
-  var result = inputs ? React.useMutationEffect(mutationEffect, inputs) : React.useMutationEffect(mutationEffect);
 
   return result;
 };

@@ -6,7 +6,6 @@ module React.Types
   , Children
   , childrenToArray
   , childrenCount
-  , ReactRef
   ) where
 
 import Prelude
@@ -56,7 +55,3 @@ foreign import childrenToArray :: Children -> Array ReactElement
 
 -- | Returns the number of children.
 foreign import childrenCount :: Children -> Int
-
--- | Type for React refs. This type is opaque, but you can use `Data.Foreign`
--- | and `DOM` to validate the underlying representation.
-foreign import data ReactRef :: Type

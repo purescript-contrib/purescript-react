@@ -16,19 +16,8 @@ module React.Hook
   , useCallback
   , useMemo
   , useRef
-  , getRef
-  , setRef
-  , refToReactRef
-  , Ref
   , useImperativeMethods
-  , imperativeMethodsInput
-  , ImperativeMethodsInput
-  , useMutationEffect
-  , mutationEffectInput
-  , MutationEffectInput
   , useLayoutEffect
-  , layoutEffectInput
-  , LayoutEffectInput
   ) where
 
 import Prelude
@@ -40,12 +29,12 @@ import Data.Nullable as Nullable
 import Data.Tuple (Tuple(..))
 
 import Effect (Effect)
-import Effect.Uncurried (EffectFn1, EffectFn2, runEffectFn1, runEffectFn2)
+import Effect.Uncurried (EffectFn1, runEffectFn1)
 
 import Unsafe.Coerce (unsafeCoerce)
 
 import React.Context (Context)
-import React.Types (ReactRef)
+import React.Ref (Ref)
 
 useState
   :: forall a
@@ -179,87 +168,37 @@ foreign import useMemo_
 useRef :: forall a. Maybe a -> Hook (Ref a)
 useRef = runFn1 useRef_ <<< Nullable.toNullable
 
-refToReactRef :: forall a. Ref a -> ReactRef
-refToReactRef = unsafeCoerce
-
-getRef :: forall a. Ref a -> Effect (Maybe a)
-getRef r = Nullable.toMaybe <$> runEffectFn1 getRef_ r
-
-setRef :: forall a. Ref a -> Maybe a -> Effect Unit
-setRef r = runEffectFn2 setRef_ r <<< Nullable.toNullable
-
-foreign import data Ref :: Type -> Type
-
 foreign import useRef_
   :: forall a
    . Fn1 (Nullable a)
          (Hook (Ref a))
 
-foreign import getRef_
-  :: forall a
-   . EffectFn1 (Ref a)
-               (Nullable a)
-
-foreign import setRef_
-  :: forall a
-   . EffectFn2 (Ref a)
-               (Nullable a)
-               Unit
-
 useImperativeMethods
-  :: forall r a
+  :: forall a
    . Ref a
-  -> (Unit -> { | r })
-  -> Maybe (Array ImperativeMethodsInput)
+  -> (Unit -> a)
+  -> Maybe (Array HookInput)
   -> Hook Unit
 useImperativeMethods a k = runFn3 useImperativeMethods_ a k <<< Nullable.toNullable
 
-imperativeMethodsInput :: forall a. a -> ImperativeMethodsInput
-imperativeMethodsInput = unsafeCoerce
-
-foreign import data ImperativeMethodsInput :: Type
-
 foreign import useImperativeMethods_
-  :: forall r a
+  :: forall a
    . Fn3 (Ref a)
-         (Unit -> { | r })
-         (Nullable (Array ImperativeMethodsInput))
-         (Hook Unit)
-
-useMutationEffect
-  :: forall a
-   . Effect (Effect a)
-  -> Maybe (Array MutationEffectInput)
-  -> Hook Unit
-useMutationEffect k = runFn2 useMutationEffect_ k <<< Nullable.toNullable
-
-mutationEffectInput :: forall a. a -> MutationEffectInput
-mutationEffectInput = unsafeCoerce
-
-foreign import data MutationEffectInput :: Type
-
-foreign import useMutationEffect_
-  :: forall a
-   . Fn2 (Effect (Effect a))
-         (Nullable (Array MutationEffectInput))
+         (Unit -> a)
+         (Nullable (Array HookInput))
          (Hook Unit)
 
 useLayoutEffect
   :: forall a
    . Effect (Effect a)
-  -> Maybe (Array LayoutEffectInput)
+  -> Maybe (Array HookInput)
   -> Hook Unit
 useLayoutEffect k = runFn2 useLayoutEffect_ k <<< Nullable.toNullable
-
-layoutEffectInput :: forall a. a -> LayoutEffectInput
-layoutEffectInput = unsafeCoerce
-
-foreign import data LayoutEffectInput :: Type
 
 foreign import useLayoutEffect_
   :: forall a
    . Fn2 (Effect (Effect a))
-         (Nullable (Array LayoutEffectInput))
+         (Nullable (Array HookInput))
          (Hook Unit)
 
 foreign import data Hook :: Type -> Type
