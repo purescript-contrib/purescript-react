@@ -141,8 +141,7 @@ clock =
         , color: "blue"
         }
     -- additional Props.*
-    ]
-    [ ]
+    ] []
 ```
 
 #### Components with type class constraints re-mount on every render?
@@ -220,3 +219,63 @@ defined that specifies the type parameter with the type class contraint.
 If the component using the ordered list knows that the items are of type
 `Int`, the component can define `orderedListInt` as shown above, and use
 it to render the ordered list instead of `orderedList`.
+
+
+#### Understanding `Children`
+
+
+In React, we see the `children` prop type from time to time, especially
+when using `createElement`. This is an opaque data type, in which we can
+coerce into an `Array`, but we cannot create. Usually, when you see a
+`ReactClass` that features a `children :: Children` prop type, this
+means that the component itself expects children to be supplied as an
+argument to `createElement`, in the form of an `Array ReactElement`.
+
+However, in some circumstances (like a `ContextConsumer`), the `children`
+prop type might look different, like `children :: a -> ReactElement`.
+In this case, it would be better to use `createLeafElement`, to supply
+the children _directly through the props_, rather than as a separate
+argument.
+
+This also means that any leaf-like components should _not_ define a
+`children :: Children` prop - this prop should be treated as the
+_expectation_ of a children argument. In the clock example above, a
+more proper specification might look like the following:
+
+```purescript
+module Clock (clockComponent) where
+
+import React (ReactClass, SyntheticEventHandler)
+import React.SyntheticEvent (SyntheticEvent)
+
+foreign import clockComponent
+  :: ReactClass
+      { format :: String
+      , className :: String
+      , onTick :: SyntheticEventHandler SyntheticEvent
+      }
+```
+
+```purescript
+module Component where
+
+import Prelude
+
+import Effect.Uncurried (mkEffectFn1)
+
+import React as React
+import React.SyntheticEvent as Event
+
+import Clock as Clock
+
+clock :: React.ReactElement
+clock =
+  React.createLeafElement Clock.clockComponent
+    { format: "HH:mm:ss"
+    , className: "test-class-name"
+    , onTick: mkEffectFn1 $ \event -> do
+        Event.preventDefault event
+        -- etc.
+        pure unit
+    }
+```
