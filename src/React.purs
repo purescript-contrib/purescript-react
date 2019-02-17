@@ -58,6 +58,7 @@ module React
   , childrenCount
   , class IsReactElement
   , toElement
+  , fragment
   , fragmentWithKey
   , Context
   , ContextProvider
@@ -186,7 +187,7 @@ instance reactPureComponentSpec ::
   ) =>
   ReactPureComponentSpec props state snapshot given spec
 
--- | Creates a `ReactClass`` inherited from `React.Component`.
+-- | Creates a `ReactClass` inherited from `React.Component`.
 component :: forall props state snapshot given spec.
   ReactComponentSpec (Record props) (Record state) snapshot given spec =>
   String ->
@@ -203,7 +204,7 @@ componentWithDerivedState :: forall props state snapshot given spec.
   ReactClass (Record props)
 componentWithDerivedState = componentWithDerivedStateImpl
 
--- | Creates a `ReactClass`` inherited from `React.PureComponent`.
+-- | Creates a `ReactClass` inherited from `React.PureComponent`.
 pureComponent :: forall props state snapshot given spec.
   ReactPureComponentSpec (Record props) (Record state) snapshot given spec =>
   String ->
@@ -391,7 +392,9 @@ foreign import createElementImpl :: forall required given children.
 foreign import createElementDynamicImpl :: forall required given children.
   ReactClass required -> given -> Array children -> ReactElement
 
--- | Create an element from a React class that does not require children.
+-- | Create an element from a React class that does not require children. Additionally it can be used
+-- | when the children are represented /only/ through the `children` prop - for instance, a `ContextConsumer`
+-- | would be turned into a `ReactElement` with `createLeafElement someContext.consumer { children = \x -> ... }`.
 createLeafElement :: forall required given.
   ReactPropFields required given =>
   ReactClass { | required } ->
