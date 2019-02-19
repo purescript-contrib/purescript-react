@@ -394,7 +394,7 @@ foreign import createElementDynamicImpl :: forall required given children.
 
 -- | Create an element from a React class that does not require children. Additionally it can be used
 -- | when the children are represented /only/ through the `children` prop - for instance, a `ContextConsumer`
--- | would be turned into a `ReactElement` with `createLeafElement someContext.consumer { children = \x -> ... }`.
+-- | would be turned into a `ReactElement` with `createLeafElement someContext.consumer { children: \x -> ... }`.
 createLeafElement :: forall required given.
   ReactPropFields required given =>
   ReactClass { | required } ->
