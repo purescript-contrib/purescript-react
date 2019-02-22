@@ -65,7 +65,7 @@ function createClassWithDerivedState(classCtr) {
     return function(getDerivedStateFromProps) {
       return function(ctrFn) {
         var Constructor = componentImpl(displayName)(ctrFn);
-        Constructor.getDerivedStateFromProps = function(a, b) { return getDerivedStateFromProps(a)(b) };
+        Constructor.getDerivedStateFromProps = function(a, b) { return getDerivedStateFromProps(a)(b); };
         return Constructor;
       };
     };
@@ -77,7 +77,7 @@ exports.componentImpl = componentImpl;
 exports.componentWithDerivedStateImpl = createClassWithDerivedState(componentImpl);
 
 var pureComponentImpl = createClass(React.PureComponent);
-exports.pureComponentImpl = pureComponentImpl
+exports.pureComponentImpl = pureComponentImpl;
 exports.pureComponentWithDerivedStateImpl = createClassWithDerivedState(pureComponentImpl);
 
 exports.statelessComponent = function(x) { return x; };
@@ -91,7 +91,7 @@ function getProps(this_) {
 }
 exports.getProps = getProps;
 
-exports.childrenToArray = React.Children.toArray
+exports.childrenToArray = React.Children.toArray;
 
 exports.childrenCount = React.Children.count;
 
