@@ -603,6 +603,9 @@ onBlur f = unsafeMkProps "onBlur" (mkEffectFn1 f)
 onChange :: (SyntheticInputEvent -> Effect Unit) -> Props
 onChange f = unsafeMkProps "onChange" (mkEffectFn1 f)
 
+onChecked :: (SyntheticInputEvent -> Effect Unit) -> Props
+onChecked f = unsafeMkProps "onChecked" (mkEffectFn1 f)
+
 onInput :: (SyntheticInputEvent -> Effect Unit) -> Props
 onInput f = unsafeMkProps "onInput" (mkEffectFn1 f)
 
