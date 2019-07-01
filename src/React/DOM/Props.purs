@@ -2,8 +2,6 @@ module React.DOM.Props where
 
 import Prelude
 
-import Web.HTML.HTMLElement (HTMLElement)
--- import Data.Nullable (Nullable)
 import Effect (Effect)
 import Effect.Uncurried (mkEffectFn1)
 import React.Ref as Ref
@@ -21,6 +19,7 @@ import React.SyntheticEvent
   , SyntheticUIEvent
   , SyntheticWheelEvent
   )
+import Web.HTML.HTMLElement (HTMLElement)
 
 foreign import data Props :: Type
 

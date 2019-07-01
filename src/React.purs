@@ -67,14 +67,13 @@ module React
 
 import Prelude
 
--- import Data.Nullable (Nullable)
 import Effect (Effect)
 import Effect.Exception (Error)
 import Effect.Uncurried (EffectFn1)
 import Prim.Row as Row
+import React.Ref as Ref
 import Type.Row (type (+))
 import Unsafe.Coerce (unsafeCoerce)
-import React.Ref as Ref
 
 -- | Name of a tag.
 type TagName = String
