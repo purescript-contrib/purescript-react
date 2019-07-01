@@ -32,7 +32,6 @@ module React
   , pureComponentWithDerivedState
   , statelessComponent
   , ReactClass
-  , ReactRef
   , getProps
   , getState
   , setState
@@ -68,13 +67,14 @@ module React
 
 import Prelude
 
-import Data.Nullable (Nullable)
+-- import Data.Nullable (Nullable)
 import Effect (Effect)
 import Effect.Exception (Error)
 import Effect.Uncurried (EffectFn1)
 import Prim.Row as Row
 import Type.Row (type (+))
 import Unsafe.Coerce (unsafeCoerce)
+import React.Ref as Ref
 
 -- | Name of a tag.
 type TagName = String
@@ -252,10 +252,6 @@ foreign import data ReactClass :: Type -> Type
 
 foreign import fragment :: ReactClass { children :: Children }
 
--- | Type for React refs. This type is opaque, but you can use `Data.Foreign`
--- | and `DOM` to validate the underlying representation.
-foreign import data ReactRef :: Type
-
 -- | Read the component props.
 foreign import getProps :: forall props state.
   ReactThis props state ->
@@ -340,7 +336,7 @@ class ReactPropFields (required :: # Type) (given :: # Type)
 
 type ReservedReactPropFields r =
   ( key :: String
-  , ref :: SyntheticEventHandler (Nullable ReactRef)
+  , ref :: Ref.RefHandler Ref.ReactInstance
   | r
   )
 
