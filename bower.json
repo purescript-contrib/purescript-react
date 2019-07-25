@@ -23,7 +23,8 @@
     "purescript-exceptions": "^4.0.0",
     "purescript-maybe": "^4.0.0",
     "purescript-nullable": "^4.0.0",
-    "purescript-typelevel-prelude": ">= 4.0.0 < 6.0.0"
+    "purescript-typelevel-prelude": ">= 4.0.0 < 6.0.0",
+    "purescript-web-html": "^2.2.0"
   },
   "devDependencies": {
     "purescript-console": "^4.1.0",
