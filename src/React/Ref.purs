@@ -18,9 +18,11 @@ import Data.Nullable as Nullable
 import Effect.Uncurried (EffectFn1, runEffectFn1, mkEffectFn1)
 import Unsafe.Coerce (unsafeCoerce)
 
-
+--- | An instance of a React class.
 foreign import data ReactInstance :: Type
 
+--- | A platform-specific native layout node. On the web this will be a DOM
+--- | element (see `Web.HTML.HTMLElement`).
 foreign import data NativeNode :: Type
 
 foreign import data Ref :: Type -> Type
