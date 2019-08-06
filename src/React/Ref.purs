@@ -2,6 +2,7 @@ module React.Ref
   ( Ref
   , RefHandler
   , ReactInstance
+  , NativeNode
   , fromRef
   , fromEffect
   , getCurrentRef
@@ -12,7 +13,6 @@ module React.Ref
 import Prelude
 import Effect (Effect)
 import Data.Maybe (Maybe)
-import Web.HTML.HTMLElement (HTMLElement)
 import Data.Nullable (Nullable)
 import Data.Nullable as Nullable
 import Effect.Uncurried (EffectFn1, runEffectFn1, mkEffectFn1)
@@ -21,6 +21,8 @@ import Unsafe.Coerce (unsafeCoerce)
 
 foreign import data ReactInstance :: Type
 
+foreign import data NativeNode :: Type
+
 foreign import data Ref :: Type -> Type
 
 foreign import data RefHandler :: Type -> Type
@@ -28,7 +30,7 @@ foreign import data RefHandler :: Type -> Type
 
 foreign import createRef :: forall a. Effect (Ref a)
 
-createDOMRef :: Effect (Ref HTMLElement)
+createDOMRef :: Effect (Ref NativeNode)
 createDOMRef = createRef
 
 createInstanceRef :: Effect (Ref ReactInstance)
