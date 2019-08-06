@@ -19,7 +19,6 @@ import React.SyntheticEvent
   , SyntheticUIEvent
   , SyntheticWheelEvent
   )
-import Web.HTML.HTMLElement (HTMLElement)
 
 foreign import data Props :: Type
 
