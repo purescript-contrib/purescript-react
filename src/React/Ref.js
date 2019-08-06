@@ -4,7 +4,10 @@ var React = require("react");
 
 exports.createRef = React.createRef;
 
+exports.liftCallbackRef = function(ref) {
+  return { current: ref };
+}
+
 exports.getCurrentRef_ = function(ref) {
-  if (ref.hasOwnProperty('current')) return ref.current;
-  else return ref;
+  return ref.current;
 }
