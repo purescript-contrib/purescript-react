@@ -894,7 +894,7 @@ onScrollCapture f = unsafeMkProps "onScrollCapture" (mkEffectFn1 f)
 onWheelCapture :: (SyntheticWheelEvent -> Effect Unit) -> Props
 onWheelCapture f = unsafeMkProps "onWheelCapture" (mkEffectFn1 f)
 
-ref :: Ref.RefHandler HTMLElement -> Props
+ref :: Ref.RefHandler Ref.NativeNode -> Props
 ref = unsafeMkProps "ref"
 
 suppressContentEditableWarning :: Boolean -> Props
