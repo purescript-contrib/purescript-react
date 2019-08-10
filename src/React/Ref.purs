@@ -6,7 +6,7 @@ module React.Ref
   , fromRef
   , fromEffect
   , getCurrentRef
-  , createDOMRef
+  , createNodeRef
   , createInstanceRef
   ) where
 
@@ -35,8 +35,8 @@ foreign import createRef :: forall a. Effect (Ref a)
 foreign import liftCallbackRef :: forall a. Ref a -> Ref a
 
 
-createDOMRef :: Effect (Ref NativeNode)
-createDOMRef = createRef
+createNodeRef :: Effect (Ref NativeNode)
+createNodeRef = createRef
 
 
 createInstanceRef :: Effect (Ref ReactInstance)
