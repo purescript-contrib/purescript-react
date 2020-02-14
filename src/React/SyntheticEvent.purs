@@ -133,7 +133,7 @@ type SyntheticUIEvent
 type SyntheticWheelEvent
   = SyntheticEvent_ (SyntheticWheelEvent' (SyntheticMouseEvent' (SyntheticEvent' ())))
 
-foreign import data SyntheticEvent_ :: # Type -> Type
+foreign import data SyntheticEvent_ :: Row Type -> Type
 
 foreign import data NativeEventTarget :: Type
 

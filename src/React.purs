@@ -170,7 +170,7 @@ type ReactClassConstructor props state r =
   ReactThis props state ->
   Effect (Record r)
 
-class ReactComponentSpec props state snapshot (given :: # Type) (spec :: # Type)
+class ReactComponentSpec props state snapshot (given :: Row Type) (spec :: Row Type)
 
 instance reactComponentSpec ::
   ( Row.Union given (ReactSpecAll props state ReactUnusedSnapshot) spec
@@ -178,7 +178,7 @@ instance reactComponentSpec ::
   ) =>
   ReactComponentSpec props state snapshot given spec
 
-class ReactPureComponentSpec props state snapshot (given :: # Type) (spec :: # Type)
+class ReactPureComponentSpec props state snapshot (given :: Row Type) (spec :: Row Type)
 
 instance reactPureComponentSpec ::
   ( Row.Union given (ReactSpecPure props state ReactUnusedSnapshot) spec
@@ -331,7 +331,7 @@ foreign import forceUpdateWithCallback :: forall props state.
   Effect Unit ->
   Effect Unit
 
-class ReactPropFields (required :: # Type) (given :: # Type)
+class ReactPropFields (required :: Row Type) (given :: Row Type)
 
 type ReservedReactPropFields r =
   ( key :: String
