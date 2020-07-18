@@ -27,7 +27,11 @@ foreign import data NativeNode :: Type
 
 foreign import data Ref :: Type -> Type
 
+type role Ref representational
+
 foreign import data RefHandler :: Type -> Type
+
+type role RefHandler representational
 
 
 foreign import createRef :: forall a. Effect (Ref a)

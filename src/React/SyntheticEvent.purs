@@ -136,6 +136,8 @@ type SyntheticWheelEvent
 
 foreign import data SyntheticEvent_ :: Row Type -> Type
 
+type role SyntheticEvent_ representational
+
 foreign import data NativeEventTarget :: Type
 
 foreign import data NativeEvent :: Type
