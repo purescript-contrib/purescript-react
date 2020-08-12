@@ -3,14 +3,12 @@
 [![Maintainer: ethul](https://img.shields.io/badge/maintainer-ethul-lightgrey.svg)](http://github.com/ethul)
 ![React: 16](https://img.shields.io/badge/react-16-lightgrey.svg)
 
-Low-level React Bindings for PureScript.
-
-For a more high-level set of bindings, you might like to look at `purescript-thermite`.
+Low-level React bindings for PureScript. For a more high-level set of bindings, you might like to look at [`purescript-react-basic`](https://github.com/lumihq/purescript-react-basic).
 
 - [Module Documentation](https://pursuit.purescript.org/packages/purescript-react/)
 
-```
-bower install purescript-react
+```sh
+spago install react
 ```
 
 This library requires the `react` module. This dependency may be satisfied by installing the NPM [react package](https://www.npmjs.com/package/react).
@@ -22,7 +20,6 @@ npm install react
 ## Related Modules
 
 - [React DOM](https://github.com/purescript-contrib/purescript-react-dom)
-- [CSS Transition Group Addon](https://github.com/purescript-contrib/purescript-react-addons-css-transition-group)
 
 ## Example
 
