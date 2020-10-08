@@ -1,0 +1,29 @@
+{
+  "env": { "browser": true, "commonjs": true },
+  "extends": "eslint:recommended",
+  "parserOptions": { "ecmaVersion": 5 },
+  "rules": {
+    "block-scoped-var": "error",
+    "consistent-return": "error",
+    "eqeqeq": "error",
+    "guard-for-in": "error",
+    "no-bitwise": "error",
+    "no-caller": "error",
+    "no-extra-parens": "off",
+    "no-extend-native": "error",
+    "no-loop-func": "error",
+    "no-new": "error",
+    "no-param-reassign": "error",
+    "no-return-assign": "error",
+    "no-sequences": "error",
+    "no-unused-expressions": "error",
+    "no-use-before-define": "error",
+    "no-undef": "error",
+    "no-eq-null": "error",
+    "radix": ["error", "always"],
+    "indent": ["error", 2, { "SwitchCase": 1 }],
+    "quotes": ["error", "double"],
+    "semi": ["error", "always"],
+    "strict": ["error", "global"]
+  }
+}
