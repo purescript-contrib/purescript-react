@@ -1,5 +1,5 @@
 {
-  "env": { "browser": true, "commonjs": true },
+  "env": { "commonjs": true },
   "extends": "eslint:recommended",
   "parserOptions": { "ecmaVersion": 5 },
   "rules": {
