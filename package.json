@@ -5,6 +5,7 @@
     "test": "spago test --no-install"
   },
   "devDependencies": {
-    "eslint": "^7.6.0"
+    "eslint": "^7.6.0",
+    "purescript-psa": "^0.8.0"
   }
 }

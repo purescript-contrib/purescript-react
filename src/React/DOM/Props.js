@@ -1,7 +1,4 @@
-/* global exports */
 "use strict";
-
-var React = require("react");
 
 function unsafeMkProps(key) {
   return function(value){
@@ -19,7 +16,7 @@ function unsafeUnfoldProps(key) {
     props[key] = result;
 
     for (var subprop in value) {
-      if (value.hasOwnProperty(subprop)) {
+      if (Object.prototype.hasOwnProperty.call(value, subprop)) {
         result[subprop] = value[subprop];
       }
     }
@@ -34,7 +31,7 @@ function unsafePrefixProps(prefix) {
     var result = {};
 
     for (var prop in value) {
-      if (value.hasOwnProperty(prop)) {
+      if (Object.prototype.hasOwnProperty.call(value, prop)) {
         result[prefix + prop] = value[prop];
       }
     }
@@ -51,12 +48,12 @@ function unsafeFromPropsArray(props) {
     var prop = props[i];
 
     for (var key in prop) {
-      if (prop.hasOwnProperty(key)) {
+      if (Object.prototype.hasOwnProperty.call(prop, key)) {
         result[key] = prop[key];
       }
     }
   }
 
   return result;
-};
+}
 exports.unsafeFromPropsArray = unsafeFromPropsArray;

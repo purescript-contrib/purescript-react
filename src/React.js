@@ -1,4 +1,3 @@
-/* global exports */
 "use strict";
 
 var React = require("react");
@@ -6,38 +5,38 @@ var React = require("react");
 function createClass(baseClass) {
   function bindProperty(instance, prop, value) {
     switch (prop) {
-      case 'state':
-      case 'render':
-      case 'componentDidMount':
-      case 'componentWillUnmount':
+      case "state":
+      case "render":
+      case "componentDidMount":
+      case "componentWillUnmount":
         instance[prop] = value;
         break;
 
-      case 'componentDidCatch':
-      case 'componentWillUpdate':
-      case 'shouldComponentUpdate':
-      case 'getSnapshotBeforeUpdate':
+      case "componentDidCatch":
+      case "componentWillUpdate":
+      case "shouldComponentUpdate":
+      case "getSnapshotBeforeUpdate":
         instance[prop] = function (a, b) { return value(a)(b)(); };
         break;
 
-      case 'componentDidUpdate':
+      case "componentDidUpdate":
         instance[prop] = function (a, b, c) { return value(a)(b)(c)(); };
         break;
 
-      case 'unsafeComponentWillMount':
-        instance['UNSAFE_componentWillMount'] = value;
+      case "unsafeComponentWillMount":
+        instance["UNSAFE_componentWillMount"] = value;
         break;
 
-      case 'unsafeComponentWillReceiveProps':
-        instance['UNSAFE_componentWillReceiveProps'] = function (a) { return value(a)(); };
+      case "unsafeComponentWillReceiveProps":
+        instance["UNSAFE_componentWillReceiveProps"] = function (a) { return value(a)(); };
         break;
 
-      case 'unsafeComponentWillUpdate':
-        instance['UNSAFE_componentWillUpdate'] = function (a, b) { return value(a)(b)(); };
+      case "unsafeComponentWillUpdate":
+        instance["UNSAFE_componentWillUpdate"] = function (a, b) { return value(a)(b)(); };
         break;
 
       default:
-        throw new Error('[purescript-react] Not a component property: ' + prop);
+        throw new Error("[purescript-react] Not a component property: " + prop);
     }
   }
 
@@ -47,7 +46,9 @@ function createClass(baseClass) {
         baseClass.call(this, props);
         var spec = ctrFn(this)();
         for (var k in spec) {
-          bindProperty(this, k, spec[k]);
+          if (Object.prototype.hasOwnProperty.call(spec, k)) {
+            bindProperty(this, k, spec[k]);
+          }
         }
       };
 
@@ -60,7 +61,13 @@ function createClass(baseClass) {
   };
 }
 
-function createClassWithDerivedState(classCtr) {
+var componentImpl = createClass(React.Component);
+exports.componentImpl = componentImpl;
+
+var pureComponentImpl = createClass(React.PureComponent);
+exports.pureComponentImpl = pureComponentImpl;
+
+function createClassWithDerivedState() {
   return function(displayName) {
     return function(getDerivedStateFromProps) {
       return function(ctrFn) {
@@ -72,12 +79,7 @@ function createClassWithDerivedState(classCtr) {
   };
 }
 
-var componentImpl = createClass(React.Component);
-exports.componentImpl = componentImpl;
 exports.componentWithDerivedStateImpl = createClassWithDerivedState(componentImpl);
-
-var pureComponentImpl = createClass(React.PureComponent);
-exports.pureComponentImpl = pureComponentImpl;
 exports.pureComponentWithDerivedStateImpl = createClassWithDerivedState(pureComponentImpl);
 
 exports.statelessComponent = function(x) { return x; };
@@ -118,7 +120,7 @@ exports.setStateWithCallbackImpl = setStateWithCallbackImpl;
 function getState(this_) {
   return function(){
     if (!this_.state) {
-      throw new Error('[purescript-react] Cannot get state within constructor');
+      throw new Error("[purescript-react] Cannot get state within constructor");
     }
     return this_.state;
   };
@@ -157,7 +159,7 @@ function createElementDynamic(class_) {
       return React.createElement(class_, props, children);
     };
   };
-};
+}
 exports.createElementDynamicImpl = createElementDynamic;
 exports.createElementTagNameDynamic = createElementDynamic;
 
