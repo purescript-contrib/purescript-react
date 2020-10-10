@@ -1,7 +1,11 @@
 {
-  "name": "purescript-react",
-  "files": [],
-  "peerDependencies": {
-    "react": "^16.3.0"
+  "private": true,
+  "scripts": {
+    "build": "spago build --purs-args '--censor-lib --strict'",
+    "test": "spago test --no-install"
+  },
+  "devDependencies": {
+    "eslint": "^7.10.0",
+    "purescript-psa": "^0.8.0"
   }
 }
