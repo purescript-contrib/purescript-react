@@ -15,6 +15,8 @@ jobs:
 
       - name: Set up PureScript toolchain
         uses: purescript-contrib/setup-purescript@main
+        with:
+          purescript: "0.14.0-rc3"
 
       - name: Cache PureScript dependencies
         uses: actions/cache@v2

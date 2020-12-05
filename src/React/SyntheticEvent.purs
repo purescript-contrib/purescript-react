@@ -93,9 +93,10 @@ module React.SyntheticEvent
 
 import Prelude
 
-import Data.Symbol (class IsSymbol, SProxy(..), reflectSymbol)
+import Data.Symbol (class IsSymbol, reflectSymbol)
 import Effect (Effect)
 import Prim.Row as Row
+import Type.Proxy (Proxy(..))
 
 type SyntheticEvent
   = SyntheticEvent_ (SyntheticEvent' ())
@@ -133,7 +134,7 @@ type SyntheticUIEvent
 type SyntheticWheelEvent
   = SyntheticEvent_ (SyntheticWheelEvent' (SyntheticMouseEvent' (SyntheticEvent' ())))
 
-foreign import data SyntheticEvent_ :: # Type -> Type
+foreign import data SyntheticEvent_ :: Row Type -> Type
 
 foreign import data NativeEventTarget :: Type
 
@@ -249,139 +250,139 @@ type SyntheticWheelEvent' r
     )
 
 bubbles :: forall r. SyntheticEvent_ (bubbles :: Boolean | r) -> Effect Boolean
-bubbles = get (SProxy :: SProxy "bubbles")
+bubbles = get (Proxy :: Proxy "bubbles")
 
 cancelable :: forall r. SyntheticEvent_ (cancelable :: Boolean | r) -> Effect Boolean
-cancelable = get (SProxy :: SProxy "cancelable")
+cancelable = get (Proxy :: Proxy "cancelable")
 
 currentTarget :: forall r. SyntheticEvent_ (currentTarget :: NativeEventTarget | r) -> Effect NativeEventTarget
-currentTarget = get (SProxy :: SProxy "currentTarget")
+currentTarget = get (Proxy :: Proxy "currentTarget")
 
 defaultPrevented :: forall r. SyntheticEvent_ (defaultPrevented :: Boolean | r) -> Effect Boolean
-defaultPrevented = get (SProxy :: SProxy "defaultPrevented")
+defaultPrevented = get (Proxy :: Proxy "defaultPrevented")
 
 eventPhase :: forall r. SyntheticEvent_ (eventPhase :: Number | r) -> Effect Number
-eventPhase = get (SProxy :: SProxy "eventPhase")
+eventPhase = get (Proxy :: Proxy "eventPhase")
 
 isTrusted :: forall r. SyntheticEvent_ (isTrusted :: Boolean | r) -> Effect Boolean
-isTrusted = get (SProxy :: SProxy "isTrusted")
+isTrusted = get (Proxy :: Proxy "isTrusted")
 
 nativeEvent :: forall r. SyntheticEvent_ (nativeEvent :: NativeEvent | r) -> Effect NativeEvent
-nativeEvent = get (SProxy :: SProxy "nativeEvent")
+nativeEvent = get (Proxy :: Proxy "nativeEvent")
 
 target :: forall r. SyntheticEvent_ (target :: NativeEventTarget | r) -> Effect NativeEventTarget
-target = get (SProxy :: SProxy "target")
+target = get (Proxy :: Proxy "target")
 
 timeStamp :: forall r. SyntheticEvent_ (timeStamp :: Number | r) -> Effect Number
-timeStamp = get (SProxy :: SProxy "timeStamp")
+timeStamp = get (Proxy :: Proxy "timeStamp")
 
 type_ :: forall r. SyntheticEvent_ (type :: String | r) -> Effect String
-type_ = get (SProxy :: SProxy "type")
+type_ = get (Proxy :: Proxy "type")
 
 animationName :: forall r. SyntheticEvent_ (animationName :: String | r) -> Effect String
-animationName = get (SProxy :: SProxy "animationName")
+animationName = get (Proxy :: Proxy "animationName")
 
 clipboardData :: forall r. SyntheticEvent_ (clipboardData :: NativeDataTransfer | r) -> Effect NativeDataTransfer
-clipboardData = get (SProxy :: SProxy "clipboardData")
+clipboardData = get (Proxy :: Proxy "clipboardData")
 
 data_ :: forall r. SyntheticEvent_ (data :: String | r) -> Effect String
-data_ = get (SProxy :: SProxy "data")
+data_ = get (Proxy :: Proxy "data")
 
 relatedTarget :: forall r. SyntheticEvent_ (relatedTarget :: NativeEventTarget | r) -> Effect NativeEventTarget
-relatedTarget = get (SProxy :: SProxy "relatedTarget")
+relatedTarget = get (Proxy :: Proxy "relatedTarget")
 
 charCode :: forall r. SyntheticEvent_ (charCode :: Int | r) -> Effect Int
-charCode = get (SProxy :: SProxy "charCode")
+charCode = get (Proxy :: Proxy "charCode")
 
 key :: forall r. SyntheticEvent_ (key :: String | r) -> Effect String
-key = get (SProxy :: SProxy "key")
+key = get (Proxy :: Proxy "key")
 
 keyCode :: forall r. SyntheticEvent_ (keyCode :: Number | r) -> Effect Number
-keyCode = get (SProxy :: SProxy "keyCode")
+keyCode = get (Proxy :: Proxy "keyCode")
 
 locale :: forall r. SyntheticEvent_ (locale :: String | r) -> Effect String
-locale = get (SProxy :: SProxy "locale")
+locale = get (Proxy :: Proxy "locale")
 
 location :: forall r. SyntheticEvent_ (location :: Number | r) -> Effect Number
-location = get (SProxy :: SProxy "location")
+location = get (Proxy :: Proxy "location")
 
 repeat :: forall r. SyntheticEvent_ (repeat :: Boolean | r) -> Effect Boolean
-repeat = get (SProxy :: SProxy "repeat")
+repeat = get (Proxy :: Proxy "repeat")
 
 which :: forall r. SyntheticEvent_ (which :: Number | r) -> Effect Number
-which = get (SProxy :: SProxy "which")
+which = get (Proxy :: Proxy "which")
 
 button :: forall r. SyntheticEvent_ (button :: Number | r) -> Effect Number
-button = get (SProxy :: SProxy "button")
+button = get (Proxy :: Proxy "button")
 
 buttons :: forall r. SyntheticEvent_ (buttons :: Number | r) -> Effect Number
-buttons = get (SProxy :: SProxy "buttons")
+buttons = get (Proxy :: Proxy "buttons")
 
 clientX :: forall r. SyntheticEvent_ (clientX :: Number | r) -> Effect Number
-clientX = get (SProxy :: SProxy "clientX")
+clientX = get (Proxy :: Proxy "clientX")
 
 clientY :: forall r. SyntheticEvent_ (clientY :: Number | r) -> Effect Number
-clientY = get (SProxy :: SProxy "clientY")
+clientY = get (Proxy :: Proxy "clientY")
 
 pageX :: forall r. SyntheticEvent_ (pageX :: Number | r) -> Effect Number
-pageX = get (SProxy :: SProxy "pageX")
+pageX = get (Proxy :: Proxy "pageX")
 
 pageY :: forall r. SyntheticEvent_ (pageY :: Number | r) -> Effect Number
-pageY = get (SProxy :: SProxy "pageY")
+pageY = get (Proxy :: Proxy "pageY")
 
 screenX :: forall r. SyntheticEvent_ (screenX :: Number | r) -> Effect Number
-screenX = get (SProxy :: SProxy "screenX")
+screenX = get (Proxy :: Proxy "screenX")
 
 screenY :: forall r. SyntheticEvent_ (screenY :: Number | r) -> Effect Number
-screenY = get (SProxy :: SProxy "screenY")
+screenY = get (Proxy :: Proxy "screenY")
 
 changedTouches :: forall r. SyntheticEvent_ (changedTouches :: NativeTouchList | r) -> Effect NativeTouchList
-changedTouches = get (SProxy :: SProxy "changedTouches")
+changedTouches = get (Proxy :: Proxy "changedTouches")
 
 targetTouches :: forall r. SyntheticEvent_ (targetTouches :: NativeTouchList | r) -> Effect NativeTouchList
-targetTouches = get (SProxy :: SProxy "targetTouches")
+targetTouches = get (Proxy :: Proxy "targetTouches")
 
 touches :: forall r. SyntheticEvent_ (touches :: NativeTouchList | r) -> Effect NativeTouchList
-touches = get (SProxy :: SProxy "touches")
+touches = get (Proxy :: Proxy "touches")
 
 altKey :: forall r. SyntheticEvent_ (altKey :: Boolean | r) -> Effect Boolean
-altKey = get (SProxy :: SProxy "altKey")
+altKey = get (Proxy :: Proxy "altKey")
 
 ctrlKey :: forall r. SyntheticEvent_ (ctrlKey :: Boolean | r) -> Effect Boolean
-ctrlKey = get (SProxy :: SProxy "ctrlKey")
+ctrlKey = get (Proxy :: Proxy "ctrlKey")
 
 metaKey :: forall r. SyntheticEvent_ (metaKey :: Boolean | r) -> Effect Boolean
-metaKey = get (SProxy :: SProxy "metaKey")
+metaKey = get (Proxy :: Proxy "metaKey")
 
 shiftKey :: forall r. SyntheticEvent_ (shiftKey :: Boolean | r) -> Effect Boolean
-shiftKey = get (SProxy :: SProxy "shiftKey")
+shiftKey = get (Proxy :: Proxy "shiftKey")
 
 propertyName :: forall r. SyntheticEvent_ (propertyName :: String | r) -> Effect String
-propertyName = get (SProxy :: SProxy "propertyName")
+propertyName = get (Proxy :: Proxy "propertyName")
 
 pseudoElement :: forall r. SyntheticEvent_ (pseudoElement :: String | r) -> Effect String
-pseudoElement = get (SProxy :: SProxy "pseudoElement")
+pseudoElement = get (Proxy :: Proxy "pseudoElement")
 
 elapsedTime :: forall r. SyntheticEvent_ (elapsedTime :: Number | r) -> Effect Number
-elapsedTime = get (SProxy :: SProxy "elapsedTime")
+elapsedTime = get (Proxy :: Proxy "elapsedTime")
 
 detail :: forall r. SyntheticEvent_ (detail :: Number | r) -> Effect Number
-detail = get (SProxy :: SProxy "detail")
+detail = get (Proxy :: Proxy "detail")
 
 view :: forall r. SyntheticEvent_ (view :: NativeAbstractView | r) -> Effect NativeAbstractView
-view = get (SProxy :: SProxy "view")
+view = get (Proxy :: Proxy "view")
 
 deltaMode :: forall r. SyntheticEvent_ (deltaMode :: Number | r) -> Effect Number
-deltaMode = get (SProxy :: SProxy "deltaMode")
+deltaMode = get (Proxy :: Proxy "deltaMode")
 
 deltaX :: forall r. SyntheticEvent_ (deltaX :: Number | r) -> Effect Number
-deltaX = get (SProxy :: SProxy "deltaX")
+deltaX = get (Proxy :: Proxy "deltaX")
 
 deltaY :: forall r. SyntheticEvent_ (deltaY :: Number | r) -> Effect Number
-deltaY = get (SProxy :: SProxy "deltaY")
+deltaY = get (Proxy :: Proxy "deltaY")
 
 deltaZ :: forall r. SyntheticEvent_ (deltaZ :: Number | r) -> Effect Number
-deltaZ = get (SProxy :: SProxy "deltaZ")
+deltaZ = get (Proxy :: Proxy "deltaZ")
 
 foreign import preventDefault :: forall r. SyntheticEvent_ r -> Effect Unit
 
@@ -396,10 +397,10 @@ foreign import persist :: forall r. SyntheticEvent_ r -> Effect Unit
 foreign import getModifierState :: forall r. String -> SyntheticEvent_ (getModifierState :: String -> Boolean | r) -> Effect Boolean
 
 get
-  :: forall l r s a
+  :: forall l r s a proxy
    . Row.Cons l a r s
   => IsSymbol l
-  => SProxy l
+  => proxy l
   -> SyntheticEvent_ s
   -> Effect a
 get l r = unsafeGet (reflectSymbol l) r
