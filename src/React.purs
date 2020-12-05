@@ -170,7 +170,7 @@ type ReactClassConstructor props state r =
   ReactThis props state ->
   Effect (Record r)
 
-class ReactComponentSpec :: forall k1 k2 k3. k1 -> k2 -> k3 -> Row Type -> Row Type -> Constraint
+class ReactComponentSpec :: Type -> Type -> Type -> Row Type -> Row Type -> Constraint
 class ReactComponentSpec props state snapshot (given :: Row Type) (spec :: Row Type)
 
 instance reactComponentSpec ::
@@ -179,7 +179,7 @@ instance reactComponentSpec ::
   ) =>
   ReactComponentSpec props state snapshot given spec
 
-class ReactPureComponentSpec :: forall k1 k2 k3. k1 -> k2 -> k3 -> Row Type -> Row Type -> Constraint
+class ReactPureComponentSpec :: Type -> Type -> Type -> Row Type -> Row Type -> Constraint
 class ReactPureComponentSpec props state snapshot (given :: Row Type) (spec :: Row Type)
 
 instance reactPureComponentSpec ::
