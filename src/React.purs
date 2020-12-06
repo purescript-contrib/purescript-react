@@ -93,6 +93,8 @@ foreign import data ReactComponent :: Type
 -- | A reference to a component, essentially React's `this`.
 foreign import data ReactThis :: Type -> Type -> Type
 
+type role ReactThis representational representational
+
 foreign import data ReactUnusedSnapshot :: Type
 
 type SyntheticEventHandler event = EffectFn1 event Unit
@@ -250,6 +252,8 @@ foreign import statelessComponent :: forall props.
 
 -- | React class for components.
 foreign import data ReactClass :: Type -> Type
+
+type role ReactClass representational
 
 foreign import fragment :: ReactClass { children :: Children }
 
