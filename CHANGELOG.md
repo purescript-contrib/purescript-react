@@ -5,123 +5,131 @@ Notable changes to this project are documented in this file. The format is based
 ## [Unreleased]
 
 Breaking changes (😱!!!):
+- Added support for PureScript 0.14 and dropped support for all previous versions (#177)
 
 New features:
+- Added roles declarations to allow safe coercions (#175)
 
 Bugfixes:
 
 Other improvements:
+- Changed default branch to `main` from `master`
+- Updated related modules and installation in README (#174)
+- Updated to comply with Contributors library guidelines by adding new issue and pull request templates, updating documentation, and migrating to Spago for local development and CI (#176)
 
 ## [v8.0.0](https://github.com/purescript-contrib/purescript-react/releases/tag/v8.0.0) - 2019-08-10
 
-**Breaking changes**
+Breaking changes:
 
- - #172 add `createRef` support @elliotdavies
+- Added `createRef` support (#172 by @elliotdavies)
 
 ## [v7.0.1](https://github.com/purescript-contrib/purescript-react/releases/tag/v7.0.1) - 2019-05-27
 
-- Relax upper bound on `purescript-typelevel-prelude` (@hdgarrood)
+- Relaxed upper bound on `purescript-typelevel-prelude` (@hdgarrood)
 
 ## [v7.0.0](https://github.com/purescript-contrib/purescript-react/releases/tag/v7.0.0) - 2019-05-17
 
-**Breaking Changes**
+Breaking changes:
 
-- #169 Bump dependency (@bbarker)
+- Bumped dependencies (#169 by @bbarker)
 
-**Documentation**
+Documentation:
 
-- #165 Update documentation (@athanclark)
+- Updated documentation (#165 by @athanclark)
 
 ## [v6.1.0](https://github.com/purescript-contrib/purescript-react/releases/tag/v6.1.0) - 2018-08-24
 
-**Features**
- - #155 export react types (@tellnobody1)
+New features:
+
+- Exported React types (#155, @tellnobody1)
 
 ## [v6.0.0](https://github.com/purescript-contrib/purescript-react/releases/tag/v6.0.0) - 2018-06-09
 
-**Breaking Changes**
-- Alternative class construction #129 (@natefaubion)
-- Replace ReactRender with IsReactElement #137 (@natefaubion)
-- Event refactoring #144 (@ethul)
-- Remove children for void DOM elements #145, #146 (@ethul)
-- Updates for PureScript 0.12, including the Context API, and unsafe createElement variants #149 (@natefaubion)
+Breaking changes:
 
-**Features**
-- Add onError #133 (@safareli)
+- Alternative class construction (#129 by @natefaubion)
+- Replace ReactRender with IsReactElement (#137 by @natefaubion)
+- Event refactoring (#144 by @ethul)
+- Remove children for void DOM elements (#145 and #146 by @ethul)
+- Updated for PureScript 0.12, including the Context API, and unsafe createElement variants (#149 by @natefaubion)
+
+New features:
+
+- Added `onError` (#133 by @safareli)
 
 ## [v5.1.0](https://github.com/purescript-contrib/purescript-react/releases/tag/v5.1.0) - 2017-12-16
 
-**Features**
+New features:
 
- - #130 Adds value array for multiselect (@tellnobody1)
+- Added value array for multiselect (#130 by @tellnobody1)
 
 ## [v5.0.1](https://github.com/purescript-contrib/purescript-react/releases/tag/v5.0.1) - 2017-11-21
 
-**Fixes**
+Bugfixes:
 
- - #125 `writeRef` writes directly to `this`.
+- `writeRef` writes directly to `this` (#125)
 
 ## [v5.0.0](https://github.com/purescript-contrib/purescript-react/releases/tag/v5.0.0) - 2017-11-02
 
-**Breaking**
+Breaking changes:
 
-- #109 React 16 (@coot)
-- #121 Fix event type functions (@spicydonuts)
+- React 16 (#109 by @coot)
+- Fixed event type functions (#121 by @spicydonuts)
 
 ## [v4.4.0](https://github.com/purescript-contrib/purescript-react/releases/tag/v4.4.0) - 2017-10-11
 
-**Features**
+New features:
 
- - #100 refs (@coot)
+- Support refs(#100 by @coot)
 
 ## [v4.3.0](https://github.com/purescript-contrib/purescript-react/releases/tag/v4.3.0) - 2017-09-06
 
-**Features**
+New features:
 
- - #114 Add common SVG elements (@evenchange4)
+- Add common SVG elements (#114 by @evenchange4)
 
-**Documentation**
+Other improvements:
 
- - #115 Update maintainers (@paf31)
+- Updated maintainers (#115 by @paf31)
 
 ## [v4.2.0](https://github.com/purescript-contrib/purescript-react/releases/tag/v4.2.0) - 2017-08-29
 
-**Features**
+New features:
 
- - #112 Add SVG element `foreignObject` (@paulyoung)
- - #113 Add SVG attributes `x` and `y` (@paulyoung)
+- Added SVG element `foreignObject` (#112 by @paulyoung)
+- Added SVG attributes `x` and `y` (#113 by @paulyoung)
 
-**Fixes**
+Bugfixes:
 
- - #110 Update badge version in README (@coot)
- - #111 Correct documentation link (@nwolverson)
+- Update badge version in README (#110 by @coot)
+- Correct documentation link (#111 by @nwolverson)
 
 ## [v4.1.0](https://github.com/purescript-contrib/purescript-react/releases/tag/v4.1.0) - 2017-08-10
 
-**Features**
+New features:
 
-- #103 Force update (@coot)
-- #107 Export `childrenToArray` (@coot)
+- Force update (#103 by @coot)
+- Export `childrenToArray` (#107 by @coot)
 
 ## [v4.0.0](https://github.com/purescript-contrib/purescript-react/releases/tag/v4.0.0) - 2017-06-27
 
-Updates for React 15 (@coot)
+- Updated for React 15 (@coot)
 
 ## [v3.0.0](https://github.com/purescript-contrib/purescript-react/releases/tag/v3.0.0) - 2017-03-29
 
-Updates for 0.11.1 compiler release.
+- Updated for PureScript 0.11.1.
 
 ## [v1.3.0](https://github.com/purescript-contrib/purescript-react/releases/tag/v1.3.0) - 2016-09-17
 
-Add simpler props-free versions of SVG functions (@joshuahhh)
+- Added simpler props-free versions of SVG functions (@joshuahhh)
 
 ## [v1.2.0](https://github.com/purescript-contrib/purescript-react/releases/tag/v1.2.0) - 2016-09-11
 
-Add `preventDefault` and `stopPropagation` (@teh).
+- Added `preventDefault` and `stopPropagation` (@teh).
 
 ## [v1.1.0](https://github.com/purescript-contrib/purescript-react/releases/tag/v1.1.0) - 2016-06-12
 
-Add a variant of `writeState` with a callback (@pkamenarsky)
+- Added a variant of `writeState` with a callback (@pkamenarsky)
 
 ## [v1.0.0](https://github.com/purescript-contrib/purescript-react/releases/tag/v1.0.0) - 2016-06-11
 
@@ -129,66 +137,69 @@ Add a variant of `writeState` with a callback (@pkamenarsky)
 
 ## [v0.7.1](https://github.com/purescript-contrib/purescript-react/releases/tag/v0.7.1) - 2016-03-14
 
-**Bug Fixes**
+Bugfixes
 
-#70 - Fixes `aria` and `data` props
+- Fixed `aria` and `data` props (#70)
 
 ## [v0.7.0](https://github.com/purescript-contrib/purescript-react/releases/tag/v0.7.0) - 2016-02-29
 
-**Features**
+New features:
 
-#62 - Fix transform state (@spencerjanssen)
-#63 - Stateless components with children (@ethul)
+- Fix transform state (#62 by @spencerjanssen)
+- Stateless components with children (#63 by @ethul)
 
 ## [v0.6.0](https://github.com/purescript-contrib/purescript-react/releases/tag/v0.6.0) - 2016-01-25
 
-**Features**
+New features:
 
-#54 - Dynamic children support
-#56 - Bindings for React 0.14
+- Added support for dynamic children (#54)
+- Updated bindings for React 0.14 (#56)
 
-**Breaking Changes**
+Breaking changes:
 
-The `react` library is now explicitly required in the FFI code. `purescript-react` no longer assumes that `React` is globally available. Also, with the support for 0.14 bindings of React, the DOM bindings have been split out into a separate repository [purescript-react-dom](https://github.com/purescript-contrib/purescript-react-dom).
+- The `react` library is now explicitly required in the FFI code. `purescript-react` no longer assumes that `React` is globally available. Also, with the support for 0.14 bindings of React, the DOM bindings have been split out into a separate repository [purescript-react-dom](https://github.com/purescript-contrib/purescript-react-dom).
 
 ## [v0.5.0](https://github.com/purescript-contrib/purescript-react/releases/tag/v0.5.0) - 2015-11-19
 
-- Simplify effect types for read/write access.
+- Simplified effect types for read/write access.
 
 ## [v0.4.3](https://github.com/purescript-contrib/purescript-react/releases/tag/v0.4.3) - 2015-10-18
 
-Add `GetInitialState` argument in `spec'` (@ethul)
+- Added `GetInitialState` argument in `spec'` (@ethul)
 
 ## [v0.4.2](https://github.com/purescript-contrib/purescript-react/releases/tag/v0.4.2) - 2015-10-01
 
-Fix inline styling error (@robkuz)
+- Fixed inline styling error (@robkuz)
 
 ## [v0.4.1](https://github.com/purescript-contrib/purescript-react/releases/tag/v0.4.1) - 2015-09-24
 
-Fix a bug in `getChildren` (@ethul)
+- Fixed a bug in `getChildren` (@ethul)
 
 ## [v0.4.0](https://github.com/purescript-contrib/purescript-react/releases/tag/v0.4.0) - 2015-09-04
 
-Add state and props to `ReactThis` (@ethul)
+- Added state and props to `ReactThis` (@ethul)
 
 ## [v0.3.0](https://github.com/purescript-contrib/purescript-react/releases/tag/v0.3.0) - 2015-09-01
 
-Support React 0.13.\* (@ethul)
+- Updated to support React 0.13.\* (@ethul)
 
 ## [v0.2.0](https://github.com/purescript-contrib/purescript-react/releases/tag/v0.2.0) - 2015-08-31
 
-Add additional arguments to lifecycle methods (@ethul)
+- Added additional arguments to lifecycle methods (@ethul)
 
 ## [v0.1.2](https://github.com/purescript-contrib/purescript-react/releases/tag/v0.1.2) - 2015-08-12
 
-Support `displayName` (@ethul)
+- Added `displayName` (@ethul)
 
 ## [v0.1.1](https://github.com/purescript-contrib/purescript-react/releases/tag/v0.1.1) - 2015-07-29
 
-Fix `bower.json` file.
+- Fixed `bower.json` file.
 
 ## [v0.1.0](https://github.com/purescript-contrib/purescript-react/releases/tag/v0.1.0) - 2015-07-02
 
+Initial release.
+
 This release works with versions 0.7.\* of the PureScript compiler. It will not work with older versions. If you are using an older version, you should require an older, compatible version of this library.
-- Break up `React.DOM` module
-- Make `this` reference explicit
+
+- Broke up `React.DOM` module
+- Made `this` reference explicit
