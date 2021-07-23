@@ -2,7 +2,7 @@ blank_issues_enabled: false
 contact_links:
   - name: PureScript Discourse
     url: https://discourse.purescript.org/
-    about: Ask and answer questions here.
-  - name: Functional Programming Slack
-    url: https://functionalprogramming.slack.com
-    about: For casual chat and questions (use https://fpchat-invite.herokuapp.com to join).
+    about: Ask and answer questions on the PureScript discussion forum.
+  - name: PureScript Discord
+    url: https://discord.com/invite/sMqwYUbvz6/
+    about: Ask and answer questions on the PureScript chat.
