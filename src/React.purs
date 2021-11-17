@@ -169,8 +169,8 @@ type ReactSpecPure props state snapshot
 -- | `ReactThis` context and returns a record with appropriate lifecycle
 -- | methods.
 type ReactClassConstructor props state r =
-  ReactThis props state ->
-  Effect (Record r)
+  ReactThis props state
+  -> Effect (Record r)
 
 class ReactComponentSpec :: Type -> Type -> Type -> Row Type -> Row Type -> Constraint
 class ReactComponentSpec props state snapshot (given :: Row Type) (spec :: Row Type)
@@ -191,64 +191,73 @@ instance reactPureComponentSpec ::
   ReactPureComponentSpec props state snapshot given spec
 
 -- | Creates a `ReactClass` inherited from `React.Component`.
-component :: forall props state snapshot given spec.
-  ReactComponentSpec (Record props) (Record state) snapshot given spec =>
-  String ->
-  ReactClassConstructor (Record props) (Record state) given ->
-  ReactClass (Record props)
+component
+  :: forall props state snapshot given spec
+   . ReactComponentSpec (Record props) (Record state) snapshot given spec
+  => String
+  -> ReactClassConstructor (Record props) (Record state) given
+  -> ReactClass (Record props)
 component = componentImpl
 
 -- | Like `component`, but takes a `getDerivedStateFromProps` handler.
-componentWithDerivedState :: forall props state snapshot given spec.
-  ReactComponentSpec (Record props) (Record state) snapshot given spec =>
-  String ->
-  (Record props -> Record state -> Record state) ->
-  ReactClassConstructor (Record props) (Record state) given ->
-  ReactClass (Record props)
+componentWithDerivedState
+  :: forall props state snapshot given spec
+   . ReactComponentSpec (Record props) (Record state) snapshot given spec
+  => String
+  -> (Record props -> Record state -> Record state)
+  -> ReactClassConstructor (Record props) (Record state) given
+  -> ReactClass (Record props)
 componentWithDerivedState = componentWithDerivedStateImpl
 
 -- | Creates a `ReactClass` inherited from `React.PureComponent`.
-pureComponent :: forall props state snapshot given spec.
-  ReactPureComponentSpec (Record props) (Record state) snapshot given spec =>
-  String ->
-  ReactClassConstructor (Record props) (Record state) given ->
-  ReactClass (Record props)
+pureComponent
+  :: forall props state snapshot given spec
+   . ReactPureComponentSpec (Record props) (Record state) snapshot given spec
+  => String
+  -> ReactClassConstructor (Record props) (Record state) given
+  -> ReactClass (Record props)
 pureComponent = pureComponentImpl
 
 -- | Like `pureComponent`, but takes a `getDerivedStateFromProps` handler.
-pureComponentWithDerivedState :: forall props state snapshot given spec.
-  ReactPureComponentSpec (Record props) (Record state) snapshot given spec =>
-  String ->
-  (Record props -> Record state -> Record state) ->
-  ReactClassConstructor (Record props) (Record state) given ->
-  ReactClass (Record props)
+pureComponentWithDerivedState
+  :: forall props state snapshot given spec
+   . ReactPureComponentSpec (Record props) (Record state) snapshot given spec
+  => String
+  -> (Record props -> Record state -> Record state)
+  -> ReactClassConstructor (Record props) (Record state) given
+  -> ReactClass (Record props)
 pureComponentWithDerivedState = componentWithDerivedStateImpl
 
-foreign import componentImpl :: forall this props r.
-  String ->
-  (this -> Effect r) ->
-  ReactClass props
+foreign import componentImpl
+  :: forall this props r
+   . String
+  -> (this -> Effect r)
+  -> ReactClass props
 
-foreign import componentWithDerivedStateImpl :: forall this props state r.
-  String ->
-  (props -> state -> state) ->
-  (this -> Effect r) ->
-  ReactClass props
+foreign import componentWithDerivedStateImpl
+  :: forall this props state r
+   . String
+  -> (props -> state -> state)
+  -> (this -> Effect r)
+  -> ReactClass props
 
-foreign import pureComponentImpl :: forall this props r.
-  String ->
-  (this -> Effect r) ->
-  ReactClass props
+foreign import pureComponentImpl
+  :: forall this props r
+   . String
+  -> (this -> Effect r)
+  -> ReactClass props
 
-foreign import pureComponentWithDerivedStateImpl :: forall this props state r.
-  String ->
-  (props -> state -> state) ->
-  (this -> Effect r) ->
-  ReactClass props
+foreign import pureComponentWithDerivedStateImpl
+  :: forall this props state r
+   . String
+  -> (props -> state -> state)
+  -> (this -> Effect r)
+  -> ReactClass props
 
-foreign import statelessComponent :: forall props.
-  (Record props -> ReactElement) ->
-  ReactClass (Record props)
+foreign import statelessComponent
+  :: forall props
+   . (Record props -> ReactElement)
+  -> ReactClass (Record props)
 
 -- | React class for components.
 foreign import data ReactClass :: Type -> Type
@@ -258,73 +267,83 @@ type role ReactClass representational
 foreign import fragment :: ReactClass { children :: Children }
 
 -- | Read the component props.
-foreign import getProps :: forall props state.
-  ReactThis props state ->
-  Effect props
+foreign import getProps
+  :: forall props state
+   . ReactThis props state
+  -> Effect props
 
-foreign import setStateImpl :: forall props state update.
-  ReactThis props state ->
-  update ->
-  Effect Unit
+foreign import setStateImpl
+  :: forall props state update
+   . ReactThis props state
+  -> update
+  -> Effect Unit
 
-foreign import setStateWithCallbackImpl :: forall props state update.
-  ReactThis props state ->
-  update ->
-  Effect Unit ->
-  Effect Unit
+foreign import setStateWithCallbackImpl
+  :: forall props state update
+   . ReactThis props state
+  -> update
+  -> Effect Unit
+  -> Effect Unit
 
 -- | Get the component state.
-foreign import getState :: forall props state.
-  ReactThis props state ->
-  Effect state
+foreign import getState
+  :: forall props state
+   . ReactThis props state
+  -> Effect state
 
 -- | Update component state given some sub-set of state properties.
-setState :: forall props given rest all.
-  Row.Union given rest all =>
-  ReactThis props (Record all) ->
-  Record given ->
-  Effect Unit
+setState
+  :: forall props given rest all
+   . Row.Union given rest all
+  => ReactThis props (Record all)
+  -> Record given
+  -> Effect Unit
 setState = setStateImpl
 
 -- | Update component state given some sub-set of state properties, while
 -- | also invoking a callback when applied.
-setStateWithCallback :: forall props given rest all.
-  Row.Union given rest all =>
-  ReactThis props (Record all) ->
-  Record given ->
-  Effect Unit ->
-  Effect Unit
+setStateWithCallback
+  :: forall props given rest all
+   . Row.Union given rest all
+  => ReactThis props (Record all)
+  -> Record given
+  -> Effect Unit
+  -> Effect Unit
 setStateWithCallback = setStateWithCallbackImpl
 
 -- | Update component state.
-writeState :: forall props all.
-  ReactThis props (Record all) ->
-  Record all ->
-  Effect Unit
+writeState
+  :: forall props all
+   . ReactThis props (Record all)
+  -> Record all
+  -> Effect Unit
 writeState = setStateImpl
 
 -- | Update component state, while also invoking a callback when applied.
-writeStateWithCallback :: forall props all.
-  ReactThis props (Record all) ->
-  Record all ->
-  Effect Unit ->
-  Effect Unit
+writeStateWithCallback
+  :: forall props all
+   . ReactThis props (Record all)
+  -> Record all
+  -> Effect Unit
+  -> Effect Unit
 writeStateWithCallback = setStateWithCallbackImpl
 
 -- | Update component state given a modification function.
-modifyState :: forall props state.
-  ReactThis props state ->
-  (state -> state) ->
-  Effect Unit
+modifyState
+  :: forall props state
+   . ReactThis props state
+  -> (state -> state)
+  -> Effect Unit
 modifyState = setStateImpl
 
 -- | Update component state given a modification function, while also invoking
 -- | a callback when applied.
-modifyStateWithCallback :: forall props state.
-  ReactThis props state ->
-  (state -> state) ->
-  Effect Unit ->
-  Effect Unit
+modifyStateWithCallback
+  :: forall props state
+   . ReactThis props state
+  -> (state -> state)
+  -> Effect Unit
+  -> Effect Unit
 modifyStateWithCallback = setStateWithCallbackImpl
 
 -- | Force render of a react component.
@@ -332,10 +351,11 @@ forceUpdate :: forall props state. ReactThis props state -> Effect Unit
 forceUpdate this = forceUpdateWithCallback this (pure unit)
 
 -- | Force render and then run an Effect.
-foreign import forceUpdateWithCallback :: forall props state.
-  ReactThis props state ->
-  Effect Unit ->
-  Effect Unit
+foreign import forceUpdateWithCallback
+  :: forall props state
+   . ReactThis props state
+  -> Effect Unit
+  -> Effect Unit
 
 class ReactPropFields (required :: Row Type) (given :: Row Type)
 
@@ -352,75 +372,100 @@ instance reactPropFields ::
   ReactPropFields required given
 
 -- | Create an element from a React class spreading the children array. Used when the children are known up front.
-createElement :: forall required given.
-  ReactPropFields required given =>
-  ReactClass { children :: Children | required } ->
-  { | given } ->
-  Array ReactElement ->
-  ReactElement
+createElement
+  :: forall required given
+   . ReactPropFields required given
+  => ReactClass { children :: Children | required }
+  -> { | given }
+  -> Array ReactElement
+  -> ReactElement
 createElement = createElementImpl
 
 -- | An unsafe version of `createElement` which does not enforce the reserved
 -- | properties "key" and "ref".
-unsafeCreateElement :: forall props.
-  ReactClass { children :: Children | props } ->
-  { | props } ->
-  Array ReactElement ->
-  ReactElement
+unsafeCreateElement
+  :: forall props
+   . ReactClass { children :: Children | props }
+  -> { | props }
+  -> Array ReactElement
+  -> ReactElement
 unsafeCreateElement = createElementImpl
 
 -- | Create an element from a React class passing the children array. Used for a dynamic array of children.
-createElementDynamic :: forall required given.
-  ReactPropFields required given =>
-  ReactClass { children :: Children | required } ->
-  { | given } ->
-  Array ReactElement ->
-  ReactElement
+createElementDynamic
+  :: forall required given
+   . ReactPropFields required given
+  => ReactClass { children :: Children | required }
+  -> { | given }
+  -> Array ReactElement
+  -> ReactElement
 createElementDynamic = createElementDynamicImpl
 
 -- | An unsafe version of `createElementDynamic` which does not enforce the reserved
 -- | properties "key" and "ref".
-unsafeCreateElementDynamic :: forall props.
-  ReactClass { children :: Children | props } ->
-  { | props } ->
-  Array ReactElement ->
-  ReactElement
+unsafeCreateElementDynamic
+  :: forall props
+   . ReactClass { children :: Children | props }
+  -> { | props }
+  -> Array ReactElement
+  -> ReactElement
 unsafeCreateElementDynamic = createElementDynamicImpl
 
-foreign import createElementImpl :: forall required given children.
-  ReactClass required -> given -> Array children -> ReactElement
+foreign import createElementImpl
+  :: forall required given children
+   . ReactClass required
+  -> given
+  -> Array children
+  -> ReactElement
 
-foreign import createElementDynamicImpl :: forall required given children.
-  ReactClass required -> given -> Array children -> ReactElement
+foreign import createElementDynamicImpl
+  :: forall required given children
+   . ReactClass required
+  -> given
+  -> Array children
+  -> ReactElement
 
 -- | Create an element from a React class that does not require children. Additionally it can be used
 -- | when the children are represented /only/ through the `children` prop - for instance, a `ContextConsumer`
 -- | would be turned into a `ReactElement` with `createLeafElement someContext.consumer { children: \x -> ... }`.
-createLeafElement :: forall required given.
-  ReactPropFields required given =>
-  ReactClass { | required } ->
-  { | given } ->
-  ReactElement
+createLeafElement
+  :: forall required given
+   . ReactPropFields required given
+  => ReactClass { | required }
+  -> { | given }
+  -> ReactElement
 createLeafElement = createLeafElementImpl
 
 -- | An unsafe version of `createLeafElement` which does not enforce the reserved
 -- | properties "key" and "ref".
-unsafeCreateLeafElement :: forall props.
-  ReactClass props ->
-  props ->
-  ReactElement
+unsafeCreateLeafElement
+  :: forall props
+   . ReactClass props
+  -> props
+  -> ReactElement
 unsafeCreateLeafElement = createLeafElementImpl
 
-foreign import createLeafElementImpl :: forall required given.
-  ReactClass required -> given -> ReactElement
+foreign import createLeafElementImpl
+  :: forall required given
+   . ReactClass required
+  -> given
+  -> ReactElement
 
 -- | Create an element from a tag name spreading the children array. Used when the children are known up front.
-foreign import createElementTagName :: forall props.
-  TagName -> props -> Array ReactElement -> ReactElement
+foreign import createElementTagName
+  :: forall props
+   . TagName
+  -> props
+  -> Array ReactElement
+  -> ReactElement
 
 -- | Create an element from a tag name passing the children array. Used for a dynamic array of children.
-foreign import createElementTagNameDynamic :: forall props.
-  TagName -> props -> Array ReactElement -> ReactElement
+foreign import createElementTagNameDynamic
+  :: forall props
+   . TagName
+  -> props
+  -> Array ReactElement
+  -> ReactElement
 
 -- | Internal representation for the children elements passed to a component
 foreign import data Children :: Type

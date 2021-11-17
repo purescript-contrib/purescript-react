@@ -149,107 +149,118 @@ foreign import data NativeAbstractView :: Type
 foreign import data NativeTouchList :: Type
 
 type SyntheticEvent' r
-  = ( bubbles :: Boolean
-    , cancelable :: Boolean
-    , currentTarget :: NativeEventTarget
-    , defaultPrevented :: Boolean
-    , eventPhase :: Number
-    , isTrusted :: Boolean
-    , nativeEvent :: NativeEvent
-    , target :: NativeEventTarget
-    , timeStamp :: Number
-    , type :: String
-    | r
-    )
+  =
+  ( bubbles :: Boolean
+  , cancelable :: Boolean
+  , currentTarget :: NativeEventTarget
+  , defaultPrevented :: Boolean
+  , eventPhase :: Number
+  , isTrusted :: Boolean
+  , nativeEvent :: NativeEvent
+  , target :: NativeEventTarget
+  , timeStamp :: Number
+  , type :: String
+  | r
+  )
 
 type SyntheticAnimationEvent' r
-  = ( animationName :: String
-    , pseudoElement :: String
-    , elapsedTime :: Number
-    | r
-    )
+  =
+  ( animationName :: String
+  , pseudoElement :: String
+  , elapsedTime :: Number
+  | r
+  )
 
 type SyntheticClipboardEvent' r
-  = ( clipboardData :: NativeDataTransfer
-    | r
-    )
+  =
+  ( clipboardData :: NativeDataTransfer
+  | r
+  )
 
 type SyntheticCompositionEvent' r
-  = ( data :: String
-    | r
-    )
+  =
+  ( data :: String
+  | r
+  )
 
-type SyntheticFocusEvent'  r
-  = ( relatedTarget :: NativeEventTarget
-    | r
-    )
+type SyntheticFocusEvent' r
+  =
+  ( relatedTarget :: NativeEventTarget
+  | r
+  )
 
 type SyntheticKeyboardEvent' r
-  = ( altKey :: Boolean
-    , ctrlKey :: Boolean
-    , getModifierState :: String -> Boolean
-    , charCode :: Int
-    , key :: String
-    , keyCode :: Number
-    , locale :: String
-    , location :: Number
-    , metaKey :: Boolean
-    , repeat :: Boolean
-    , shiftKey :: Boolean
-    , which :: Number
-    | r
-    )
+  =
+  ( altKey :: Boolean
+  , ctrlKey :: Boolean
+  , getModifierState :: String -> Boolean
+  , charCode :: Int
+  , key :: String
+  , keyCode :: Number
+  , locale :: String
+  , location :: Number
+  , metaKey :: Boolean
+  , repeat :: Boolean
+  , shiftKey :: Boolean
+  , which :: Number
+  | r
+  )
 
 type SyntheticMouseEvent' r
-  = ( altKey :: Boolean
-    , button :: Number
-    , buttons :: Number
-    , clientX :: Number
-    , clientY :: Number
-    , ctrlKey :: Boolean
-    , getModifierState :: String -> Boolean
-    , metaKey :: Boolean
-    , pageX :: Number
-    , pageY :: Number
-    , relatedTarget :: NativeEventTarget
-    , screenX :: Number
-    , screenY :: Number
-    , shiftKey :: Boolean
-    | r
-    )
+  =
+  ( altKey :: Boolean
+  , button :: Number
+  , buttons :: Number
+  , clientX :: Number
+  , clientY :: Number
+  , ctrlKey :: Boolean
+  , getModifierState :: String -> Boolean
+  , metaKey :: Boolean
+  , pageX :: Number
+  , pageY :: Number
+  , relatedTarget :: NativeEventTarget
+  , screenX :: Number
+  , screenY :: Number
+  , shiftKey :: Boolean
+  | r
+  )
 
 type SyntheticTouchEvent' r
-  = ( altKey :: Boolean
-    , changedTouches :: NativeTouchList
-    , ctrlKey :: Boolean
-    , getModifierState :: String -> Boolean
-    , metaKey :: Boolean
-    , targetTouches :: NativeTouchList
-    , shiftKey :: Boolean
-    , touches :: NativeTouchList
-    | r
-    )
+  =
+  ( altKey :: Boolean
+  , changedTouches :: NativeTouchList
+  , ctrlKey :: Boolean
+  , getModifierState :: String -> Boolean
+  , metaKey :: Boolean
+  , targetTouches :: NativeTouchList
+  , shiftKey :: Boolean
+  , touches :: NativeTouchList
+  | r
+  )
 
 type SyntheticTransitionEvent' r
-  = ( propertyName :: String
-    , pseudoElement :: String
-    , elapsedTime :: Number
-    | r
-    )
+  =
+  ( propertyName :: String
+  , pseudoElement :: String
+  , elapsedTime :: Number
+  | r
+  )
 
 type SyntheticUIEvent' r
-  = ( detail :: Number
-    , view :: NativeAbstractView
-    | r
-    )
+  =
+  ( detail :: Number
+  , view :: NativeAbstractView
+  | r
+  )
 
 type SyntheticWheelEvent' r
-  = ( deltaMode :: Number
-    , deltaX :: Number
-    , deltaY :: Number
-    , deltaZ :: Number
-    | r
-    )
+  =
+  ( deltaMode :: Number
+  , deltaX :: Number
+  , deltaY :: Number
+  , deltaZ :: Number
+  | r
+  )
 
 bubbles :: forall r. SyntheticEvent_ (bubbles :: Boolean | r) -> Effect Boolean
 bubbles = get (Proxy :: Proxy "bubbles")
