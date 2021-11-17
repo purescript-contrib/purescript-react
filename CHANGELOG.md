@@ -11,6 +11,7 @@ New features:
 Bugfixes:
 
 Other improvements:
+- Added `purs-tidy` formatter (#182 by @thomashoneyman)
 
 ## [v9.0.0](https://github.com/purescript-contrib/purescript-react/releases/tag/v9.0.0) - 2021-02-26
 
