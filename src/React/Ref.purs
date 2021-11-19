@@ -11,11 +11,12 @@ module React.Ref
   ) where
 
 import Prelude
-import Effect (Effect)
+
 import Data.Maybe (Maybe)
 import Data.Nullable (Nullable)
 import Data.Nullable as Nullable
-import Effect.Uncurried (EffectFn1, runEffectFn1, mkEffectFn1)
+import Effect (Effect)
+import Effect.Uncurried (EffectFn1, mkEffectFn1, runEffectFn1)
 import Unsafe.Coerce (unsafeCoerce)
 
 --- | An instance of a React class.

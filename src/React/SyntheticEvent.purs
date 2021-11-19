@@ -98,41 +98,29 @@ import Effect (Effect)
 import Prim.Row as Row
 import Type.Proxy (Proxy(..))
 
-type SyntheticEvent
-  = SyntheticEvent_ (SyntheticEvent' ())
+type SyntheticEvent = SyntheticEvent_ (SyntheticEvent' ())
 
-type SyntheticAnimationEvent
-  = SyntheticEvent_ (SyntheticAnimationEvent' (SyntheticEvent' ()))
+type SyntheticAnimationEvent = SyntheticEvent_ (SyntheticAnimationEvent' (SyntheticEvent' ()))
 
-type SyntheticClipboardEvent
-  = SyntheticEvent_ (SyntheticClipboardEvent' (SyntheticEvent' ()))
+type SyntheticClipboardEvent = SyntheticEvent_ (SyntheticClipboardEvent' (SyntheticEvent' ()))
 
-type SyntheticCompositionEvent
-  = SyntheticEvent_ (SyntheticCompositionEvent' (SyntheticUIEvent' (SyntheticEvent' ())))
+type SyntheticCompositionEvent = SyntheticEvent_ (SyntheticCompositionEvent' (SyntheticUIEvent' (SyntheticEvent' ())))
 
-type SyntheticInputEvent
-  = SyntheticEvent_ (SyntheticUIEvent' (SyntheticEvent' ()))
+type SyntheticInputEvent = SyntheticEvent_ (SyntheticUIEvent' (SyntheticEvent' ()))
 
-type SyntheticKeyboardEvent
-  = SyntheticEvent_ (SyntheticKeyboardEvent' (SyntheticUIEvent' (SyntheticEvent' ())))
+type SyntheticKeyboardEvent = SyntheticEvent_ (SyntheticKeyboardEvent' (SyntheticUIEvent' (SyntheticEvent' ())))
 
-type SyntheticFocusEvent
-  = SyntheticEvent_ (SyntheticFocusEvent' (SyntheticUIEvent' (SyntheticEvent' ())))
+type SyntheticFocusEvent = SyntheticEvent_ (SyntheticFocusEvent' (SyntheticUIEvent' (SyntheticEvent' ())))
 
-type SyntheticMouseEvent
-  = SyntheticEvent_ (SyntheticMouseEvent' (SyntheticUIEvent' (SyntheticEvent' ())))
+type SyntheticMouseEvent = SyntheticEvent_ (SyntheticMouseEvent' (SyntheticUIEvent' (SyntheticEvent' ())))
 
-type SyntheticTouchEvent
-  = SyntheticEvent_ (SyntheticTouchEvent' (SyntheticUIEvent' (SyntheticEvent' ())))
+type SyntheticTouchEvent = SyntheticEvent_ (SyntheticTouchEvent' (SyntheticUIEvent' (SyntheticEvent' ())))
 
-type SyntheticTransitionEvent
-  = SyntheticEvent_ (SyntheticTransitionEvent' (SyntheticEvent' ()))
+type SyntheticTransitionEvent = SyntheticEvent_ (SyntheticTransitionEvent' (SyntheticEvent' ()))
 
-type SyntheticUIEvent
-  = SyntheticEvent_ (SyntheticUIEvent' (SyntheticEvent' ()))
+type SyntheticUIEvent = SyntheticEvent_ (SyntheticUIEvent' (SyntheticEvent' ()))
 
-type SyntheticWheelEvent
-  = SyntheticEvent_ (SyntheticWheelEvent' (SyntheticMouseEvent' (SyntheticEvent' ())))
+type SyntheticWheelEvent = SyntheticEvent_ (SyntheticWheelEvent' (SyntheticMouseEvent' (SyntheticEvent' ())))
 
 foreign import data SyntheticEvent_ :: Row Type -> Type
 
@@ -148,8 +136,7 @@ foreign import data NativeAbstractView :: Type
 
 foreign import data NativeTouchList :: Type
 
-type SyntheticEvent' r
-  =
+type SyntheticEvent' r =
   ( bubbles :: Boolean
   , cancelable :: Boolean
   , currentTarget :: NativeEventTarget
@@ -163,34 +150,29 @@ type SyntheticEvent' r
   | r
   )
 
-type SyntheticAnimationEvent' r
-  =
+type SyntheticAnimationEvent' r =
   ( animationName :: String
   , pseudoElement :: String
   , elapsedTime :: Number
   | r
   )
 
-type SyntheticClipboardEvent' r
-  =
+type SyntheticClipboardEvent' r =
   ( clipboardData :: NativeDataTransfer
   | r
   )
 
-type SyntheticCompositionEvent' r
-  =
+type SyntheticCompositionEvent' r =
   ( data :: String
   | r
   )
 
-type SyntheticFocusEvent' r
-  =
+type SyntheticFocusEvent' r =
   ( relatedTarget :: NativeEventTarget
   | r
   )
 
-type SyntheticKeyboardEvent' r
-  =
+type SyntheticKeyboardEvent' r =
   ( altKey :: Boolean
   , ctrlKey :: Boolean
   , getModifierState :: String -> Boolean
@@ -206,8 +188,7 @@ type SyntheticKeyboardEvent' r
   | r
   )
 
-type SyntheticMouseEvent' r
-  =
+type SyntheticMouseEvent' r =
   ( altKey :: Boolean
   , button :: Number
   , buttons :: Number
@@ -225,8 +206,7 @@ type SyntheticMouseEvent' r
   | r
   )
 
-type SyntheticTouchEvent' r
-  =
+type SyntheticTouchEvent' r =
   ( altKey :: Boolean
   , changedTouches :: NativeTouchList
   , ctrlKey :: Boolean
@@ -238,23 +218,20 @@ type SyntheticTouchEvent' r
   | r
   )
 
-type SyntheticTransitionEvent' r
-  =
+type SyntheticTransitionEvent' r =
   ( propertyName :: String
   , pseudoElement :: String
   , elapsedTime :: Number
   | r
   )
 
-type SyntheticUIEvent' r
-  =
+type SyntheticUIEvent' r =
   ( detail :: Number
   , view :: NativeAbstractView
   | r
   )
 
-type SyntheticWheelEvent' r
-  =
+type SyntheticWheelEvent' r =
   ( deltaMode :: Number
   , deltaX :: Number
   , deltaY :: Number
@@ -407,7 +384,11 @@ foreign import isPropagationStopped :: forall r. SyntheticEvent_ r -> Effect Boo
 
 foreign import persist :: forall r. SyntheticEvent_ r -> Effect Unit
 
-foreign import getModifierState :: forall r. String -> SyntheticEvent_ (getModifierState :: String -> Boolean | r) -> Effect Boolean
+foreign import getModifierState
+  :: forall r
+   . String
+  -> SyntheticEvent_ (getModifierState :: String -> Boolean | r)
+  -> Effect Boolean
 
 get
   :: forall l r s a proxy

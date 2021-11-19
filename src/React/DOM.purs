@@ -6,8 +6,7 @@ import Unsafe.Coerce (unsafeCoerce)
 
 newtype IsDynamic = IsDynamic Boolean
 
-mkDOM
-  :: IsDynamic -> TagName -> Array Props -> Array ReactElement -> ReactElement
+mkDOM :: IsDynamic -> TagName -> Array Props -> Array ReactElement -> ReactElement
 mkDOM dynamic tag props = createElement tag (unsafeFromPropsArray props)
   where
   createElement :: TagName -> Array Props -> Array ReactElement -> ReactElement

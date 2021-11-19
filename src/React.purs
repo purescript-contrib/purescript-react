@@ -156,21 +156,19 @@ type ReactSpecShouldComponentUpdate props state =
   ( shouldComponentUpdate :: ShouldComponentUpdate props state
   )
 
-type ReactSpecAll props state snapshot
-  = ReactSpecRequired state
-  + ReactSpecOptional props state snapshot
-  + ReactSpecShouldComponentUpdate props state
+type ReactSpecAll props state snapshot =
+  ReactSpecRequired state
+    + ReactSpecOptional props state snapshot
+    + ReactSpecShouldComponentUpdate props state
 
-type ReactSpecPure props state snapshot
-  = ReactSpecRequired state
-  + ReactSpecOptional props state snapshot ()
+type ReactSpecPure props state snapshot =
+  ReactSpecRequired state
+    + ReactSpecOptional props state snapshot ()
 
 -- | The signature for a ReactClass constructor. A constructor takes the
 -- | `ReactThis` context and returns a record with appropriate lifecycle
 -- | methods.
-type ReactClassConstructor props state r =
-  ReactThis props state
-  -> Effect (Record r)
+type ReactClassConstructor props state r = ReactThis props state -> Effect (Record r)
 
 class ReactComponentSpec :: Type -> Type -> Type -> Row Type -> Row Type -> Constraint
 class ReactComponentSpec props state snapshot (given :: Row Type) (spec :: Row Type)
