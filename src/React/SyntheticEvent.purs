@@ -98,41 +98,29 @@ import Effect (Effect)
 import Prim.Row as Row
 import Type.Proxy (Proxy(..))
 
-type SyntheticEvent
-  = SyntheticEvent_ (SyntheticEvent' ())
+type SyntheticEvent = SyntheticEvent_ (SyntheticEvent' ())
 
-type SyntheticAnimationEvent
-  = SyntheticEvent_ (SyntheticAnimationEvent' (SyntheticEvent' ()))
+type SyntheticAnimationEvent = SyntheticEvent_ (SyntheticAnimationEvent' (SyntheticEvent' ()))
 
-type SyntheticClipboardEvent
-  = SyntheticEvent_ (SyntheticClipboardEvent' (SyntheticEvent' ()))
+type SyntheticClipboardEvent = SyntheticEvent_ (SyntheticClipboardEvent' (SyntheticEvent' ()))
 
-type SyntheticCompositionEvent
-  = SyntheticEvent_ (SyntheticCompositionEvent' (SyntheticUIEvent' (SyntheticEvent' ())))
+type SyntheticCompositionEvent = SyntheticEvent_ (SyntheticCompositionEvent' (SyntheticUIEvent' (SyntheticEvent' ())))
 
-type SyntheticInputEvent
-  = SyntheticEvent_ (SyntheticUIEvent' (SyntheticEvent' ()))
+type SyntheticInputEvent = SyntheticEvent_ (SyntheticUIEvent' (SyntheticEvent' ()))
 
-type SyntheticKeyboardEvent
-  = SyntheticEvent_ (SyntheticKeyboardEvent' (SyntheticUIEvent' (SyntheticEvent' ())))
+type SyntheticKeyboardEvent = SyntheticEvent_ (SyntheticKeyboardEvent' (SyntheticUIEvent' (SyntheticEvent' ())))
 
-type SyntheticFocusEvent
-  = SyntheticEvent_ (SyntheticFocusEvent' (SyntheticUIEvent' (SyntheticEvent' ())))
+type SyntheticFocusEvent = SyntheticEvent_ (SyntheticFocusEvent' (SyntheticUIEvent' (SyntheticEvent' ())))
 
-type SyntheticMouseEvent
-  = SyntheticEvent_ (SyntheticMouseEvent' (SyntheticUIEvent' (SyntheticEvent' ())))
+type SyntheticMouseEvent = SyntheticEvent_ (SyntheticMouseEvent' (SyntheticUIEvent' (SyntheticEvent' ())))
 
-type SyntheticTouchEvent
-  = SyntheticEvent_ (SyntheticTouchEvent' (SyntheticUIEvent' (SyntheticEvent' ())))
+type SyntheticTouchEvent = SyntheticEvent_ (SyntheticTouchEvent' (SyntheticUIEvent' (SyntheticEvent' ())))
 
-type SyntheticTransitionEvent
-  = SyntheticEvent_ (SyntheticTransitionEvent' (SyntheticEvent' ()))
+type SyntheticTransitionEvent = SyntheticEvent_ (SyntheticTransitionEvent' (SyntheticEvent' ()))
 
-type SyntheticUIEvent
-  = SyntheticEvent_ (SyntheticUIEvent' (SyntheticEvent' ()))
+type SyntheticUIEvent = SyntheticEvent_ (SyntheticUIEvent' (SyntheticEvent' ()))
 
-type SyntheticWheelEvent
-  = SyntheticEvent_ (SyntheticWheelEvent' (SyntheticMouseEvent' (SyntheticEvent' ())))
+type SyntheticWheelEvent = SyntheticEvent_ (SyntheticWheelEvent' (SyntheticMouseEvent' (SyntheticEvent' ())))
 
 foreign import data SyntheticEvent_ :: Row Type -> Type
 
@@ -148,108 +136,108 @@ foreign import data NativeAbstractView :: Type
 
 foreign import data NativeTouchList :: Type
 
-type SyntheticEvent' r
-  = ( bubbles :: Boolean
-    , cancelable :: Boolean
-    , currentTarget :: NativeEventTarget
-    , defaultPrevented :: Boolean
-    , eventPhase :: Number
-    , isTrusted :: Boolean
-    , nativeEvent :: NativeEvent
-    , target :: NativeEventTarget
-    , timeStamp :: Number
-    , type :: String
-    | r
-    )
+type SyntheticEvent' r =
+  ( bubbles :: Boolean
+  , cancelable :: Boolean
+  , currentTarget :: NativeEventTarget
+  , defaultPrevented :: Boolean
+  , eventPhase :: Number
+  , isTrusted :: Boolean
+  , nativeEvent :: NativeEvent
+  , target :: NativeEventTarget
+  , timeStamp :: Number
+  , type :: String
+  | r
+  )
 
-type SyntheticAnimationEvent' r
-  = ( animationName :: String
-    , pseudoElement :: String
-    , elapsedTime :: Number
-    | r
-    )
+type SyntheticAnimationEvent' r =
+  ( animationName :: String
+  , pseudoElement :: String
+  , elapsedTime :: Number
+  | r
+  )
 
-type SyntheticClipboardEvent' r
-  = ( clipboardData :: NativeDataTransfer
-    | r
-    )
+type SyntheticClipboardEvent' r =
+  ( clipboardData :: NativeDataTransfer
+  | r
+  )
 
-type SyntheticCompositionEvent' r
-  = ( data :: String
-    | r
-    )
+type SyntheticCompositionEvent' r =
+  ( data :: String
+  | r
+  )
 
-type SyntheticFocusEvent'  r
-  = ( relatedTarget :: NativeEventTarget
-    | r
-    )
+type SyntheticFocusEvent' r =
+  ( relatedTarget :: NativeEventTarget
+  | r
+  )
 
-type SyntheticKeyboardEvent' r
-  = ( altKey :: Boolean
-    , ctrlKey :: Boolean
-    , getModifierState :: String -> Boolean
-    , charCode :: Int
-    , key :: String
-    , keyCode :: Number
-    , locale :: String
-    , location :: Number
-    , metaKey :: Boolean
-    , repeat :: Boolean
-    , shiftKey :: Boolean
-    , which :: Number
-    | r
-    )
+type SyntheticKeyboardEvent' r =
+  ( altKey :: Boolean
+  , ctrlKey :: Boolean
+  , getModifierState :: String -> Boolean
+  , charCode :: Int
+  , key :: String
+  , keyCode :: Number
+  , locale :: String
+  , location :: Number
+  , metaKey :: Boolean
+  , repeat :: Boolean
+  , shiftKey :: Boolean
+  , which :: Number
+  | r
+  )
 
-type SyntheticMouseEvent' r
-  = ( altKey :: Boolean
-    , button :: Number
-    , buttons :: Number
-    , clientX :: Number
-    , clientY :: Number
-    , ctrlKey :: Boolean
-    , getModifierState :: String -> Boolean
-    , metaKey :: Boolean
-    , pageX :: Number
-    , pageY :: Number
-    , relatedTarget :: NativeEventTarget
-    , screenX :: Number
-    , screenY :: Number
-    , shiftKey :: Boolean
-    | r
-    )
+type SyntheticMouseEvent' r =
+  ( altKey :: Boolean
+  , button :: Number
+  , buttons :: Number
+  , clientX :: Number
+  , clientY :: Number
+  , ctrlKey :: Boolean
+  , getModifierState :: String -> Boolean
+  , metaKey :: Boolean
+  , pageX :: Number
+  , pageY :: Number
+  , relatedTarget :: NativeEventTarget
+  , screenX :: Number
+  , screenY :: Number
+  , shiftKey :: Boolean
+  | r
+  )
 
-type SyntheticTouchEvent' r
-  = ( altKey :: Boolean
-    , changedTouches :: NativeTouchList
-    , ctrlKey :: Boolean
-    , getModifierState :: String -> Boolean
-    , metaKey :: Boolean
-    , targetTouches :: NativeTouchList
-    , shiftKey :: Boolean
-    , touches :: NativeTouchList
-    | r
-    )
+type SyntheticTouchEvent' r =
+  ( altKey :: Boolean
+  , changedTouches :: NativeTouchList
+  , ctrlKey :: Boolean
+  , getModifierState :: String -> Boolean
+  , metaKey :: Boolean
+  , targetTouches :: NativeTouchList
+  , shiftKey :: Boolean
+  , touches :: NativeTouchList
+  | r
+  )
 
-type SyntheticTransitionEvent' r
-  = ( propertyName :: String
-    , pseudoElement :: String
-    , elapsedTime :: Number
-    | r
-    )
+type SyntheticTransitionEvent' r =
+  ( propertyName :: String
+  , pseudoElement :: String
+  , elapsedTime :: Number
+  | r
+  )
 
-type SyntheticUIEvent' r
-  = ( detail :: Number
-    , view :: NativeAbstractView
-    | r
-    )
+type SyntheticUIEvent' r =
+  ( detail :: Number
+  , view :: NativeAbstractView
+  | r
+  )
 
-type SyntheticWheelEvent' r
-  = ( deltaMode :: Number
-    , deltaX :: Number
-    , deltaY :: Number
-    , deltaZ :: Number
-    | r
-    )
+type SyntheticWheelEvent' r =
+  ( deltaMode :: Number
+  , deltaX :: Number
+  , deltaY :: Number
+  , deltaZ :: Number
+  | r
+  )
 
 bubbles :: forall r. SyntheticEvent_ (bubbles :: Boolean | r) -> Effect Boolean
 bubbles = get (Proxy :: Proxy "bubbles")
@@ -396,7 +384,11 @@ foreign import isPropagationStopped :: forall r. SyntheticEvent_ r -> Effect Boo
 
 foreign import persist :: forall r. SyntheticEvent_ r -> Effect Unit
 
-foreign import getModifierState :: forall r. String -> SyntheticEvent_ (getModifierState :: String -> Boolean | r) -> Effect Boolean
+foreign import getModifierState
+  :: forall r
+   . String
+  -> SyntheticEvent_ (getModifierState :: String -> Boolean | r)
+  -> Effect Boolean
 
 get
   :: forall l r s a proxy

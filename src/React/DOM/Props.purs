@@ -6,13 +6,13 @@ import Effect (Effect)
 import Effect.Uncurried (mkEffectFn1)
 import React.Ref as Ref
 import React.SyntheticEvent
-  ( SyntheticEvent
-  , SyntheticAnimationEvent
+  ( SyntheticAnimationEvent
   , SyntheticClipboardEvent
   , SyntheticCompositionEvent
+  , SyntheticEvent
+  , SyntheticFocusEvent
   , SyntheticInputEvent
   , SyntheticKeyboardEvent
-  , SyntheticFocusEvent
   , SyntheticMouseEvent
   , SyntheticTouchEvent
   , SyntheticTransitionEvent

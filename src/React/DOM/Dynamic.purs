@@ -1,8 +1,8 @@
 module React.DOM.Dynamic where
 
 import React (ReactElement)
-import React.DOM.Props (Props)
 import React.DOM as DOM
+import React.DOM.Props (Props)
 
 text :: String -> ReactElement
 text = DOM.text
