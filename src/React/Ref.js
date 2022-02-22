@@ -1,13 +1,12 @@
 "use strict";
 
-var React = require("react");
+import React from "react";
+export var createRef = React.createRef;
 
-exports.createRef = React.createRef;
-
-exports.liftCallbackRef = function(ref) {
+export function liftCallbackRef(ref) {
   return { current: ref };
 }
 
-exports.getCurrentRef_ = function(ref) {
+export function getCurrentRef_(ref) {
   return ref.current;
 }

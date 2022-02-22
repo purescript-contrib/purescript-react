@@ -1,7 +1,7 @@
 /* global exports */
 "use strict";
 
-var React = require("react");
+import React from "react";
 
 function unsafeMkProps(key) {
   return function(value){
@@ -10,7 +10,7 @@ function unsafeMkProps(key) {
     return result;
   };
 }
-exports.unsafeMkProps = unsafeMkProps;
+export {unsafeMkProps};
 
 function unsafeUnfoldProps(key) {
   return function(value){
@@ -27,7 +27,7 @@ function unsafeUnfoldProps(key) {
     return props;
   };
 }
-exports.unsafeUnfoldProps = unsafeUnfoldProps;
+export {unsafeUnfoldProps};
 
 function unsafePrefixProps(prefix) {
   return function(value){
@@ -42,7 +42,7 @@ function unsafePrefixProps(prefix) {
     return result;
   };
 }
-exports.unsafePrefixProps = unsafePrefixProps;
+export {unsafePrefixProps};
 
 function unsafeFromPropsArray(props) {
   var result = {};
@@ -58,5 +58,5 @@ function unsafeFromPropsArray(props) {
   }
 
   return result;
-};
-exports.unsafeFromPropsArray = unsafeFromPropsArray;
+}
+export {unsafeFromPropsArray};
