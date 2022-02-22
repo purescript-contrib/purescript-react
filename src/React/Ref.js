@@ -1,7 +1,7 @@
 "use strict";
 
 import React from "react";
-export var createRef = React.createRef;
+export const createRef = React.createRef;
 
 export function liftCallbackRef(ref) {
   return { current: ref };
