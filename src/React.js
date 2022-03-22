@@ -1,4 +1,3 @@
-/* global exports */
 import React from "react";
 
 function createClass(baseClass) {
