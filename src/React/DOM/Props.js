@@ -16,7 +16,7 @@ function unsafeUnfoldProps(key) {
     props[key] = result;
 
     for (var subprop in value) {
-      if (value.hasOwnProperty(subprop)) {
+      if (Object.hasOwnProperty.apply(value, [subprop])) {
         result[subprop] = value[subprop];
       }
     }
@@ -31,7 +31,7 @@ function unsafePrefixProps(prefix) {
     var result = {};
 
     for (var prop in value) {
-      if (value.hasOwnProperty(prop)) {
+      if (Object.hasOwnProperty.apply(value, [prop])) {
         result[prefix + prop] = value[prop];
       }
     }
@@ -48,7 +48,7 @@ function unsafeFromPropsArray(props) {
     var prop = props[i];
 
     for (var key in prop) {
-      if (prop.hasOwnProperty(key)) {
+      if (Object.hasOwnProperty.apply(prop, [key])) {
         result[key] = prop[key];
       }
     }
