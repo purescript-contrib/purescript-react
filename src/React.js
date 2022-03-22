@@ -57,6 +57,9 @@ function createClass(baseClass) {
   };
 }
 
+var componentImpl = createClass(React.Component);
+export {componentImpl};
+
 function createClassWithDerivedState(classCtr) {
   return function(displayName) {
     return function(getDerivedStateFromProps) {
@@ -69,8 +72,6 @@ function createClassWithDerivedState(classCtr) {
   };
 }
 
-var componentImpl = createClass(React.Component);
-export {componentImpl};
 export const componentWithDerivedStateImpl = createClassWithDerivedState(componentImpl);
 
 var pureComponentImpl = createClass(React.PureComponent);
