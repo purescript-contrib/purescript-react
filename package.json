@@ -6,6 +6,6 @@
   },
   "devDependencies": {
     "eslint": "^7.10.0",
-    "purescript-psa": "^0.8.0"
+    "purescript-psa": "^0.8.2"
   }
 }
