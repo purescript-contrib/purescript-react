@@ -43,6 +43,7 @@ function createClass(baseClass) {
       var Constructor = function (props) {
         baseClass.call(this, props);
         var spec = ctrFn(this)();
+        // eslint-disable-next-line guard-for-in
         for (var k in spec) {
           bindProperty(this, k, spec[k]);
         }
@@ -60,6 +61,7 @@ function createClass(baseClass) {
 var componentImpl = createClass(React.Component);
 export {componentImpl};
 
+// eslint-disable-next-line no-unused-vars
 function createClassWithDerivedState(classCtr) {
   return function(displayName) {
     return function(getDerivedStateFromProps) {
