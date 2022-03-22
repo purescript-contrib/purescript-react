@@ -55,3 +55,12 @@ jobs:
 
       - name: Check formatting
         run: purs-tidy check src test
+
+      - name: Verify Bower & Pulp
+        run: |
+          npm install bower pulp@16.0.0-0
+          npx bower install
+          npx pulp build -- --censor-lib --strict
+          if [ -d "test" ]; then
+            npx pulp test
+          fi
