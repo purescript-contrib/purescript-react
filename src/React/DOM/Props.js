@@ -1,5 +1,3 @@
-import React from "react";
-
 function unsafeMkProps(key) {
   return function(value){
     var result = {};
