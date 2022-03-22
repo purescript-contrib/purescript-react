@@ -74,13 +74,13 @@ function createClassWithDerivedState(classCtr) {
 
 var componentImpl = createClass(React.Component);
 export {componentImpl};
-export var componentWithDerivedStateImpl = createClassWithDerivedState(componentImpl);
+export const componentWithDerivedStateImpl = createClassWithDerivedState(componentImpl);
 
 var pureComponentImpl = createClass(React.PureComponent);
 export {pureComponentImpl};
-export var pureComponentWithDerivedStateImpl = createClassWithDerivedState(pureComponentImpl);
+export const pureComponentWithDerivedStateImpl = createClassWithDerivedState(pureComponentImpl);
 export function statelessComponent(x) { return x; }
-export var fragment = React.Fragment;
+export const fragment = React.Fragment;
 
 function getProps(this_) {
   return function(){
@@ -88,8 +88,8 @@ function getProps(this_) {
   };
 }
 export {getProps};
-export var childrenToArray = React.Children.toArray;
-export var childrenCount = React.Children.count;
+export const childrenToArray = React.Children.toArray;
+export const childrenCount = React.Children.count;
 
 function setStateImpl(this_) {
   return function(state){
