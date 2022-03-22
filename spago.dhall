@@ -6,7 +6,6 @@
   , "maybe"
   , "nullable"
   , "prelude"
-  , "psci-support"
   , "typelevel-prelude"
   , "unsafe-coerce"
   ]

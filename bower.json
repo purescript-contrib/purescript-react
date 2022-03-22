@@ -17,15 +17,15 @@
     "url": "https://github.com/purescript-contrib/purescript-react.git"
   },
   "dependencies": {
-    "purescript-effect": "^3.0.0",
-    "purescript-exceptions": "^5.0.0",
-    "purescript-maybe": "^5.0.0",
-    "purescript-nullable": "^5.0.0",
-    "purescript-prelude": "^5.0.0",
-    "purescript-typelevel-prelude": "^6.0.0",
-    "purescript-unsafe-coerce": "^5.0.0"
+    "purescript-effect": "master",
+    "purescript-exceptions": "master",
+    "purescript-maybe": "master",
+    "purescript-nullable": "main",
+    "purescript-prelude": "master",
+    "purescript-typelevel-prelude": "master",
+    "purescript-unsafe-coerce": "master"
   },
   "devDependencies": {
-    "purescript-console": "^5.0.0"
+    "purescript-console": "master"
   }
 }

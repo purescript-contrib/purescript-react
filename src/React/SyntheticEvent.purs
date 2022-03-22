@@ -391,10 +391,10 @@ foreign import getModifierState
   -> Effect Boolean
 
 get
-  :: forall l r s a proxy
+  :: forall l r s a
    . Row.Cons l a r s
   => IsSymbol l
-  => proxy l
+  => Proxy l
   -> SyntheticEvent_ s
   -> Effect a
 get l r = unsafeGet (reflectSymbol l) r

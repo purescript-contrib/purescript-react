@@ -1,7 +1,6 @@
 {
-  "env": { "commonjs": true },
   "extends": "eslint:recommended",
-  "parserOptions": { "ecmaVersion": 5 },
+  "parserOptions": { "ecmaVersion": 6, "sourceType": "module" },
   "rules": {
     "block-scoped-var": "error",
     "consistent-return": "error",

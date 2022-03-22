@@ -1,8 +1,3 @@
-/* global exports */
-"use strict";
-
-var React = require("react");
-
 function unsafeMkProps(key) {
   return function(value){
     var result = {};
@@ -10,7 +5,7 @@ function unsafeMkProps(key) {
     return result;
   };
 }
-exports.unsafeMkProps = unsafeMkProps;
+export {unsafeMkProps};
 
 function unsafeUnfoldProps(key) {
   return function(value){
@@ -19,7 +14,7 @@ function unsafeUnfoldProps(key) {
     props[key] = result;
 
     for (var subprop in value) {
-      if (value.hasOwnProperty(subprop)) {
+      if (Object.hasOwnProperty.apply(value, [subprop])) {
         result[subprop] = value[subprop];
       }
     }
@@ -27,14 +22,14 @@ function unsafeUnfoldProps(key) {
     return props;
   };
 }
-exports.unsafeUnfoldProps = unsafeUnfoldProps;
+export {unsafeUnfoldProps};
 
 function unsafePrefixProps(prefix) {
   return function(value){
     var result = {};
 
     for (var prop in value) {
-      if (value.hasOwnProperty(prop)) {
+      if (Object.hasOwnProperty.apply(value, [prop])) {
         result[prefix + prop] = value[prop];
       }
     }
@@ -42,7 +37,7 @@ function unsafePrefixProps(prefix) {
     return result;
   };
 }
-exports.unsafePrefixProps = unsafePrefixProps;
+export {unsafePrefixProps};
 
 function unsafeFromPropsArray(props) {
   var result = {};
@@ -51,12 +46,12 @@ function unsafeFromPropsArray(props) {
     var prop = props[i];
 
     for (var key in prop) {
-      if (prop.hasOwnProperty(key)) {
+      if (Object.hasOwnProperty.apply(prop, [key])) {
         result[key] = prop[key];
       }
     }
   }
 
   return result;
-};
-exports.unsafeFromPropsArray = unsafeFromPropsArray;
+}
+export {unsafeFromPropsArray};
