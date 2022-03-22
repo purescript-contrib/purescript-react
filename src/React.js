@@ -1,7 +1,7 @@
 /* global exports */
 "use strict";
 
-var React = require("react");
+import React from "react";
 
 function createClass(baseClass) {
   function bindProperty(instance, prop, value) {
@@ -73,27 +73,23 @@ function createClassWithDerivedState(classCtr) {
 }
 
 var componentImpl = createClass(React.Component);
-exports.componentImpl = componentImpl;
-exports.componentWithDerivedStateImpl = createClassWithDerivedState(componentImpl);
+export {componentImpl};
+export var componentWithDerivedStateImpl = createClassWithDerivedState(componentImpl);
 
 var pureComponentImpl = createClass(React.PureComponent);
-exports.pureComponentImpl = pureComponentImpl;
-exports.pureComponentWithDerivedStateImpl = createClassWithDerivedState(pureComponentImpl);
-
-exports.statelessComponent = function(x) { return x; };
-
-exports.fragment = React.Fragment;
+export {pureComponentImpl};
+export var pureComponentWithDerivedStateImpl = createClassWithDerivedState(pureComponentImpl);
+export function statelessComponent(x) { return x; }
+export var fragment = React.Fragment;
 
 function getProps(this_) {
   return function(){
     return this_.props;
   };
 }
-exports.getProps = getProps;
-
-exports.childrenToArray = React.Children.toArray;
-
-exports.childrenCount = React.Children.count;
+export {getProps};
+export var childrenToArray = React.Children.toArray;
+export var childrenCount = React.Children.count;
 
 function setStateImpl(this_) {
   return function(state){
@@ -102,7 +98,7 @@ function setStateImpl(this_) {
     };
   };
 }
-exports.setStateImpl = setStateImpl;
+export {setStateImpl};
 
 function setStateWithCallbackImpl(this_) {
   return function(state){
@@ -113,7 +109,7 @@ function setStateWithCallbackImpl(this_) {
     };
   };
 }
-exports.setStateWithCallbackImpl = setStateWithCallbackImpl;
+export {setStateWithCallbackImpl};
 
 function getState(this_) {
   return function(){
@@ -123,7 +119,7 @@ function getState(this_) {
     return this_.state;
   };
 }
-exports.getState = getState;
+export {getState};
 
 function forceUpdateWithCallback(this_) {
   return function(cb) {
@@ -132,7 +128,7 @@ function forceUpdateWithCallback(this_) {
     };
   };
 }
-exports.forceUpdateWithCallback = forceUpdateWithCallback;
+export {forceUpdateWithCallback};
 
 function createElement(class_) {
   return function(props){
@@ -141,15 +137,15 @@ function createElement(class_) {
     };
   };
 }
-exports.createElementImpl = createElement;
-exports.createElementTagName = createElement;
+export {createElement as createElementImpl};
+export {createElement as createElementTagName};
 
 function createLeafElement(class_) {
   return function(props) {
     return React.createElement(class_, props);
   };
 }
-exports.createLeafElementImpl = createLeafElement;
+export {createLeafElement as createLeafElementImpl};
 
 function createElementDynamic(class_) {
   return function(props) {
@@ -157,9 +153,9 @@ function createElementDynamic(class_) {
       return React.createElement(class_, props, children);
     };
   };
-};
-exports.createElementDynamicImpl = createElementDynamic;
-exports.createElementTagNameDynamic = createElementDynamic;
+}
+export {createElementDynamic as createElementDynamicImpl};
+export {createElementDynamic as createElementTagNameDynamic};
 
 function createContext(defaultValue) {
   var context = React.createContext(defaultValue);
@@ -168,4 +164,4 @@ function createContext(defaultValue) {
     provider: context.Provider
   };
 }
-exports.createContext = createContext;
+export {createContext};
