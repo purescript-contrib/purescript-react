@@ -1,5 +1,3 @@
-'use strict';
-
 export function preventDefault(event) {
   return function() {
     return event.preventDefault();
