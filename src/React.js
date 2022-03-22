@@ -4,38 +4,38 @@ import React from "react";
 function createClass(baseClass) {
   function bindProperty(instance, prop, value) {
     switch (prop) {
-      case 'state':
-      case 'render':
-      case 'componentDidMount':
-      case 'componentWillUnmount':
+      case "state":
+      case "render":
+      case "componentDidMount":
+      case "componentWillUnmount":
         instance[prop] = value;
         break;
 
-      case 'componentDidCatch':
-      case 'componentWillUpdate':
-      case 'shouldComponentUpdate':
-      case 'getSnapshotBeforeUpdate':
+      case "componentDidCatch":
+      case "componentWillUpdate":
+      case "shouldComponentUpdate":
+      case "getSnapshotBeforeUpdate":
         instance[prop] = function (a, b) { return value(a)(b)(); };
         break;
 
-      case 'componentDidUpdate':
+      case "componentDidUpdate":
         instance[prop] = function (a, b, c) { return value(a)(b)(c)(); };
         break;
 
-      case 'unsafeComponentWillMount':
-        instance['UNSAFE_componentWillMount'] = value;
+      case "unsafeComponentWillMount":
+        instance["UNSAFE_componentWillMount"] = value;
         break;
 
-      case 'unsafeComponentWillReceiveProps':
-        instance['UNSAFE_componentWillReceiveProps'] = function (a) { return value(a)(); };
+      case "unsafeComponentWillReceiveProps":
+        instance["UNSAFE_componentWillReceiveProps"] = function (a) { return value(a)(); };
         break;
 
-      case 'unsafeComponentWillUpdate':
-        instance['UNSAFE_componentWillUpdate'] = function (a, b) { return value(a)(b)(); };
+      case "unsafeComponentWillUpdate":
+        instance["UNSAFE_componentWillUpdate"] = function (a, b) { return value(a)(b)(); };
         break;
 
       default:
-        throw new Error('[purescript-react] Not a component property: ' + prop);
+        throw new Error("[purescript-react] Not a component property: " + prop);
     }
   }
 
@@ -112,7 +112,7 @@ export {setStateWithCallbackImpl};
 function getState(this_) {
   return function(){
     if (!this_.state) {
-      throw new Error('[purescript-react] Cannot get state within constructor');
+      throw new Error("[purescript-react] Cannot get state within constructor");
     }
     return this_.state;
   };
