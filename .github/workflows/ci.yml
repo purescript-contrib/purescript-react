@@ -16,6 +16,7 @@ jobs:
       - name: Set up PureScript toolchain
         uses: purescript-contrib/setup-purescript@main
         with:
+          purescript: "unstable"
           purs-tidy: "latest"
 
       - name: Cache PureScript dependencies
