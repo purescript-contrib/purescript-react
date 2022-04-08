@@ -1,14 +1,19 @@
 import React from "react";
 
 function createClass(baseClass) {
-  function curry2(f) {
-    return f === undefined ? f : function (a, b) {
-      return f(a)(b)
+  function invoke1(f) {
+    return f === undefined ? f : function (a) {
+      return f(a)()
     }
   }
-  function curry3(f) {
+  function invoke2(f) {
+    return f === undefined ? f : function (a, b) {
+      return f(a)(b)()
+    }
+  }
+  function invoke3(f) {
     return f === undefined ? f : function (a, b, c) {
-      return f(a)(b)(c)
+      return f(a)(b)(c)()
     }
   }
 
@@ -22,14 +27,14 @@ function createClass(baseClass) {
         this.render = spec.render;
         this.componentDidMount = spec.componentDidMount;
         this.componentWillUnmount = spec.componentWillUnmount;
-        this.componentDidCatch = curry2(spec.componentDidCatch);
-        this.componentWillUpdate = curry2(spec.componentWillUpdate);
-        this.shouldComponentUpdate = curry2(spec.shouldComponentUpdate);
-        this.getSnapshotBeforeUpdate = curry2(spec.getSnapshotBeforeUpdate);
-        this.componentDidUpdate = curry3(spec.componentDidUpdate);
+        this.componentDidCatch = invoke2(spec.componentDidCatch);
+        this.componentWillUpdate = invoke2(spec.componentWillUpdate);
+        this.shouldComponentUpdate = invoke2(spec.shouldComponentUpdate);
+        this.getSnapshotBeforeUpdate = invoke2(spec.getSnapshotBeforeUpdate);
+        this.componentDidUpdate = invoke3(spec.componentDidUpdate);
         this.UNSAFE_componentWillMount = spec.unsafeComponentWillMount;
-        this.UNSAFE_componentWillReceiveProps = curry2(spec.unsafeComponentWillReceiveProps);
-        this.UNSAFE_componentWillUpdate = curry3(spec.unsafeComponentWillUpdate);
+        this.UNSAFE_componentWillReceiveProps = invoke1(spec.unsafeComponentWillReceiveProps);
+        this.UNSAFE_componentWillUpdate = invoke2(spec.unsafeComponentWillUpdate);
       };
 
       Constructor.displayName = displayName;
