@@ -50,8 +50,8 @@ jobs:
       - name: Build the project
         run: npm run build
 
-#      - name: Run tests
-#        run: npm run test
+      - name: Run tests
+        run: npm run test
 
       - name: Check formatting
         run: purs-tidy check src test
