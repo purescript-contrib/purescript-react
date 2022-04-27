@@ -5,6 +5,21 @@ Notable changes to this project are documented in this file. The format is based
 ## [Unreleased]
 
 Breaking changes:
+
+New features:
+
+Bugfixes:
+
+Other improvements:
+
+## [v10.0.1](https://github.com/purescript-contrib/purescript-react/releases/tag/v10.0.1) - 2022-04-27
+
+Other improvements:
+- Minifier-friendly refereces to properties (#183 by @sd-yip)
+
+## [v10.0.0](https://github.com/purescript-contrib/purescript-react/releases/tag/v10.0.0) - 2022-04-27
+
+Breaking changes:
 - Migrate FFI to ES modules (#185 by @JordanMartinez)
 - Replaced polymorphic proxies with monomorphic `Proxy` (#185 by @JordanMartinez)
 
@@ -14,7 +29,6 @@ Bugfixes:
 
 Other improvements:
 - Added `purs-tidy` formatter (#182 by @thomashoneyman)
-- Minifier-friendly refereces to properties (#183 by @sd-yip)
 
 ## [v9.0.0](https://github.com/purescript-contrib/purescript-react/releases/tag/v9.0.0) - 2021-02-26
 
