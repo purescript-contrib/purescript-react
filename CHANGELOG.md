@@ -12,6 +12,11 @@ Bugfixes:
 
 Other improvements:
 
+## [v10.0.1](https://github.com/purescript-contrib/purescript-react/releases/tag/v10.0.1) - 2022-04-27
+
+Other improvements:
+- Minifier-friendly refereces to properties (#183 by @sd-yip)
+
 ## [v10.0.0](https://github.com/purescript-contrib/purescript-react/releases/tag/v10.0.0) - 2022-04-27
 
 Breaking changes:

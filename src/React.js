@@ -1,40 +1,19 @@
 import React from "react";
 
 function createClass(baseClass) {
-  function bindProperty(instance, prop, value) {
-    switch (prop) {
-      case "state":
-      case "render":
-      case "componentDidMount":
-      case "componentWillUnmount":
-        instance[prop] = value;
-        break;
-
-      case "componentDidCatch":
-      case "componentWillUpdate":
-      case "shouldComponentUpdate":
-      case "getSnapshotBeforeUpdate":
-        instance[prop] = function (a, b) { return value(a)(b)(); };
-        break;
-
-      case "componentDidUpdate":
-        instance[prop] = function (a, b, c) { return value(a)(b)(c)(); };
-        break;
-
-      case "unsafeComponentWillMount":
-        instance["UNSAFE_componentWillMount"] = value;
-        break;
-
-      case "unsafeComponentWillReceiveProps":
-        instance["UNSAFE_componentWillReceiveProps"] = function (a) { return value(a)(); };
-        break;
-
-      case "unsafeComponentWillUpdate":
-        instance["UNSAFE_componentWillUpdate"] = function (a, b) { return value(a)(b)(); };
-        break;
-
-      default:
-        throw new Error("[purescript-react] Not a component property: " + prop);
+  function invoke1(f) {
+    return f === undefined ? f : function (a) {
+      return f(a)()
+    }
+  }
+  function invoke2(f) {
+    return f === undefined ? f : function (a, b) {
+      return f(a)(b)()
+    }
+  }
+  function invoke3(f) {
+    return f === undefined ? f : function (a, b, c) {
+      return f(a)(b)(c)()
     }
   }
 
@@ -43,10 +22,19 @@ function createClass(baseClass) {
       var Constructor = function (props) {
         baseClass.call(this, props);
         var spec = ctrFn(this)();
-        // eslint-disable-next-line guard-for-in
-        for (var k in spec) {
-          bindProperty(this, k, spec[k]);
-        }
+
+        this.state = spec.state;
+        this.render = spec.render;
+        this.componentDidMount = spec.componentDidMount;
+        this.componentWillUnmount = spec.componentWillUnmount;
+        this.componentDidCatch = invoke2(spec.componentDidCatch);
+        this.componentWillUpdate = invoke2(spec.componentWillUpdate);
+        this.shouldComponentUpdate = invoke2(spec.shouldComponentUpdate);
+        this.getSnapshotBeforeUpdate = invoke2(spec.getSnapshotBeforeUpdate);
+        this.componentDidUpdate = invoke3(spec.componentDidUpdate);
+        this.UNSAFE_componentWillMount = spec.unsafeComponentWillMount;
+        this.UNSAFE_componentWillReceiveProps = invoke1(spec.unsafeComponentWillReceiveProps);
+        this.UNSAFE_componentWillUpdate = invoke2(spec.unsafeComponentWillUpdate);
       };
 
       Constructor.displayName = displayName;
