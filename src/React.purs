@@ -81,11 +81,18 @@ type TagName = String
 -- | A virtual DOM node, or component.
 foreign import data ReactElement :: Type
 
+foreign import emptyReactElement :: ReactElement
+
+foreign import isEmptyReactElement :: ReactElement -> Boolean
+
 instance semigroupReactElement :: Semigroup ReactElement where
-  append a b = toElement [ a, b ]
+  append a b
+    | isEmptyReactElement a = b
+    | isEmptyReactElement b = a
+    | otherwise = toElement [ a, b ]
 
 instance monoidReactElement :: Monoid ReactElement where
-  mempty = toElement ([] :: Array ReactElement)
+  mempty = emptyReactElement
 
 -- | A mounted react component
 foreign import data ReactComponent :: Type
@@ -493,7 +500,9 @@ instance isReactElementReactElement :: IsReactElement ReactElement where
   toElement = identity
 
 instance isReactElementArray :: IsReactElement (Array ReactElement) where
-  toElement = createElement fragment {}
+  toElement = case _ of
+    [] -> mempty
+    children -> createElement fragment {} children
 
 -- | Creates a keyed fragment.
 fragmentWithKey :: String -> Array ReactElement -> ReactElement
