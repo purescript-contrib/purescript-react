@@ -5,6 +5,7 @@ Notable changes to this project are documented in this file. The format is based
 ## [Unreleased]
 
 Breaking changes:
+- Update the Monoid/Semigroup instance of `ReactElement` to use `null` for `mempty` instead of an empty fragment. (#187)
 
 New features:
 
