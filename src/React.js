@@ -153,3 +153,11 @@ function createContext(defaultValue) {
   };
 }
 export {createContext};
+
+export var emptyReactElement = null;
+
+function isEmptyReactElement(a) {
+  return a === emptyReactElement;
+};
+
+export {isEmptyReactElement};
