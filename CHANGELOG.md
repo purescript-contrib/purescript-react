@@ -5,13 +5,17 @@ Notable changes to this project are documented in this file. The format is based
 ## [Unreleased]
 
 Breaking changes:
-- Update the Monoid/Semigroup instance of `ReactElement` to use `null` for `mempty` instead of an empty fragment. (#187)
 
 New features:
 
 Bugfixes:
 
 Other improvements:
+
+## [v11.0.0](https://github.com/purescript-contrib/purescript-react/releases/tag/v11.0.0) - 2023-01-04
+
+Breaking changes:
+- Update the Monoid/Semigroup instance of `ReactElement` to use `null` for `mempty` instead of an empty fragment. (#187)
 
 ## [v10.0.1](https://github.com/purescript-contrib/purescript-react/releases/tag/v10.0.1) - 2022-04-27
 
