@@ -9,37 +9,36 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-      - name: Set up PureScript toolchain
+      - name: Set up a PureScript toolchain
         uses: purescript-contrib/setup-purescript@main
         with:
-          purescript: "unstable"
+          purescript: "latest"
           purs-tidy: "latest"
+          spago: "unstable"
 
       - name: Cache PureScript dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
-          key: ${{ runner.os }}-spago-${{ hashFiles('**/*.dhall') }}
+          key: ${{ runner.os }}-spago-${{ hashFiles('**/spago.lock') }}
           path: |
             .spago
             output
 
-      - name: Set up Node toolchain
-        uses: actions/setup-node@v2
-        with:
-          node-version: "14.x"
+      - name: Setup node and npm
+        uses: actions/setup-node@v4
 
       - name: Cache NPM dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         env:
           cache-name: cache-node-modules
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package.json') }}
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/package.json') }}
           restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}-
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
@@ -47,20 +46,11 @@ jobs:
       - name: Install NPM dependencies
         run: npm install
 
-      - name: Build the project
-        run: npm run build
+      - name: Build source
+        run: spago build --censor-stats --strict --ensure-ranges --pedantic-packages
 
       - name: Run tests
-        run: npm run test
+        run: spago test --offline --censor-stats --strict --pedantic-packages
 
-      - name: Check formatting
+      - name: Verify formatting
         run: purs-tidy check src test
-
-      - name: Verify Bower & Pulp
-        run: |
-          npm install bower pulp@16.0.0-0
-          npx bower install
-          npx pulp build -- --censor-lib --strict
-          if [ -d "test" ]; then
-            npx pulp test
-          fi

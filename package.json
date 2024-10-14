@@ -1,11 +1,10 @@
 {
   "private": true,
   "scripts": {
-    "build": "spago build --purs-args '--censor-lib --strict'",
-    "test": "spago test --no-install"
+    "build": "spago build --censor-stats --strict --ensure-ranges --pedantic-packages",
+    "test": "spago test --offline"
   },
   "devDependencies": {
-    "eslint": "^7.10.0",
-    "purescript-psa": "^0.8.2"
+    "eslint": "^9.12.0"
   }
 }
