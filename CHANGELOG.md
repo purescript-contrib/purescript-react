@@ -11,6 +11,10 @@ New features:
 Bugfixes:
 
 Other improvements:
+
+## [v11.0.1](https://github.com/purescript-contrib/purescript-react/releases/tag/v11.0.1) - 2026-10-11
+
+Other improvements:
 - Migrate to registry-backed Spago and update repository tooling and CI actions.
 
 ## [v11.0.0](https://github.com/purescript-contrib/purescript-react/releases/tag/v11.0.0) - 2023-01-04
